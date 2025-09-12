@@ -62,7 +62,8 @@
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             padding: 120px 60px;
         }
@@ -76,7 +77,7 @@
             font-size: 56px;
             font-weight: 300;
             letter-spacing: -0.02em;
-            margin-bottom: 24px;
+            margin-bottom: 4px;
             color: #1a1a1a;
         }
         
@@ -143,7 +144,8 @@
             font-size: 16px;
             font-weight: 400;
             line-height: 1.7;
-            max-width: 600px;
+            max-width: 1200px;
+            width: 100%;
         }
         
         .small-sample {
@@ -156,8 +158,9 @@
         /* Color Palette */
         .color-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 120px));
             gap: 32px;
+            justify-content: start;
         }
         
         .color-swatch {
@@ -184,7 +187,7 @@
             font-family: 'SF Mono', Monaco, monospace;
         }
         
-        .primary { background: #0a0a0a; }
+        .primary { background: #0f0f0f; }
         .secondary { background: #525252; }
         .tertiary { background: #737373; }
         .accent { background: #2563eb; }
@@ -506,13 +509,16 @@
             background: #1a1a1a;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 20px;
             transition: all 0.2s ease;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .theme-toggle:hover {
@@ -650,6 +656,10 @@
                 font-size: 36px;
             }
             
+            .subtitle {
+                font-size: 14px;
+            }
+            
             .h1-sample {
                 font-size: 32px;
             }
@@ -658,15 +668,24 @@
                 font-size: 24px;
             }
             
+            .h3-sample {
+                font-size: 20px;
+            }
+            
+            .body-sample {
+                font-size: 12px;
+            }
+            
             .color-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(100px, 100px));
                 gap: 24px;
+                justify-content: start;
             }
         }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     <div class="container">
         <header class="header">
             <h1 class="title">Style Guide</h1>
@@ -711,7 +730,7 @@
                     <div class="color-swatch">
                         <div class="color-circle primary"></div>
                         <div class="color-name">Primary</div>
-                        <div class="color-hex">#0a0a0a</div>
+                        <div class="color-hex">#0f0f0f</div>
                     </div>
                     <div class="color-swatch">
                         <div class="color-circle secondary"></div>
@@ -836,7 +855,7 @@
                         <div class="grid-demo-item">Col 2</div>
                         <div class="grid-demo-item">Col 3</div>
                     </div>
-                    <div class="grid grid-cols-4 gap-2">
+                    <div class="grid grid-cols-4 gap-4">
                         <div class="col-span-2 grid-demo-accent">Span 2</div>
                         <div class="grid-demo-item">1</div>
                         <div class="grid-demo-item">1</div>
@@ -877,10 +896,10 @@
             
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
-                toggle.textContent = '🌙 Dark Mode';
+                toggle.textContent = '🌙';
             } else {
                 body.setAttribute('data-theme', 'dark');
-                toggle.textContent = '☀️ Light Mode';
+                toggle.textContent = '☀️';
             }
         }
     </script>
