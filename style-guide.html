@@ -191,6 +191,7 @@
         .secondary { background: #525252; }
         .tertiary { background: #737373; }
         .accent { background: #2563eb; }
+        .accent-cool { background: #2563eb; }
         .accent-warm { background: #ea580c; }
         .neutral-50 { background: #fafafa; border: 1px solid #e5e5e5; }
         .neutral-100 { background: #f5f5f5; border: 1px solid #d4d4d4; }
@@ -225,33 +226,60 @@
         }
         
         .btn-primary {
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.8);
             color: white;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .btn-primary:hover {
-            background: #333333;
+            background: rgba(51, 51, 51, 0.9);
             transform: translateY(-1px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
         
         .btn-secondary {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.1);
             color: #1a1a1a;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
         
         .btn-secondary:hover {
-            background: #f8f8f8;
-            border-color: #cccccc;
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
         }
         
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 40px;
-            box-shadow: 0 4px 40px rgba(0,0,0,0.06);
-            border: 1px solid #f0f0f0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             margin-bottom: 24px;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
         }
         
         .card h3 {
@@ -421,7 +449,7 @@
             height: 2px;
             bottom: -4px;
             left: 0;
-            background: #0066cc;
+            background: #2563eb;
             transition: width 0.3s ease;
         }
         
@@ -506,7 +534,7 @@
             position: fixed;
             top: 24px;
             right: 24px;
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.8);
             color: white;
             border: none;
             width: 48px;
@@ -519,11 +547,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .theme-toggle:hover {
-            background: #333333;
+            background: rgba(51, 51, 51, 0.9);
             transform: translateY(-1px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
         }
         
         /* Dark Mode Styles */
@@ -573,12 +606,54 @@
         }
         
         [data-theme="dark"] .theme-toggle {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             color: #1a1a1a;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
         
         [data-theme="dark"] .theme-toggle:hover {
-            background: #f0f0f0;
+            background: rgba(240, 240, 240, 0.95);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Dark Mode Glass Effects */
+        [data-theme="dark"] .btn-primary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        [data-theme="dark"] .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        [data-theme="dark"] .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="dark"] .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        [data-theme="dark"] .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        [data-theme="dark"] .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        [data-theme="dark"] .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
         }
         
         [data-theme="dark"] .spacing-box {
@@ -601,7 +676,7 @@
         }
         
         [data-theme="dark"] .interactive-text::after {
-            background: #2563eb;
+            background: #ea580c;
         }
         
         /* Grid Demo Styles */
@@ -637,7 +712,7 @@
         }
         
         [data-theme="dark"] .grid-demo-accent {
-            background: #2563eb;
+            background: #ea580c;
             color: white;
         }
         
