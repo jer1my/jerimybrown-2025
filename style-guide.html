@@ -721,9 +721,130 @@
             font-weight: 500;
         }
         
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 900;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 500;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-theme-toggle {
+            background: transparent;
+            color: inherit;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-theme-toggle:hover {
+            transform: translateY(-1px);
+        }
+
+        .nav-links a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: #2563eb;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Dark Mode Navigation */
+        [data-theme="dark"] .nav {
+            background: rgba(10, 10, 10, 0.1);
+        }
+
+        [data-theme="dark"] .nav-links a::after {
+            background: #ea580c;
+        }
+
+        [data-theme="dark"] .nav-theme-toggle {
+            background: transparent;
+        }
+
+        [data-theme="dark"] .nav-theme-toggle:hover {
+            background: transparent;
+        }
+
+        /* Adjust container top padding for fixed nav */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 200px 60px 120px;
+        }
+        
         @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 24px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-right {
+                gap: 16px;
+            }
+            
             .container {
-                padding: 80px 24px;
+                padding: 160px 24px 80px;
             }
             
             .title {
@@ -759,7 +880,22 @@
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Jerimy Brown</a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="index.html#projects">Projects</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="style-guide.html" class="active">Style Guide</a></li>
+                </ul>
+                <button class="nav-theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+    
     <div class="container">
         <header class="header">
             <h1 class="title">Style Guide</h1>
@@ -964,18 +1100,39 @@
     </div>
     
     <script>
+        // Theme System
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const toggle = document.querySelector('.nav-theme-toggle');
+            
+            // Check for saved theme or default to light
+            if (savedTheme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                if (toggle) toggle.textContent = '☀️';
+            } else {
+                body.removeAttribute('data-theme');
+                if (toggle) toggle.textContent = '🌙';
+            }
+        }
+
         function toggleTheme() {
             const body = document.body;
-            const toggle = document.querySelector('.theme-toggle');
+            const toggle = document.querySelector('.nav-theme-toggle');
             
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
-                toggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+                if (toggle) toggle.textContent = '🌙';
             } else {
                 body.setAttribute('data-theme', 'dark');
-                toggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+                if (toggle) toggle.textContent = '☀️';
             }
         }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initTheme);
     </script>
 </body>
 </html>
