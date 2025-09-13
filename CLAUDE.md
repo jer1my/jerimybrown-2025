@@ -36,7 +36,7 @@ This document outlines the design system and guidelines for constructing a moder
 - Tertiary: `#737373`
 
 **Accent Colors (Temperature-based theming):**
-- Light Mode: Accent Cool `#2563eb` (blue)
+- Light Mode: Accent Cool `#15B5FF` (blue)
 - Dark Mode: Accent Warm `#ea580c` (orange)
 
 **Neutral Scale:**
