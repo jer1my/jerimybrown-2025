@@ -482,6 +482,30 @@ body {
     margin-bottom: 80px;
 }
 
+/* User Controls Section */
+.user-controls-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 48px;
+    margin-bottom: 32px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.control-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #525252;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 /* Typography Samples */
 .type-sample {
     margin-bottom: 32px;
@@ -705,6 +729,34 @@ body {
     opacity: 0.8;
 }
 
+/* Interactive Text */
+.interactive-text {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 400;
+    position: relative;
+    cursor: pointer;
+}
+
+.interactive-text::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: #15B5FF;
+    transition: width 0.3s ease;
+}
+
+.interactive-text:hover {
+    opacity: 0.5;
+}
+
+.interactive-text:hover::after {
+    width: 100%;
+}
+
 /* Grid System Utilities */
 .grid {
     display: grid;
@@ -843,7 +895,8 @@ body {
 }
 
 [data-theme="dark"] .nav-links a::after,
-[data-theme="dark"] .project-link::after {
+[data-theme="dark"] .project-link::after,
+[data-theme="dark"] .interactive-text::after {
     background: #ea580c;
 }
 
