@@ -109,6 +109,35 @@
         </div>
     </section>
 
+    <!-- Grid Lines Overlay -->
+    <div class="grid-lines-overlay" id="gridLinesOverlay">
+        <div class="grid-lines-container">
+            <div class="grid-lines-content">
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid Toggle Button -->
+    <div class="grid-toggle-container">
+        <button class="grid-toggle" onclick="toggleGridLines()" id="gridToggle"></button>
+        <div class="grid-toggle-text">
+            <span class="grid-text-on">On</span>
+            <span class="grid-text-off">Off</span>
+        </div>
+    </div>
+
     <!-- Back to Top Button -->
     <button class="back-to-top" onclick="scrollToTop()">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -209,8 +238,11 @@
         // Listen for scroll events
         window.addEventListener('scroll', toggleBackToTop);
 
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', initTheme);
+        // Initialize theme and grid lines on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            initGridLines();
+        });
 
         // Scroll animations
         const observerOptions = {
@@ -244,6 +276,31 @@
                 }
             });
         });
+
+        // Grid Lines Toggle
+        function toggleGridLines() {
+            const overlay = document.getElementById('gridLinesOverlay');
+            const toggle = document.getElementById('gridToggle');
+            
+            overlay.classList.toggle('visible');
+            toggle.classList.toggle('active');
+            
+            // Save state to localStorage
+            const isVisible = overlay.classList.contains('visible');
+            localStorage.setItem('gridLinesVisible', isVisible);
+        }
+
+        // Initialize grid lines state
+        function initGridLines() {
+            const savedState = localStorage.getItem('gridLinesVisible');
+            const overlay = document.getElementById('gridLinesOverlay');
+            const toggle = document.getElementById('gridToggle');
+            
+            if (savedState === 'true') {
+                overlay.classList.add('visible');
+                toggle.classList.add('active');
+            }
+        }
 
     </script>
 </body>

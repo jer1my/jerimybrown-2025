@@ -210,12 +210,20 @@
                 
                 <div>
                     <div class="type-label">Grid System</div>
+                    <!-- Grid Toggle Button -->
+                    <div class="grid-toggle-container" style="margin-bottom: 16px;">
+                        <button class="grid-toggle" onclick="toggleGridLines()" id="gridToggle"></button>
+                        <div class="grid-toggle-text">
+                            <span class="grid-text-on">On</span>
+                            <span class="grid-text-off">Off</span>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-3 gap-4 mb-6">
                         <div class="grid-demo-item">Col 1</div>
                         <div class="grid-demo-item">Col 2</div>
                         <div class="grid-demo-item">Col 3</div>
                     </div>
-                    <div class="grid grid-cols-4 gap-4">
+                    <div class="grid grid-cols-4 gap-4 mb-6">
                         <div class="col-span-2 grid-demo-accent">Span 2</div>
                         <div class="grid-demo-item">1</div>
                         <div class="grid-demo-item">1</div>
@@ -249,6 +257,26 @@
         </section>
     </div>
     
+    <!-- Grid Lines Overlay -->
+    <div class="grid-lines-overlay" id="gridLinesOverlay">
+        <div class="grid-lines-container">
+            <div class="grid-lines-content">
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Back to Top Button -->
     <button class="back-to-top" onclick="scrollToTop()">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -334,8 +362,36 @@
         // Listen for scroll events
         window.addEventListener('scroll', toggleBackToTop);
 
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', initTheme);
+        // Grid Lines Toggle
+        function toggleGridLines() {
+            const overlay = document.getElementById('gridLinesOverlay');
+            const toggle = document.getElementById('gridToggle');
+            
+            overlay.classList.toggle('visible');
+            toggle.classList.toggle('active');
+            
+            // Save state to localStorage
+            const isVisible = overlay.classList.contains('visible');
+            localStorage.setItem('gridLinesVisible', isVisible);
+        }
+
+        // Initialize grid lines state
+        function initGridLines() {
+            const savedState = localStorage.getItem('gridLinesVisible');
+            const overlay = document.getElementById('gridLinesOverlay');
+            const toggle = document.getElementById('gridToggle');
+            
+            if (savedState === 'true') {
+                overlay.classList.add('visible');
+                toggle.classList.add('active');
+            }
+        }
+
+        // Initialize theme and grid lines on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            initGridLines();
+        });
     </script>
 </body>
 </html>
