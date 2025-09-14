@@ -254,8 +254,8 @@ function initRotatingWord() {
                 // If we just typed "connects", handle cycle counting and longer pause
                 if (words[currentIndex] === 'connects') {
                     cycleCount++;
-                    // After 3 cycles, stop on "connects"
-                    if (cycleCount >= 3) {
+                    // After 2 cycles, stop on "connects"
+                    if (cycleCount >= 2) {
                         return; // Stop the animation
                     }
                     // Longer pause on "connects" - increases each cycle
