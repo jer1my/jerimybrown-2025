@@ -34,16 +34,19 @@ function initTheme() {
     // Get all theme toggle buttons
     const navToggle = document.querySelector('nav .nav-theme-toggle');
     const styleGuideToggle = document.querySelector('#styleGuideThemeToggle');
-    
+    const mobileToggle = document.querySelector('.mobile-theme-toggle');
+
     // Check for saved theme or default to dark
     if (savedTheme === 'light') {
         body.removeAttribute('data-theme');
         updateThemeIcon(navToggle, 'moon');
         updateThemeIcon(styleGuideToggle, 'moon');
+        updateThemeIcon(mobileToggle, 'moon');
     } else {
         body.setAttribute('data-theme', 'dark');
         updateThemeIcon(navToggle, 'sun');
         updateThemeIcon(styleGuideToggle, 'sun');
+        updateThemeIcon(mobileToggle, 'sun');
     }
 }
 
@@ -53,17 +56,20 @@ function toggleTheme() {
     // Get all theme toggle buttons
     const navToggle = document.querySelector('nav .nav-theme-toggle');
     const styleGuideToggle = document.querySelector('#styleGuideThemeToggle');
-    
+    const mobileToggle = document.querySelector('.mobile-theme-toggle');
+
     if (body.getAttribute('data-theme') === 'dark') {
         body.removeAttribute('data-theme');
         localStorage.setItem('theme', 'light');
         updateThemeIcon(navToggle, 'moon');
         updateThemeIcon(styleGuideToggle, 'moon');
+        updateThemeIcon(mobileToggle, 'moon');
     } else {
         body.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
         updateThemeIcon(navToggle, 'sun');
         updateThemeIcon(styleGuideToggle, 'sun');
+        updateThemeIcon(mobileToggle, 'sun');
     }
 }
 
@@ -192,6 +198,43 @@ function initSmoothScrolling() {
 }
 
 // ==========================================
+// Mobile Menu System
+// ==========================================
+
+function toggleMobileMenu() {
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const body = document.body;
+
+    if (overlay) {
+        const isActive = overlay.classList.contains('active');
+
+        if (isActive) {
+            // Close menu
+            overlay.classList.remove('active');
+            body.classList.remove('mobile-menu-open');
+        } else {
+            // Open menu
+            overlay.classList.add('active');
+            body.classList.add('mobile-menu-open');
+        }
+    }
+}
+
+// Close mobile menu when clicking on overlay background
+function initMobileMenuClose() {
+    const overlay = document.getElementById('mobileMenuOverlay');
+
+    if (overlay) {
+        overlay.addEventListener('click', function(e) {
+            // Close if clicking on the overlay itself (not the content)
+            if (e.target === overlay) {
+                toggleMobileMenu();
+            }
+        });
+    }
+}
+
+// ==========================================
 // Event Listeners & Initialization
 // ==========================================
 
@@ -281,4 +324,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollAnimations();
     initSmoothScrolling();
     initRotatingWord();
+    initMobileMenuClose();
 });
