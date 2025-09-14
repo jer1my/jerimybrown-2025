@@ -198,10 +198,79 @@ function initSmoothScrolling() {
 // Listen for scroll events
 window.addEventListener('scroll', toggleBackToTop);
 
+// ==========================================
+// Rotating Word Animation
+// ==========================================
+
+function initRotatingWord() {
+    const words = ['connects', 'inspires', 'empowers', 'transforms', 'delights'];
+    const rotatingWordElement = document.getElementById('rotatingWord');
+    let currentIndex = 0;
+    
+    if (!rotatingWordElement) return;
+    
+    function typeWriter(text, element, callback) {
+        let i = 0;
+        element.classList.add('typing');
+        element.textContent = '';
+        
+        function type() {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, 100);
+            } else {
+                element.classList.remove('typing');
+                if (callback) callback();
+            }
+        }
+        type();
+    }
+    
+    function deleteText(element, callback) {
+        const text = element.textContent;
+        let i = text.length;
+        element.classList.add('typing');
+        
+        function deleteChar() {
+            if (i > 0) {
+                element.textContent = text.substring(0, i - 1);
+                i--;
+                setTimeout(deleteChar, 50);
+            } else {
+                if (callback) callback();
+            }
+        }
+        deleteChar();
+    }
+    
+    function rotateWord() {
+        // Start deleting current word
+        deleteText(rotatingWordElement, () => {
+            // Move to next word and type it
+            currentIndex = (currentIndex + 1) % words.length;
+            typeWriter(words[currentIndex], rotatingWordElement, () => {
+                // If we just typed "connects", schedule the next rotation with a longer delay
+                if (words[currentIndex] === 'connects') {
+                    setTimeout(rotateWord, 8000); // 8 second pause on "connects"
+                } else {
+                    setTimeout(rotateWord, 4000); // Normal 4 second delay for other words
+                }
+            });
+        });
+    }
+    
+    // Start the rotation after initial page load
+    setTimeout(() => {
+        rotateWord();
+    }, 3000);
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initGridLines();
     initScrollAnimations();
     initSmoothScrolling();
+    initRotatingWord();
 });
