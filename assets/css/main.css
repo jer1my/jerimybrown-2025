@@ -790,6 +790,177 @@ body {
     display: inline;
 }
 
+/* Featured Project Card with Full-Bleed Background */
+.project-card-featured {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    min-height: 400px;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+}
+
+.project-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+/* Default dark mode images for each card */
+[data-card="design-system"] .project-bg-image {
+    background-image: url('../images/design-system-dark.png');
+}
+
+[data-card="ai-product"] .project-bg-image {
+    background-image: url('../images/design-system-dark.png');
+}
+
+[data-card="greenfield-product"] .project-bg-image {
+    background-image: url('../images/design-system-dark.png');
+}
+
+[data-card="user-testing"] .project-bg-image {
+    background-image: url('../images/design-system-dark.png');
+}
+
+.project-content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.1) 40%,
+        rgba(0, 0, 0, 0.4) 70%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    min-height: 30%;
+    transition: min-height 0.3s ease, padding 0.3s ease;
+}
+
+.project-content-overlay::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: -1;
+}
+
+.project-card-featured .project-title {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.project-card-featured .project-description {
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+}
+
+.project-card-featured:hover .project-description {
+    opacity: 1;
+    max-height: 200px;
+    margin-bottom: 24px;
+}
+
+.project-card-featured .project-link {
+    color: #ffffff;
+}
+
+.project-card-featured .project-link::after {
+    background: #ffffff;
+}
+
+.project-card-featured:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode hover glow with darker grey drop-shadow */
+[data-theme="dark"] .project-card-featured:hover {
+    box-shadow: none;
+    filter: drop-shadow(0 20px 60px rgba(80, 80, 80, 0.3));
+}
+
+.project-card-featured:hover .project-content-overlay {
+    min-height: 50%;
+}
+
+/* Light Mode Styles for Featured Cards */
+body:not([data-theme="dark"]) [data-card="design-system"] .project-bg-image {
+    background-image: url('../images/design-system-light.png');
+}
+
+body:not([data-theme="dark"]) [data-card="ai-product"] .project-bg-image {
+    background-image: url('../images/design-system-light.png');
+}
+
+body:not([data-theme="dark"]) [data-card="greenfield-product"] .project-bg-image {
+    background-image: url('../images/design-system-light.png');
+}
+
+body:not([data-theme="dark"]) [data-card="user-testing"] .project-bg-image {
+    background-image: url('../images/design-system-light.png');
+}
+
+body:not([data-theme="dark"]) .project-content-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 40%,
+        rgba(255, 255, 255, 0.4) 70%,
+        rgba(255, 255, 255, 0.8) 100%
+    );
+}
+
+body:not([data-theme="dark"]) .project-content-overlay::before {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-title {
+    color: #1a1a1a;
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-description {
+    color: rgba(26, 26, 26, 0.9);
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-link {
+    color: var(--color-accent);
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-link::after {
+    background: var(--color-accent);
+}
+
+/* Ensure featured cards have no shadow in both light and dark modes */
+[data-theme="dark"] .project-card-featured {
+    box-shadow: none;
+}
+
 /* Rotating Word Animation */
 .rotating-word {
     position: relative;
