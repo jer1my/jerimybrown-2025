@@ -114,6 +114,21 @@
   --z-popover: 500;
   --z-tooltip: 600;
   --z-toast: 700;
+  
+  /* Grid Toggle Variables */
+  --grid-toggle-width: 48px;
+  --grid-toggle-height: 24px;
+  --grid-toggle-pill-size: 20px;
+  --grid-toggle-pill-offset: 2px;
+  --grid-toggle-translate: 24px;
+  
+  /* Grid Toggle Colors - Light Mode */
+  --grid-toggle-bg-inactive: rgba(82, 82, 82, 0.4);
+  --grid-toggle-bg-active: rgba(38, 38, 38, 0.4);
+  --grid-toggle-bg-hover: rgba(21, 181, 255, 0.4);
+  --grid-toggle-pill-bg: #1a1a1a;
+  --grid-toggle-pill-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --grid-toggle-text-color: var(--text-secondary);
 }
 
 /* Dark Theme Variables */
@@ -130,6 +145,14 @@
   --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
   --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.6);
+  
+  /* Grid Toggle Colors - Dark Mode */
+  --grid-toggle-bg-inactive: rgba(82, 82, 82, 0.4);
+  --grid-toggle-bg-active: rgba(212, 212, 212, 0.4);
+  --grid-toggle-bg-hover: rgba(234, 88, 12, 0.4);
+  --grid-toggle-pill-bg: #fafafa;
+  --grid-toggle-pill-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --grid-toggle-text-color: #fafafa;
 }
 
 /* Reset & Base Styles */
@@ -1247,63 +1270,63 @@ body {
 .grid-toggle-container {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
 }
 
 /* Grid Toggle Button - Pill Switch */
 .grid-toggle {
     position: relative;
     display: inline-block;
-    width: 48px;
-    height: 24px;
-    background: rgba(82, 82, 82, 0.4);
+    width: var(--grid-toggle-width);
+    height: var(--grid-toggle-height);
+    background: var(--grid-toggle-bg-inactive);
     border: none;
-    border-radius: 12px;
+    border-radius: calc(var(--grid-toggle-height) / 2);
     cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    transition: all var(--transition-base);
+    backdrop-filter: var(--blur-sm);
+    -webkit-backdrop-filter: var(--blur-sm);
 }
 
 .grid-toggle:hover {
-    background: rgba(21, 181, 255, 0.4);
+    background: var(--grid-toggle-bg-hover);
 }
 
 .grid-toggle::before {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 20px;
-    height: 20px;
-    background: #525252;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    top: var(--grid-toggle-pill-offset);
+    left: var(--grid-toggle-pill-offset);
+    width: var(--grid-toggle-pill-size);
+    height: var(--grid-toggle-pill-size);
+    background: var(--grid-toggle-pill-bg);
+    border-radius: calc(var(--grid-toggle-pill-size) / 2);
+    transition: transform var(--transition-base);
+    box-shadow: var(--grid-toggle-pill-shadow);
 }
 
 .grid-toggle.active {
-    background: rgba(38, 38, 38, 0.4);
+    background: var(--grid-toggle-bg-active);
 }
 
 .grid-toggle.active:hover {
-    background: rgba(21, 181, 255, 0.4);
+    background: var(--grid-toggle-bg-hover);
 }
 
 .grid-toggle.active::before {
-    transform: translateX(24px);
+    transform: translateX(var(--grid-toggle-translate));
 }
 
 /* Grid Toggle Text */
 .grid-toggle-text {
     position: relative;
-    font-size: 16px;
-    font-weight: 400;
-    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: #525252;
-    min-width: 24px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    font-family: var(--font-family-primary);
+    color: var(--grid-toggle-text-color);
+    min-width: var(--grid-toggle-height);
     line-height: 1;
-    height: 24px;
+    height: var(--grid-toggle-height);
     display: flex;
     align-items: center;
 }
@@ -1314,7 +1337,7 @@ body {
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-base);
 }
 
 /* Default state: show "On" (grid is off, clicking will turn it on) */
@@ -1335,36 +1358,12 @@ body {
     opacity: 1;
 }
 
-/* Dark mode grid toggle */
-[data-theme="dark"] .grid-toggle {
-    background: rgba(82, 82, 82, 0.4);
-}
-
-[data-theme="dark"] .grid-toggle:hover {
-    background: rgba(234, 88, 12, 0.4);
-}
-
-[data-theme="dark"] .grid-toggle::before {
-    background: #fafafa;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .grid-toggle.active {
-    background: rgba(212, 212, 212, 0.4);
-}
-
-[data-theme="dark"] .grid-toggle.active:hover {
-    background: rgba(234, 88, 12, 0.4);
-}
-
-[data-theme="dark"] .grid-toggle-text {
-    color: #fafafa;
-}
+/* Dark mode grid toggle colors are handled by CSS variables above */
 
 /* Mobile responsive */
 @media (max-width: 768px) {
     .grid-toggle-text {
-        font-size: 12px;
+        font-size: var(--font-size-xs);
     }
 }
 
