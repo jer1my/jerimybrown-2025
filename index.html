@@ -158,7 +158,55 @@
                     <br>
                     <p>When I'm not designing, you'll find me exploring new technologies, painting, practicing photography, or racing motorcycles.</p>
                 </div>
-                <div class="about-image">👋</div>
+                <div class="about-carousel">
+                    <div class="carousel-container">
+                        <div class="carousel-track" id="aboutCarouselTrack">
+                        <!-- Card 1: Hey it's me! -->
+                        <article class="about-card project-card project-card-featured active" data-card="about-design">
+                            <div class="project-bg-image"></div>
+                            <div class="project-content-overlay">
+                                <h3 class="project-title">Hey it's me!</h3>
+                                <p class="project-description">Glad you're here nice to meet you 👋 </p>
+                            </div>
+                        </article>
+
+                        <!-- Card 2: My last track day -->
+                        <article class="about-card project-card project-card-featured" data-card="about-background">
+                            <div class="project-bg-image"></div>
+                            <div class="project-content-overlay">
+                                <h3 class="project-title">My last track day</h3>
+                                <p class="project-description">This was my last track day at HPR. I got a new personal best of 2 minutes flat. That's not too bad 🏍️</p>
+                            </div>
+                        </article>
+
+                        <!-- Card 3: A recent favorite photograph -->
+                        <article class="about-card project-card project-card-featured" data-card="about-creative">
+                            <div class="project-bg-image"></div>
+                            <div class="project-content-overlay">
+                                <h3 class="project-title">A recent favorite photograph</h3>
+                                <p class="project-description">One of my favorite captures to date, because of the patients it took 📸.</p>
+                            </div>
+                        </article>
+
+                        <!-- Card 4: My current painting -->
+                        <article class="about-card project-card project-card-featured" data-card="about-personal">
+                            <div class="project-bg-image"></div>
+                            <div class="project-content-overlay">
+                                <h3 class="project-title">My current painting</h3>
+                                <p class="project-description">This is my latest painting. Follow me on other platforms to watch me finish it 🎨</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Carousel Indicators -->
+                    <div class="carousel-indicators">
+                        <button class="indicator active" data-slide="0" onclick="goToSlide(0, true)"></button>
+                        <button class="indicator" data-slide="1" onclick="goToSlide(1, true)"></button>
+                        <button class="indicator" data-slide="2" onclick="goToSlide(2, true)"></button>
+                        <button class="indicator" data-slide="3" onclick="goToSlide(3, true)"></button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

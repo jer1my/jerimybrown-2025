@@ -317,6 +317,57 @@ function initRotatingWord() {
     }, 3000);
 }
 
+// ==========================================
+// About Carousel System
+// ==========================================
+
+let currentSlide = 0;
+const totalSlides = 4;
+let autoRotateInterval;
+let isUserInteracting = false;
+
+function goToSlide(slideIndex, userTriggered = false) {
+    currentSlide = slideIndex;
+
+    const track = document.getElementById('aboutCarouselTrack');
+    const indicators = document.querySelectorAll('.indicator');
+
+    if (track) {
+        track.setAttribute('data-position', slideIndex);
+    }
+
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        if (index === slideIndex) {
+            indicator.classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+        }
+    });
+
+    // If user clicked a dot, reset the auto-rotation with slower timing
+    if (userTriggered) {
+        isUserInteracting = true;
+        clearInterval(autoRotateInterval);
+
+        // Restart auto-rotation with slower 12-second intervals
+        autoRotateInterval = setInterval(nextSlide, 12000);
+    }
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    goToSlide(currentSlide);
+}
+
+function initCarousel() {
+    // Set initial position
+    goToSlide(0);
+
+    // Auto-rotate every 8 seconds initially
+    autoRotateInterval = setInterval(nextSlide, 8000);
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
@@ -325,4 +376,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScrolling();
     initRotatingWord();
     initMobileMenuClose();
+    initCarousel();
 });
