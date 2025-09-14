@@ -597,6 +597,19 @@ body {
     width: 100%;
 }
 
+/* Project link text hover behavior */
+.link-text-hover {
+    display: none;
+}
+
+.project-link:hover .link-text-default {
+    display: none;
+}
+
+.project-link:hover .link-text-hover {
+    display: inline;
+}
+
 /* About Section */
 .about {
     padding: 120px 0;
@@ -761,6 +774,14 @@ body {
     margin-bottom: 24px;
 }
 
+/* Header Description Layout */
+.header-description-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 24px;
+}
+
 .font-link-row {
     margin-top: 16px;
     margin-bottom: 32px;
@@ -825,7 +846,7 @@ body {
 }
 
 .btn-primary {
-    background: rgba(26, 26, 26, 0.8);
+    background: rgba(26, 26, 26, 1);
     color: white;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -1207,7 +1228,7 @@ body {
 
 /* Dark Mode Buttons */
 [data-theme="dark"] .btn-primary {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 1);
     color: #1a1a1a;
     border: none;
 }
@@ -1493,6 +1514,11 @@ body {
     }
 
     .font-description-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .header-description-grid {
         grid-template-columns: 1fr;
         gap: 0;
     }
