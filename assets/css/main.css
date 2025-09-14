@@ -228,16 +228,66 @@ body {
 }
 
 .logo {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-medium);
-    color: inherit;
     text-decoration: none;
     cursor: pointer;
-    transition: opacity var(--transition-base);
+    color: inherit;
 }
 
-.logo:hover {
+.logo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 28px;
+    overflow: hidden;
+    transition: width var(--transition-base);
+    width: 24px;
+}
+
+.logo-svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    flex-shrink: 0;
+    transition: opacity var(--transition-base);
+    z-index: 3;
+    position: relative;
+}
+
+.logo-text {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    margin-left: 16px;
+}
+
+.logo-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    background: var(--bg-primary);
+    z-index: 2;
+    transition: background var(--transition-base);
+}
+
+.logo:hover .logo-svg {
     opacity: 0.5;
+}
+
+.logo:hover .logo-text {
+    opacity: 1;
+}
+
+.logo:hover .logo-container {
+    width: 200px;
 }
 
 .nav-right {
