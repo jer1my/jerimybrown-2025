@@ -1487,11 +1487,26 @@ body {
     }
 
     .nav-links {
-        display: none;
+        display: flex;
+        gap: var(--space-6);
+        font-size: 14px;
     }
 
     .nav-right {
         gap: 16px;
+    }
+
+    /* Disable logo hover animation on mobile */
+    .logo:hover .logo-container {
+        width: auto;
+    }
+
+    .logo:hover .logo-text {
+        opacity: 0;
+    }
+
+    .logo:hover .logo-svg {
+        opacity: 1;
     }
 
     .hero-content,
