@@ -206,6 +206,7 @@ function initRotatingWord() {
     const words = ['connects', 'inspires', 'empowers', 'transforms', 'delights'];
     const rotatingWordElement = document.getElementById('rotatingWord');
     let currentIndex = 0;
+    let cycleCount = 0;
     
     if (!rotatingWordElement) return;
     
@@ -250,9 +251,16 @@ function initRotatingWord() {
             // Move to next word and type it
             currentIndex = (currentIndex + 1) % words.length;
             typeWriter(words[currentIndex], rotatingWordElement, () => {
-                // If we just typed "connects", schedule the next rotation with a longer delay
+                // If we just typed "connects", handle cycle counting and longer pause
                 if (words[currentIndex] === 'connects') {
-                    setTimeout(rotateWord, 8000); // 8 second pause on "connects"
+                    cycleCount++;
+                    // After 3 cycles, stop on "connects"
+                    if (cycleCount >= 3) {
+                        return; // Stop the animation
+                    }
+                    // Longer pause on "connects" - increases each cycle
+                    const pauseTime = 8000 + (cycleCount * 2000); // 8s, 10s, 12s
+                    setTimeout(rotateWord, pauseTime);
                 } else {
                     setTimeout(rotateWord, 4000); // Normal 4 second delay for other words
                 }
