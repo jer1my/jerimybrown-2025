@@ -613,6 +613,32 @@ body {
     display: inline;
 }
 
+/* Rotating Word Animation */
+.rotating-word {
+    position: relative;
+    color: var(--color-accent);
+    min-width: 120px;
+    display: inline-block;
+}
+
+.rotating-word.typing::after {
+    content: '|';
+    color: var(--color-accent);
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+
+/* Bottom Spacing */
+.bottom-spacing {
+    height: 45vh;
+}
+
 /* About Section */
 .about {
     padding: 120px 0;
