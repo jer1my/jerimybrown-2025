@@ -821,7 +821,7 @@ body {
 }
 
 [data-card="ai-product"] .project-bg-image {
-    background-image: url('../images/design-system-dark.png');
+    background-image: url('../images/ai-first-dark.png');
 }
 
 [data-card="greenfield-product"] .project-bg-image {
@@ -829,7 +829,7 @@ body {
 }
 
 [data-card="user-testing"] .project-bg-image {
-    background-image: url('../images/design-system-dark.png');
+    background-image: url('../images/user-test-dark.png');
 }
 
 .project-content-overlay {
@@ -915,7 +915,7 @@ body:not([data-theme="dark"]) [data-card="design-system"] .project-bg-image {
 }
 
 body:not([data-theme="dark"]) [data-card="ai-product"] .project-bg-image {
-    background-image: url('../images/design-system-light.png');
+    background-image: url('../images/ai-first-light.png');
 }
 
 body:not([data-theme="dark"]) [data-card="greenfield-product"] .project-bg-image {
@@ -923,7 +923,7 @@ body:not([data-theme="dark"]) [data-card="greenfield-product"] .project-bg-image
 }
 
 body:not([data-theme="dark"]) [data-card="user-testing"] .project-bg-image {
-    background-image: url('../images/design-system-light.png');
+    background-image: url('../images/user-test-light.png');
 }
 
 body:not([data-theme="dark"]) .project-content-overlay {
