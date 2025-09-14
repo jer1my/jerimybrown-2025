@@ -825,7 +825,7 @@ body {
 }
 
 [data-card="greenfield-product"] .project-bg-image {
-    background-image: url('../images/design-system-dark.png');
+    background-image: url('../images/greenfield-dark.png');
 }
 
 [data-card="user-testing"] .project-bg-image {
@@ -919,7 +919,7 @@ body:not([data-theme="dark"]) [data-card="ai-product"] .project-bg-image {
 }
 
 body:not([data-theme="dark"]) [data-card="greenfield-product"] .project-bg-image {
-    background-image: url('../images/design-system-light.png');
+    background-image: url('../images/greenfield-light.png');
 }
 
 body:not([data-theme="dark"]) [data-card="user-testing"] .project-bg-image {
