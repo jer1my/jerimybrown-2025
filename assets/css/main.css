@@ -117,11 +117,11 @@
   --z-toast: 700;
   
   /* Grid Toggle Variables */
-  --grid-toggle-width: 48px;
+  --grid-toggle-width: 56px;
   --grid-toggle-height: 24px;
-  --grid-toggle-pill-size: 20px;
-  --grid-toggle-pill-offset: 2px;
-  --grid-toggle-translate: 24px;
+  --grid-toggle-pill-size: 18px;
+  --grid-toggle-pill-offset: 3px;
+  --grid-toggle-translate: 32px;
   
   /* Grid Toggle Colors - Light Mode */
   --grid-toggle-bg-inactive: rgb(193, 193, 193, .3);
@@ -1560,7 +1560,9 @@ body {
 /* Grid Toggle Button - Pill Switch */
 .grid-toggle {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
     width: var(--grid-toggle-width);
     height: var(--grid-toggle-height);
     background: var(--grid-toggle-bg-inactive);
@@ -1570,12 +1572,17 @@ body {
     transition: all var(--transition-base);
     backdrop-filter: var(--blur-sm);
     -webkit-backdrop-filter: var(--blur-sm);
+    padding: var(--grid-toggle-pill-offset) var(--space-2);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--grid-toggle-text-color);
 }
 
 .grid-toggle:hover {
     background: var(--grid-toggle-bg-hover);
 }
 
+/* Moving circle that covers the current state */
 .grid-toggle::before {
     content: '';
     position: absolute;
@@ -1586,6 +1593,7 @@ body {
     background: var(--grid-toggle-pill-bg);
     border-radius: calc(var(--grid-toggle-pill-size) / 2);
     transition: transform var(--transition-base);
+    z-index: 1;
 }
 
 .grid-toggle.active {
@@ -1600,45 +1608,31 @@ body {
     transform: translateX(var(--grid-toggle-translate));
 }
 
-/* Grid Toggle Text */
-.grid-toggle-text {
-    position: relative;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-regular);
-    font-family: var(--font-family-primary);
-    color: var(--grid-toggle-text-color);
-    min-width: var(--grid-toggle-height);
-    line-height: 1;
-    height: var(--grid-toggle-height);
-    display: flex;
-    align-items: center;
-}
-
-.grid-text-on,
-.grid-text-off {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    transition: opacity var(--transition-base);
-}
-
-/* Default state: show "On" (grid is off, clicking will turn it on) */
+/* Grid Toggle Text - positioned inside the pill */
+.grid-text-off,
 .grid-text-on {
-    opacity: 1;
+    position: relative;
+    z-index: 0;
+    transition: opacity var(--transition-base);
+    user-select: none;
 }
 
+/* Default state: grid is off, "Off" is covered by circle on left, "On" is visible on right */
 .grid-text-off {
-    opacity: 0;
+    opacity: 0; /* Hidden when covered */
 }
 
-/* Active state: show "Off" (grid is on, clicking will turn it off) */
-.grid-toggle.active ~ .grid-toggle-text .grid-text-on {
-    opacity: 0;
+.grid-text-on {
+    opacity: 1; /* Visible */
 }
 
-.grid-toggle.active ~ .grid-toggle-text .grid-text-off {
-    opacity: 1;
+/* Active state: grid is on, "Off" is visible on left, "On" is covered by circle on right */
+.grid-toggle.active .grid-text-off {
+    opacity: 1; /* Visible */
+}
+
+.grid-toggle.active .grid-text-on {
+    opacity: 0; /* Hidden when covered */
 }
 
 /* Dark mode grid toggle colors are handled by CSS variables above */
