@@ -348,7 +348,9 @@ function goToSlide(slideIndex, userTriggered = false) {
     // If user clicked a dot, reset the auto-rotation with slower timing
     if (userTriggered) {
         isUserInteracting = true;
-        clearInterval(autoRotateInterval);
+        if (autoRotateInterval) {
+            clearInterval(autoRotateInterval);
+        }
 
         // Restart auto-rotation with slower 12-second intervals
         autoRotateInterval = setInterval(nextSlide, 12000);
@@ -364,8 +366,26 @@ function initCarousel() {
     // Set initial position
     goToSlide(0);
 
-    // Auto-rotate every 8 seconds initially
-    autoRotateInterval = setInterval(nextSlide, 8000);
+    // Use Intersection Observer to start auto-rotation when about section is visible
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !autoRotateInterval) {
+                    // Start auto-rotation when section comes into view
+                    autoRotateInterval = setInterval(nextSlide, 8000);
+                } else if (!entry.isIntersecting && autoRotateInterval) {
+                    // Stop auto-rotation when section leaves view
+                    clearInterval(autoRotateInterval);
+                    autoRotateInterval = null;
+                }
+            });
+        }, {
+            threshold: 0.3 // Start when 30% of the section is visible
+        });
+
+        observer.observe(aboutSection);
+    }
 }
 
 // Initialize everything when DOM is ready
