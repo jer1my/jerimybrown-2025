@@ -388,6 +388,85 @@ function initCarousel() {
     }
 }
 
+// Logo Color Management
+function initLogoColorChange() {
+    // Only run on index page (pages with sections)
+    const sections = document.querySelectorAll('section[id]');
+    if (sections.length === 0) {
+        return;
+    }
+
+    const logo = document.querySelector('.logo');
+    if (!logo) {
+        return;
+    }
+
+    function updateLogoColor() {
+        // Check if we're at the very top of the page
+        // Use a small threshold to account for minor scroll variations
+        if (window.scrollY <= 50) {
+            logo.classList.add('accent-color');
+        } else {
+            logo.classList.remove('accent-color');
+        }
+    }
+
+    // Update on scroll
+    window.addEventListener('scroll', updateLogoColor);
+
+    // Update on page load
+    updateLogoColor();
+}
+
+// Navigation Active State Management
+function initNavigationActiveState() {
+    // Only run on pages with sections (like index.html)
+    const sections = document.querySelectorAll('section[id]');
+
+    // If no sections found, don't run the active state management
+    // This preserves manually set active classes on other pages
+    if (sections.length === 0) {
+        return;
+    }
+
+    const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav a');
+
+    function updateActiveNavigation() {
+        let currentSection = '';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+
+            if (window.scrollY >= (sectionTop - 100)) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+
+        // Remove active class only from section-based links (those with href starting with #)
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                link.classList.remove('active');
+            }
+        });
+
+        // Add active class to current section's links
+        if (currentSection) {
+            const currentLinks = document.querySelectorAll(`a[href="#${currentSection}"]`);
+            currentLinks.forEach(link => {
+                link.classList.add('active');
+            });
+        }
+    }
+
+    // Update on scroll
+    window.addEventListener('scroll', updateActiveNavigation);
+
+    // Update on page load
+    updateActiveNavigation();
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
@@ -397,4 +476,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initRotatingWord();
     initMobileMenuClose();
     initCarousel();
+    initLogoColorChange();
+    initNavigationActiveState();
 });
