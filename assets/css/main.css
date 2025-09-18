@@ -1145,7 +1145,7 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
 
 /* Bottom Spacing */
 .bottom-spacing {
-    height: 45vh;
+    height: 20vh;
 }
 
 /* About Section */
@@ -1180,8 +1180,10 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
 
 /* Contact Section */
 .contact {
-    padding: 120px 0;
+    min-height: 100vh;
     text-align: center;
+    display: flex;
+    align-items: center;
 }
 
 .contact-buttons {
