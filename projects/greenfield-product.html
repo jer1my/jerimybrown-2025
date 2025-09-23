@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designing a Greenfield Product Suite - Jerimy Brown</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico?v=1" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-container">
+                    <div class="logo-svg"></div>
+                    <span class="logo-text">Jerimy Brown</span>
+                </div>
+            </a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="../index.html#projects"><span class="link-text">Projects</span></a></li>
+                    <li><a href="../index.html#about"><span class="link-text">About</span></a></li>
+                    <li><a href="../index.html#contact"><span class="link-text">Contact</span></a></li>
+                    <li><a href="../style-guide.html"><span class="link-text">Style Guide</span></a></li>
+                </ul>
+                <button class="nav-theme-toggle" onclick="toggleTheme()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <nav class="mobile-nav">
+                <a href="../index.html#projects" onclick="toggleMobileMenu()"><span class="mobile-link-text">Projects</span></a>
+                <a href="../index.html#about" onclick="toggleMobileMenu()"><span class="mobile-link-text">About</span></a>
+                <a href="../index.html#contact" onclick="toggleMobileMenu()"><span class="mobile-link-text">Contact</span></a>
+                <a href="../style-guide.html" onclick="toggleMobileMenu()"><span class="mobile-link-text">Style Guide</span></a>
+            </nav>
+            <button class="mobile-theme-toggle" onclick="toggleTheme()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Project Hero Section -->
+    <section class="project-hero">
+        <div class="container">
+            <div class="project-breadcrumb">
+                <a href="../index.html#projects">← Back to Projects</a>
+            </div>
+            <h1 class="project-title">Designing a Greenfield Product Suite</h1>
+            <p class="project-subtitle">Building foundational UX patterns for scalable growth</p>
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Role</span>
+                    <span class="meta-value">Senior UX Designer</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Timeline</span>
+                    <span class="meta-value">12 months</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Team</span>
+                    <span class="meta-value">2 designers, 5 developers, 1 PM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Featured Image -->
+    <section class="project-featured-image">
+        <div class="container">
+            <div class="featured-image-container">
+                <img src="../assets/images/projects/placeholder.jpg" alt="Greenfield product suite overview" class="featured-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Content -->
+    <section class="project-content">
+        <div class="container">
+            <div class="content-grid">
+                <aside class="content-sidebar">
+                    <nav class="project-nav">
+                        <h3>Contents</h3>
+                        <ul>
+                            <li><a href="#overview">Overview</a></li>
+                            <li><a href="#challenge">The Challenge</a></li>
+                            <li><a href="#solution">Solution</a></li>
+                            <li><a href="#process">Design Process</a></li>
+                            <li><a href="#results">Results</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <main class="content-main">
+                    <section id="overview" class="content-section">
+                        <h2>Overview</h2>
+                        <p>Leading the end-to-end design of a new product ecosystem from initial concept to successful launch. This greenfield project required establishing foundational UX patterns, information architecture, and design standards that would support the product's growth from MVP to enterprise-scale solution.</p>
+                    </section>
+
+                    <section id="challenge" class="content-section">
+                        <h2>The Challenge</h2>
+                        <p>Starting from a blank slate presents unique opportunities and challenges. Without existing patterns or user expectations to build upon, every design decision needed to be carefully considered and validated to ensure the product could scale effectively while meeting user needs.</p>
+
+                        <div class="highlight-box">
+                            <h4>Key Challenges</h4>
+                            <ul>
+                                <li>No existing user research or behavioral data</li>
+                                <li>Undefined target market and user personas</li>
+                                <li>Need for scalable architecture from day one</li>
+                                <li>Balancing feature richness with simplicity</li>
+                                <li>Building for unknown future requirements</li>
+                                <li>Establishing design patterns without precedent</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="solution" class="content-section">
+                        <h2>Solution</h2>
+                        <p>We developed a modular, scalable design system and product architecture that could evolve with user needs and business requirements. The solution focused on core user workflows while maintaining flexibility for future expansion.</p>
+
+                        <div class="image-grid">
+                            <figure class="project-image">
+                                <img src="../assets/images/projects/placeholder.jpg" alt="Information architecture diagram">
+                                <figcaption>Scalable information architecture and user flow mapping</figcaption>
+                            </figure>
+                            <figure class="project-image">
+                                <img src="../assets/images/projects/placeholder.jpg" alt="Design system foundations">
+                                <figcaption>Foundational design system and pattern library</figcaption>
+                            </figure>
+                        </div>
+                    </section>
+
+                    <section id="process" class="content-section">
+                        <h2>Design Process</h2>
+                        <p>The design process emphasized rapid learning and validation through iterative prototyping and user testing, allowing us to build confidence in our design decisions while maintaining development velocity.</p>
+
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Market Research & Strategy</h4>
+                                    <p>Conducted competitive analysis, market research, and stakeholder interviews to understand the problem space and define product vision.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>User Research & Personas</h4>
+                                    <p>Identified target users through interviews and surveys, creating detailed personas and journey maps to guide design decisions.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Architecture & Prototyping</h4>
+                                    <p>Designed scalable information architecture and created interactive prototypes to test core user workflows and validate concepts.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Testing & Iteration</h4>
+                                    <p>Conducted extensive user testing throughout development, iterating on designs based on feedback and usage analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="results" class="content-section">
+                        <h2>Results & Impact</h2>
+                        <p>The greenfield product launched successfully and achieved significant traction in its target market, validating our foundational design decisions and setting the stage for continued growth.</p>
+
+                        <div class="results-grid">
+                            <div class="result-metric">
+                                <div class="metric-value">10K+</div>
+                                <div class="metric-label">Active users within 6 months</div>
+                            </div>
+                            <div class="result-metric">
+                                <div class="metric-value">85%</div>
+                                <div class="metric-label">User onboarding completion rate</div>
+                            </div>
+                            <div class="result-metric">
+                                <div class="metric-value">4.6/5</div>
+                                <div class="metric-label">Average user satisfaction score</div>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4>Long-term Impact</h4>
+                            <ul>
+                                <li>Successfully scaled to support 50K+ users</li>
+                                <li>Design patterns adopted across other company products</li>
+                                <li>Established foundation for international expansion</li>
+                                <li>Achieved product-market fit within first year</li>
+                                <li>Created reusable design methodology for future greenfield projects</li>
+                            </ul>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Navigation -->
+    <section class="project-navigation">
+        <div class="container">
+            <div class="nav-grid">
+                <div class="nav-item prev">
+                    <a href="design-system.html">
+                        <span class="nav-direction">← Previous</span>
+                        <span class="nav-title">Building an Enterprise Design System</span>
+                    </a>
+                </div>
+                <div class="nav-item next">
+                    <a href="ai-product.html">
+                        <span class="nav-direction">Next →</span>
+                        <span class="nav-title">AI-First Product Design</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Work Together</h2>
+            <p>Have a project in mind? I'd love to hear about it and explore how we can bring your ideas to life.</p>
+            <div class="contact-buttons">
+                <a href="mailto:jerimy@comcast.net" class="button btn-secondary">Email</a>
+                <a href="https://www.linkedin.com/in/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://dribbble.com/Jerimy" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Dribbble</a>
+                <a href="https://www.instagram.com/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="https://github.com/jer1my" class="button btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Spacing -->
+    <div class="bottom-spacing"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" fill="rgba(26, 26, 26, 0.8)"/>
+            <path d="M24 32L24 16M18 22L24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
