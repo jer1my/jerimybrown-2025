@@ -836,13 +836,15 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.project-card-link:focus {
+.project-card-link:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
+    transform: translateY(-8px);
 }
 
-[data-theme="dark"] .project-card-link:focus {
+[data-theme="dark"] .project-card-link:focus-visible {
     outline-color: #ea580c;
+    transform: translateY(-8px);
 }
 
 .project-card-featured {
