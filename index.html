@@ -9,8 +9,29 @@
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        /* Prevent navigation flash on first load */
+        .nav {
+            background: rgba(250, 250, 250, 0.1) !important;
+        }
+        body[data-theme="dark"] .nav {
+            background: rgba(23, 23, 23, 0.1) !important;
+        }
+    </style>
 </head>
 <body>
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
@@ -148,7 +169,7 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>I'm a UX Director passionate about creating digital experiences that are both beautiful and functional. With a background in design psychology and technology, I bring a unique perspective to understanding user needs and translating them into elegant design solutions.</p>
+                    <p>I'm a UX Director, Designer and Developer passionate about creating digital experiences that are both beautiful and functional. With a background in design psychology and technology, I bring a unique perspective to understanding user needs and translating them into elegant design solutions.</p>
                     <br>
                     <p>When I'm not designing, you'll find me exploring new technologies, painting, practicing photography, or racing motorcycles.</p>
                 </div>

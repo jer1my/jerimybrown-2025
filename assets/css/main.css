@@ -219,7 +219,7 @@ body {
     -webkit-backdrop-filter: var(--blur-lg);
     z-index: var(--z-sticky);
     padding: var(--space-5) 0;
-    transition: all var(--transition-base);
+    transition: background var(--transition-base), backdrop-filter var(--transition-base);
 }
 
 .nav-container {
@@ -361,7 +361,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 }
 
 .nav-links a .link-text {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, color 0.3s ease;
 }
 
 .nav-links a::after {
@@ -383,8 +383,8 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     width: 100%;
 }
 
-.nav-links a.active::after {
-    width: 100%;
+.nav-links a.active .link-text {
+    color: var(--color-accent);
 }
 
 /* Mobile Navigation */
@@ -1731,6 +1731,11 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
     background: rgba(23, 23, 23, 0.1);
 }
 
+/* Prevent nav flash by setting initial dark theme values on body */
+body[data-theme="dark"] .nav {
+    background: rgba(23, 23, 23, 0.1) !important;
+}
+
 [data-theme="dark"] .mobile-menu-overlay {
     background: rgba(26, 26, 26, 0.7);
 }
@@ -2172,7 +2177,7 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
 /* Project Pages */
 .project-hero {
     padding-top: 120px; /* Account for fixed navigation */
-    padding-bottom: var(--space-16);
+    padding-bottom: var(--space-8);
     background: var(--bg-primary);
 }
 
@@ -2263,8 +2268,7 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
     transition: transform var(--transition-base);
 }
 
-.project-nav a:hover::before,
-.project-nav a.active::before {
+.project-nav a:hover::before {
     transform: scaleY(1);
 }
 
@@ -2333,7 +2337,7 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
 @media (max-width: 768px) {
     .project-hero {
         padding-top: 100px; /* Smaller on mobile */
-        padding-bottom: var(--space-12);
+        padding-bottom: var(--space-6);
     }
 
     .project-hero .project-title {
@@ -2429,20 +2433,59 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
 
 /* Featured image section */
 .project-featured-image {
-    padding: var(--space-8) 0;
     background: var(--bg-primary);
 }
 
 .featured-image-container {
-    max-width: 1000px;
-    margin: 0 auto;
+    position: relative;
 }
 
 .featured-image {
     width: 100%;
     height: auto;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    display: block;
+}
+
+/* Project metadata glassmorphism overlay */
+.project-meta-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-overlay-light);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    padding: var(--space-6) var(--space-6);
+}
+
+.project-meta {
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+}
+
+.meta-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.meta-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
 }
 
 /* Image grids and figures */
@@ -2464,16 +2507,6 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
     height: auto;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
-    font-size: var(--font-size-sm);
-    color: var(--text-secondary);
-    background: var(--bg-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: var(--space-8);
-    min-height: 200px;
-    border: 1px solid var(--border-color);
 }
 
 .image-grid .project-image figcaption {
@@ -2689,6 +2722,121 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
 }
 
 /* ==========================================
+   Project Detail Carousel
+   ========================================== */
+
+.project-carousel {
+    margin: var(--space-8) 0;
+}
+
+.project-carousel .carousel-container {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    position: relative;
+}
+
+.project-carousel .carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 300%; /* 3 slides × 100% each */
+}
+
+.project-slide {
+    width: 33.333%; /* Each slide takes 1/3 of track width */
+    flex-shrink: 0;
+    position: relative;
+}
+
+.project-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-lg);
+}
+
+.slide-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-overlay-light);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
+    color: var(--text-primary);
+    padding: var(--space-4) var(--space-4);
+    font-size: var(--font-size-sm);
+    text-align: center;
+    font-style: italic;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* Project carousel slide positions */
+.project-carousel .carousel-track[data-position="0"] {
+    transform: translateX(0%);
+}
+
+.project-carousel .carousel-track[data-position="1"] {
+    transform: translateX(-33.333%);
+}
+
+.project-carousel .carousel-track[data-position="2"] {
+    transform: translateX(-66.666%);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .project-carousel .carousel-indicators {
+        gap: var(--space-4);
+        margin-top: var(--space-4);
+    }
+
+    .slide-caption {
+        font-size: var(--font-size-xs);
+        padding: var(--space-4) var(--space-3) var(--space-3);
+    }
+
+    /* Mobile responsive for project metadata overlay */
+    .project-meta-overlay {
+        padding: var(--space-4) var(--space-4);
+    }
+
+    .project-meta {
+        gap: var(--space-6);
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .meta-label {
+        font-size: 10px;
+    }
+
+    .meta-value {
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* ==========================================
+   Theme Responsive Images
+   ========================================== */
+
+/* Switch to dark placeholder images in dark mode */
+[data-theme="dark"] .theme-responsive-image {
+    content: url("../images/projects/placeholder-dark.png");
+}
+
+/* Darker background for slide captions in dark mode */
+[data-theme="dark"] .slide-caption {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Darker background for project metadata overlay in dark mode */
+[data-theme="dark"] .project-meta-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+
+/* ==========================================
    Page Transitions
    ========================================== */
 
@@ -2717,4 +2865,129 @@ body {
     .page-transition-in {
         transition: none !important;
     }
+}
+
+/* ==========================================
+   Donut Chart Data Visualization
+   ========================================== */
+
+/* Results Grid with Charts */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    margin: var(--space-12) 0;
+}
+
+@media (max-width: 768px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+}
+
+.result-metric {
+    text-align: center;
+    padding: var(--space-8);
+}
+
+.result-metric-with-bg {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+}
+
+.result-metric-with-bg:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.metric-value {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+}
+
+.metric-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Enhanced Results with Donut Charts */
+.result-metric-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+    position: relative;
+}
+
+.donut-chart {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.donut-chart svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.donut-chart .donut-track {
+    fill: none;
+    stroke: var(--color-neutral-200);
+    stroke-width: 4;
+}
+
+.donut-chart .donut-fill {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 0 157.08;
+    transition: stroke-dasharray 1.5s ease-in-out 0.5s;
+}
+
+.donut-chart .chart-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.chart-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    line-height: 1;
+}
+
+.chart-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: var(--space-2);
+    max-width: 200px;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .donut-chart .donut-track {
+    stroke: var(--color-neutral-700);
+}
+
+[data-theme="dark"] .result-metric-with-bg {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Animation trigger when in viewport */
+.donut-chart.animate .donut-fill {
+    stroke-dasharray: var(--progress) 157.08;
 }

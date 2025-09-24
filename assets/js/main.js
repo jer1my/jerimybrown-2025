@@ -364,6 +364,25 @@ function nextSlide() {
     goToSlide(currentSlide);
 }
 
+// Project detail carousel function
+function goToProjectSlide(slideIndex) {
+    const track = document.getElementById('projectCarouselTrack');
+    const indicators = document.querySelectorAll('.project-carousel .indicator');
+
+    if (track) {
+        track.setAttribute('data-position', slideIndex);
+    }
+
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        if (index === slideIndex) {
+            indicator.classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+        }
+    });
+}
+
 function initCarousel() {
     // Set initial position
     goToSlide(0);
@@ -570,6 +589,41 @@ function initPageTransitions() {
     });
 }
 
+// ==========================================
+// Donut Chart Animations
+// ==========================================
+
+function initDonutCharts() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const chart = entry.target;
+                const progress = parseInt(chart.dataset.progress) || 0;
+                const circumference = 2 * Math.PI * 25; // radius is 25
+                const progressLength = (progress / 100) * circumference;
+
+                // Add animate class to trigger CSS animation
+                chart.classList.add('animate');
+
+                // Set the CSS custom property for the progress
+                chart.style.setProperty('--progress', progressLength);
+
+                // Stop observing this chart
+                observer.unobserve(chart);
+            }
+        });
+    }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -20px 0px'
+    });
+
+    // Observe all donut charts
+    const charts = document.querySelectorAll('.donut-chart');
+    charts.forEach(chart => {
+        observer.observe(chart);
+    });
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
@@ -583,4 +637,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initNavigationActiveState();
     initProjectNavigationActiveState();
     initPageTransitions();
+    initDonutCharts();
 });

@@ -9,8 +9,29 @@
     <link rel="icon" href="../favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        /* Prevent navigation flash on first load */
+        .nav {
+            background: rgba(250, 250, 250, 0.1) !important;
+        }
+        body[data-theme="dark"] .nav {
+            background: rgba(23, 23, 23, 0.1) !important;
+        }
+    </style>
 </head>
 <body>
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
@@ -69,30 +90,34 @@
             <div class="project-breadcrumb">
                 <a href="../index.html#projects">← Back to Projects</a>
             </div>
-            <h1 class="project-title">User Testing New Patterns</h1>
-            <p class="project-subtitle">Turning insights into design decisions that reduce cognitive load</p>
-            <div class="project-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Role</span>
-                    <span class="meta-value">UX Researcher & Designer</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Timeline</span>
-                    <span class="meta-value">6 months</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Team</span>
-                    <span class="meta-value">1 designer, 3 developers, 1 PM</span>
-                </div>
+            <div class="project-header">
+                <h1 class="project-title">User Testing New Patterns</h1>
+                <p class="project-subtitle">Turning insights into design decisions that reduce cognitive load</p>
             </div>
         </div>
     </section>
 
-    <!-- Project Featured Image -->
+    <!-- Project Featured Image with Metadata -->
     <section class="project-featured-image">
         <div class="container">
             <div class="featured-image-container">
-                <img src="../assets/images/projects/placeholder.jpg" alt="User testing session and interface patterns" class="featured-image">
+                <img src="../assets/images/projects/placeholder-light.png" alt="User testing session and interface patterns" class="featured-image theme-responsive-image">
+                <div class="project-meta-overlay">
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Role</span>
+                            <span class="meta-value">Director of UX / Designer</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Timeline</span>
+                            <span class="meta-value">6 months</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Team</span>
+                            <span class="meta-value">1 designer, 3 developers, 1 PM</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -141,15 +166,29 @@
                         <h2>Solution</h2>
                         <p>We developed a comprehensive user testing program that validated new interaction patterns through iterative prototyping and controlled experiments. The solution included both qualitative and quantitative research methods to ensure robust insights.</p>
 
-                        <div class="image-grid">
-                            <figure class="project-image">
-                                <img src="../assets/images/projects/placeholder.jpg" alt="User testing setup and methodology">
-                                <figcaption>Remote and in-person user testing methodology</figcaption>
-                            </figure>
-                            <figure class="project-image">
-                                <img src="../assets/images/projects/placeholder.jpg" alt="New interaction patterns">
-                                <figcaption>Validated interaction patterns and cognitive load testing</figcaption>
-                            </figure>
+                        <div class="project-carousel">
+                            <div class="carousel-container">
+                                <div class="carousel-track" id="projectCarouselTrack">
+                                    <div class="project-slide">
+                                        <img src="../assets/images/projects/placeholder-light.png" alt="User testing setup and methodology" class="theme-responsive-image">
+                                        <div class="slide-caption">Remote and in-person user testing methodology</div>
+                                    </div>
+                                    <div class="project-slide">
+                                        <img src="../assets/images/projects/placeholder-light.png" alt="New interaction patterns" class="theme-responsive-image">
+                                        <div class="slide-caption">Validated interaction patterns and cognitive load testing</div>
+                                    </div>
+                                    <div class="project-slide">
+                                        <img src="../assets/images/projects/placeholder-light.png" alt="Usability metrics and insights" class="theme-responsive-image">
+                                        <div class="slide-caption">Data-driven insights and usability performance metrics</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Carousel Indicators -->
+                            <div class="carousel-indicators">
+                                <button class="indicator active" data-slide="0" onclick="goToProjectSlide(0)"></button>
+                                <button class="indicator" data-slide="1" onclick="goToProjectSlide(1)"></button>
+                                <button class="indicator" data-slide="2" onclick="goToProjectSlide(2)"></button>
+                            </div>
                         </div>
                     </section>
 
@@ -194,17 +233,41 @@
                         <p>The user testing program successfully identified and validated new interaction patterns that significantly improved usability metrics while maintaining user satisfaction and reducing support ticket volume.</p>
 
                         <div class="results-grid">
-                            <div class="result-metric">
-                                <div class="metric-value">35%</div>
-                                <div class="metric-label">Reduction in task completion time</div>
+                            <div class="result-metric-chart">
+                                <div class="donut-chart" data-progress="35">
+                                    <svg viewBox="0 0 60 60">
+                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                    </svg>
+                                    <div class="chart-center">
+                                        <div class="chart-value">35%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-label">Reduction in task completion time</div>
                             </div>
-                            <div class="result-metric">
-                                <div class="metric-value">50%</div>
-                                <div class="metric-label">Decrease in navigation errors</div>
+                            <div class="result-metric-chart">
+                                <div class="donut-chart" data-progress="50">
+                                    <svg viewBox="0 0 60 60">
+                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                    </svg>
+                                    <div class="chart-center">
+                                        <div class="chart-value">50%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-label">Decrease in navigation errors</div>
                             </div>
-                            <div class="result-metric">
-                                <div class="metric-value">28%</div>
-                                <div class="metric-label">Reduction in support tickets</div>
+                            <div class="result-metric-chart">
+                                <div class="donut-chart" data-progress="28">
+                                    <svg viewBox="0 0 60 60">
+                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                    </svg>
+                                    <div class="chart-center">
+                                        <div class="chart-value">28%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-label">Reduction in support tickets</div>
                             </div>
                         </div>
 
