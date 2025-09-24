@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building an Enterprise Design System - Jerimy Brown</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico?v=1" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        /* Prevent navigation flash on first load */
+        .nav {
+            background: rgba(250, 250, 250, 0.1) !important;
+        }
+        body[data-theme="dark"] .nav {
+            background: rgba(23, 23, 23, 0.1) !important;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-container">
+                    <div class="logo-svg"></div>
+                    <span class="logo-text">Jerimy Brown</span>
+                </div>
+            </a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="../index.html#projects"><span class="link-text">Projects</span></a></li>
+                    <li><a href="../index.html#about"><span class="link-text">About</span></a></li>
+                    <li><a href="../index.html#contact"><span class="link-text">Contact</span></a></li>
+                    <li><a href="../style-guide.html"><span class="link-text">Style Guide</span></a></li>
+                </ul>
+                <button class="nav-theme-toggle" onclick="toggleTheme()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <nav class="mobile-nav">
+                <a href="../index.html#projects" onclick="toggleMobileMenu()"><span class="mobile-link-text">Projects</span></a>
+                <a href="../index.html#about" onclick="toggleMobileMenu()"><span class="mobile-link-text">About</span></a>
+                <a href="../index.html#contact" onclick="toggleMobileMenu()"><span class="mobile-link-text">Contact</span></a>
+                <a href="../style-guide.html" onclick="toggleMobileMenu()"><span class="mobile-link-text">Style Guide</span></a>
+            </nav>
+            <button class="mobile-theme-toggle" onclick="toggleTheme()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Project Hero Section -->
+    <section class="project-hero">
+        <div class="container">
+            <div class="project-breadcrumb">
+                <a href="../index.html#projects">← Back to Projects</a>
+            </div>
+            <div class="project-header">
+                <h1 class="project-title">Building an Enterprise Design System</h1>
+                <p class="project-subtitle">Creating unified experiences across a complex product ecosystem</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Featured Image with Metadata -->
+    <section class="project-featured-image">
+        <div class="container">
+            <div class="featured-image-container">
+                <img src="../assets/images/projects/design-system-light.png" alt="Enterprise design system overview" class="featured-image theme-responsive-image">
+                <div class="project-meta-overlay">
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Role</span>
+                            <span class="meta-value">Director of UX / Designer</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Timeline</span>
+                            <span class="meta-value">18 months</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Team</span>
+                            <span class="meta-value">3 designers, 6 developers, 2 PMs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Content -->
+    <section class="project-content">
+        <div class="container">
+            <div class="content-grid">
+                <aside class="content-sidebar">
+                    <nav class="project-nav">
+                        <h3>Contents</h3>
+                        <ul>
+                            <li><a href="#overview">Overview</a></li>
+                            <li><a href="#challenge">The Challenge</a></li>
+                            <li><a href="#solution">Solution</a></li>
+                            <li><a href="#process">Design Process</a></li>
+                            <li><a href="#results">Results</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <main class="content-main">
+                    <section id="overview" class="content-section">
+                        <h2>Overview</h2>
+                        <p>This case study showcases the development of a comprehensive design system that unified the user experience across a complex suite of enterprise products, from SaaS platforms to on-premises solutions. The project involved extensive collaboration between product, UX, and development teams while embedding accessibility standards throughout the organization.</p>
+                    </section>
+
+                    <section id="challenge" class="content-section">
+                        <h2>The Challenge</h2>
+                        <p>Our enterprise product suite had grown organically over years, resulting in inconsistent user experiences, duplicated design work, and significant development overhead. Teams were working in silos, creating their own patterns and components without consideration for the broader ecosystem.</p>
+
+                        <div class="highlight-box">
+                            <h4>Key Challenges</h4>
+                            <ul>
+                                <li>Inconsistent UI patterns across 15+ products</li>
+                                <li>No shared component library or design standards</li>
+                                <li>Accessibility compliance gaps across the organization</li>
+                                <li>Lengthy development cycles due to component recreation</li>
+                                <li>Poor user experience when moving between products</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="solution" class="content-section">
+                        <h2>Solution</h2>
+                        <p>We developed a comprehensive design system that provided a unified foundation for all product teams. The system included a component library, design principles, accessibility guidelines, and implementation standards that could be adopted across both web and desktop applications.</p>
+
+                        <div class="project-carousel">
+                            <div class="carousel-container">
+                                <div class="carousel-track" id="projectCarouselTrack">
+                                    <div class="project-slide">
+                                        <img src="../assets/images/projects/design-system-light.png" alt="Design system component library" class="theme-responsive-image">
+                                        <div class="slide-caption">Component library with comprehensive documentation</div>
+                                    </div>
+                                    <div class="project-slide">
+                                        <img src="../assets/images/projects/design-system-light.png" alt="Design tokens and principles" class="theme-responsive-image">
+                                        <div class="slide-caption">Design tokens and foundational principles</div>
+                                    </div>
+                                    <div class="project-slide">
+                                        <img src="../assets/images/projects/design-system-light.png" alt="Cross-platform implementation" class="theme-responsive-image">
+                                        <div class="slide-caption">Unified design system across web and desktop platforms</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Carousel Indicators -->
+                            <div class="carousel-indicators">
+                                <button class="indicator active" data-slide="0" onclick="goToProjectSlide(0)"></button>
+                                <button class="indicator" data-slide="1" onclick="goToProjectSlide(1)"></button>
+                                <button class="indicator" data-slide="2" onclick="goToProjectSlide(2)"></button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="process" class="content-section">
+                        <h2>Design Process</h2>
+                        <p>The design system development followed a structured approach that ensured buy-in from all stakeholders and provided a clear path for adoption across the organization.</p>
+
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Audit & Research</h4>
+                                    <p>Conducted comprehensive UI audit across all products, interviewed stakeholders, and researched best practices for enterprise design systems.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Foundation & Principles</h4>
+                                    <p>Established design principles, color systems, typography scales, and accessibility standards that would guide all future design decisions.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Component Development</h4>
+                                    <p>Built and tested a comprehensive library of reusable components with extensive documentation and implementation guidelines.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Adoption & Governance</h4>
+                                    <p>Implemented adoption strategy with pilot teams, established governance processes, and created training materials for organization-wide rollout.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="results" class="content-section">
+                        <h2>Results & Impact</h2>
+                        <p>The design system transformed how our organization approached product development, resulting in significant improvements in efficiency, consistency, and user experience quality.</p>
+
+                        <div class="results-grid">
+                            <div class="result-metric-chart">
+                                <div class="donut-chart" data-progress="60">
+                                    <svg viewBox="0 0 60 60">
+                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                    </svg>
+                                    <div class="chart-center">
+                                        <div class="chart-value">60%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-label">Reduction in design-to-development time</div>
+                            </div>
+                            <div class="result-metric-chart">
+                                <div class="donut-chart" data-progress="95">
+                                    <svg viewBox="0 0 60 60">
+                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                    </svg>
+                                    <div class="chart-center">
+                                        <div class="chart-value">95%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-label">Improvement in accessibility compliance</div>
+                            </div>
+                            <div class="result-metric-chart">
+                                <div class="donut-chart" data-progress="100">
+                                    <svg viewBox="0 0 60 60">
+                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                    </svg>
+                                    <div class="chart-center">
+                                        <div class="chart-value">100%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-label">Of product teams now using the system</div>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box">
+                            <h4>Additional Outcomes</h4>
+                            <ul>
+                                <li>Unified user experience across all enterprise products</li>
+                                <li>Established design system governance and maintenance processes</li>
+                                <li>Created comprehensive accessibility training program</li>
+                                <li>Reduced component recreation by 80%</li>
+                                <li>Improved cross-team collaboration and communication</li>
+                            </ul>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Navigation -->
+    <section class="project-navigation">
+        <div class="container">
+            <div class="nav-grid">
+                <div class="nav-item prev">
+                    <a href="user-testing.html">
+                        <span class="nav-direction">← Previous</span>
+                        <span class="nav-title">User Testing New Patterns</span>
+                    </a>
+                </div>
+                <div class="nav-item next">
+                    <a href="greenfield-product.html">
+                        <span class="nav-direction">Next →</span>
+                        <span class="nav-title">Designing a Greenfield Product Suite</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Work Together</h2>
+            <p>Have a project in mind? I'd love to hear about it and explore how we can bring your ideas to life.</p>
+            <div class="contact-buttons">
+                <a href="mailto:jerimy@comcast.net" class="button btn-secondary">Email</a>
+                <a href="https://www.linkedin.com/in/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://dribbble.com/Jerimy" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Dribbble</a>
+                <a href="https://www.instagram.com/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="https://github.com/jer1my" class="button btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Spacing -->
+    <div class="bottom-spacing"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" fill="rgba(26, 26, 26, 0.8)"/>
+            <path d="M24 32L24 16M18 22L24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

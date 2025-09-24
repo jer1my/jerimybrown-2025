@@ -27,6 +27,22 @@ function updateThemeIcon(toggle, iconType) {
     }
 }
 
+function updateThemeResponsiveImages() {
+    const images = document.querySelectorAll('.theme-responsive-image');
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+
+    images.forEach(img => {
+        const src = img.src;
+        if (isDark) {
+            // Switch to dark version
+            img.src = src.replace('-light.png', '-dark.png').replace('placeholder-light.png', 'placeholder-dark.png');
+        } else {
+            // Switch to light version
+            img.src = src.replace('-dark.png', '-light.png').replace('placeholder-dark.png', 'placeholder-light.png');
+        }
+    });
+}
+
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
     const body = document.body;
@@ -48,6 +64,9 @@ function initTheme() {
         updateThemeIcon(styleGuideToggle, 'sun');
         updateThemeIcon(mobileToggle, 'sun');
     }
+
+    // Update theme responsive images
+    updateThemeResponsiveImages();
 }
 
 function toggleTheme() {
@@ -71,6 +90,9 @@ function toggleTheme() {
         updateThemeIcon(styleGuideToggle, 'sun');
         updateThemeIcon(mobileToggle, 'sun');
     }
+
+    // Update theme responsive images
+    updateThemeResponsiveImages();
 }
 
 // ==========================================
@@ -80,9 +102,10 @@ function toggleTheme() {
 function scrollToProjects() {
     const projectsSection = document.getElementById('projects');
     if (projectsSection) {
-        projectsSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+        const targetPosition = projectsSection.offsetTop - 76;
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
         });
     }
 }
@@ -188,9 +211,10 @@ function initSmoothScrolling() {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const targetPosition = target.offsetTop - 76;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
             }
         });
@@ -362,6 +386,25 @@ function nextSlide() {
     goToSlide(currentSlide);
 }
 
+// Project detail carousel function
+function goToProjectSlide(slideIndex) {
+    const track = document.getElementById('projectCarouselTrack');
+    const indicators = document.querySelectorAll('.project-carousel .indicator');
+
+    if (track) {
+        track.setAttribute('data-position', slideIndex);
+    }
+
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        if (index === slideIndex) {
+            indicator.classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+        }
+    });
+}
+
 function initCarousel() {
     // Set initial position
     goToSlide(0);
@@ -402,6 +445,15 @@ function initLogoColorChange() {
     }
 
     function updateLogoColor() {
+        // Only apply accent color logic on the index page (pages with hero sections)
+        // Check if there's a hero section on the page
+        const heroSection = document.querySelector('.hero');
+        if (!heroSection) {
+            // Not on index page, don't add accent color
+            logo.classList.remove('accent-color');
+            return;
+        }
+
         // Check if we're at the very top of the page
         // Use a small threshold to account for minor scroll variations
         if (window.scrollY <= 50) {
@@ -438,7 +490,7 @@ function initNavigationActiveState() {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
 
-            if (window.scrollY >= (sectionTop - 100)) {
+            if (window.scrollY >= (sectionTop - 150)) {
                 currentSection = section.getAttribute('id');
             }
         });
@@ -467,6 +519,133 @@ function initNavigationActiveState() {
     updateActiveNavigation();
 }
 
+// Project Page Contents Navigation Active State
+function initProjectNavigationActiveState() {
+    // Only run on project pages with contents navigation
+    const projectNav = document.querySelector('.project-nav');
+    if (!projectNav) {
+        return;
+    }
+
+    const projectNavLinks = projectNav.querySelectorAll('a[href^="#"]');
+    const contentSections = document.querySelectorAll('.content-section[id]');
+
+    if (projectNavLinks.length === 0 || contentSections.length === 0) {
+        return;
+    }
+
+    function updateProjectActiveNavigation() {
+        let currentSection = '';
+
+        // Find the current section based on scroll position
+        contentSections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+
+            // Account for the fixed navigation height (120px) plus some buffer
+            if (window.scrollY >= (sectionTop - 150)) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+
+        // Update active states
+        projectNavLinks.forEach(link => {
+            link.classList.remove('active');
+
+            // Extract the hash from the href attribute
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                const targetId = href.substring(1);
+                if (targetId === currentSection) {
+                    link.classList.add('active');
+                }
+            }
+        });
+    }
+
+    // Update on scroll
+    window.addEventListener('scroll', updateProjectActiveNavigation);
+
+    // Update on page load
+    updateProjectActiveNavigation();
+}
+
+// ==========================================
+// Page Transitions
+// ==========================================
+
+function initPageTransitions() {
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+        return; // Skip transitions if user prefers reduced motion
+    }
+
+    // Fade in the page on load
+    document.body.classList.add('page-transition-in');
+
+    // Get all links that navigate to other HTML pages
+    const pageLinks = document.querySelectorAll('a[href$=".html"], a[href*=".html#"], a[href*="/"][href*=".html"]');
+
+    pageLinks.forEach(link => {
+        // Skip external links
+        const href = link.getAttribute('href');
+        if (href.startsWith('http') || href.startsWith('//')) {
+            return;
+        }
+
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const targetUrl = this.href;
+
+            // Add fade out class
+            document.body.classList.add('page-transition-out');
+
+            // Navigate after transition completes
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 300); // Match CSS transition duration
+        });
+    });
+}
+
+// ==========================================
+// Donut Chart Animations
+// ==========================================
+
+function initDonutCharts() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const chart = entry.target;
+                const progress = parseInt(chart.dataset.progress) || 0;
+                const circumference = 2 * Math.PI * 25; // radius is 25
+                const progressLength = (progress / 100) * circumference;
+
+                // Add animate class to trigger CSS animation
+                chart.classList.add('animate');
+
+                // Set the CSS custom property for the progress
+                chart.style.setProperty('--progress', progressLength);
+
+                // Stop observing this chart
+                observer.unobserve(chart);
+            }
+        });
+    }, {
+        threshold: 0.3,
+        rootMargin: '0px 0px -20px 0px'
+    });
+
+    // Observe all donut charts
+    const charts = document.querySelectorAll('.donut-chart');
+    charts.forEach(chart => {
+        observer.observe(chart);
+    });
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
@@ -478,4 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCarousel();
     initLogoColorChange();
     initNavigationActiveState();
+    initProjectNavigationActiveState();
+    initPageTransitions();
+    initDonutCharts();
 });
