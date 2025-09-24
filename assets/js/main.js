@@ -27,6 +27,22 @@ function updateThemeIcon(toggle, iconType) {
     }
 }
 
+function updateThemeResponsiveImages() {
+    const images = document.querySelectorAll('.theme-responsive-image');
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+
+    images.forEach(img => {
+        const src = img.src;
+        if (isDark) {
+            // Switch to dark version
+            img.src = src.replace('-light.png', '-dark.png').replace('placeholder-light.png', 'placeholder-dark.png');
+        } else {
+            // Switch to light version
+            img.src = src.replace('-dark.png', '-light.png').replace('placeholder-dark.png', 'placeholder-light.png');
+        }
+    });
+}
+
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
     const body = document.body;
@@ -48,6 +64,9 @@ function initTheme() {
         updateThemeIcon(styleGuideToggle, 'sun');
         updateThemeIcon(mobileToggle, 'sun');
     }
+
+    // Update theme responsive images
+    updateThemeResponsiveImages();
 }
 
 function toggleTheme() {
@@ -71,6 +90,9 @@ function toggleTheme() {
         updateThemeIcon(styleGuideToggle, 'sun');
         updateThemeIcon(mobileToggle, 'sun');
     }
+
+    // Update theme responsive images
+    updateThemeResponsiveImages();
 }
 
 // ==========================================

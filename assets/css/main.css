@@ -826,6 +826,25 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 }
 
 /* Featured Project Card with Full-Bleed Background */
+.project-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 20px;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card-link:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+[data-theme="dark"] .project-card-link:focus {
+    outline-color: #ea580c;
+}
+
 .project-card-featured {
     position: relative;
     padding: 0;
@@ -919,32 +938,48 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     margin-bottom: 0;
 }
 
-.project-card-featured:hover .project-description {
+.project-card-link:hover .project-description {
     opacity: 1;
     max-height: 200px;
     margin-bottom: 24px;
 }
 
-.project-card-featured .project-link {
+.project-card-featured .project-link-text {
     color: #ffffff;
+    font-weight: 500;
+    display: block;
+    margin-top: auto;
+    position: relative;
 }
 
-.project-card-featured .project-link::after {
+.project-card-featured .project-link-text::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
     background: #ffffff;
+    transition: width 0.3s ease;
 }
 
-.project-card-featured:hover {
+.project-card-link:hover .project-link-text::after {
+    width: 100%;
+}
+
+
+.project-card-link:hover .project-card-featured {
     transform: translateY(-8px);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark mode hover glow with darker grey drop-shadow */
-[data-theme="dark"] .project-card-featured:hover {
+[data-theme="dark"] .project-card-link:hover .project-card-featured {
     box-shadow: none;
     filter: drop-shadow(0 20px 60px rgba(80, 80, 80, 0.3));
 }
 
-.project-card-featured:hover .project-content-overlay {
+.project-card-link:hover .project-content-overlay {
     min-height: 50%;
 }
 
@@ -1008,13 +1043,14 @@ body:not([data-theme="dark"]) .project-card-featured .project-description {
     color: rgba(26, 26, 26, 0.9);
 }
 
-body:not([data-theme="dark"]) .project-card-featured .project-link {
+body:not([data-theme="dark"]) .project-card-featured .project-link-text {
     color: var(--color-accent);
 }
 
-body:not([data-theme="dark"]) .project-card-featured .project-link::after {
+body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     background: var(--color-accent);
 }
+
 
 /* Ensure featured cards have no shadow in both light and dark modes */
 [data-theme="dark"] .project-card-featured {
@@ -1703,6 +1739,13 @@ body:not([data-theme="dark"]) .project-card-featured .project-link::after {
 
 [data-theme="dark"] .project-link {
     color: #ea580c;
+}
+[data-theme="dark"] .project-card-featured .project-link-text {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .project-card-featured .project-link-text::after {
+    background: #ea580c;
 }
 
 [data-theme="dark"] .project-image {
@@ -2820,10 +2863,7 @@ body[data-theme="dark"] .nav {
    Theme Responsive Images
    ========================================== */
 
-/* Switch to dark placeholder images in dark mode */
-[data-theme="dark"] .theme-responsive-image {
-    content: url("../images/projects/placeholder-dark.png");
-}
+/* Theme responsive images are handled by JavaScript */
 
 /* Darker background for slide captions in dark mode */
 [data-theme="dark"] .slide-caption {
