@@ -100,8 +100,25 @@
     <section class="project-featured-image">
         <div class="container">
             <div class="featured-image-container">
-                <img src="../assets/images/projects/ai-first-light.png" alt="AI-first product design interface" class="featured-image theme-responsive-image">
+                <div class="featured-image-carousel-container" id="featuredCarouselContainer">
+                    <div class="featured-image-carousel-track" id="featuredCarouselTrack" data-position="0">
+                        <div class="featured-image-slide">
+                            <img src="../assets/images/projects/ai-first-light.png" alt="AI-first product design interface" class="theme-responsive-image">
+                        </div>
+                        <div class="featured-image-slide">
+                            <img src="../assets/images/projects/ai-first-light.png" alt="AI interaction patterns and flows" class="theme-responsive-image">
+                        </div>
+                        <div class="featured-image-slide">
+                            <img src="../assets/images/projects/ai-first-light.png" alt="Machine learning integration design" class="theme-responsive-image">
+                        </div>
+                    </div>
+                </div>
                 <div class="project-meta-overlay">
+                    <div class="featured-carousel-indicators">
+                        <button class="indicator active" data-slide="0" onclick="goToFeaturedSlide(0)"></button>
+                        <button class="indicator" data-slide="1" onclick="goToFeaturedSlide(1)"></button>
+                        <button class="indicator" data-slide="2" onclick="goToFeaturedSlide(2)"></button>
+                    </div>
                     <div class="project-meta">
                         <div class="meta-item">
                             <span class="meta-label">Role</span>
