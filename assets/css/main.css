@@ -655,7 +655,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 .back-to-top {
     position: fixed;
     bottom: 24px;
-    right: 24px;
+    right: max(24px, calc((100vw - 1200px) / 2 - 80px));
     background: transparent;
     border: none;
     cursor: pointer;
@@ -941,6 +941,13 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 }
 
 .project-card-link:hover .project-description {
+    opacity: 1;
+    max-height: 200px;
+    margin-bottom: 24px;
+}
+
+/* About section carousel cards hover (without link wrapper) */
+.about-card:hover .project-description {
     opacity: 1;
     max-height: 200px;
     margin-bottom: 24px;
@@ -2619,6 +2626,32 @@ body[data-theme="dark"] .nav {
     transform: translate(-50%, -50%) scale(1.2);
 }
 
+/* Draggable Carousel Styles */
+.carousel-container,
+.featured-image-carousel-container {
+    cursor: grab;
+}
+
+.carousel-container:active,
+.featured-image-carousel-container:active {
+    cursor: grabbing;
+}
+
+/* Prevent text selection and image dragging during carousel interaction */
+.carousel-container *,
+.featured-image-carousel-container * {
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Smooth transitions - will be temporarily disabled during drag */
+.carousel-track,
+.featured-image-carousel-track {
+    will-change: transform;
+}
+
 /* Image grids and figures */
 .image-grid {
     display: grid;
@@ -2929,7 +2962,13 @@ body[data-theme="dark"] .nav {
 
     /* Mobile responsive for project metadata overlay */
     .project-meta-overlay {
-        padding: var(--space-4) var(--space-4);
+        position: static;
+        background: transparent !important;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-radius: 0;
+        margin-top: var(--space-4);
+        padding: 0;
     }
 
     .project-meta {
