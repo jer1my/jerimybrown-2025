@@ -357,6 +357,10 @@ function goToSlide(slideIndex, userTriggered = false) {
     const indicators = document.querySelectorAll('.indicator');
 
     if (track) {
+        // Ensure transition is enabled for animation
+        if (userTriggered) {
+            track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
         track.setAttribute('data-position', slideIndex);
     }
 
@@ -387,11 +391,15 @@ function nextSlide() {
 }
 
 // Project detail carousel function
-function goToProjectSlide(slideIndex) {
+function goToProjectSlide(slideIndex, animate = false) {
     const track = document.getElementById('projectCarouselTrack');
     const indicators = document.querySelectorAll('.project-carousel .indicator');
 
     if (track) {
+        // Ensure transition is enabled for animation
+        if (animate) {
+            track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
         track.setAttribute('data-position', slideIndex);
     }
 
@@ -406,11 +414,15 @@ function goToProjectSlide(slideIndex) {
 }
 
 // Featured image carousel function
-function goToFeaturedSlide(slideIndex) {
+function goToFeaturedSlide(slideIndex, animate = false) {
     const track = document.getElementById('featuredCarouselTrack');
     const indicators = document.querySelectorAll('.featured-carousel-indicators .indicator');
 
     if (track) {
+        // Ensure transition is enabled for animation
+        if (animate) {
+            track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
         track.setAttribute('data-position', slideIndex);
     }
 
@@ -427,21 +439,204 @@ function goToFeaturedSlide(slideIndex) {
 // Initialize project page carousels
 function initProjectCarousels() {
     // Initialize project carousel if it exists
+    const projectCarouselContainer = document.getElementById('projectCarouselContainer');
     const projectCarouselTrack = document.getElementById('projectCarouselTrack');
     if (projectCarouselTrack) {
         goToProjectSlide(0);
+
+        // Initialize drag functionality for project carousel
+        if (projectCarouselContainer) {
+            const projectDrag = new CarouselDrag(projectCarouselContainer, {
+                goToSlide: (slideIndex) => goToProjectSlide(slideIndex, true),
+                threshold: 50,
+                sensitivity: 0.4
+            });
+        }
     }
 
     // Initialize featured carousel if it exists
+    const featuredCarouselContainer = document.getElementById('featuredCarouselContainer');
     const featuredCarouselTrack = document.getElementById('featuredCarouselTrack');
     if (featuredCarouselTrack) {
         goToFeaturedSlide(0);
+
+        // Initialize drag functionality for featured carousel
+        if (featuredCarouselContainer) {
+            const featuredDrag = new CarouselDrag(featuredCarouselContainer, {
+                goToSlide: (slideIndex) => goToFeaturedSlide(slideIndex, true),
+                threshold: 50,
+                sensitivity: 0.4
+            });
+        }
+    }
+}
+
+// Universal Drag/Swipe Functionality for Carousels
+class CarouselDrag {
+    constructor(container, options = {}) {
+        this.container = container;
+        this.track = container.querySelector('.carousel-track, .featured-image-carousel-track');
+        this.slides = this.track ? this.track.children : [];
+        this.currentSlide = this.track ? parseInt(this.track.getAttribute('data-position')) || 0 : 0;
+        this.totalSlides = this.slides.length;
+
+        // Configuration
+        this.threshold = options.threshold || 30; // Minimum drag distance
+        this.sensitivity = options.sensitivity || 0.3; // Drag sensitivity
+
+        // Drag state
+        this.isDragging = false;
+        this.startX = 0;
+        this.currentX = 0;
+        this.dragDistance = 0;
+        this.startTime = 0;
+
+        // Navigation functions
+        this.goToSlide = options.goToSlide || this.defaultGoToSlide.bind(this);
+
+        this.init();
+    }
+
+    init() {
+        if (!this.track) return;
+
+        // Add touch event listeners
+        this.container.addEventListener('touchstart', this.handleStart.bind(this), { passive: false });
+        this.container.addEventListener('touchmove', this.handleMove.bind(this), { passive: false });
+        this.container.addEventListener('touchend', this.handleEnd.bind(this), { passive: false });
+
+        // Add mouse event listeners for desktop
+        this.container.addEventListener('mousedown', this.handleStart.bind(this), { passive: false });
+        this.container.addEventListener('mousemove', this.handleMove.bind(this), { passive: false });
+        this.container.addEventListener('mouseup', this.handleEnd.bind(this), { passive: false });
+        this.container.addEventListener('mouseleave', this.handleEnd.bind(this), { passive: false });
+
+        // Prevent image dragging and text selection
+        this.container.addEventListener('dragstart', (e) => e.preventDefault());
+        this.container.style.userSelect = 'none';
+        this.container.style.touchAction = 'pan-y'; // Allow vertical scrolling
+    }
+
+    getEventX(e) {
+        return e.touches ? e.touches[0].clientX : e.clientX;
+    }
+
+    handleStart(e) {
+        // Only handle primary touch/click
+        if (e.touches && e.touches.length > 1) return;
+
+        this.isDragging = true;
+        this.startX = this.getEventX(e);
+        this.currentX = this.startX;
+        this.startTime = Date.now();
+
+        // Disable transition during drag
+        this.track.style.transition = 'none';
+
+        // Prevent default to avoid scrolling issues
+        if (e.type === 'mousedown') {
+            e.preventDefault();
+        }
+    }
+
+    handleMove(e) {
+        if (!this.isDragging) return;
+
+        this.currentX = this.getEventX(e);
+        this.dragDistance = this.currentX - this.startX;
+
+        // Calculate the base position for current slide
+        const slideWidth = this.container.offsetWidth;
+        const baseTransform = -this.currentSlide * slideWidth;
+
+        // Apply drag offset with sensitivity
+        const dragOffset = this.dragDistance * this.sensitivity;
+        this.track.style.transform = `translateX(${baseTransform + dragOffset}px)`;
+
+        // Prevent vertical scrolling during horizontal drag
+        if (Math.abs(this.dragDistance) > 10) {
+            e.preventDefault();
+        }
+    }
+
+    handleEnd(e) {
+        if (!this.isDragging) return;
+
+        this.isDragging = false;
+
+        // Calculate drag velocity and direction
+        const dragTime = Date.now() - this.startTime;
+        const velocity = Math.abs(this.dragDistance) / dragTime;
+        const dragDirection = this.dragDistance > 0 ? 'right' : 'left';
+
+        // Determine if we should change slides
+        const shouldChangeSlide = Math.abs(this.dragDistance) > this.threshold || velocity > 0.5;
+
+        if (shouldChangeSlide) {
+            if (dragDirection === 'left') {
+                // Dragged left, go to next slide
+                this.nextSlide();
+            } else {
+                // Dragged right, go to previous slide
+                this.prevSlide();
+            }
+        } else {
+            // Snap back to current slide by restoring CSS-based positioning
+            this.track.style.transform = '';
+            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            this.goToSlide(this.currentSlide);
+        }
+
+        // Reset drag state
+        this.dragDistance = 0;
+    }
+
+
+    nextSlide() {
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+        // Clear inline transform and restore CSS-based positioning
+        this.track.style.transform = '';
+        this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.goToSlide(this.currentSlide);
+    }
+
+    prevSlide() {
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        // Clear inline transform and restore CSS-based positioning
+        this.track.style.transform = '';
+        this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.goToSlide(this.currentSlide);
+    }
+
+    defaultGoToSlide(slideIndex) {
+        // Default slide navigation - can be overridden
+        this.currentSlide = slideIndex;
+        if (this.track) {
+            this.track.setAttribute('data-position', slideIndex);
+        }
+    }
+
+    updateCurrentSlide(slideIndex) {
+        this.currentSlide = slideIndex;
     }
 }
 
 function initCarousel() {
     // Set initial position
     goToSlide(0);
+
+    // Initialize drag functionality for about carousel
+    const aboutCarouselContainer = document.querySelector('.carousel-container');
+    if (aboutCarouselContainer) {
+        const aboutDrag = new CarouselDrag(aboutCarouselContainer, {
+            goToSlide: (slideIndex) => goToSlide(slideIndex, true),
+            threshold: 50,
+            sensitivity: 0.4
+        });
+
+        // Update drag instance when slide changes externally
+        window.aboutCarouselDrag = aboutDrag;
+    }
 
     // Use Intersection Observer to start auto-rotation when about section is visible
     const aboutSection = document.getElementById('about');
