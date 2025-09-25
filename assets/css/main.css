@@ -2502,7 +2502,7 @@ body[data-theme="dark"] .nav {
     backdrop-filter: var(--blur-lg);
     -webkit-backdrop-filter: var(--blur-lg);
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    padding: var(--space-6) var(--space-6);
+    padding: var(--space-3) var(--space-8) var(--space-8) var(--space-8);
 }
 
 .project-meta {
@@ -2531,6 +2531,92 @@ body[data-theme="dark"] .nav {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--text-primary);
+}
+
+/* Featured Image Carousel */
+.featured-image-carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    width: 100%;
+}
+
+.featured-image-carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-image-slide {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.featured-image-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Featured carousel slide positions */
+.featured-image-carousel-track[data-position="0"] {
+    transform: translateX(0%);
+}
+
+.featured-image-carousel-track[data-position="1"] {
+    transform: translateX(-100%);
+}
+
+.featured-image-carousel-track[data-position="2"] {
+    transform: translateX(-200%);
+}
+
+.featured-image-carousel-track[data-position="3"] {
+    transform: translateX(-300%);
+}
+
+.featured-image-carousel-track[data-position="4"] {
+    transform: translateX(-400%);
+}
+
+/* Featured carousel indicators positioned in meta overlay */
+.featured-carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: var(--space-2);
+}
+
+.featured-carousel-indicators .indicator {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.featured-carousel-indicators .indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(115, 115, 115, 0.3);
+    transition: all 0.3s ease;
+}
+
+.featured-carousel-indicators .indicator:hover::before {
+    background: rgba(115, 115, 115, 0.6);
+}
+
+.featured-carousel-indicators .indicator.active::before {
+    background: var(--color-accent);
+    transform: translate(-50%, -50%) scale(1.2);
 }
 
 /* Image grids and figures */

@@ -405,6 +405,40 @@ function goToProjectSlide(slideIndex) {
     });
 }
 
+// Featured image carousel function
+function goToFeaturedSlide(slideIndex) {
+    const track = document.getElementById('featuredCarouselTrack');
+    const indicators = document.querySelectorAll('.featured-carousel-indicators .indicator');
+
+    if (track) {
+        track.setAttribute('data-position', slideIndex);
+    }
+
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        if (index === slideIndex) {
+            indicator.classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+        }
+    });
+}
+
+// Initialize project page carousels
+function initProjectCarousels() {
+    // Initialize project carousel if it exists
+    const projectCarouselTrack = document.getElementById('projectCarouselTrack');
+    if (projectCarouselTrack) {
+        goToProjectSlide(0);
+    }
+
+    // Initialize featured carousel if it exists
+    const featuredCarouselTrack = document.getElementById('featuredCarouselTrack');
+    if (featuredCarouselTrack) {
+        goToFeaturedSlide(0);
+    }
+}
+
 function initCarousel() {
     // Set initial position
     goToSlide(0);
@@ -655,6 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initRotatingWord();
     initMobileMenuClose();
     initCarousel();
+    initProjectCarousels();
     initLogoColorChange();
     initNavigationActiveState();
     initProjectNavigationActiveState();
