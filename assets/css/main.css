@@ -2612,6 +2612,30 @@ body[data-theme="dark"] .nav {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Slide animation states for meta items */
+.meta-item.slide-out {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.meta-item.slide-in {
+    animation: slideInMeta 0.3s ease forwards;
+}
+
+@keyframes slideInMeta {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .meta-label {

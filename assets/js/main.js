@@ -577,44 +577,62 @@ function updateFeaturedSlideContent(slideIndex) {
         const metaItems = metaContainer.querySelectorAll('.meta-item');
         const slideContent = content[slideIndex];
 
-        // Check if this is a 3-field slide (has label2 and label3) or 2-field slide
-        const isThreeField = slideContent.label2 && slideContent.label3;
+        // Slide out current content
+        metaItems.forEach(item => {
+            item.classList.add('slide-out');
+            item.classList.remove('slide-in');
+        });
 
-        if (isThreeField) {
-            // Show all 3 meta items for slide 1
-            metaItems.forEach((item, index) => {
-                item.style.display = 'flex';
-                const label = item.querySelector('.meta-label');
-                const value = item.querySelector('.meta-value');
+        // Wait for slide-out animation, then update content and slide in
+        setTimeout(() => {
+            // Check if this is a 3-field slide (has label2 and label3) or 2-field slide
+            const isThreeField = slideContent.label2 && slideContent.label3;
 
-                if (index === 0 && label && value) {
-                    label.textContent = slideContent.label1;
-                    value.textContent = slideContent.value1;
-                } else if (index === 1 && label && value) {
-                    label.textContent = slideContent.label2;
-                    value.textContent = slideContent.value2;
-                } else if (index === 2 && label && value) {
-                    label.textContent = slideContent.label3;
-                    value.textContent = slideContent.value3;
-                }
-            });
-        } else {
-            // Show only first meta item for slides 2+, hide others
-            metaItems.forEach((item, index) => {
-                const label = item.querySelector('.meta-label');
-                const value = item.querySelector('.meta-value');
-
-                if (index === 0) {
+            if (isThreeField) {
+                // Show all 3 meta items for slide 1
+                metaItems.forEach((item, index) => {
                     item.style.display = 'flex';
-                    if (label && value) {
+                    const label = item.querySelector('.meta-label');
+                    const value = item.querySelector('.meta-value');
+
+                    if (index === 0 && label && value) {
                         label.textContent = slideContent.label1;
                         value.textContent = slideContent.value1;
+                    } else if (index === 1 && label && value) {
+                        label.textContent = slideContent.label2;
+                        value.textContent = slideContent.value2;
+                    } else if (index === 2 && label && value) {
+                        label.textContent = slideContent.label3;
+                        value.textContent = slideContent.value3;
                     }
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
+
+                    // Slide in with slight delay for each item
+                    setTimeout(() => {
+                        item.classList.remove('slide-out');
+                        item.classList.add('slide-in');
+                    }, index * 50);
+                });
+            } else {
+                // Show only first meta item for slides 2+, hide others
+                metaItems.forEach((item, index) => {
+                    const label = item.querySelector('.meta-label');
+                    const value = item.querySelector('.meta-value');
+
+                    if (index === 0) {
+                        item.style.display = 'flex';
+                        if (label && value) {
+                            label.textContent = slideContent.label1;
+                            value.textContent = slideContent.value1;
+                        }
+                        // Slide in
+                        item.classList.remove('slide-out');
+                        item.classList.add('slide-in');
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }, 300); // Match slide-out transition duration
     }
 }
 
