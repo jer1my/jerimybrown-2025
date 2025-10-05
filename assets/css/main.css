@@ -682,6 +682,51 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     opacity: 0.5 !important;
 }
 
+/* Back to Projects Button */
+.back-to-projects {
+    position: fixed;
+    bottom: 84px; /* 48px (button height) + 24px (bottom gap) + 12px (gap between buttons) */
+    right: max(24px, calc((100vw - 1200px) / 2 - 80px));
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(100px);
+    z-index: 1000;
+    pointer-events: none;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.back-to-projects.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-projects svg {
+    width: 48px;
+    height: 48px;
+    transition: opacity 0.3s ease;
+}
+
+.back-to-projects svg circle {
+    fill: transparent;
+    stroke: #1a1a1a;
+    stroke-width: 2;
+}
+
+.back-to-projects svg path {
+    stroke: #1a1a1a;
+    stroke-width: 2;
+}
+
+.back-to-projects:hover {
+    opacity: 0.5 !important;
+}
+
 /* Animations */
 @keyframes arrowSlideDown {
     to {
@@ -1813,6 +1858,17 @@ body[data-theme="dark"] .nav {
     stroke: rgba(26, 26, 26, 0.8);
 }
 
+[data-theme="dark"] .back-to-projects svg circle {
+    fill: transparent;
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+[data-theme="dark"] .back-to-projects svg path {
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
 [data-theme="dark"] .project-card {
     background: rgba(255, 255, 255, 0.03);
     border: none;
@@ -2228,8 +2284,8 @@ body[data-theme="dark"] .nav {
 
 /* Project Pages */
 .project-hero {
-    padding-top: 120px; /* Account for fixed navigation */
-    padding-bottom: var(--space-8);
+    padding-top: 80px; /* Account for fixed navigation */
+    padding-bottom: var(--space-4);
     background: var(--bg-primary);
 }
 
@@ -2355,7 +2411,7 @@ body[data-theme="dark"] .nav {
 .project-subtitle {
     font-size: var(--font-size-xl);
     color: var(--text-secondary);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-4);
     line-height: 1.5;
 }
 
@@ -2388,8 +2444,8 @@ body[data-theme="dark"] .nav {
 /* Mobile adjustments for project pages */
 @media (max-width: 768px) {
     .project-hero {
-        padding-top: 100px; /* Smaller on mobile */
-        padding-bottom: var(--space-6);
+        padding-top: 70px; /* Smaller on mobile */
+        padding-bottom: var(--space-3);
     }
 
     .project-hero .project-title {
@@ -2583,6 +2639,58 @@ body[data-theme="dark"] .nav {
 
 .featured-image-carousel-track[data-position="4"] {
     transform: translateX(-400%);
+}
+
+.featured-image-carousel-track[data-position="5"] {
+    transform: translateX(-500%);
+}
+
+.featured-image-carousel-track[data-position="6"] {
+    transform: translateX(-600%);
+}
+
+/* Design system specific - 7 slide carousel */
+.design-system .featured-image-carousel-track {
+    width: 700%; /* 7 slides × 100% each */
+}
+
+.design-system .featured-image-slide {
+    width: calc(100% / 7); /* Each slide takes 1/7 of track width */
+    flex-shrink: 0;
+}
+
+.design-system .featured-image-slide img {
+    width: 100%;
+    height: auto; /* Natural height like other carousels */
+}
+
+/* Override transforms for design system 7-slide positioning */
+.design-system .featured-image-carousel-track[data-position="0"] {
+    transform: translateX(0%);
+}
+
+.design-system .featured-image-carousel-track[data-position="1"] {
+    transform: translateX(calc(-100% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="2"] {
+    transform: translateX(calc(-200% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="3"] {
+    transform: translateX(calc(-300% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="4"] {
+    transform: translateX(calc(-400% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="5"] {
+    transform: translateX(calc(-500% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="6"] {
+    transform: translateX(calc(-600% / 7));
 }
 
 /* Featured carousel indicators positioned in meta overlay */

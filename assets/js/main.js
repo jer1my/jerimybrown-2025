@@ -119,27 +119,35 @@ function scrollToTop() {
 
 function toggleBackToTop() {
     const backToTopButton = document.querySelector('.back-to-top');
+    const backToProjectsButton = document.querySelector('.back-to-projects');
     const heroSection = document.querySelector('.hero');
     const scrollPosition = window.scrollY;
-    
+
     if (backToTopButton) {
-        // Different logic for index page (with hero) vs style guide
+        // Different logic for index page (with hero) vs style guide/project pages
         if (heroSection) {
             // Index page: show after 20% of hero height
             const heroHeight = heroSection.offsetHeight;
             const heroTwentyPercent = heroSection.offsetTop + (heroHeight * 0.2);
-            
+
             if (scrollPosition > heroTwentyPercent) {
                 backToTopButton.classList.add('visible');
             } else {
                 backToTopButton.classList.remove('visible');
             }
         } else {
-            // Style guide: show after 200px scroll
+            // Project pages and style guide: show after 200px scroll
             if (scrollPosition > 200) {
                 backToTopButton.classList.add('visible');
+                // Also show back-to-projects button on project pages (not style guide)
+                if (backToProjectsButton) {
+                    backToProjectsButton.classList.add('visible');
+                }
             } else {
                 backToTopButton.classList.remove('visible');
+                if (backToProjectsButton) {
+                    backToProjectsButton.classList.remove('visible');
+                }
             }
         }
     }
@@ -411,7 +419,83 @@ function goToProjectSlide(slideIndex, animate = false) {
             indicator.classList.remove('active');
         }
     });
+
+    // Update drag instance when slide changes externally
+    if (window.projectCarouselDrag) {
+        window.projectCarouselDrag.updateCurrentSlide(slideIndex);
+    }
 }
+
+// Featured carousel slide content data
+const featuredSlideContent = {
+    'ai-product': [
+        {
+            label1: 'Role', value1: 'UX Director / Designer',
+            label2: 'Timeline', value2: '3 months',
+            label3: 'Team', value3: '3 UX, 4 Dev, 3 PO'
+        },
+        {
+            label1: 'Focus', value1: 'Human-centered AI interface design with transparent decision-making processes'
+        },
+        {
+            label1: 'Impact', value1: '40% increase in user confidence through progressive AI assistance patterns'
+        }
+    ],
+    'greenfield-product': [
+        {
+            label1: 'Role', value1: 'UX Director / Designer',
+            label2: 'Timeline', value2: '36 months',
+            label3: 'Team', value3: '16 UX, 20 Dev, 8 PO'
+        },
+        {
+            label1: 'Architecture', value1: 'Scalable information architecture and modular design system foundation'
+        },
+        {
+            label1: 'Foundation', value1: 'Flexible component framework enabling rapid feature development'
+        },
+        {
+            label1: 'Impact', value1: '60% faster feature delivery through modular product architecture'
+        }
+    ],
+    'user-testing': [
+        {
+            label1: 'Role', value1: 'UX Director / Designer',
+            label2: 'Timeline', value2: '2 Weeks',
+            label3: 'Team', value3: '1 UX'
+        },
+        {
+            label1: 'Methodology', value1: 'Comprehensive user testing program with mixed research methods'
+        },
+        {
+            label1: 'Impact', value1: '35% improvement in task completion through validated interaction patterns'
+        }
+    ],
+    'design-system': [
+        {
+            label1: 'Role', value1: 'UX Director / Designer',
+            label2: 'Timeline', value2: '18 months',
+            label3: 'Team', value3: '2 UX, 2 Devs'
+        },
+        {
+            label1: 'Methodology', value1: 'Atomic design approach with component-based architecture'
+        },
+        {
+            label1: 'Tokens', value1: 'Cross-platform design tokens for unified brand experience'
+        },
+        {
+            label1: 'Icons', value1: '500+ consistent visual elements giving our organization total ownership over the set'
+        },
+        {
+            label1: 'Responsive Components', value1: '136 documented UI elements used by 29 teams'
+        },
+        {
+            label1: 'Templates', value1: 'Templates streamline the UX design process across teams'
+        },
+        {
+            label1: 'Accessibility', value1: 'Accessibility in our system ensures inclusive, high-quality experiences for our entire user base'
+        }
+    ]
+};
 
 // Featured image carousel function
 function goToFeaturedSlide(slideIndex, animate = false) {
@@ -434,6 +518,80 @@ function goToFeaturedSlide(slideIndex, animate = false) {
             indicator.classList.remove('active');
         }
     });
+
+    // Update featured carousel meta content
+    updateFeaturedSlideContent(slideIndex);
+
+    // Update drag instance when slide changes externally
+    if (window.featuredCarouselDrag) {
+        window.featuredCarouselDrag.updateCurrentSlide(slideIndex);
+    }
+}
+
+// Function to update featured carousel meta content
+function updateFeaturedSlideContent(slideIndex) {
+    const metaContainer = document.querySelector('.project-meta');
+    if (!metaContainer) return;
+
+    // Determine which project we're on based on the page URL
+    const currentPage = window.location.pathname;
+    let projectKey = '';
+
+    if (currentPage.includes('ai-product')) {
+        projectKey = 'ai-product';
+    } else if (currentPage.includes('greenfield-product')) {
+        projectKey = 'greenfield-product';
+    } else if (currentPage.includes('user-testing')) {
+        projectKey = 'user-testing';
+    } else if (currentPage.includes('design-system')) {
+        projectKey = 'design-system';
+    }
+
+    // Get the content for this project and slide
+    const content = featuredSlideContent[projectKey];
+    if (content && content[slideIndex]) {
+        const metaItems = metaContainer.querySelectorAll('.meta-item');
+        const slideContent = content[slideIndex];
+
+        // Check if this is a 3-field slide (has label2 and label3) or 2-field slide
+        const isThreeField = slideContent.label2 && slideContent.label3;
+
+        if (isThreeField) {
+            // Show all 3 meta items for slide 1
+            metaItems.forEach((item, index) => {
+                item.style.display = 'flex';
+                const label = item.querySelector('.meta-label');
+                const value = item.querySelector('.meta-value');
+
+                if (index === 0 && label && value) {
+                    label.textContent = slideContent.label1;
+                    value.textContent = slideContent.value1;
+                } else if (index === 1 && label && value) {
+                    label.textContent = slideContent.label2;
+                    value.textContent = slideContent.value2;
+                } else if (index === 2 && label && value) {
+                    label.textContent = slideContent.label3;
+                    value.textContent = slideContent.value3;
+                }
+            });
+        } else {
+            // Show only first meta item for slides 2+, hide others
+            metaItems.forEach((item, index) => {
+                const label = item.querySelector('.meta-label');
+                const value = item.querySelector('.meta-value');
+
+                if (index === 0) {
+                    item.style.display = 'flex';
+                    if (label && value) {
+                        label.textContent = slideContent.label1;
+                        value.textContent = slideContent.value1;
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    }
 }
 
 // Initialize project page carousels
@@ -449,8 +607,11 @@ function initProjectCarousels() {
             const projectDrag = new CarouselDrag(projectCarouselContainer, {
                 goToSlide: (slideIndex) => goToProjectSlide(slideIndex, true),
                 threshold: 50,
-                sensitivity: 0.4
+                sensitivity: 1.0
             });
+
+            // Store reference for external updates
+            window.projectCarouselDrag = projectDrag;
         }
     }
 
@@ -465,8 +626,11 @@ function initProjectCarousels() {
             const featuredDrag = new CarouselDrag(featuredCarouselContainer, {
                 goToSlide: (slideIndex) => goToFeaturedSlide(slideIndex, true),
                 threshold: 50,
-                sensitivity: 0.4
+                sensitivity: 1.0
             });
+
+            // Store reference for external updates
+            window.featuredCarouselDrag = featuredDrag;
         }
     }
 }
@@ -631,7 +795,7 @@ function initCarousel() {
         const aboutDrag = new CarouselDrag(aboutCarouselContainer, {
             goToSlide: (slideIndex) => goToSlide(slideIndex, true),
             threshold: 50,
-            sensitivity: 0.4
+            sensitivity: 1.0
         });
 
         // Update drag instance when slide changes externally
@@ -850,7 +1014,8 @@ function initDonutCharts() {
             if (entry.isIntersecting) {
                 const chart = entry.target;
                 const progress = parseInt(chart.dataset.progress) || 0;
-                const circumference = 2 * Math.PI * 25; // radius is 25
+                const radius = 25; // SVG circle radius
+                const circumference = 2 * Math.PI * radius;
                 const progressLength = (progress / 100) * circumference;
 
                 // Add animate class to trigger CSS animation
@@ -858,6 +1023,12 @@ function initDonutCharts() {
 
                 // Set the CSS custom property for the progress
                 chart.style.setProperty('--progress', progressLength);
+
+                // Animate the percentage number
+                const valueElement = chart.querySelector('.chart-value');
+                if (valueElement) {
+                    animateChartValue(valueElement, 0, progress, 1500);
+                }
 
                 // Stop observing this chart
                 observer.unobserve(chart);
@@ -873,6 +1044,27 @@ function initDonutCharts() {
     charts.forEach(chart => {
         observer.observe(chart);
     });
+}
+
+function animateChartValue(element, start, end, duration) {
+    const startTime = performance.now();
+
+    function updateValue(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const current = Math.round(start + (end - start) * easeOutQuart);
+
+        element.textContent = current + '%';
+
+        if (progress < 1) {
+            requestAnimationFrame(updateValue);
+        }
+    }
+
+    requestAnimationFrame(updateValue);
 }
 
 // Initialize everything when DOM is ready
