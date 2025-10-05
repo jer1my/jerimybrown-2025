@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UX Portfolio Style Guide</title>
+    <title>Lab - Jerimy Brown</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
@@ -46,7 +46,7 @@
                     <li><a href="index.html#projects"><span class="link-text">Projects</span></a></li>
                     <li><a href="index.html#about"><span class="link-text">About</span></a></li>
                     <li><a href="index.html#contact"><span class="link-text">Contact</span></a></li>
-                    <li><a href="style-guide.html" class="active"><span class="link-text">Style Guide</span></a></li>
+                    <li><a href="lab.html" class="active"><span class="link-text">Lab</span></a></li>
                 </ul>
                 <button class="nav-theme-toggle" onclick="toggleTheme()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +74,7 @@
                 <a href="index.html#projects" onclick="toggleMobileMenu()"><span class="mobile-link-text">Projects</span></a>
                 <a href="index.html#about" onclick="toggleMobileMenu()"><span class="mobile-link-text">About</span></a>
                 <a href="index.html#contact" onclick="toggleMobileMenu()"><span class="mobile-link-text">Contact</span></a>
-                <a href="style-guide.html" onclick="toggleMobileMenu()" class="active"><span class="mobile-link-text">Style Guide</span></a>
+                <a href="lab.html" onclick="toggleMobileMenu()" class="active"><span class="mobile-link-text">Lab</span></a>
             </nav>
             <button class="mobile-theme-toggle" onclick="toggleTheme()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,17 +86,17 @@
     
     <div class="container">
         <header class="header">
-            <h1 class="title">Style Guide</h1>
-            <p class="subtitle">My minimal UX portfolio design system</p>
-            <p class="description">This intentionally restrained design system puts the work front and center. By embracing simplicity and purposeful clarity, every element serves a clear function—allowing the portfolio pieces to be the true heroes of the experience without UI distractions competing for attention.</p>
+            <h1 class="title">The Lab</h1>
+            <p class="subtitle">The framework behind this experience</p>
+            <p class="description">An intentionally minimal system where every element serves a clear purpose—keeping focus on the work, not the interface.</p>
         </header>
         
         <section class="section">
             <h2 class="section-title">User Controls</h2>
             <div class="user-controls-description-grid">
                 <div class="user-controls-description">
-                    <p class="mb-4">Choose your legibility preference with the theme toggle, or peek behind the curtain with grid lines to see the underlying structure.</p>
-                    <p>All preferences are saved for your next visit.</p>
+                    <p class="mb-4">Switch between light and dark themes, reveal the underlying grid structure, or reset gesture hints for carousels on project pages.</p>
+                    <p class="accent-text">Your preferences are retained.</p>
                 </div>
                 <div class="user-controls-right">
                     <div class="control-group">
@@ -115,6 +115,10 @@
                                 <span class="grid-text-on">On</span>
                             </button>
                         </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">Gesture Hints</div>
+                        <button class="button btn-primary btn-sm" onclick="resetGestureHints()">Reset</button>
                     </div>
                 </div>
             </div>
