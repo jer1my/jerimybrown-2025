@@ -2775,6 +2775,106 @@ body[data-theme="dark"] .nav {
     will-change: transform;
 }
 
+/* First-visit drag gesture animation */
+.drag-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.featured-image-carousel-container.show-drag-hint .drag-hint {
+    opacity: 1;
+    animation: dragGesture 5s ease-in-out;
+}
+
+.drag-hint-cursor {
+    width: 48px;
+    height: 48px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.drag-hint-cursor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    background-image: url('../icons/pointer-light.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Dark mode version */
+body[data-theme="dark"] .drag-hint-cursor::before {
+    background-image: url('../icons/pointer-dark.svg');
+}
+
+.drag-hint-cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    border: 3px solid var(--color-accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+    animation: pulseRing 2s ease-out infinite;
+}
+
+.drag-hint-text {
+    margin-top: 16px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    text-align: center;
+    background: var(--bg-overlay-light);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    padding: 8px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+@keyframes dragGesture {
+    0%, 100% {
+        transform: translate(-50%, -50%);
+    }
+    25% {
+        transform: translate(-80%, -50%);
+    }
+    75% {
+        transform: translate(-20%, -50%);
+    }
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: translate(-50%, -50%) scale(0.6);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.6);
+        opacity: 0;
+    }
+}
+
 /* Image grids and figures */
 .image-grid {
     display: grid;
