@@ -97,19 +97,31 @@
     </section>
 
     <!-- Project Featured Image with Metadata -->
-    <section class="project-featured-image">
+    <section class="project-featured-image design-system">
         <div class="container">
             <div class="featured-image-container">
                 <div class="featured-image-carousel-container" id="featuredCarouselContainer">
                     <div class="featured-image-carousel-track" id="featuredCarouselTrack" data-position="0">
                         <div class="featured-image-slide">
-                            <img src="../assets/images/projects/design-system-light.png" alt="Enterprise design system overview" class="theme-responsive-image">
+                            <img src="../assets/images/projects/design-system-featured-1-light.png" alt="Enterprise design system overview" class="theme-responsive-image">
                         </div>
                         <div class="featured-image-slide">
-                            <img src="../assets/images/projects/design-system-light.png" alt="Design system component library" class="theme-responsive-image">
+                            <img src="../assets/images/projects/design-system-featured-2-light.png" alt="Atomic design methodology and component structure" class="theme-responsive-image">
                         </div>
                         <div class="featured-image-slide">
-                            <img src="../assets/images/projects/design-system-light.png" alt="Design tokens and principles" class="theme-responsive-image">
+                            <img src="../assets/images/projects/design-system-featured-3-light.png" alt="Cross-platform design tokens and theming" class="theme-responsive-image">
+                        </div>
+                        <div class="featured-image-slide">
+                            <img src="../assets/images/projects/design-system-featured-4-light.png" alt="Custom icon library with 500+ icons" class="theme-responsive-image">
+                        </div>
+                        <div class="featured-image-slide">
+                            <img src="../assets/images/projects/design-system-featured-5-light.png" alt="Reusable UI components and patterns" class="theme-responsive-image">
+                        </div>
+                        <div class="featured-image-slide">
+                            <img src="../assets/images/projects/design-system-featured-6-light.png" alt="Documentation and implementation guidelines" class="theme-responsive-image">
+                        </div>
+                        <div class="featured-image-slide">
+                            <img src="../assets/images/projects/design-system-featured-7-light.png" alt="Design system adoption and impact metrics" class="theme-responsive-image">
                         </div>
                     </div>
                 </div>
@@ -118,6 +130,10 @@
                         <button class="indicator active" data-slide="0" onclick="goToFeaturedSlide(0)"></button>
                         <button class="indicator" data-slide="1" onclick="goToFeaturedSlide(1)"></button>
                         <button class="indicator" data-slide="2" onclick="goToFeaturedSlide(2)"></button>
+                        <button class="indicator" data-slide="3" onclick="goToFeaturedSlide(3)"></button>
+                        <button class="indicator" data-slide="4" onclick="goToFeaturedSlide(4)"></button>
+                        <button class="indicator" data-slide="5" onclick="goToFeaturedSlide(5)"></button>
+                        <button class="indicator" data-slide="6" onclick="goToFeaturedSlide(6)"></button>
                     </div>
                     <div class="project-meta">
                         <div class="meta-item">
@@ -158,7 +174,7 @@
                 <main class="content-main">
                     <section id="overview" class="content-section">
                         <h2>Overview</h2>
-                        <p>This case study showcases the development of a comprehensive design system that unified the user experience across a complex suite of enterprise products, from SaaS platforms to on-premises solutions. The project involved extensive collaboration between product, UX, and development teams while embedding accessibility standards throughout the organization.</p>
+                        <p>This case study showcases the development of a comprehensive design system that unified user experiences across a complex suite of enterprise products—from AI first platforms, to SaaS products and to on-premises solutions. The project required extensive cross-functional collaboration and established accessibility as a foundational standard across the organization.</p>
                     </section>
 
                     <section id="challenge" class="content-section">
@@ -168,19 +184,28 @@
                         <div class="highlight-box">
                             <h4>Key Challenges</h4>
                             <ul>
-                                <li>Inconsistent UI patterns across 15+ products</li>
-                                <li>No shared component library or design standards</li>
-                                <li>Accessibility compliance gaps across the organization</li>
-                                <li>Lengthy development cycles due to component recreation</li>
-                                <li>Poor user experience when moving between products</li>
+                                <li>Inconsistent UI patterns created fragmented experiences across enterprise products</li>
+                                <li>No centralized component library—teams rebuilt common patterns repeatedly</li>
+                                <li>Accessibility compliance gaps with no standardized WCAG strategy or implementation</li>
+                                <li>Development cycles slowed by redundant component recreation and design-dev handoff friction</li>
+                                <li>Jarring user experience when navigating between products due to visual and interaction inconsistencies</li>
+                                <li>Limited organizational awareness of design system value and ROI</li>
                             </ul>
                         </div>
                     </section>
 
                     <section id="solution" class="content-section">
                         <h2>Solution</h2>
-                        <p>We developed a comprehensive design system that provided a unified foundation for all product teams. The system included a component library, design principles, accessibility guidelines, and implementation standards that could be adopted across both web and desktop applications.</p>
-
+                        <p>We developed a comprehensive design system that addressed these challenges through a multi-phased approach:</p>
+                        <p><b>Foundation & Standards</b><br>
+                        Built on atomic design principles, we created a scalable component library with more than 100 reusable components, eliminating redundant development work. A robust design token system enabled consistent styling across all products while supporting theming for different platforms.</p>
+                        <p><b>Accessibility</b><br>
+                        We established WCAG 2.1 AA compliance as a baseline standard, integrating accessibility testing into every component. This included comprehensive documentation on color contrast, keyboard navigation, focus management, and screen reader support.</p>
+                        <p><b>Enabling Cross-Product Consistency</b><br>
+                        A responsive grid system and clear layout patterns ensured visual and interaction consistency across all products. Implementation guidelines provided clear adoption pathways for both greenfield projects and legacy application updates.</p>
+                        <p><b>Building Organizational Buy-In</b><br>
+                        Through stakeholder workshops, pilot programs, and measurable ROI demonstrations, we cultivated understanding of the design system's strategic value—transforming it from a 'nice-to-have' to a core organizational asset.</p>
+                        <!-- HIDE CAROUSEL UNTIL LATER
                         <div class="project-carousel">
                             <div class="carousel-container" id="projectCarouselContainer">
                                 <div class="carousel-track" id="projectCarouselTrack">
@@ -198,32 +223,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Carousel Indicators -->
+                            Carousel Indicators 
                             <div class="carousel-indicators">
                                 <button class="indicator active" data-slide="0" onclick="goToProjectSlide(0)"></button>
                                 <button class="indicator" data-slide="1" onclick="goToProjectSlide(1)"></button>
                                 <button class="indicator" data-slide="2" onclick="goToProjectSlide(2)"></button>
                             </div>
-                        </div>
+                        </div> -->
                     </section>
 
                     <section id="process" class="content-section">
                         <h2>Design Process</h2>
-                        <p>The design system development followed a structured approach that ensured buy-in from all stakeholders and provided a clear path for adoption across the organization.</p>
+                        <p>The design system development followed a structured, iterative approach that prioritized high-impact components first to minimize disruption. By addressing the most commonly used elements initially and expanding to edge cases over time, we ensured smooth adoption and delivered immediate value across the organization.</p>
 
                         <div class="process-steps">
                             <div class="process-step">
                                 <div class="step-number">1</div>
                                 <div class="step-content">
                                     <h4>Audit & Research</h4>
-                                    <p>Conducted comprehensive UI audit across all products, interviewed stakeholders, and researched best practices for enterprise design systems.</p>
+                                    <p>Conducted comprehensive UI audit across all products, interviewed product teams, and researched best practices for enterprise design systems.</p>
                                 </div>
                             </div>
                             <div class="process-step">
                                 <div class="step-number">2</div>
                                 <div class="step-content">
                                     <h4>Foundation & Principles</h4>
-                                    <p>Established design principles, color systems, typography scales, and accessibility standards that would guide all future design decisions.</p>
+                                    <p>Established design principles, token architecture (color, typography, spacing, radius), responsive grid system with breakpoint strategy, and WCAG 2.1 AA accessibility standards.</p>
                                 </div>
                             </div>
                             <div class="process-step">
@@ -237,7 +262,7 @@
                                 <div class="step-number">4</div>
                                 <div class="step-content">
                                     <h4>Adoption & Governance</h4>
-                                    <p>Implemented adoption strategy with pilot teams, established governance processes, and created training materials for organization-wide rollout.</p>
+                                    <p>Implemented phased adoption strategy beginning with pilot teams to validate the system in production. Established governance processes with clear contribution guidelines and created comprehensive training materials for organization-wide rollout. The measurable improvements in pilot products generated organic demand—legacy teams proactively reached out seeking migration strategies to modernize their applications.</p>
                                 </div>
                             </div>
                         </div>
@@ -249,37 +274,37 @@
 
                         <div class="results-grid">
                             <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="60">
+                                <div class="donut-chart" data-progress="43">
                                     <svg viewBox="0 0 60 60">
                                         <circle class="donut-track" cx="30" cy="30" r="25"></circle>
                                         <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
                                     </svg>
                                     <div class="chart-center">
-                                        <div class="chart-value">60%</div>
+                                        <div class="chart-value">43%</div>
                                     </div>
                                 </div>
                                 <div class="chart-label">Reduction in design-to-development time</div>
                             </div>
                             <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="95">
+                                <div class="donut-chart" data-progress="84">
                                     <svg viewBox="0 0 60 60">
                                         <circle class="donut-track" cx="30" cy="30" r="25"></circle>
                                         <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
                                     </svg>
                                     <div class="chart-center">
-                                        <div class="chart-value">95%</div>
+                                        <div class="chart-value">84%</div>
                                     </div>
                                 </div>
                                 <div class="chart-label">Improvement in accessibility compliance</div>
                             </div>
                             <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="100">
+                                <div class="donut-chart" data-progress="79">
                                     <svg viewBox="0 0 60 60">
                                         <circle class="donut-track" cx="30" cy="30" r="25"></circle>
                                         <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
                                     </svg>
                                     <div class="chart-center">
-                                        <div class="chart-value">100%</div>
+                                        <div class="chart-value">79%</div>
                                     </div>
                                 </div>
                                 <div class="chart-label">Of product teams now using the system</div>
@@ -339,6 +364,15 @@
 
     <!-- Bottom Spacing -->
     <div class="bottom-spacing"></div>
+
+    <!-- Back to Projects Button -->
+    <a href="../index.html#projects" class="back-to-projects">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22"/>
+            <path d="M32 24L16 24" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 18L16 24L22 30" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
 
     <!-- Back to Top Button -->
     <button class="back-to-top" onclick="scrollToTop()">
