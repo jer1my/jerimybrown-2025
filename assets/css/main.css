@@ -2546,6 +2546,21 @@ body[data-theme="dark"] .nav {
 
 .featured-image-container {
     position: relative;
+    background: var(--bg-primary);
+}
+
+/* Prevent white flash during theme loading */
+.featured-image-carousel-container {
+    background: var(--bg-primary);
+}
+
+.featured-image-slide img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.featured-image-slide img.loaded {
+    opacity: 1;
 }
 
 .featured-image {

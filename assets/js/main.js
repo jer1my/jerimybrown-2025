@@ -33,12 +33,36 @@ function updateThemeResponsiveImages() {
 
     images.forEach(img => {
         const src = img.src;
+        let newSrc;
+
         if (isDark) {
             // Switch to dark version
-            img.src = src.replace('-light.png', '-dark.png').replace('placeholder-light.png', 'placeholder-dark.png');
+            newSrc = src.replace('-light.png', '-dark.png').replace('placeholder-light.png', 'placeholder-dark.png');
         } else {
             // Switch to light version
-            img.src = src.replace('-dark.png', '-light.png').replace('placeholder-dark.png', 'placeholder-light.png');
+            newSrc = src.replace('-dark.png', '-light.png').replace('placeholder-dark.png', 'placeholder-light.png');
+        }
+
+        // Only change src if it's different to prevent unnecessary reloads
+        if (img.src !== newSrc) {
+            // Remove loaded class temporarily
+            img.classList.remove('loaded');
+
+            // Set new source
+            img.src = newSrc;
+
+            // Add loaded class when image loads
+            img.onload = function() {
+                img.classList.add('loaded');
+            };
+
+            // Handle error case
+            img.onerror = function() {
+                img.classList.add('loaded'); // Still show even if error
+            };
+        } else {
+            // Image is already correct, ensure it's marked as loaded
+            img.classList.add('loaded');
         }
     });
 }

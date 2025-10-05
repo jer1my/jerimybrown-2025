@@ -29,6 +29,29 @@
             } else {
                 document.body.setAttribute('data-theme', 'dark');
             }
+
+            // Update theme-responsive images early and add loaded class
+            function updateEarlyThemeImages() {
+                const images = document.querySelectorAll('.theme-responsive-image');
+                const isDark = document.body.getAttribute('data-theme') === 'dark';
+
+                images.forEach(img => {
+                    const src = img.src;
+                    if (isDark) {
+                        img.src = src.replace('-light.png', '-dark.png');
+                    } else {
+                        img.src = src.replace('-dark.png', '-light.png');
+                    }
+                    img.classList.add('loaded');
+                });
+            }
+
+            // Run immediately if images exist, otherwise wait for DOM
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateEarlyThemeImages);
+            } else {
+                updateEarlyThemeImages();
+            }
         })();
     </script>
     <!-- Navigation -->
