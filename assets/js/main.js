@@ -472,13 +472,13 @@ const featuredSlideContent = {
             label3: 'Team', value3: '16 UX, 20 Dev, 8 PO'
         },
         {
-            label1: 'Architecture', value1: 'Scalable information architecture and modular design system foundation'
+            label1: 'Component System', value1: 'Unified system harmonizing patterns into modern, reusable components'
         },
         {
-            label1: 'Foundation', value1: 'Flexible component framework enabling rapid feature development'
+            label1: 'AI Integration', value1: 'Earning trust through gradual AI adoption—starting with writing assistance, advancing to automation'
         },
         {
-            label1: 'Impact', value1: '60% faster feature delivery through modular product architecture'
+            label1: 'Progressive Disclosure', value1: 'Progressive disclosure and application modalities reduce cognitive load by selectively hiding unneeded UI when user is focused on a task'
         }
     ],
     'user-testing': [
@@ -664,14 +664,11 @@ function initProjectCarousels() {
 
 // First-visit drag gesture hint functionality
 function initDragHint(carouselContainer) {
-    // Get current page identifier from URL
-    const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
-    const storageKey = `hasSeenDragHint_${currentPage}`;
+    // Use global storage for gesture usage count across all project pages
+    const gestureUseCount = parseInt(localStorage.getItem('gestureHintUseCount') || '0');
 
-    // Check if this is the first visit to this specific page
-    const hasSeenDragHintOnThisPage = localStorage.getItem(storageKey);
-
-    if (!hasSeenDragHintOnThisPage && carouselContainer) {
+    // Only show hint if user hasn't used gestures 3 times yet
+    if (gestureUseCount < 3 && carouselContainer) {
         // Create drag hint elements
         const dragHint = document.createElement('div');
         dragHint.className = 'drag-hint';
@@ -702,9 +699,6 @@ function initDragHint(carouselContainer) {
             }, 300); // Wait for fade transition
         }, 6500); // Extended from 4000ms to 6500ms
 
-        // Mark that user has seen the hint on this page
-        localStorage.setItem(storageKey, 'true');
-
         // Also hide hint immediately if user starts interacting
         let hasInteracted = false;
         const hideOnInteraction = () => {
@@ -716,6 +710,10 @@ function initDragHint(carouselContainer) {
                         dragHint.parentNode.removeChild(dragHint);
                     }
                 }, 300);
+
+                // Increment gesture use count when user interacts
+                const currentCount = parseInt(localStorage.getItem('gestureHintUseCount') || '0');
+                localStorage.setItem('gestureHintUseCount', (currentCount + 1).toString());
             }
         };
 
@@ -730,20 +728,28 @@ function initDragHint(carouselContainer) {
     }
 }
 
+// Reset gesture hints function (called by user control)
+function resetGestureHints() {
+    // Reset the gesture use count to 0
+    localStorage.setItem('gestureHintUseCount', '0');
+
+    // Optionally reload the page to show the hint immediately
+    location.reload();
+}
+
 // Testing function to force show drag hint (for debugging)
 function testDragHint() {
     const featuredCarouselContainer = document.getElementById('featuredCarouselContainer');
     if (featuredCarouselContainer) {
-        // Clear the localStorage flag for this page and show hint
-        const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
-        const storageKey = `hasSeenDragHint_${currentPage}`;
-        localStorage.removeItem(storageKey);
+        // Reset the gesture use count and show hint
+        localStorage.setItem('gestureHintUseCount', '0');
         initDragHint(featuredCarouselContainer);
     }
 }
 
-// Make testDragHint available globally for console testing
+// Make functions available globally
 window.testDragHint = testDragHint;
+window.resetGestureHints = resetGestureHints;
 
 // Universal Drag/Swipe Functionality for Carousels
 class CarouselDrag {

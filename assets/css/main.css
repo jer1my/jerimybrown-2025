@@ -1386,6 +1386,9 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
 }
 
 /* Typography Samples */
@@ -1533,6 +1536,13 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
 
 .btn-secondary:hover {
     opacity: 0.5;
+}
+
+/* Button size variants */
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+    border-radius: 50px;
 }
 
 /* Card Styles */
@@ -1766,6 +1776,11 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
 .mb-4 { margin-bottom: 16px; }
 .mb-6 { margin-bottom: 24px; }
 .mb-12 { margin-bottom: 48px; }
+
+/* Accent text color */
+.accent-text {
+    color: var(--color-accent);
+}
 
 /* Dark Mode */
 [data-theme="dark"] {
@@ -2038,7 +2053,9 @@ body[data-theme="dark"] .nav {
 .grid-toggle-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--space-2);
+    min-height: var(--space-9);
 }
 
 /* Grid Toggle Button - Pill Switch */
