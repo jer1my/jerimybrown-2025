@@ -655,9 +655,95 @@ function initProjectCarousels() {
 
             // Store reference for external updates
             window.featuredCarouselDrag = featuredDrag;
+
+            // Show drag hint on first visit
+            initDragHint(featuredCarouselContainer);
         }
     }
 }
+
+// First-visit drag gesture hint functionality
+function initDragHint(carouselContainer) {
+    // Get current page identifier from URL
+    const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+    const storageKey = `hasSeenDragHint_${currentPage}`;
+
+    // Check if this is the first visit to this specific page
+    const hasSeenDragHintOnThisPage = localStorage.getItem(storageKey);
+
+    if (!hasSeenDragHintOnThisPage && carouselContainer) {
+        // Create drag hint elements
+        const dragHint = document.createElement('div');
+        dragHint.className = 'drag-hint';
+
+        const dragCursor = document.createElement('div');
+        dragCursor.className = 'drag-hint-cursor';
+
+        const dragText = document.createElement('div');
+        dragText.className = 'drag-hint-text';
+        dragText.textContent = 'Drag to explore';
+
+        dragHint.appendChild(dragCursor);
+        dragHint.appendChild(dragText);
+        carouselContainer.appendChild(dragHint);
+
+        // Show the hint after a short delay
+        setTimeout(() => {
+            carouselContainer.classList.add('show-drag-hint');
+        }, 1000);
+
+        // Hide the hint after animation completes (extended duration for better readability)
+        setTimeout(() => {
+            carouselContainer.classList.remove('show-drag-hint');
+            setTimeout(() => {
+                if (dragHint.parentNode) {
+                    dragHint.parentNode.removeChild(dragHint);
+                }
+            }, 300); // Wait for fade transition
+        }, 6500); // Extended from 4000ms to 6500ms
+
+        // Mark that user has seen the hint on this page
+        localStorage.setItem(storageKey, 'true');
+
+        // Also hide hint immediately if user starts interacting
+        let hasInteracted = false;
+        const hideOnInteraction = () => {
+            if (!hasInteracted) {
+                hasInteracted = true;
+                carouselContainer.classList.remove('show-drag-hint');
+                setTimeout(() => {
+                    if (dragHint.parentNode) {
+                        dragHint.parentNode.removeChild(dragHint);
+                    }
+                }, 300);
+            }
+        };
+
+        carouselContainer.addEventListener('mousedown', hideOnInteraction);
+        carouselContainer.addEventListener('touchstart', hideOnInteraction);
+
+        // Also hide on any carousel indicator click
+        const indicators = carouselContainer.parentNode.querySelectorAll('.featured-carousel-indicators .indicator');
+        indicators.forEach(indicator => {
+            indicator.addEventListener('click', hideOnInteraction);
+        });
+    }
+}
+
+// Testing function to force show drag hint (for debugging)
+function testDragHint() {
+    const featuredCarouselContainer = document.getElementById('featuredCarouselContainer');
+    if (featuredCarouselContainer) {
+        // Clear the localStorage flag for this page and show hint
+        const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+        const storageKey = `hasSeenDragHint_${currentPage}`;
+        localStorage.removeItem(storageKey);
+        initDragHint(featuredCarouselContainer);
+    }
+}
+
+// Make testDragHint available globally for console testing
+window.testDragHint = testDragHint;
 
 // Universal Drag/Swipe Functionality for Carousels
 class CarouselDrag {
