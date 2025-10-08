@@ -687,8 +687,11 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     position: fixed;
     bottom: 84px; /* 48px (button height) + 24px (bottom gap) + 12px (gap between buttons) */
     right: max(24px, calc((100vw - 1200px) / 2 - 80px));
-    background: transparent;
+    width: 48px;
+    height: 48px;
+    background: rgba(250, 250, 250, 0.1);
     border: none;
+    border-radius: 50%;
     cursor: pointer;
     transition: opacity 0.3s ease, transform 0.3s ease;
     opacity: 0;
@@ -1871,6 +1874,10 @@ body[data-theme="dark"] .nav {
 
 [data-theme="dark"] .back-to-top svg path {
     stroke: rgba(26, 26, 26, 0.8);
+}
+
+[data-theme="dark"] .back-to-projects {
+    background: rgba(23, 23, 23, 0.1);
 }
 
 [data-theme="dark"] .back-to-projects svg circle {
