@@ -2,6 +2,65 @@
 // Main functionality for theme system, navigation, and interactive elements
 
 // ==========================================
+// Centralized Project Configuration
+// ==========================================
+// Edit project information here - changes will automatically update across all pages
+
+const PROJECTS = [
+    {
+        id: 'design-system',
+        title: 'Building an Enterprise Design System',
+        subtitle: 'Creating unified experiences across a complex product ecosystem',
+        description: 'Building a comprehensive design system that covers a suite of products from SaaS to on-prem, unifying product, UX and Dev teams while embedding accessibility standards throughout the organization.',
+        url: 'design-system.html',
+        ariaLabel: 'View Enterprise Design System Case Study'
+    },
+    {
+        id: 'product-suite',
+        title: 'Designing a Hybrid Product Suite',
+        subtitle: 'Building foundational UX patterns for scalable growth',
+        description: 'Leading the end-to-end design of a new product ecosystem from concept to launch, establishing foundational UX patterns and information architecture for scalable growth.',
+        url: 'product-suite.html',
+        ariaLabel: 'View hybrid Product Suite Case Study'
+    },
+    {
+        id: 'ai-strategy',
+        title: 'AI Product Design Strategy',
+        subtitle: 'Making complex automation feel intuitive and trustworthy',
+        description: 'Designing intelligent user experiences that seamlessly integrate AI capabilities into existing workflows, making complex automation feel intuitive and trustworthy.',
+        url: 'ai-strategy.html',
+        ariaLabel: 'View AI Product Design Strategy Case Study'
+    },
+    {
+        id: 'research-strategy',
+        title: 'User Research Strategy',
+        subtitle: 'Validating designs through rigorous research',
+        description: 'Validating innovative interaction patterns through rigorous user research, turning insights into design decisions that improve usability and reduce cognitive load.',
+        url: 'research-strategy.html',
+        ariaLabel: 'View User Research Strategy Case Study'
+    }
+];
+
+// Helper function to get project by ID or URL
+function getProject(identifier) {
+    return PROJECTS.find(p => p.id === identifier || p.url === identifier);
+}
+
+// Helper function to get previous/next projects
+function getAdjacentProjects(identifier) {
+    const currentIndex = PROJECTS.findIndex(p => p.id === identifier || p.url === identifier);
+    if (currentIndex === -1) return { prev: null, next: null };
+
+    const prevIndex = (currentIndex - 1 + PROJECTS.length) % PROJECTS.length;
+    const nextIndex = (currentIndex + 1) % PROJECTS.length;
+
+    return {
+        prev: PROJECTS[prevIndex],
+        next: PROJECTS[nextIndex]
+    };
+}
+
+// ==========================================
 // Theme System
 // ==========================================
 
@@ -452,7 +511,7 @@ function goToProjectSlide(slideIndex, animate = false) {
 
 // Featured carousel slide content data
 const featuredSlideContent = {
-    'ai-product': [
+    'ai-strategy': [
         {
             label1: 'Role', value1: 'UX Director / Designer',
             label2: 'Timeline', value2: '3 months',
@@ -465,7 +524,7 @@ const featuredSlideContent = {
             label1: 'Trust Building Release Cycle', value1: 'We introduced AI iteratively, starting with low-risk features'
         }
     ],
-    'greenfield-product': [
+    'product-suite': [
         {
             label1: 'Role', value1: 'UX Director / Designer',
             label2: 'Timeline', value2: '36 months',
@@ -481,17 +540,17 @@ const featuredSlideContent = {
             label1: 'Progressive Disclosure', value1: 'Progressive disclosure and application modalities reduce cognitive load by selectively hiding unneeded UI when user is focused on a task'
         }
     ],
-    'user-testing': [
+    'research-strategy': [
         {
             label1: 'Role', value1: 'UX Director / Designer',
             label2: 'Timeline', value2: '2 Weeks',
-            label3: 'Team', value3: '1 UX'
+            label3: 'Team', value3: 'Me'
         },
         {
-            label1: 'Methodology', value1: 'Comprehensive user testing program with mixed research methods'
+            label1: 'Methodology', value1: 'Rapid pattern validation through strategic use of unmoderated testing'
         },
         {
-            label1: 'Impact', value1: '35% improvement in task completion through validated interaction patterns'
+            label1: 'Impact', value1: 'Showing research can deliver value quickly and efficiently.'
         }
     ],
     'design-system': [
@@ -561,12 +620,12 @@ function updateFeaturedSlideContent(slideIndex) {
     const currentPage = window.location.pathname;
     let projectKey = '';
 
-    if (currentPage.includes('ai-product')) {
-        projectKey = 'ai-product';
-    } else if (currentPage.includes('greenfield-product')) {
-        projectKey = 'greenfield-product';
-    } else if (currentPage.includes('user-testing')) {
-        projectKey = 'user-testing';
+    if (currentPage.includes('ai-strategy')) {
+        projectKey = 'ai-strategy';
+    } else if (currentPage.includes('product-suite')) {
+        projectKey = 'product-suite';
+    } else if (currentPage.includes('research-strategy')) {
+        projectKey = 'research-strategy';
     } else if (currentPage.includes('design-system')) {
         projectKey = 'design-system';
     }
@@ -1201,11 +1260,96 @@ function animateChartValue(element, start, end, duration) {
     requestAnimationFrame(updateValue);
 }
 
+// ==========================================
+// Dynamic Project Content Management
+// ==========================================
+
+// Generate project cards on index page
+function initProjectCards() {
+    const projectsGrid = document.querySelector('.projects-grid');
+    if (!projectsGrid) return;
+
+    // Clear existing cards
+    projectsGrid.innerHTML = '';
+
+    // Generate cards from PROJECTS configuration
+    PROJECTS.forEach(project => {
+        const cardHTML = `
+            <a href="work/${project.url}" class="project-card-link" aria-label="${project.ariaLabel}">
+                <article class="project-card project-card-featured" data-card="${project.id}">
+                    <div class="project-bg-image"></div>
+                    <div class="project-content-overlay">
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <span class="project-link-text">View Case Study →</span>
+                    </div>
+                </article>
+            </a>
+        `;
+        projectsGrid.insertAdjacentHTML('beforeend', cardHTML);
+    });
+}
+
+// Update project page title and subtitle
+function initProjectPageContent() {
+    const projectTitle = document.querySelector('.project-hero .project-title');
+    const projectSubtitle = document.querySelector('.project-hero .project-subtitle');
+
+    if (!projectTitle || !projectSubtitle) return;
+
+    // Get current page filename
+    const currentPage = window.location.pathname.split('/').pop();
+    const project = getProject(currentPage);
+
+    if (project) {
+        projectTitle.textContent = project.title;
+        projectSubtitle.textContent = project.subtitle;
+
+        // Also update browser title if needed
+        const titleTag = document.querySelector('title');
+        if (titleTag && titleTag.textContent.includes('-')) {
+            titleTag.textContent = `${project.title} - Jerimy Brown`;
+        }
+    }
+}
+
+// Update project navigation (prev/next links)
+function initProjectNavigation() {
+    const navPrev = document.querySelector('.project-navigation .nav-item.prev a');
+    const navNext = document.querySelector('.project-navigation .nav-item.next a');
+
+    if (!navPrev && !navNext) return;
+
+    // Get current page filename
+    const currentPage = window.location.pathname.split('/').pop();
+    const { prev, next } = getAdjacentProjects(currentPage);
+
+    // Update previous link
+    if (navPrev && prev) {
+        navPrev.href = prev.url;
+        const prevTitle = navPrev.querySelector('.nav-title');
+        if (prevTitle) prevTitle.textContent = prev.title;
+    }
+
+    // Update next link
+    if (navNext && next) {
+        navNext.href = next.url;
+        const nextTitle = navNext.querySelector('.nav-title');
+        if (nextTitle) nextTitle.textContent = next.title;
+    }
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initGridLines();
-    initScrollAnimations();
+
+    // Dynamic project content - must run BEFORE scroll animations
+    initProjectCards(); // Generate project cards on index page
+    initProjectPageContent(); // Update page title and subtitle on project pages
+    initProjectNavigation(); // Update prev/next navigation on project pages
+
+    initScrollAnimations(); // Now project cards exist and can be observed
     initSmoothScrolling();
     initRotatingWord();
     initMobileMenuClose();
