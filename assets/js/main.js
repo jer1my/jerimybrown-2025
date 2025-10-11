@@ -1266,7 +1266,11 @@ function animateChartValue(element, start, end, duration) {
 
 // Generate project cards on index page
 function initProjectCards() {
-    const projectsGrid = document.querySelector('.projects-grid');
+    // Only run on index page - check for projects section
+    const projectsSection = document.getElementById('projects');
+    if (!projectsSection) return;
+
+    const projectsGrid = projectsSection.querySelector('.projects-grid');
     if (!projectsGrid) return;
 
     // Clear existing cards

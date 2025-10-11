@@ -171,7 +171,21 @@
         
         <section class="section">
             <h2 class="section-title">Colors</h2>
-            
+
+            <div class="mb-12">
+                <h3 class="text-lg font-weight-500 mb-6">Color Theory & Theming Strategy</h3>
+                <div class="font-description-grid mb-6">
+                    <div class="font-description-left">
+                        <p class="mb-4">The accent color system uses temperature-based theming to optimize visual comfort and hierarchy across light and dark modes, grounded in color psychology and perceptual contrast principles.</p>
+                        <p class="mb-4">By inverting color temperature relative to each background, both themes maintain optimal legibility, emotional resonance, and visual balance—ensuring consistent perceptual impact while reducing eye fatigue across different lighting conditions, from bright workspaces to low-light settings.</p>
+                    </div>
+                    <div class="font-description-right">
+                        <p class="mb-4"><strong>Dark Mode(Warm Orange Accents):</strong> Warm orange delivers vibrant contrast against cool dark backgrounds without harsh glare. Longer wavelength colors feel more comfortable in low-light environments, with orange's energetic quality balancing dark mode's tone.</p>
+                        <p class="mb-4"><strong>Light Mode(Cool Blue Accents):</strong> Cool blue provides strong chromatic contrast against warm white backgrounds. Blue's shorter wavelength creates visual recession, reducing eye strain on bright screens while conveying trust and professionalism.</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="color-section-grid mb-12">
                 <div class="color-section">
                     <h3 class="text-lg font-weight-500 mb-6">Primary Colors</h3>
@@ -198,19 +212,19 @@
                     <h3 class="text-lg font-weight-500 mb-6">Accent Colors</h3>
                     <div class="color-grid">
                         <div class="color-swatch">
-                            <div class="color-circle accent"></div>
-                            <div class="color-name">Accent Cool</div>
-                            <div class="color-hex">#15B5FF</div>
+                            <div class="color-circle accent-warm"></div>
+                            <div class="color-name">Accent Dark</div>
+                            <div class="color-hex">#ea580c</div>
                         </div>
                         <div class="color-swatch">
-                            <div class="color-circle accent-warm"></div>
-                            <div class="color-name">Accent Warm</div>
-                            <div class="color-hex">#ea580c</div>
+                            <div class="color-circle accent"></div>
+                            <div class="color-name">Accent Light</div>
+                            <div class="color-hex">#15B5FF</div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="mb-12">
                 <h3 class="text-lg font-weight-500 mb-6">Neutral Scale</h3>
                 <div class="color-grid">
@@ -285,28 +299,26 @@
                 <div>
                     <div class="type-label">Cards</div>
                     <div class="projects-grid">
-                        <div class="card interactive-card project-card project-card-featured" data-card="style-guide-sample">
-                            <div class="project-bg-image"></div>
-                            <div class="project-content-overlay">
-                                <h3 class="project-title">Interactive Card</h3>
-                                <p class="project-description">Hover over this card to see the glassmorphism effect, sliding blur overlay, and description reveal inspired by modern design systems.</p>
-                                <a href="#" class="project-link">
-                                    <span class="link-text-default">Sample Link →</span>
-                                    <span class="link-text-hover">Interactive!</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card interactive-card project-card project-card-featured" data-card="style-guide-sample">
-                            <div class="project-bg-image"></div>
-                            <div class="project-content-overlay">
-                                <h3 class="project-title">Interactive Card</h3>
-                                <p class="project-description">Hover over this card to see the glassmorphism effect, sliding blur overlay, and description reveal inspired by modern design systems.</p>
-                                <a href="#" class="project-link">
-                                    <span class="link-text-default">Sample Link →</span>
-                                    <span class="link-text-hover">Interactive!</span>
-                                </a>
-                            </div>
-                        </div>
+                        <a href="#" class="project-card-link" aria-label="Sample interactive card">
+                            <article class="project-card project-card-featured" data-card="style-guide-sample">
+                                <div class="project-bg-image"></div>
+                                <div class="project-content-overlay">
+                                    <h3 class="project-title">Interactive Card</h3>
+                                    <p class="project-description">Hover over this card to see the glassmorphism effect, sliding blur overlay, and description reveal inspired by modern design systems.</p>
+                                    <span class="project-link-text">Sample Link →</span>
+                                </div>
+                            </article>
+                        </a>
+                        <a href="#" class="project-card-link" aria-label="Sample interactive card">
+                            <article class="project-card project-card-featured" data-card="style-guide-sample">
+                                <div class="project-bg-image"></div>
+                                <div class="project-content-overlay">
+                                    <h3 class="project-title">Interactive Card</h3>
+                                    <p class="project-description">Hover over this card to see the glassmorphism effect, sliding blur overlay, and description reveal inspired by modern design systems.</p>
+                                    <span class="project-link-text">Sample Link →</span>
+                                </div>
+                            </article>
+                        </a>
                     </div>
                 </div>
                 
