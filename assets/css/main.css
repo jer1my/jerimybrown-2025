@@ -924,15 +924,15 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     background-image: url('../images/design-system-dark.png');
 }
 
-[data-card="ai-product"] .project-bg-image {
+[data-card="ai-strategy"] .project-bg-image {
     background-image: url('../images/ai-first-dark.png');
 }
 
-[data-card="greenfield-product"] .project-bg-image {
+[data-card="product-suite"] .project-bg-image {
     background-image: url('../images/greenfield-dark.png');
 }
 
-[data-card="user-testing"] .project-bg-image {
+[data-card="research-strategy"] .project-bg-image {
     background-image: url('../images/user-test-dark.png');
 }
 
@@ -1045,15 +1045,15 @@ body:not([data-theme="dark"]) [data-card="design-system"] .project-bg-image {
     background-image: url('../images/design-system-light.png');
 }
 
-body:not([data-theme="dark"]) [data-card="ai-product"] .project-bg-image {
+body:not([data-theme="dark"]) [data-card="ai-strategy"] .project-bg-image {
     background-image: url('../images/ai-first-light.png');
 }
 
-body:not([data-theme="dark"]) [data-card="greenfield-product"] .project-bg-image {
+body:not([data-theme="dark"]) [data-card="product-suite"] .project-bg-image {
     background-image: url('../images/greenfield-light.png');
 }
 
-body:not([data-theme="dark"]) [data-card="user-testing"] .project-bg-image {
+body:not([data-theme="dark"]) [data-card="research-strategy"] .project-bg-image {
     background-image: url('../images/user-test-light.png');
 }
 
