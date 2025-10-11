@@ -32,12 +32,36 @@ This document outlines the design system and guidelines for constructing a moder
 
 **Primary Colors:**
 - Primary: `#0f0f0f` (darker than neutral 900)
-- Secondary: `#525252` 
+- Secondary: `#525252`
 - Tertiary: `#737373`
 
 **Accent Colors (Temperature-based theming):**
-- Light Mode: Accent Cool `#15B5FF` (blue)
-- Dark Mode: Accent Warm `#ea580c` (orange)
+- Accent Light: `#15B5FF` (cool blue for light mode)
+- Accent Dark: `#ea580c` (warm orange for dark mode)
+
+**Color Theory & Theming Strategy:**
+
+The accent color system employs temperature-based theming to optimize visual comfort and hierarchy across both light and dark modes. This approach is grounded in color psychology and perceptual contrast principles:
+
+**Cool Accents for Light Mode:**
+- Cool blue (`#15B5FF`) provides strong chromatic contrast against warm white backgrounds
+- Blue's shorter wavelength creates visual "recession," preventing eye strain on bright screens
+- Psychologically associated with trust, clarity, and professionalism—ideal for light mode's clean aesthetic
+- Lower perceptual weight prevents overwhelming the neutral palette
+
+**Warm Accents for Dark Mode:**
+- Warm orange (`#ea580c`) creates vibrant contrast against cool dark backgrounds without harsh glare
+- Longer wavelength colors feel more comfortable in low-light environments
+- Orange's energetic, approachable quality balances dark mode's serious tone
+- Higher luminance value maintains accessibility while feeling intentional rather than harsh
+
+This complementary temperature approach ensures:
+- Consistent perceptual impact across themes (neither accent feels "louder")
+- Reduced eye fatigue through wavelength distribution
+- Clear visual hierarchy that adapts to ambient lighting contexts
+- Semantic reinforcement: cool = clarity/focus (light), warm = energy/emphasis (dark)
+
+By inverting color temperature relative to the background, each theme maintains optimal legibility, emotional resonance, and visual balance.
 
 **Neutral Scale:**
 - White: `#ffffff`
