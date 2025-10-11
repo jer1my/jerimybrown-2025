@@ -459,10 +459,10 @@ const featuredSlideContent = {
             label3: 'Team', value3: '3 UX, 4 Dev, 3 PO'
         },
         {
-            label1: 'Focus', value1: 'Human-centered AI interface design with transparent decision-making processes'
+            label1: 'AI Patterns', value1: 'Lots of new patterns emerging with AI. Consider the above for building trust'
         },
         {
-            label1: 'Impact', value1: '40% increase in user confidence through progressive AI assistance patterns'
+            label1: 'Trust Building Release Cycle', value1: 'We introduced AI iteratively, starting with low-risk features'
         }
     ],
     'greenfield-product': [
