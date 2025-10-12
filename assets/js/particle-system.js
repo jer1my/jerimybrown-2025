@@ -573,11 +573,21 @@ class ParticleControlPanel {
         const versionChanged = savedVersion !== PARTICLE_SYSTEM_VERSION;
         const rememberMe = this.particleSystem.config.rememberMe;
 
+        // Check if demo has already played this session
+        const demoPlayedThisSession = sessionStorage.getItem('particleDemoPlayed') === 'true';
+
         // Play demo if:
-        // 1. Remember Me is OFF, OR
-        // 2. Version has changed (new features to showcase), OR
-        // 3. First time visitor (no saved preferences at all)
-        this.shouldPlayDemo = !rememberMe || versionChanged || !saved;
+        // When Remember Me is OFF:
+        //   - Play once per visit (session) - check sessionStorage
+        // When Remember Me is ON:
+        //   - Only play when version changes (new features to showcase)
+        if (rememberMe) {
+            // Remember Me is ON - only play demo on version change
+            this.shouldPlayDemo = versionChanged;
+        } else {
+            // Remember Me is OFF - play once per session
+            this.shouldPlayDemo = !demoPlayedThisSession;
+        }
 
         // Always open panel if we're playing the demo
         const savedPanelState = localStorage.getItem('particleControlsExpanded');
@@ -865,6 +875,16 @@ class ParticleControlPanel {
                     requestAnimationFrame(animateDown);
                 } else {
                     this.demoAnimationRunning = false;
+
+                    // Mark that demo has played this session
+                    sessionStorage.setItem('particleDemoPlayed', 'true');
+
+                    // Close the panel after a short delay
+                    setTimeout(() => {
+                        if (this.isExpanded) {
+                            this.togglePanel();
+                        }
+                    }, 1000); // Wait 1 second before closing
                 }
             };
 
