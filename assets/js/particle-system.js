@@ -589,17 +589,21 @@ class ParticleControlPanel {
             this.shouldPlayDemo = !demoPlayedThisSession;
         }
 
-        // Always open panel if we're playing the demo
-        const savedPanelState = localStorage.getItem('particleControlsExpanded');
+        // Determine panel state
         if (this.shouldPlayDemo) {
+            // Force open panel only when actually playing the demo
             this.isExpanded = true;
-            // Save the panel state for remember me users
-            if (rememberMe && savedPanelState === null) {
-                localStorage.setItem('particleControlsExpanded', 'true');
-            }
         } else {
-            // Use saved preference or default to closed
-            this.isExpanded = savedPanelState === 'true';
+            // Load saved panel state based on Remember Me setting
+            if (rememberMe) {
+                // Use localStorage for persistent state
+                const savedPanelState = localStorage.getItem('particleControlsExpanded');
+                this.isExpanded = savedPanelState === 'true';
+            } else {
+                // Use sessionStorage for session-only state
+                const sessionPanelState = sessionStorage.getItem('particleControlsExpanded');
+                this.isExpanded = sessionPanelState === 'true';
+            }
         }
 
         this.init();
@@ -900,9 +904,13 @@ class ParticleControlPanel {
         this.isExpanded = !this.isExpanded;
         panel.classList.toggle('expanded');
 
-        // Only save panel state if rememberMe is enabled
+        // Save panel state to appropriate storage
         if (this.particleSystem.config.rememberMe) {
+            // Remember Me is ON - save to localStorage for persistence
             localStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
+        } else {
+            // Remember Me is OFF - save to sessionStorage for current session only
+            sessionStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
         }
 
         // Update button icon
