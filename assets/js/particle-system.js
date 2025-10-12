@@ -18,7 +18,7 @@ class ParticleSystem {
 
         // Default configuration
         this.config = {
-            particleCount: 150,
+            particleCount: 200,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys', // 'accent' or 'greys'
@@ -437,7 +437,7 @@ class ParticleSystem {
 
     reset() {
         this.config = {
-            particleCount: 150,
+            particleCount: 200,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys',
@@ -932,8 +932,8 @@ class ParticleControlPanel {
         const countSlider = document.getElementById('particleCount');
         const countValue = document.getElementById('particleCountValue');
         if (countSlider && countValue) {
-            countSlider.value = 150;
-            countValue.textContent = '150';
+            countSlider.value = 200;
+            countValue.textContent = '200';
         }
 
         const distanceSlider = document.getElementById('connectionDistance');
