@@ -342,10 +342,15 @@ class ParticleSystem {
                 particle.vx += (Math.random() - 0.5) * randomDrift;
                 particle.vy += (Math.random() - 0.5) * randomDrift;
 
-                // Add subtle orbital motion at high strength
-                // Only kicks in above strength 200, maxes out at 300
-                if (this.config.blackHoleStrength > 200) {
-                    const orbitStrength = (this.config.blackHoleStrength - 200) / 100; // 0 to 1
+                // Add orbital motion that scales with black hole strength
+                // Starts very subtle at ~90, slow at 110 (default), increases to max at 300
+                if (this.config.blackHoleStrength > 90) {
+                    const strengthRange = 300 - 90; // 210
+                    const strengthPosition = (this.config.blackHoleStrength - 90) / strengthRange; // 0 to 1
+
+                    // Use power curve to make it slow at low values, faster at high values
+                    // At 110: (110-90)/210 = 0.095 -> 0.095^0.75 = 0.146 (14.6% of max speed)
+                    const orbitStrength = Math.pow(strengthPosition, 0.75);
                     const orbitalSpeed = 0.3 * orbitStrength; // Max 0.3 at strength 300
 
                     // Tangential velocity (perpendicular to radial direction)
