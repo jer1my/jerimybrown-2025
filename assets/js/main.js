@@ -359,20 +359,23 @@ window.addEventListener('scroll', toggleBackToTop);
 // ==========================================
 // Rotating Word Animation
 // ==========================================
+// COMMENTED OUT - Using static "connects" text for now with particle system
+// Keeping code here for potential future use
 
+/*
 function initRotatingWord() {
     const words = ['connects', 'inspires', 'empowers', 'transforms', 'delights'];
     const rotatingWordElement = document.getElementById('rotatingWord');
     let currentIndex = 0;
     let cycleCount = 0;
-    
+
     if (!rotatingWordElement) return;
-    
+
     function typeWriter(text, element, callback) {
         let i = 0;
         element.classList.add('typing');
         element.textContent = '';
-        
+
         function type() {
             if (i < text.length) {
                 element.textContent += text.charAt(i);
@@ -385,12 +388,12 @@ function initRotatingWord() {
         }
         type();
     }
-    
+
     function deleteText(element, callback) {
         const text = element.textContent;
         let i = text.length;
         element.classList.add('typing');
-        
+
         function deleteChar() {
             if (i > 0) {
                 element.textContent = text.substring(0, i - 1);
@@ -402,7 +405,7 @@ function initRotatingWord() {
         }
         deleteChar();
     }
-    
+
     function rotateWord() {
         // Start deleting current word
         deleteText(rotatingWordElement, () => {
@@ -425,12 +428,13 @@ function initRotatingWord() {
             });
         });
     }
-    
+
     // Start the rotation after initial page load
     setTimeout(() => {
         rotateWord();
     }, 3000);
 }
+*/
 
 // ==========================================
 // About Carousel System
@@ -1355,7 +1359,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initScrollAnimations(); // Now project cards exist and can be observed
     initSmoothScrolling();
-    initRotatingWord();
+    // initRotatingWord(); // Commented out - using static "connects" text for now
     initMobileMenuClose();
     initCarousel();
     initProjectCarousels();
@@ -1364,4 +1368,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initProjectNavigationActiveState();
     initPageTransitions();
     initDonutCharts();
+
+    // Initialize particle system (only on index page with hero section)
+    if (typeof initParticleSystem === 'function') {
+        initParticleSystem();
+    }
 });
