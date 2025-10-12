@@ -28,7 +28,7 @@ class ParticleSystem {
         this.colors = {
             light: {
                 accent: { particle: 'rgba(21, 181, 255, 0.8)', connection: 'rgba(21, 181, 255, 0.5)' },
-                greys: { particle: 'rgba(212, 212, 212, 0.7)', connection: 'rgba(212, 212, 212, 0.4)' }
+                greys: { particle: 'rgba(150, 150, 150, 0.85)', connection: 'rgba(150, 150, 150, 0.55)' }
             },
             dark: {
                 accent: { particle: 'rgba(234, 88, 12, 0.8)', connection: 'rgba(234, 88, 12, 0.5)' },
