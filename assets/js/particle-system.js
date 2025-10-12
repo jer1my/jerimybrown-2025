@@ -11,7 +11,7 @@ class ParticleSystem {
         this.mouse = { x: 0, y: 0 };
         this.animationId = null;
         this.isActive = false;
-        this.previousBlackHoleStrength = 150; // Track for redistribution
+        this.previousBlackHoleStrength = 110; // Track for redistribution
 
         // Default configuration
         this.config = {
@@ -22,8 +22,8 @@ class ParticleSystem {
             colorStrength: 1.0, // 0.3 to 1.5
             interactionMode: 'attract', // 'attract', 'repel', or 'static'
             speed: 1.0,
-            mode: 'default', // 'default' or 'blackhole'
-            blackHoleStrength: 150, // radius for black hole mode
+            mode: 'blackhole', // 'deepspace' or 'blackhole'
+            blackHoleStrength: 110, // radius for black hole mode
             ...this.loadPreferences()
         };
 
@@ -342,10 +342,15 @@ class ParticleSystem {
                 particle.vx += (Math.random() - 0.5) * randomDrift;
                 particle.vy += (Math.random() - 0.5) * randomDrift;
 
-                // Add subtle orbital motion at high strength
-                // Only kicks in above strength 200, maxes out at 300
-                if (this.config.blackHoleStrength > 200) {
-                    const orbitStrength = (this.config.blackHoleStrength - 200) / 100; // 0 to 1
+                // Add orbital motion that scales with black hole strength
+                // Starts very subtle at ~90, slow at 110 (default), increases to max at 300
+                if (this.config.blackHoleStrength > 90) {
+                    const strengthRange = 300 - 90; // 210
+                    const strengthPosition = (this.config.blackHoleStrength - 90) / strengthRange; // 0 to 1
+
+                    // Use power curve to make it slow at low values, faster at high values
+                    // At 110: (110-90)/210 = 0.095 -> 0.095^0.75 = 0.146 (14.6% of max speed)
+                    const orbitStrength = Math.pow(strengthPosition, 0.75);
                     const orbitalSpeed = 0.3 * orbitStrength; // Max 0.3 at strength 300
 
                     // Tangential velocity (perpendicular to radial direction)
@@ -365,7 +370,7 @@ class ParticleSystem {
                     particle.vy += Math.sin(angle) * constrainForce;
                 }
             } else {
-                // Default mode: mouse interaction
+                // Deep space mode: mouse interaction
                 if (this.config.interactionMode !== 'static') {
                     const dx = this.mouse.x - particle.x;
                     const dy = this.mouse.y - particle.y;
@@ -381,7 +386,7 @@ class ParticleSystem {
                     }
                 }
 
-                // Handle "connects" word circle repulsion in default mode
+                // Handle "connects" word circle repulsion in deep space mode
                 if (this.connectsCircle) {
                     const dx = this.connectsCircle.x - particle.x;
                     const dy = this.connectsCircle.y - particle.y;
@@ -435,8 +440,8 @@ class ParticleSystem {
             colorStrength: 1.0,
             interactionMode: 'attract',
             speed: 1.0,
-            mode: 'default',
-            blackHoleStrength: 150
+            mode: 'blackhole',
+            blackHoleStrength: 110
         };
         this.createParticles();
         this.savePreferences();
@@ -463,7 +468,7 @@ class ParticleSystem {
 
 // Particle class
 class Particle {
-    constructor(canvas, speedMultiplier = 1.0, mode = 'default', connectsCircle = null) {
+    constructor(canvas, speedMultiplier = 1.0, mode = 'deepspace', connectsCircle = null) {
         this.canvas = canvas;
         this.speedMultiplier = speedMultiplier;
         this.radius = Math.random() * 2 + 1;
@@ -486,7 +491,7 @@ class Particle {
             this.vx = (Math.random() - 0.5) * 0.5;
             this.vy = (Math.random() - 0.5) * 0.5;
         } else {
-            // Default mode: spawn randomly
+            // Deep space mode: spawn randomly
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
             this.vx = (Math.random() - 0.5) * 0.5;
@@ -526,16 +531,20 @@ class Particle {
 class ParticleControlPanel {
     constructor(particleSystem) {
         this.particleSystem = particleSystem;
+        this.demoAnimationRunning = false;
 
-        // Check if user has a saved preference
+        // Check if this is the user's first visit
+        const hasVisitedBefore = localStorage.getItem('particlePreferences') !== null;
         const savedPreference = localStorage.getItem('particleControlsExpanded');
 
         if (savedPreference === null) {
-            // First time visitor - open on desktop, closed on mobile
-            this.isExpanded = window.innerWidth > 768;
+            // First time visitor - always open panel to show the demo
+            this.isExpanded = true;
+            this.isFirstVisit = !hasVisitedBefore;
         } else {
             // Returning visitor - use their saved preference
             this.isExpanded = savedPreference === 'true';
+            this.isFirstVisit = false;
         }
 
         this.init();
@@ -638,6 +647,11 @@ class ParticleControlPanel {
             });
         }
 
+        // Set initial visibility of black hole strength control
+        if (this.particleSystem.config.mode === 'blackhole' && blackHoleControl) {
+            blackHoleControl.classList.add('visible');
+        }
+
         // Particle count slider
         const countSlider = document.getElementById('particleCount');
         const countValue = document.getElementById('particleCountValue');
@@ -731,6 +745,80 @@ class ParticleControlPanel {
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetControls());
         }
+
+        // Run demo animation for first-time visitors
+        if (this.isFirstVisit && this.particleSystem.config.mode === 'blackhole') {
+            this.runDemoAnimation(blackHoleSlider, blackHoleValue);
+        }
+    }
+
+    runDemoAnimation(slider, valueDisplay) {
+        if (!slider || !valueDisplay || this.demoAnimationRunning) return;
+
+        this.demoAnimationRunning = true;
+        const startValue = 110;
+        const maxValue = 300;
+        const animationDuration = 2500; // 2.5 seconds each way
+        const pauseDuration = 2000; // 2 second pause at max
+
+        // Wait 1.5 seconds before starting
+        setTimeout(() => {
+            let startTime = null;
+
+            // Animate from 110 to 300
+            const animateUp = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / animationDuration, 1);
+
+                // Easing function for smooth animation
+                const easeInOutCubic = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                const currentValue = Math.round(startValue + (maxValue - startValue) * easeInOutCubic);
+
+                slider.value = currentValue;
+                valueDisplay.textContent = currentValue;
+                this.particleSystem.updateBlackHoleStrength(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateUp);
+                } else {
+                    // Pause at max, then animate back down
+                    setTimeout(() => {
+                        startTime = null;
+                        requestAnimationFrame(animateDown);
+                    }, pauseDuration);
+                }
+            };
+
+            // Animate from 300 back to 110
+            const animateDown = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / animationDuration, 1);
+
+                // Easing function for smooth animation
+                const easeInOutCubic = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                const currentValue = Math.round(maxValue - (maxValue - startValue) * easeInOutCubic);
+
+                slider.value = currentValue;
+                valueDisplay.textContent = currentValue;
+                this.particleSystem.updateBlackHoleStrength(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateDown);
+                } else {
+                    this.demoAnimationRunning = false;
+                }
+            };
+
+            requestAnimationFrame(animateUp);
+        }, 1500);
     }
 
     togglePanel() {
@@ -773,7 +861,7 @@ class ParticleControlPanel {
         const pill = document.querySelector('#particleModeToggle .slider-toggle-pill');
         if (!pill) return;
 
-        // Calculate position based on index (0=default, 1=blackhole)
+        // Calculate position based on index (0=blackhole, 1=deepspace)
         // Each option is 50% width with 2px padding and 2px gaps
         const totalOptions = 2;
         const optionWidthPercent = 100 / totalOptions;
@@ -817,8 +905,8 @@ class ParticleControlPanel {
         const blackHoleSlider = document.getElementById('blackHoleStrength');
         const blackHoleValue = document.getElementById('blackHoleStrengthValue');
         if (blackHoleSlider && blackHoleValue) {
-            blackHoleSlider.value = 150;
-            blackHoleValue.textContent = '150';
+            blackHoleSlider.value = 110;
+            blackHoleValue.textContent = '110';
         }
 
         // Reset radio buttons
@@ -834,16 +922,16 @@ class ParticleControlPanel {
         });
 
         document.querySelectorAll('[name="particleMode"]').forEach((btn, index) => {
-            btn.checked = btn.value === 'default';
+            btn.checked = btn.value === 'blackhole';
             if (btn.checked) {
                 this.updateModePillPosition(index);
             }
         });
 
-        // Hide black hole strength control when reset to default mode with animation
+        // Show black hole strength control when reset to black hole mode with animation
         const blackHoleControl = document.getElementById('blackHoleStrengthControl');
         if (blackHoleControl) {
-            blackHoleControl.classList.remove('visible');
+            blackHoleControl.classList.add('visible');
         }
     }
 }
