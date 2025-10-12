@@ -573,23 +573,37 @@ class ParticleControlPanel {
         const versionChanged = savedVersion !== PARTICLE_SYSTEM_VERSION;
         const rememberMe = this.particleSystem.config.rememberMe;
 
-        // Play demo if:
-        // 1. Remember Me is OFF, OR
-        // 2. Version has changed (new features to showcase), OR
-        // 3. First time visitor (no saved preferences at all)
-        this.shouldPlayDemo = !rememberMe || versionChanged || !saved;
+        // Check if demo has already played this session
+        const demoPlayedThisSession = sessionStorage.getItem('particleDemoPlayed') === 'true';
 
-        // Always open panel if we're playing the demo
-        const savedPanelState = localStorage.getItem('particleControlsExpanded');
-        if (this.shouldPlayDemo) {
-            this.isExpanded = true;
-            // Save the panel state for remember me users
-            if (rememberMe && savedPanelState === null) {
-                localStorage.setItem('particleControlsExpanded', 'true');
-            }
+        // Play demo if:
+        // When Remember Me is OFF:
+        //   - Play once per visit (session) - check sessionStorage
+        // When Remember Me is ON:
+        //   - Only play when version changes (new features to showcase)
+        if (rememberMe) {
+            // Remember Me is ON - only play demo on version change
+            this.shouldPlayDemo = versionChanged;
         } else {
-            // Use saved preference or default to closed
-            this.isExpanded = savedPanelState === 'true';
+            // Remember Me is OFF - play once per session
+            this.shouldPlayDemo = !demoPlayedThisSession;
+        }
+
+        // Determine panel state
+        if (this.shouldPlayDemo) {
+            // Force open panel only when actually playing the demo
+            this.isExpanded = true;
+        } else {
+            // Load saved panel state based on Remember Me setting
+            if (rememberMe) {
+                // Use localStorage for persistent state
+                const savedPanelState = localStorage.getItem('particleControlsExpanded');
+                this.isExpanded = savedPanelState === 'true';
+            } else {
+                // Use sessionStorage for session-only state
+                const sessionPanelState = sessionStorage.getItem('particleControlsExpanded');
+                this.isExpanded = sessionPanelState === 'true';
+            }
         }
 
         this.init();
@@ -865,6 +879,16 @@ class ParticleControlPanel {
                     requestAnimationFrame(animateDown);
                 } else {
                     this.demoAnimationRunning = false;
+
+                    // Mark that demo has played this session
+                    sessionStorage.setItem('particleDemoPlayed', 'true');
+
+                    // Close the panel after a short delay
+                    setTimeout(() => {
+                        if (this.isExpanded) {
+                            this.togglePanel();
+                        }
+                    }, 1000); // Wait 1 second before closing
                 }
             };
 
@@ -880,9 +904,13 @@ class ParticleControlPanel {
         this.isExpanded = !this.isExpanded;
         panel.classList.toggle('expanded');
 
-        // Only save panel state if rememberMe is enabled
+        // Save panel state to appropriate storage
         if (this.particleSystem.config.rememberMe) {
+            // Remember Me is ON - save to localStorage for persistence
             localStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
+        } else {
+            // Remember Me is OFF - save to sessionStorage for current session only
+            sessionStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
         }
 
         // Update button icon
