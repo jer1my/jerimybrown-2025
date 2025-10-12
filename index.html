@@ -71,6 +71,118 @@
         .accent-link:hover::after {
             width: 100%;
         }
+
+        /* Section Subtitle Styling */
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-top: 0;
+            margin-bottom: 48px;
+            line-height: 1.7;
+        }
+
+        body[data-theme="dark"] .section-subtitle {
+            color: #e0e0e0;
+        }
+
+        /* Reduce gap between title and subtitle in specific sections */
+        .brands .section-title,
+        .contact .section-title {
+            margin-bottom: 0;
+        }
+
+        /* Brand Logo Scroller */
+        .brands {
+            text-align: center;
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .logo-scroller {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .logo-scroller-track {
+            display: flex;
+            align-items: center;
+            gap: 64px;
+            animation: scrollLogos 50s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes scrollLogos {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .brand-logo {
+            width: auto;
+            height: auto;
+            flex-shrink: 0;
+            opacity: 0.6;
+            transition: opacity 0.3s ease, filter 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            opacity: 1;
+            filter: brightness(1.1);
+        }
+
+        /* Theme-aware logo display */
+        .logo-light {
+            display: block;
+        }
+
+        .logo-dark {
+            display: none;
+        }
+
+        body[data-theme="dark"] .logo-light {
+            display: none;
+        }
+
+        body[data-theme="dark"] .logo-dark {
+            display: block;
+        }
+
+        /* Pause animation on hover */
+        .logo-scroller:hover .logo-scroller-track {
+            animation-play-state: paused;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .logo-scroller-track {
+                animation: scrollLogos 100s linear infinite;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .section-subtitle {
+                margin-top: 4px;
+                margin-bottom: 32px;
+            }
+
+            .brands {
+                padding-top: 80px;
+                padding-bottom: 80px;
+            }
+
+            .logo-scroller-track {
+                gap: 48px;
+                animation-duration: 40s;
+            }
+        }
     </style>
 </head>
 <body>
@@ -298,6 +410,110 @@
         </div>
     </section>
 
+    <!-- Brands Section -->
+    <section class="brands">
+        <div class="container">
+            <h2 class="section-title">The Brands</h2>
+            <p class="section-subtitle">I've been fortunate enough to work with some amazing brands and people.</p>
+
+            <div class="logo-scroller">
+                <div class="logo-scroller-track">
+                    <!-- First set of logos -->
+                    <img src="assets/logos/nike-light.svg" alt="Nike" class="brand-logo logo-light">
+                    <img src="assets/logos/nike-dark.svg" alt="Nike" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/adidas-light.svg" alt="Adidas" class="brand-logo logo-light">
+                    <img src="assets/logos/adidas-dark.svg" alt="Adidas" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/audi-light.svg" alt="Audi" class="brand-logo logo-light">
+                    <img src="assets/logos/audi-dark.svg" alt="Audi" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/vw-light.svg" alt="Volkswagen" class="brand-logo logo-light">
+                    <img src="assets/logos/vw-dark.svg" alt="Volkswagen" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/ducati-light.svg" alt="Ducati" class="brand-logo logo-light">
+                    <img src="assets/logos/ducati-dark.svg" alt="Ducati" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/the-north-face-light.svg" alt="The North Face" class="brand-logo logo-light">
+                    <img src="assets/logos/the-north-face-dark.svg" alt="The North Face" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/beats-light.svg" alt="Beats" class="brand-logo logo-light">
+                    <img src="assets/logos/beats-dark.svg" alt="Beats" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/sony-light.svg" alt="Sony" class="brand-logo logo-light">
+                    <img src="assets/logos/sony-dark.svg" alt="Sony" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/disney-light.svg" alt="Disney" class="brand-logo logo-light">
+                    <img src="assets/logos/disney-dark.svg" alt="Disney" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/coke-light.svg" alt="Coca-Cola" class="brand-logo logo-light">
+                    <img src="assets/logos/coke-dark.svg" alt="Coca-Cola" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/pentax-light.svg" alt="Pentax" class="brand-logo logo-light">
+                    <img src="assets/logos/pentax-dark.svg" alt="Pentax" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/nat-geo-light.svg" alt="National Geographic" class="brand-logo logo-light">
+                    <img src="assets/logos/nat-geo-dark.svg" alt="National Geographic" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/hitachi-light.svg" alt="Hitachi" class="brand-logo logo-light">
+                    <img src="assets/logos/hitachi-dark.svg" alt="Hitachi" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/callaway-light.svg" alt="Callaway" class="brand-logo logo-light">
+                    <img src="assets/logos/callaway-dark.svg" alt="Callaway" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/beatport-light.svg" alt="Beatport" class="brand-logo logo-light">
+                    <img src="assets/logos/beatport-dark.svg" alt="Beatport" class="brand-logo logo-dark">
+
+                    <!-- Duplicate set for seamless infinite loop -->
+                    <img src="assets/logos/nike-light.svg" alt="Nike" class="brand-logo logo-light">
+                    <img src="assets/logos/nike-dark.svg" alt="Nike" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/adidas-light.svg" alt="Adidas" class="brand-logo logo-light">
+                    <img src="assets/logos/adidas-dark.svg" alt="Adidas" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/audi-light.svg" alt="Audi" class="brand-logo logo-light">
+                    <img src="assets/logos/audi-dark.svg" alt="Audi" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/vw-light.svg" alt="Volkswagen" class="brand-logo logo-light">
+                    <img src="assets/logos/vw-dark.svg" alt="Volkswagen" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/ducati-light.svg" alt="Ducati" class="brand-logo logo-light">
+                    <img src="assets/logos/ducati-dark.svg" alt="Ducati" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/the-north-face-light.svg" alt="The North Face" class="brand-logo logo-light">
+                    <img src="assets/logos/the-north-face-dark.svg" alt="The North Face" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/beats-light.svg" alt="Beats" class="brand-logo logo-light">
+                    <img src="assets/logos/beats-dark.svg" alt="Beats" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/sony-light.svg" alt="Sony" class="brand-logo logo-light">
+                    <img src="assets/logos/sony-dark.svg" alt="Sony" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/disney-light.svg" alt="Disney" class="brand-logo logo-light">
+                    <img src="assets/logos/disney-dark.svg" alt="Disney" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/coke-light.svg" alt="Coca-Cola" class="brand-logo logo-light">
+                    <img src="assets/logos/coke-dark.svg" alt="Coca-Cola" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/pentax-light.svg" alt="Pentax" class="brand-logo logo-light">
+                    <img src="assets/logos/pentax-dark.svg" alt="Pentax" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/nat-geo-light.svg" alt="National Geographic" class="brand-logo logo-light">
+                    <img src="assets/logos/nat-geo-dark.svg" alt="National Geographic" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/hitachi-light.svg" alt="Hitachi" class="brand-logo logo-light">
+                    <img src="assets/logos/hitachi-dark.svg" alt="Hitachi" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/callaway-light.svg" alt="Callaway" class="brand-logo logo-light">
+                    <img src="assets/logos/callaway-dark.svg" alt="Callaway" class="brand-logo logo-dark">
+
+                    <img src="assets/logos/beatport-light.svg" alt="Beatport" class="brand-logo logo-light">
+                    <img src="assets/logos/beatport-dark.svg" alt="Beatport" class="brand-logo logo-dark">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
     <section class="about" id="about">
         <div class="container">
@@ -368,7 +584,7 @@
     <section class="contact" id="contact">
         <div class="container">
             <h2 class="section-title">Let's Work Together</h2>
-            <p>Have a project in mind? I'd love to hear about it and explore how we can bring your ideas to life.</p>
+            <p class="section-subtitle">Have a project in mind? I'd love to hear about it and explore how we can bring your ideas to life.</p>
             <div class="contact-buttons">
                 <a href="mailto:jerimy@comcast.net" class="button btn-secondary">Email</a>
                 <a href="https://www.linkedin.com/in/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
