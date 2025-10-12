@@ -526,16 +526,20 @@ class Particle {
 class ParticleControlPanel {
     constructor(particleSystem) {
         this.particleSystem = particleSystem;
+        this.demoAnimationRunning = false;
 
-        // Check if user has a saved preference
+        // Check if this is the user's first visit
+        const hasVisitedBefore = localStorage.getItem('particlePreferences') !== null;
         const savedPreference = localStorage.getItem('particleControlsExpanded');
 
         if (savedPreference === null) {
-            // First time visitor - open on desktop, closed on mobile
-            this.isExpanded = window.innerWidth > 768;
+            // First time visitor - always open panel to show the demo
+            this.isExpanded = true;
+            this.isFirstVisit = !hasVisitedBefore;
         } else {
             // Returning visitor - use their saved preference
             this.isExpanded = savedPreference === 'true';
+            this.isFirstVisit = false;
         }
 
         this.init();
@@ -736,6 +740,80 @@ class ParticleControlPanel {
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetControls());
         }
+
+        // Run demo animation for first-time visitors
+        if (this.isFirstVisit && this.particleSystem.config.mode === 'blackhole') {
+            this.runDemoAnimation(blackHoleSlider, blackHoleValue);
+        }
+    }
+
+    runDemoAnimation(slider, valueDisplay) {
+        if (!slider || !valueDisplay || this.demoAnimationRunning) return;
+
+        this.demoAnimationRunning = true;
+        const startValue = 110;
+        const maxValue = 300;
+        const animationDuration = 2500; // 2.5 seconds each way
+        const pauseDuration = 500; // 0.5 second pause at max
+
+        // Wait 1.5 seconds before starting
+        setTimeout(() => {
+            let startTime = null;
+
+            // Animate from 110 to 300
+            const animateUp = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / animationDuration, 1);
+
+                // Easing function for smooth animation
+                const easeInOutCubic = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                const currentValue = Math.round(startValue + (maxValue - startValue) * easeInOutCubic);
+
+                slider.value = currentValue;
+                valueDisplay.textContent = currentValue;
+                this.particleSystem.updateBlackHoleStrength(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateUp);
+                } else {
+                    // Pause at max, then animate back down
+                    setTimeout(() => {
+                        startTime = null;
+                        requestAnimationFrame(animateDown);
+                    }, pauseDuration);
+                }
+            };
+
+            // Animate from 300 back to 110
+            const animateDown = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / animationDuration, 1);
+
+                // Easing function for smooth animation
+                const easeInOutCubic = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                const currentValue = Math.round(maxValue - (maxValue - startValue) * easeInOutCubic);
+
+                slider.value = currentValue;
+                valueDisplay.textContent = currentValue;
+                this.particleSystem.updateBlackHoleStrength(currentValue);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateDown);
+                } else {
+                    this.demoAnimationRunning = false;
+                }
+            };
+
+            requestAnimationFrame(animateUp);
+        }, 1500);
     }
 
     togglePanel() {
