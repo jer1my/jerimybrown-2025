@@ -776,6 +776,12 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     overflow-x: hidden;
     flex-shrink: 1;
     min-height: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.particle-controls.expanded .particle-controls-content {
+    opacity: 1;
 }
 
 /* Custom scrollbar for particle controls */
