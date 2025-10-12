@@ -777,6 +777,23 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     margin-bottom: 12px;
 }
 
+/* Animated black hole strength control */
+.particle-control-group.animated-control {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease,
+                margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.particle-control-group.animated-control.visible {
+    max-height: 100px;
+    opacity: 1;
+    margin-bottom: 12px;
+}
+
 .particle-control-label {
     display: flex;
     justify-content: space-between;
@@ -909,6 +926,11 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
     z-index: 0;
+}
+
+/* Mode toggle specific (2 options) */
+.particle-mode-toggle .slider-toggle-pill {
+    width: calc(50% - 3px);
 }
 
 .slider-toggle-option {

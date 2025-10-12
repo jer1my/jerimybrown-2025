@@ -136,6 +136,29 @@
 
             <div class="particle-controls-content">
                 <div class="particle-control-group">
+                    <label class="particle-control-label">Mode</label>
+                    <div class="particle-slider-toggle particle-mode-toggle" id="particleModeToggle">
+                        <div class="slider-toggle-pill"></div>
+                        <label class="slider-toggle-option">
+                            <input type="radio" name="particleMode" value="default" checked>
+                            <span>Default</span>
+                        </label>
+                        <label class="slider-toggle-option">
+                            <input type="radio" name="particleMode" value="blackhole">
+                            <span>Black Hole</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="particle-control-group animated-control" id="blackHoleStrengthControl">
+                    <label class="particle-control-label">
+                        <span>Black Hole Strength</span>
+                        <span class="particle-control-value" id="blackHoleStrengthValue">150</span>
+                    </label>
+                    <input type="range" id="blackHoleStrength" min="80" max="300" value="150" step="10" class="particle-slider">
+                </div>
+
+                <div class="particle-control-group">
                     <label class="particle-control-label">
                         <span>Particle Count</span>
                         <span class="particle-control-value" id="particleCountValue">150</span>
