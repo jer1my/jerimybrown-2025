@@ -754,7 +754,7 @@ class ParticleControlPanel {
         const startValue = 110;
         const maxValue = 300;
         const animationDuration = 2500; // 2.5 seconds each way
-        const pauseDuration = 500; // 0.5 second pause at max
+        const pauseDuration = 2000; // 2 second pause at max
 
         // Wait 1.5 seconds before starting
         setTimeout(() => {
