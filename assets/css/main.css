@@ -699,7 +699,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     z-index: 100;
     transform: translateY(calc(100% - 44px));
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    max-height: calc(100vh - 24px);
+    max-height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
 }
