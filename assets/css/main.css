@@ -2310,11 +2310,12 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
 
 /* Interactive Text */
 .interactive-text {
-    color: inherit;
+    color: #15B5FF;
     text-decoration: none;
     font-weight: 400;
     position: relative;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 .interactive-text::after {
@@ -2324,12 +2325,12 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     height: 2px;
     bottom: -4px;
     left: 0;
-    background: var(--color-accent);
+    background: #15B5FF;
     transition: width var(--transition-base);
 }
 
 .interactive-text:hover {
-    opacity: 0.5;
+    color: rgba(21, 181, 255, 0.5);
 }
 
 .interactive-text:hover::after {
@@ -2482,6 +2483,14 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
 [data-theme="dark"] .project-link::after,
 [data-theme="dark"] .interactive-text::after {
     background: #ea580c;
+}
+
+[data-theme="dark"] .interactive-text {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .interactive-text:hover {
+    color: rgba(234, 88, 12, 0.5);
 }
 
 [data-theme="dark"] .project-link {
