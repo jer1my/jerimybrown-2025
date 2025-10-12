@@ -1030,6 +1030,8 @@ function initLogoColorChange() {
     }
 
     const logo = document.querySelector('.logo');
+    const homeIcon = document.querySelector('.nav-home-icon');
+
     if (!logo) {
         return;
     }
@@ -1041,6 +1043,9 @@ function initLogoColorChange() {
         if (!heroSection) {
             // Not on index page, don't add accent color
             logo.classList.remove('accent-color');
+            if (homeIcon) {
+                homeIcon.classList.remove('accent-color');
+            }
             return;
         }
 
@@ -1048,8 +1053,14 @@ function initLogoColorChange() {
         // Use a small threshold to account for minor scroll variations
         if (window.scrollY <= 50) {
             logo.classList.add('accent-color');
+            if (homeIcon) {
+                homeIcon.classList.add('accent-color');
+            }
         } else {
             logo.classList.remove('accent-color');
+            if (homeIcon) {
+                homeIcon.classList.remove('accent-color');
+            }
         }
     }
 
