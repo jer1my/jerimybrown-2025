@@ -178,6 +178,27 @@ body {
     overflow-x: hidden;
 }
 
+/* Text Selection */
+::selection {
+    background: rgba(21, 181, 255, 0.3);
+    color: #15B5FF;
+}
+
+::-moz-selection {
+    background: rgba(21, 181, 255, 0.3);
+    color: #15B5FF;
+}
+
+[data-theme="dark"] ::selection {
+    background: rgba(234, 88, 12, 0.3);
+    color: #ea580c;
+}
+
+[data-theme="dark"] ::-moz-selection {
+    background: rgba(234, 88, 12, 0.3);
+    color: #ea580c;
+}
+
 /* Theme Toggle */
 .theme-toggle {
     position: fixed;
@@ -627,13 +648,17 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 }
 
 .scroll-arrow {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px);
     background: transparent;
     border: none;
     cursor: pointer;
     transition: opacity 0.3s ease;
     opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 0.8s ease-out 0.8s forwards;
+    animation: fadeInUpCentered 0.8s ease-out 0.8s forwards;
+    z-index: 20;
 }
 
 .scroll-arrow svg {
@@ -649,6 +674,470 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 
 .scroll-arrow:hover {
     opacity: 0.5 !important;
+}
+
+/* ==========================================
+   Particle System
+   ========================================== */
+
+.particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Particle Controls */
+.particle-controls {
+    position: absolute;
+    bottom: 12px;
+    right: 24px;
+    width: 240px;
+    z-index: 100;
+    transform: translateY(calc(100% - 44px));
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.particle-controls.expanded {
+    transform: translateY(0);
+}
+
+.particle-controls {
+    background: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+}
+
+.particle-controls-header {
+    background: transparent;
+    border-radius: 16px 16px 0 0;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.4s ease;
+    user-select: none;
+}
+
+.particle-controls-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #15B5FF;
+    transition: all 0.3s ease;
+}
+
+.particle-controls-header:hover .particle-controls-title {
+    opacity: 0.5;
+}
+
+.particle-controls.expanded .particle-controls-title {
+    color: #0f0f0f;
+}
+
+.particle-controls-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #15B5FF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+}
+
+.particle-controls.expanded .particle-controls-close {
+    color: #525252;
+}
+
+.particle-controls-close:hover {
+    opacity: 0.5;
+}
+
+.particle-controls-content {
+    background: transparent;
+    padding: 0 16px 12px 16px;
+}
+
+.particle-control-group {
+    margin-bottom: 12px;
+}
+
+.particle-control-group:last-of-type {
+    margin-bottom: 12px;
+}
+
+.particle-control-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #525252;
+}
+
+.particle-control-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #15B5FF;
+}
+
+.particle-slider {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(212, 212, 212, 0.5);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.particle-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #15B5FF;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(21, 181, 255, 0.3);
+    transition: all 0.2s ease;
+}
+
+.particle-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 12px rgba(21, 181, 255, 0.5);
+}
+
+.particle-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #15B5FF;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(21, 181, 255, 0.3);
+    transition: all 0.2s ease;
+}
+
+.particle-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 12px rgba(21, 181, 255, 0.5);
+}
+
+.particle-color-chips {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.particle-color-chip {
+    cursor: pointer;
+}
+
+.particle-color-chip input[type="radio"] {
+    display: none;
+}
+
+.particle-color-chip .chip {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.particle-color-chip .chip::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.particle-color-chip input[type="radio"]:checked + .chip::after {
+    border-color: #ffffff;
+}
+
+.chip-grey {
+    background: #d4d4d4;
+    color: #d4d4d4;
+}
+
+.chip-accent {
+    background: #15B5FF;
+    color: #15B5FF;
+}
+
+.particle-color-chip:hover .chip {
+    transform: scale(1.1);
+}
+
+.particle-slider-toggle {
+    position: relative;
+    display: flex;
+    background: rgba(212, 212, 212, 0.2);
+    border-radius: 20px;
+    padding: 2px;
+    gap: 2px;
+}
+
+.slider-toggle-pill {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: calc(100% - 4px);
+    width: calc(33.333% - 3px);
+    background: rgba(21, 181, 255, 0.2);
+    border: 1px solid #15B5FF;
+    border-radius: 18px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.slider-toggle-option {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.slider-toggle-option input[type="radio"] {
+    display: none;
+}
+
+.slider-toggle-option span {
+    display: block;
+    padding: 4px 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #525252;
+    transition: color 0.3s ease;
+}
+
+.slider-toggle-option input[type="radio"]:checked + span {
+    color: #15B5FF;
+}
+
+.slider-toggle-option:hover span {
+    opacity: 0.7;
+}
+
+.particle-radio-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.particle-radio-label {
+    flex: 1;
+    min-width: 60px;
+}
+
+.particle-radio-label input[type="radio"] {
+    display: none;
+}
+
+.particle-radio-label span {
+    display: block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(212, 212, 212, 0.3);
+    border: 1px solid transparent;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #525252;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.particle-radio-label input[type="radio"]:checked + span {
+    background: rgba(21, 181, 255, 0.15);
+    border-color: #15B5FF;
+    color: #15B5FF;
+}
+
+.particle-radio-label:hover span {
+    background: rgba(212, 212, 212, 0.4);
+}
+
+.particle-radio-label input[type="radio"]:checked + span:hover {
+    background: rgba(21, 181, 255, 0.2);
+}
+
+/* Small button variant for reset */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 11px;
+    width: auto;
+}
+
+/* Particle reset button with accent color */
+.particle-controls .btn-primary {
+    background: #15B5FF;
+    color: white;
+    border: 1px solid #15B5FF;
+}
+
+.particle-controls .btn-primary:hover {
+    opacity: 0.5;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Dark theme particle controls */
+[data-theme="dark"] .particle-controls-header {
+    background: transparent;
+}
+
+[data-theme="dark"] .particle-controls-content {
+    background: transparent;
+}
+
+[data-theme="dark"] .particle-controls-title {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-controls-header:hover .particle-controls-title {
+    opacity: 0.5;
+}
+
+[data-theme="dark"] .particle-controls.expanded .particle-controls-title {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .particle-controls-close {
+    background: transparent;
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-controls.expanded .particle-controls-close {
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .particle-controls-close:hover {
+    opacity: 0.5;
+}
+
+[data-theme="dark"] .particle-controls .btn-primary {
+    background: #ea580c;
+    color: white;
+    border: 1px solid #ea580c;
+}
+
+[data-theme="dark"] .particle-controls .btn-primary:hover {
+    opacity: 0.5;
+    transform: none;
+    box-shadow: none;
+}
+
+[data-theme="dark"] .particle-control-label {
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .particle-control-value {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .chip-grey {
+    background: #404040;
+    color: #404040;
+}
+
+[data-theme="dark"] .chip-accent {
+    background: #ea580c;
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-color-chip input[type="radio"]:checked + .chip::after {
+    border-color: #ffffff;
+}
+
+[data-theme="dark"] .particle-slider {
+    background: rgba(64, 64, 64, 0.5);
+}
+
+[data-theme="dark"] .particle-slider::-webkit-slider-thumb {
+    background: #ea580c;
+    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+}
+
+[data-theme="dark"] .particle-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 3px 12px rgba(234, 88, 12, 0.5);
+}
+
+[data-theme="dark"] .particle-slider::-moz-range-thumb {
+    background: #ea580c;
+    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+}
+
+[data-theme="dark"] .particle-slider::-moz-range-thumb:hover {
+    box-shadow: 0 3px 12px rgba(234, 88, 12, 0.5);
+}
+
+[data-theme="dark"] .particle-slider-toggle {
+    background: rgba(64, 64, 64, 0.2);
+}
+
+[data-theme="dark"] .slider-toggle-pill {
+    background: rgba(234, 88, 12, 0.2);
+    border-color: #ea580c;
+}
+
+[data-theme="dark"] .slider-toggle-option span {
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .slider-toggle-option input[type="radio"]:checked + span {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-radio-label span {
+    background: rgba(64, 64, 64, 0.4);
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .particle-radio-label input[type="radio"]:checked + span {
+    background: rgba(234, 88, 12, 0.15);
+    border-color: #ea580c;
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-radio-label:hover span {
+    background: rgba(64, 64, 64, 0.5);
+}
+
+[data-theme="dark"] .particle-radio-label input[type="radio"]:checked + span:hover {
+    background: rgba(234, 88, 12, 0.2);
+}
+
+/* Responsive: Hide on mobile for performance */
+@media (max-width: 768px) {
+    .particle-canvas {
+        display: none;
+    }
+
+    .particle-controls {
+        display: none;
+    }
 }
 
 /* Back to Top Button */
@@ -753,6 +1242,13 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUpCentered {
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
     }
 }
 
@@ -1523,10 +2019,13 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     color: white;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    opacity: 0.5;
+    opacity: 0.8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-secondary {
@@ -1535,10 +2034,13 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     border: 2px solid #1a1a1a;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-    opacity: 0.5;
+    background: rgba(26, 26, 26, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Button size variants */
@@ -1955,7 +2457,9 @@ body[data-theme="dark"] .nav {
 }
 
 [data-theme="dark"] .btn-primary:hover {
-    opacity: 0.5;
+    opacity: 0.8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 [data-theme="dark"] .btn-secondary {
@@ -1965,7 +2469,9 @@ body[data-theme="dark"] .nav {
 }
 
 [data-theme="dark"] .btn-secondary:hover {
-    opacity: 0.5;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 /* Dark Mode Cards */

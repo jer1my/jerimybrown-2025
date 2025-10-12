@@ -102,23 +102,106 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg"></div>
+        <canvas id="particleCanvas" class="particle-canvas"></canvas>
         <div class="hero-content">
             <h1 class="hero-title">Design that <span class="rotating-word" id="rotatingWord">connects</span></h1>
-            <h2 class="hero-subtitle">Creating meaningful experiences through thoughtful UX design</h2>
-            <p class="hero-description">I craft intuitive digital experiences that solve real problems and delight users. Every pixel has a purpose, every interaction tells a story.</p>
-            <button class="scroll-arrow" onclick="scrollToProjects()">
-                <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <clipPath id="circleClip">
-                            <circle cx="28" cy="28" r="20"/>
-                        </clipPath>
-                    </defs>
-                    <circle cx="28" cy="28" r="26" stroke="rgba(26, 26, 26, 0.8)" stroke-width="2"/>
-                    <g class="arrow-group" clip-path="url(#circleClip)">
-                        <path d="M28 18L28 38M22 32L28 38L34 32" stroke="rgba(26, 26, 26, 0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                </svg>
-            </button>
+            <h2 class="hero-subtitle">Creating meaningful experiences through thoughtful UX</h2>
+        </div>
+
+        <!-- Scroll Arrow -->
+        <button class="scroll-arrow" onclick="scrollToProjects()">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <clipPath id="circleClip">
+                        <circle cx="28" cy="28" r="20"/>
+                    </clipPath>
+                </defs>
+                <circle cx="28" cy="28" r="26" stroke="rgba(26, 26, 26, 0.8)" stroke-width="2"/>
+                <g class="arrow-group" clip-path="url(#circleClip)">
+                    <path d="M28 18L28 38M22 32L28 38L34 32" stroke="rgba(26, 26, 26, 0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+            </svg>
+        </button>
+
+        <!-- Particle Control Panel -->
+        <div class="particle-controls" id="particleControls">
+            <div class="particle-controls-header" id="particleControlsHeader">
+                <h3 class="particle-controls-title">Particle Controls</h3>
+                <button class="particle-controls-close" id="particleControlsClose" aria-label="Close particle controls">
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="particle-controls-content">
+                <div class="particle-control-group">
+                    <label class="particle-control-label">
+                        <span>Particle Count</span>
+                        <span class="particle-control-value" id="particleCountValue">150</span>
+                    </label>
+                    <input type="range" id="particleCount" min="50" max="300" value="150" step="10" class="particle-slider">
+                </div>
+
+                <div class="particle-control-group">
+                    <label class="particle-control-label">Color</label>
+                    <div class="particle-color-chips">
+                        <label class="particle-color-chip">
+                            <input type="radio" name="colorScheme" value="greys" checked>
+                            <span class="chip chip-grey"></span>
+                        </label>
+                        <label class="particle-color-chip">
+                            <input type="radio" name="colorScheme" value="accent">
+                            <span class="chip chip-accent"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="particle-control-group">
+                    <label class="particle-control-label">
+                        <span>Color Strength</span>
+                        <span class="particle-control-value" id="colorStrengthValue">1.0</span>
+                    </label>
+                    <input type="range" id="colorStrength" min="0.3" max="1.5" value="1.0" step="0.1" class="particle-slider">
+                </div>
+
+                <div class="particle-control-group">
+                    <label class="particle-control-label">Interaction Mode</label>
+                    <div class="particle-slider-toggle" id="interactionModeToggle">
+                        <div class="slider-toggle-pill"></div>
+                        <label class="slider-toggle-option">
+                            <input type="radio" name="interactionMode" value="attract" checked>
+                            <span>Attract</span>
+                        </label>
+                        <label class="slider-toggle-option">
+                            <input type="radio" name="interactionMode" value="repel">
+                            <span>Repel</span>
+                        </label>
+                        <label class="slider-toggle-option">
+                            <input type="radio" name="interactionMode" value="static">
+                            <span>Static</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="particle-control-group">
+                    <label class="particle-control-label">
+                        <span>Connection Distance</span>
+                        <span class="particle-control-value" id="connectionDistanceValue">150</span>
+                    </label>
+                    <input type="range" id="connectionDistance" min="50" max="200" value="150" step="10" class="particle-slider">
+                </div>
+
+                <div class="particle-control-group">
+                    <label class="particle-control-label">
+                        <span>Speed</span>
+                        <span class="particle-control-value" id="particleSpeedValue">1.0</span>
+                    </label>
+                    <input type="range" id="particleSpeed" min="0.1" max="2.0" value="1.0" step="0.1" class="particle-slider">
+                </div>
+
+                <button class="button btn-sm btn-primary" id="particleReset">Reset</button>
+            </div>
         </div>
     </section>
 
@@ -221,6 +304,7 @@
         </svg>
     </button>
 
+    <script src="assets/js/particle-system.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>
