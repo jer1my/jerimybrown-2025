@@ -32,6 +32,45 @@
         body[data-theme="dark"] .nav {
             background: rgba(23, 23, 23, 0.1) !important;
         }
+
+        /* Accent color link - full color by default, with underline animation */
+        .accent-link {
+            color: #15B5FF;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+        body[data-theme="dark"] .accent-link {
+            color: #ea580c;
+        }
+
+        /* Underline that draws on hover */
+        .accent-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #15B5FF;
+            transition: width 0.3s ease;
+        }
+        body[data-theme="dark"] .accent-link::after {
+            background-color: #ea580c;
+        }
+
+        /* On hover: fade text to 50% and draw full color underline */
+        .accent-link:hover {
+            color: rgba(21, 181, 255, 0.5);
+        }
+        body[data-theme="dark"] .accent-link:hover {
+            color: rgba(234, 88, 12, 0.5);
+        }
+
+        .accent-link:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -353,7 +392,8 @@
                 
                 <div>
                     <div class="type-label">Interactive Elements</div>
-                    <div style="display: flex; align-items: center; gap: 32px;">
+                    <div style="display: flex; align-items: center; gap: 32px; flex-wrap: wrap;">
+                        <a href="#" class="accent-link" style="margin: 0;">Primary underline effect</a>
                         <p class="interactive-text" style="display: inline-block; margin: 0;">Hover for underline effect</p>
                         <div class="hover-lift transition-all hover-demo">Hover Lift</div>
                     </div>

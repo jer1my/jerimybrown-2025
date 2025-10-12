@@ -32,6 +32,45 @@
         body[data-theme="dark"] .nav {
             background: rgba(23, 23, 23, 0.1) !important;
         }
+
+        /* Accent color link - full color by default, with underline animation */
+        .accent-link {
+            color: #15B5FF;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+        body[data-theme="dark"] .accent-link {
+            color: #ea580c;
+        }
+
+        /* Underline that draws on hover */
+        .accent-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #15B5FF;
+            transition: width 0.3s ease;
+        }
+        body[data-theme="dark"] .accent-link::after {
+            background-color: #ea580c;
+        }
+
+        /* On hover: fade text to 50% and draw full color underline */
+        .accent-link:hover {
+            color: rgba(21, 181, 255, 0.5);
+        }
+        body[data-theme="dark"] .accent-link:hover {
+            color: rgba(234, 88, 12, 0.5);
+        }
+
+        .accent-link:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -268,6 +307,9 @@
                     <p>I'm a UX Director, Designer and Developer passionate about creating digital experiences that are both beautiful and functional. With a background in design psychology and technology, I bring a unique perspective to understanding user needs and translating them into elegant design solutions.</p>
                     <br>
                     <p>When I'm not designing, you'll find me exploring new technologies, painting, practicing photography, or racing motorcycles.</p>
+                    <br>
+                    <p><strong>Curious about my design evolution?</strong><br>Take a look at life before the flat design movement.</p>
+                    <p>Old Portfolio: <a href="https://www.jerimy.co/" class="accent-link" target="_blank" rel="noopener noreferrer">https://www.jerimy.co/</a></p>
                 </div>
                 <div class="about-carousel">
                     <div class="carousel-container">
