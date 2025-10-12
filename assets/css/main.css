@@ -702,6 +702,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     max-height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .particle-controls.expanded {
