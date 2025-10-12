@@ -1946,8 +1946,8 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
 }
 
 .about-text {
-    font-size: 20px;
-    line-height: 1.6;
+    font-size: 16px;
+    line-height: 1.7;
 }
 
 .about-image {
