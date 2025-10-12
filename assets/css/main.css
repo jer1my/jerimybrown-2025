@@ -871,7 +871,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 }
 
 .particle-color-chip input[type="radio"]:checked + .chip::after {
-    border-color: #ffffff;
+    border-color: #0f0f0f;
 }
 
 .chip-grey {
