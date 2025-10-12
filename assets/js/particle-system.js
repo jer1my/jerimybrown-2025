@@ -1,6 +1,9 @@
 // Particle Network System
 // Interactive particle animation for hero section background
 
+// Version tracking for forcing demo animations on updates
+const PARTICLE_SYSTEM_VERSION = '2.0'; // Orbital motion update
+
 class ParticleSystem {
     constructor(canvasId, options = {}) {
         this.canvas = document.getElementById(canvasId);
@@ -15,7 +18,7 @@ class ParticleSystem {
 
         // Default configuration
         this.config = {
-            particleCount: 150,
+            particleCount: 200,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys', // 'accent' or 'greys'
@@ -24,6 +27,7 @@ class ParticleSystem {
             speed: 1.0,
             mode: 'blackhole', // 'deepspace' or 'blackhole'
             blackHoleStrength: 110, // radius for black hole mode
+            rememberMe: false, // Don't remember settings by default
             ...this.loadPreferences()
         };
 
@@ -433,7 +437,7 @@ class ParticleSystem {
 
     reset() {
         this.config = {
-            particleCount: 150,
+            particleCount: 200,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys',
@@ -448,6 +452,11 @@ class ParticleSystem {
     }
 
     savePreferences() {
+        // Only save preferences if rememberMe is enabled
+        if (!this.config.rememberMe) {
+            return;
+        }
+
         localStorage.setItem('particlePreferences', JSON.stringify({
             particleCount: this.config.particleCount,
             connectionDistance: this.config.connectionDistance,
@@ -456,13 +465,38 @@ class ParticleSystem {
             interactionMode: this.config.interactionMode,
             speed: this.config.speed,
             mode: this.config.mode,
-            blackHoleStrength: this.config.blackHoleStrength
+            blackHoleStrength: this.config.blackHoleStrength,
+            rememberMe: this.config.rememberMe,
+            version: PARTICLE_SYSTEM_VERSION
         }));
     }
 
     loadPreferences() {
+        // Only load preferences if rememberMe is enabled
         const saved = localStorage.getItem('particlePreferences');
-        return saved ? JSON.parse(saved) : {};
+        if (!saved) {
+            return {};
+        }
+
+        const preferences = JSON.parse(saved);
+
+        // Only load if rememberMe was enabled
+        if (!preferences.rememberMe) {
+            return { rememberMe: false };
+        }
+
+        return preferences;
+    }
+
+    updateRememberMe(enabled) {
+        this.config.rememberMe = enabled;
+        if (enabled) {
+            // Save current settings when turning on
+            this.savePreferences();
+        } else {
+            // Clear saved settings when turning off
+            localStorage.removeItem('particlePreferences');
+        }
     }
 }
 
@@ -533,18 +567,29 @@ class ParticleControlPanel {
         this.particleSystem = particleSystem;
         this.demoAnimationRunning = false;
 
-        // Check if this is the user's first visit
-        const hasVisitedBefore = localStorage.getItem('particlePreferences') !== null;
-        const savedPreference = localStorage.getItem('particleControlsExpanded');
+        // Check version and rememberMe status to determine if we should play demo
+        const saved = localStorage.getItem('particlePreferences');
+        const savedVersion = saved ? JSON.parse(saved).version : null;
+        const versionChanged = savedVersion !== PARTICLE_SYSTEM_VERSION;
+        const rememberMe = this.particleSystem.config.rememberMe;
 
-        if (savedPreference === null) {
-            // First time visitor - always open panel to show the demo
+        // Play demo if:
+        // 1. Remember Me is OFF, OR
+        // 2. Version has changed (new features to showcase), OR
+        // 3. First time visitor (no saved preferences at all)
+        this.shouldPlayDemo = !rememberMe || versionChanged || !saved;
+
+        // Always open panel if we're playing the demo
+        const savedPanelState = localStorage.getItem('particleControlsExpanded');
+        if (this.shouldPlayDemo) {
             this.isExpanded = true;
-            this.isFirstVisit = !hasVisitedBefore;
+            // Save the panel state for remember me users
+            if (rememberMe && savedPanelState === null) {
+                localStorage.setItem('particleControlsExpanded', 'true');
+            }
         } else {
-            // Returning visitor - use their saved preference
-            this.isExpanded = savedPreference === 'true';
-            this.isFirstVisit = false;
+            // Use saved preference or default to closed
+            this.isExpanded = savedPanelState === 'true';
         }
 
         this.init();
@@ -559,11 +604,6 @@ class ParticleControlPanel {
         // Set initial expanded state
         if (this.isExpanded) {
             panel.classList.add('expanded');
-        }
-
-        // Save initial state for first-time visitors
-        if (localStorage.getItem('particleControlsExpanded') === null) {
-            localStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
         }
 
         // Set initial button icon
@@ -740,14 +780,25 @@ class ParticleControlPanel {
             });
         }
 
+        // Remember Me toggle
+        const rememberMeToggle = document.getElementById('rememberMeToggle');
+        if (rememberMeToggle) {
+            // Set initial state from config
+            rememberMeToggle.checked = this.particleSystem.config.rememberMe;
+
+            rememberMeToggle.addEventListener('change', (e) => {
+                this.particleSystem.updateRememberMe(e.target.checked);
+            });
+        }
+
         // Reset button
         const resetBtn = document.getElementById('particleReset');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetControls());
         }
 
-        // Run demo animation for first-time visitors
-        if (this.isFirstVisit && this.particleSystem.config.mode === 'blackhole') {
+        // Run demo animation when appropriate
+        if (this.shouldPlayDemo && this.particleSystem.config.mode === 'blackhole') {
             this.runDemoAnimation(blackHoleSlider, blackHoleValue);
         }
     }
@@ -828,7 +879,11 @@ class ParticleControlPanel {
 
         this.isExpanded = !this.isExpanded;
         panel.classList.toggle('expanded');
-        localStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
+
+        // Only save panel state if rememberMe is enabled
+        if (this.particleSystem.config.rememberMe) {
+            localStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
+        }
 
         // Update button icon
         if (closeBtn) {
@@ -877,8 +932,8 @@ class ParticleControlPanel {
         const countSlider = document.getElementById('particleCount');
         const countValue = document.getElementById('particleCountValue');
         if (countSlider && countValue) {
-            countSlider.value = 150;
-            countValue.textContent = '150';
+            countSlider.value = 200;
+            countValue.textContent = '200';
         }
 
         const distanceSlider = document.getElementById('connectionDistance');
