@@ -1265,6 +1265,94 @@ function animateChartValue(element, start, end, duration) {
 }
 
 // ==========================================
+// Image Preloading System
+// ==========================================
+
+// Mapping of project IDs to their featured carousel images
+const PROJECT_FEATURED_IMAGES = {
+    'ai-strategy': ['ai-1', 'ai-2', 'ai-3'],
+    'design-system': ['design-system-featured-1', 'design-system-featured-2', 'design-system-featured-3', 'design-system-featured-4', 'design-system-featured-5', 'design-system-featured-6', 'design-system-featured-7'],
+    'product-suite': ['product-suite-featured-1', 'product-suite-featured-2', 'product-suite-featured-3', 'product-suite-featured-4'],
+    'research-strategy': ['research-strategy-featured-1', 'research-strategy-featured-2', 'research-strategy-featured-3']
+};
+
+// Track which projects have been preloaded
+const preloadedProjects = new Set();
+
+// Prefetch images for a specific project
+function prefetchProjectImages(projectId) {
+    // Don't preload if already preloaded
+    if (preloadedProjects.has(projectId)) {
+        return;
+    }
+
+    const images = PROJECT_FEATURED_IMAGES[projectId];
+    if (!images) return;
+
+    // Get current theme to preload correct version
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    const theme = isDark ? 'dark' : 'light';
+
+    // Use requestIdleCallback for non-blocking prefetch
+    const prefetchImage = (imageName) => {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.as = 'image';
+        link.href = `assets/images/work/${imageName}-${theme}.png`;
+        document.head.appendChild(link);
+    };
+
+    // Prefetch each image
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => {
+            images.forEach(prefetchImage);
+        });
+    } else {
+        // Fallback for browsers without requestIdleCallback
+        setTimeout(() => {
+            images.forEach(prefetchImage);
+        }, 100);
+    }
+
+    // Mark as preloaded
+    preloadedProjects.add(projectId);
+}
+
+// Initialize hover intent preloading for project cards
+function initHoverPreloading() {
+    // Only run on index page
+    const projectsSection = document.getElementById('projects');
+    if (!projectsSection) return;
+
+    const projectCards = document.querySelectorAll('.project-card-link');
+
+    projectCards.forEach(card => {
+        let hoverTimeout = null;
+
+        // Get project ID from the card
+        const projectCard = card.querySelector('.project-card');
+        const projectId = projectCard?.getAttribute('data-card');
+
+        if (!projectId) return;
+
+        // Start prefetch on hover (with 200ms delay to detect intent)
+        card.addEventListener('mouseenter', () => {
+            hoverTimeout = setTimeout(() => {
+                prefetchProjectImages(projectId);
+            }, 200);
+        });
+
+        // Cancel prefetch if user moves away quickly
+        card.addEventListener('mouseleave', () => {
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = null;
+            }
+        });
+    });
+}
+
+// ==========================================
 // Dynamic Project Content Management
 // ==========================================
 
@@ -1356,6 +1444,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initProjectCards(); // Generate project cards on index page
     initProjectPageContent(); // Update page title and subtitle on project pages
     initProjectNavigation(); // Update prev/next navigation on project pages
+    initHoverPreloading(); // Initialize hover intent image preloading
 
     initScrollAnimations(); // Now project cards exist and can be observed
     initSmoothScrolling();
