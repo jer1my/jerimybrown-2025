@@ -11,7 +11,7 @@ class ParticleSystem {
         this.mouse = { x: 0, y: 0 };
         this.animationId = null;
         this.isActive = false;
-        this.previousBlackHoleStrength = 150; // Track for redistribution
+        this.previousBlackHoleStrength = 110; // Track for redistribution
 
         // Default configuration
         this.config = {
@@ -22,8 +22,8 @@ class ParticleSystem {
             colorStrength: 1.0, // 0.3 to 1.5
             interactionMode: 'attract', // 'attract', 'repel', or 'static'
             speed: 1.0,
-            mode: 'default', // 'default' or 'blackhole'
-            blackHoleStrength: 150, // radius for black hole mode
+            mode: 'blackhole', // 'deepspace' or 'blackhole'
+            blackHoleStrength: 110, // radius for black hole mode
             ...this.loadPreferences()
         };
 
@@ -365,7 +365,7 @@ class ParticleSystem {
                     particle.vy += Math.sin(angle) * constrainForce;
                 }
             } else {
-                // Default mode: mouse interaction
+                // Deep space mode: mouse interaction
                 if (this.config.interactionMode !== 'static') {
                     const dx = this.mouse.x - particle.x;
                     const dy = this.mouse.y - particle.y;
@@ -381,7 +381,7 @@ class ParticleSystem {
                     }
                 }
 
-                // Handle "connects" word circle repulsion in default mode
+                // Handle "connects" word circle repulsion in deep space mode
                 if (this.connectsCircle) {
                     const dx = this.connectsCircle.x - particle.x;
                     const dy = this.connectsCircle.y - particle.y;
@@ -435,8 +435,8 @@ class ParticleSystem {
             colorStrength: 1.0,
             interactionMode: 'attract',
             speed: 1.0,
-            mode: 'default',
-            blackHoleStrength: 150
+            mode: 'blackhole',
+            blackHoleStrength: 110
         };
         this.createParticles();
         this.savePreferences();
@@ -463,7 +463,7 @@ class ParticleSystem {
 
 // Particle class
 class Particle {
-    constructor(canvas, speedMultiplier = 1.0, mode = 'default', connectsCircle = null) {
+    constructor(canvas, speedMultiplier = 1.0, mode = 'deepspace', connectsCircle = null) {
         this.canvas = canvas;
         this.speedMultiplier = speedMultiplier;
         this.radius = Math.random() * 2 + 1;
@@ -486,7 +486,7 @@ class Particle {
             this.vx = (Math.random() - 0.5) * 0.5;
             this.vy = (Math.random() - 0.5) * 0.5;
         } else {
-            // Default mode: spawn randomly
+            // Deep space mode: spawn randomly
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
             this.vx = (Math.random() - 0.5) * 0.5;
@@ -638,6 +638,11 @@ class ParticleControlPanel {
             });
         }
 
+        // Set initial visibility of black hole strength control
+        if (this.particleSystem.config.mode === 'blackhole' && blackHoleControl) {
+            blackHoleControl.classList.add('visible');
+        }
+
         // Particle count slider
         const countSlider = document.getElementById('particleCount');
         const countValue = document.getElementById('particleCountValue');
@@ -773,7 +778,7 @@ class ParticleControlPanel {
         const pill = document.querySelector('#particleModeToggle .slider-toggle-pill');
         if (!pill) return;
 
-        // Calculate position based on index (0=default, 1=blackhole)
+        // Calculate position based on index (0=blackhole, 1=deepspace)
         // Each option is 50% width with 2px padding and 2px gaps
         const totalOptions = 2;
         const optionWidthPercent = 100 / totalOptions;
@@ -817,8 +822,8 @@ class ParticleControlPanel {
         const blackHoleSlider = document.getElementById('blackHoleStrength');
         const blackHoleValue = document.getElementById('blackHoleStrengthValue');
         if (blackHoleSlider && blackHoleValue) {
-            blackHoleSlider.value = 150;
-            blackHoleValue.textContent = '150';
+            blackHoleSlider.value = 110;
+            blackHoleValue.textContent = '110';
         }
 
         // Reset radio buttons
@@ -834,16 +839,16 @@ class ParticleControlPanel {
         });
 
         document.querySelectorAll('[name="particleMode"]').forEach((btn, index) => {
-            btn.checked = btn.value === 'default';
+            btn.checked = btn.value === 'blackhole';
             if (btn.checked) {
                 this.updateModePillPosition(index);
             }
         });
 
-        // Hide black hole strength control when reset to default mode with animation
+        // Show black hole strength control when reset to black hole mode with animation
         const blackHoleControl = document.getElementById('blackHoleStrengthControl');
         if (blackHoleControl) {
-            blackHoleControl.classList.remove('visible');
+            blackHoleControl.classList.add('visible');
         }
     }
 }
