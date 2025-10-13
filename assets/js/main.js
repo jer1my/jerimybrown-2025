@@ -1473,4 +1473,75 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof initParticleSystem === 'function') {
         initParticleSystem();
     }
+
+    // Initialize logo scroller
+    initLogoScroller();
 });
+
+// ==========================================
+// Logo Scroller - Seamless Infinite Scroll
+// ==========================================
+
+function initLogoScroller() {
+    const track = document.querySelector('.logo-scroller-track');
+    if (!track) return;
+
+    // Function to setup seamless scroll
+    function setupSeamlessScroll() {
+        // Get all visible brand logos (either light or dark, depending on theme)
+        const visibleLogos = track.querySelectorAll('.brand-logo:not([style*="display: none"])');
+
+        if (visibleLogos.length === 0) {
+            // Fallback: count all logos and divide by 2 (since half are hidden)
+            const allLogos = track.querySelectorAll('.brand-logo');
+            const logoCount = allLogos.length / 2; // Each brand has 2 versions
+
+            // Calculate approximate width
+            // Average logo width ~120px + 64px gap
+            const approximateWidth = logoCount * 184;
+            track.style.setProperty('--scroll-distance', `-${approximateWidth}px`);
+        } else {
+            // Calculate the exact width of one complete set (half of all visible logos)
+            const totalLogos = visibleLogos.length;
+            const oneSetCount = totalLogos / 2;
+
+            // Get computed gap between logos
+            const trackStyles = window.getComputedStyle(track);
+            const gap = parseInt(trackStyles.gap) || 64;
+
+            // Calculate total width of one set
+            let totalWidth = 0;
+            for (let i = 0; i < oneSetCount; i++) {
+                totalWidth += visibleLogos[i].offsetWidth + gap;
+            }
+
+            // Set the scroll distance as a negative value
+            track.style.setProperty('--scroll-distance', `-${totalWidth}px`);
+        }
+
+        // Apply the animation with responsive duration
+        const isMobile = window.innerWidth <= 768;
+        const duration = isMobile ? '40s' : '50s';
+        track.style.animation = `scrollLogos ${duration} linear infinite`;
+    }
+
+    // Initial setup
+    setupSeamlessScroll();
+
+    // Recalculate on theme change to ensure accuracy with different logo versions
+    const observer = new MutationObserver(() => {
+        setupSeamlessScroll();
+    });
+
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+
+    // Recalculate on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(setupSeamlessScroll, 150);
+    });
+}
