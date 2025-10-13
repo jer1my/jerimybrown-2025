@@ -30,3 +30,7 @@ pids
 # Temporary files
 *.tmp
 *.temp
+
+# Tool configurations
+.claude/
+.playwright-mcp/
