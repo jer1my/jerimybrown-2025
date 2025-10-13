@@ -113,16 +113,15 @@
             display: flex;
             align-items: center;
             gap: 64px;
-            animation: scrollLogos 50s linear infinite;
             will-change: transform;
         }
 
         @keyframes scrollLogos {
-            0% {
+            from {
                 transform: translateX(0);
             }
-            100% {
-                transform: translateX(-50%);
+            to {
+                transform: translateX(var(--scroll-distance));
             }
         }
 
@@ -187,7 +186,6 @@
 
             .logo-scroller-track {
                 gap: 48px;
-                animation-duration: 40s;
             }
         }
     </style>
