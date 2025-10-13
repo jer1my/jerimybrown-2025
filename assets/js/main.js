@@ -299,8 +299,15 @@ function initSmoothScrolling() {
     // Smooth scroll for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+
+            // Skip if href is just '#' or empty
+            if (!href || href === '#') {
+                return;
+            }
+
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(href);
             if (target) {
                 const targetPosition = target.offsetTop - 76;
                 window.scrollTo({
@@ -1283,8 +1290,8 @@ function animateChartValue(element, start, end, duration) {
 const PROJECT_FEATURED_IMAGES = {
     'ai-strategy': ['ai-1', 'ai-2', 'ai-3'],
     'design-system': ['design-system-featured-1', 'design-system-featured-2', 'design-system-featured-3', 'design-system-featured-4', 'design-system-featured-5', 'design-system-featured-6', 'design-system-featured-7'],
-    'product-suite': ['product-suite-featured-1', 'product-suite-featured-2', 'product-suite-featured-3', 'product-suite-featured-4'],
-    'research-strategy': ['research-strategy-featured-1', 'research-strategy-featured-2', 'research-strategy-featured-3']
+    'product-suite': ['product-feature-1', 'product-feature-2', 'product-feature-3', 'product-feature-4'],
+    'research-strategy': ['research-1', 'research-2', 'research-3']
 };
 
 // Track which projects have been preloaded
