@@ -1598,7 +1598,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 }
 
 [data-card="product-suite"] .project-bg-image {
-    background-image: url('../images/greenfield-dark.png');
+    background-image: url('../images/product-dark.png');
 }
 
 [data-card="research-strategy"] .project-bg-image {
@@ -1719,7 +1719,7 @@ body:not([data-theme="dark"]) [data-card="ai-strategy"] .project-bg-image {
 }
 
 body:not([data-theme="dark"]) [data-card="product-suite"] .project-bg-image {
-    background-image: url('../images/greenfield-light.png');
+    background-image: url('../images/product-light.png');
 }
 
 body:not([data-theme="dark"]) [data-card="research-strategy"] .project-bg-image {
