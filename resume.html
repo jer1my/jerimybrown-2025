@@ -91,7 +91,9 @@
 
         /* Resume-specific styles */
         .header .subtitle {
-            color: var(--primary-color);
+            font-size: clamp(18px, 2.5vw, 32px);
+            color: var(--text-secondary);
+            font-weight: var(--font-weight-regular);
         }
 
         .header .description {
@@ -100,6 +102,12 @@
 
         .header .description .interactive-text {
             color: var(--accent-color);
+        }
+
+        /* Ensure default body font for description paragraphs (not subtitle) */
+        .header p:not(.subtitle) {
+            font-size: 16px;
+            line-height: 1.7;
         }
 
         .resume-section {
@@ -287,6 +295,11 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            /* Ensure mobile body font for description paragraphs (not subtitle) */
+            .header p:not(.subtitle) {
+                font-size: 12px;
+            }
+
             .resume-section-title {
                 font-size: 24px;
             }

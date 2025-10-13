@@ -684,8 +684,8 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 
 .hero-subtitle {
     font-size: clamp(18px, 2.5vw, 32px);
-    font-weight: 400;
-    color: #525252;
+    font-weight: var(--font-weight-regular);
+    color: var(--text-secondary);
     margin-bottom: 48px;
     opacity: 0;
     transform: translateY(30px);
@@ -2471,10 +2471,6 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     background: transparent;
 }
 
-[data-theme="dark"] .hero-subtitle {
-    color: var(--text-secondary);
-}
-
 [data-theme="dark"] .project-description {
     color: #a3a3a3;
 }
@@ -2920,10 +2916,6 @@ body[data-theme="dark"] .nav {
 
     .hero-title {
         font-size: 48px;
-    }
-
-    .hero-subtitle {
-        font-size: 20px;
     }
 
     .scroll-arrow {
