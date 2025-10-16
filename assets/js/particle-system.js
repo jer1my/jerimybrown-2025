@@ -542,14 +542,22 @@ class Particle {
         this.vx *= 0.99;
         this.vy *= 0.99;
 
-        // Boundary bounce
-        if (this.x < 0 || this.x > this.canvas.width) {
-            this.vx *= -1;
-            this.x = Math.max(0, Math.min(this.canvas.width, this.x));
+        // Wrap-around boundaries with buffer zone
+        // Allow particles to move beyond visible canvas without bouncing
+        const buffer = 200; // Buffer zone beyond canvas edges
+
+        // Wrap horizontally
+        if (this.x < -buffer) {
+            this.x = this.canvas.width + buffer;
+        } else if (this.x > this.canvas.width + buffer) {
+            this.x = -buffer;
         }
-        if (this.y < 0 || this.y > this.canvas.height) {
-            this.vy *= -1;
-            this.y = Math.max(0, Math.min(this.canvas.height, this.y));
+
+        // Wrap vertically
+        if (this.y < -buffer) {
+            this.y = this.canvas.height + buffer;
+        } else if (this.y > this.canvas.height + buffer) {
+            this.y = -buffer;
         }
     }
 
