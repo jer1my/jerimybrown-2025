@@ -18,7 +18,7 @@ class ParticleSystem {
 
         // Default configuration
         this.config = {
-            particleCount: 200,
+            particleCount: 300,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys', // 'accent' or 'greys'
@@ -37,7 +37,7 @@ class ParticleSystem {
         this.colors = {
             light: {
                 accent: { particle: 'rgba(21, 181, 255, 0.8)', connection: 'rgba(21, 181, 255, 0.5)' },
-                greys: { particle: 'rgba(150, 150, 150, 0.85)', connection: 'rgba(150, 150, 150, 0.55)' }
+                greys: { particle: 'rgba(185, 185, 185, 0.85)', connection: 'rgba(185, 185, 185, 0.55)' }
             },
             dark: {
                 accent: { particle: 'rgba(234, 88, 12, 0.8)', connection: 'rgba(234, 88, 12, 0.5)' },
@@ -437,7 +437,7 @@ class ParticleSystem {
 
     reset() {
         this.config = {
-            particleCount: 200,
+            particleCount: 300,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys',
@@ -822,19 +822,20 @@ class ParticleControlPanel {
 
         this.demoAnimationRunning = true;
         const startValue = 110;
-        const maxValue = 300;
-        const animationDuration = 2500; // 2.5 seconds each way
+        const maxValue = 330;
+        const animationIn = 3200; // 3.2 seconds to animate in
+        const animationOut = 2800; // 2.8 seconds to animate out
         const pauseDuration = 2000; // 2 second pause at max
 
-        // Wait 1.5 seconds before starting
+        // Wait 2 seconds before starting
         setTimeout(() => {
             let startTime = null;
 
-            // Animate from 110 to 300
+            // Animate from 110 to 330
             const animateUp = (timestamp) => {
                 if (!startTime) startTime = timestamp;
                 const elapsed = timestamp - startTime;
-                const progress = Math.min(elapsed / animationDuration, 1);
+                const progress = Math.min(elapsed / animationIn, 1);
 
                 // Easing function for smooth animation
                 const easeInOutCubic = progress < 0.5
@@ -858,11 +859,11 @@ class ParticleControlPanel {
                 }
             };
 
-            // Animate from 300 back to 110
+            // Animate from 330 back to 110
             const animateDown = (timestamp) => {
                 if (!startTime) startTime = timestamp;
                 const elapsed = timestamp - startTime;
-                const progress = Math.min(elapsed / animationDuration, 1);
+                const progress = Math.min(elapsed / animationOut, 1);
 
                 // Easing function for smooth animation
                 const easeInOutCubic = progress < 0.5
@@ -893,7 +894,7 @@ class ParticleControlPanel {
             };
 
             requestAnimationFrame(animateUp);
-        }, 1500);
+        }, 2000);
     }
 
     togglePanel() {
@@ -960,8 +961,8 @@ class ParticleControlPanel {
         const countSlider = document.getElementById('particleCount');
         const countValue = document.getElementById('particleCountValue');
         if (countSlider && countValue) {
-            countSlider.value = 200;
-            countValue.textContent = '200';
+            countSlider.value = 300;
+            countValue.textContent = '300';
         }
 
         const distanceSlider = document.getElementById('connectionDistance');
