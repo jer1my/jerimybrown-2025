@@ -1963,6 +1963,100 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     color: #15B5FF;
 }
 
+/* ==========================================
+   Brands Section
+   ========================================== */
+.brands {
+    text-align: center;
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.logo-scroller {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 160px;
+    margin-bottom: 120px;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.logo-scroller-track {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    will-change: transform;
+}
+
+@keyframes scrollLogos {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(var(--scroll-distance));
+    }
+}
+
+.brand-logo {
+    width: auto;
+    height: auto;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.brand-logo:hover {
+    opacity: 1;
+    filter: brightness(1.1);
+}
+
+/* Theme-aware logo display */
+.logo-light {
+    display: block;
+}
+
+.logo-dark {
+    display: none;
+}
+
+body[data-theme="dark"] .logo-light {
+    display: none;
+}
+
+body[data-theme="dark"] .logo-dark {
+    display: block;
+}
+
+/* Pause animation on hover */
+.logo-scroller:hover .logo-scroller-track {
+    animation-play-state: paused;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .logo-scroller-track {
+        animation: scrollLogos 100s linear infinite;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .brands {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .logo-scroller {
+        margin-top: 80px;
+        margin-bottom: 64px;
+    }
+
+    .logo-scroller-track {
+        gap: 48px;
+    }
+}
+
 /* Contact Section */
 .contact {
     min-height: 100vh;
@@ -2168,6 +2262,77 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
 }
 
 /* Components */
+
+/* Accent Link Component */
+.accent-link {
+    color: #15B5FF;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+body[data-theme="dark"] .accent-link {
+    color: #ea580c;
+}
+
+/* Underline that draws on hover */
+.accent-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #15B5FF;
+    transition: width 0.3s ease;
+}
+
+body[data-theme="dark"] .accent-link::after {
+    background-color: #ea580c;
+}
+
+/* On hover: fade text to 50% and draw full color underline */
+.accent-link:hover {
+    color: rgba(21, 181, 255, 0.5);
+}
+
+body[data-theme="dark"] .accent-link:hover {
+    color: rgba(234, 88, 12, 0.5);
+}
+
+.accent-link:hover::after {
+    width: 100%;
+}
+
+/* Section Subtitle Component */
+.section-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 48px;
+    line-height: 1.7;
+}
+
+body[data-theme="dark"] .section-subtitle {
+    color: #e0e0e0;
+}
+
+/* Reduce gap between title and subtitle in specific sections */
+.brands .section-title,
+.contact .section-title {
+    margin-bottom: 0;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .section-subtitle {
+        margin-top: 4px;
+        margin-bottom: 32px;
+    }
+}
+
 .component-grid {
     display: grid;
     gap: 48px;
