@@ -795,6 +795,10 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     opacity: 0.5;
 }
 
+.particle-controls-header:hover .particle-controls-close {
+    opacity: 0.5;
+}
+
 .particle-controls.expanded .particle-controls-title {
     color: #0f0f0f;
 }
@@ -817,10 +821,6 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 
 .particle-controls.expanded .particle-controls-close {
     color: #525252;
-}
-
-.particle-controls-close:hover {
-    opacity: 0.5;
 }
 
 .particle-controls-content {
@@ -1180,6 +1180,10 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     opacity: 0.5;
 }
 
+[data-theme="dark"] .particle-controls-header:hover .particle-controls-close {
+    opacity: 0.5;
+}
+
 [data-theme="dark"] .particle-controls.expanded .particle-controls-title {
     color: #e0e0e0;
 }
@@ -1191,10 +1195,6 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 
 [data-theme="dark"] .particle-controls.expanded .particle-controls-close {
     color: #a3a3a3;
-}
-
-[data-theme="dark"] .particle-controls-close:hover {
-    opacity: 0.5;
 }
 
 [data-theme="dark"] .particle-controls .btn-primary {
