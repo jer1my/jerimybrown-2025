@@ -16,6 +16,12 @@ class ParticleSystem {
         this.isActive = false;
         this.previousBlackHoleStrength = 110; // Track for redistribution
 
+        // Mouse activity tracking
+        this.lastMouseMove = Date.now();
+        this.isMouseActive = false;
+        this.mouseIdleTimeout = 800; // ms of inactivity before releasing
+        this.mouseActivityCheckInterval = null;
+
         // Default configuration
         this.config = {
             particleCount: 300,
@@ -60,15 +66,38 @@ class ParticleSystem {
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
 
-        // Mouse tracking
+        // Mouse tracking with activity detection
         window.addEventListener('mousemove', (e) => {
             const rect = this.canvas.getBoundingClientRect();
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY - rect.top;
+
+            // Update activity state
+            this.lastMouseMove = Date.now();
+            this.isMouseActive = true;
+        });
+
+        // Deactivate when mouse leaves viewport
+        window.addEventListener('mouseleave', () => {
+            this.isMouseActive = false;
+        });
+
+        // Reactivate when mouse enters viewport
+        window.addEventListener('mouseenter', () => {
+            this.lastMouseMove = Date.now();
+            this.isMouseActive = true;
         });
 
         // Set up "connects" word boundary circle
         this.updateConnectsCircle();
+
+        // Start checking for mouse inactivity
+        this.mouseActivityCheckInterval = setInterval(() => {
+            const timeSinceLastMove = Date.now() - this.lastMouseMove;
+            if (timeSinceLastMove > this.mouseIdleTimeout && this.isMouseActive) {
+                this.isMouseActive = false;
+            }
+        }, 100); // Check every 100ms
 
         // Initialize particles
         this.createParticles();
@@ -274,7 +303,8 @@ class ParticleSystem {
 
                 // Mouse interaction still works in black hole mode
                 // Stronger mouse effect at higher black hole strength
-                if (this.config.interactionMode !== 'static') {
+                // Only apply when mouse is actively moving
+                if (this.config.interactionMode !== 'static' && this.isMouseActive) {
                     const dx = this.mouse.x - particle.x;
                     const dy = this.mouse.y - particle.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -375,7 +405,8 @@ class ParticleSystem {
                 }
             } else {
                 // Deep space mode: mouse interaction
-                if (this.config.interactionMode !== 'static') {
+                // Only apply when mouse is actively moving
+                if (this.config.interactionMode !== 'static' && this.isMouseActive) {
                     const dx = this.mouse.x - particle.x;
                     const dy = this.mouse.y - particle.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -432,6 +463,9 @@ class ParticleSystem {
         this.isActive = false;
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
+        }
+        if (this.mouseActivityCheckInterval) {
+            clearInterval(this.mouseActivityCheckInterval);
         }
     }
 
@@ -505,6 +539,7 @@ class Particle {
     constructor(canvas, speedMultiplier = 1.0, mode = 'deepspace', connectsCircle = null) {
         this.canvas = canvas;
         this.speedMultiplier = speedMultiplier;
+        this.mode = mode;
         this.radius = Math.random() * 2 + 1;
 
         // Give each particle a random "mass" - affects how it responds to gravity
@@ -542,22 +577,25 @@ class Particle {
         this.vx *= 0.99;
         this.vy *= 0.99;
 
-        // Wrap-around boundaries with buffer zone
-        // Allow particles to move beyond visible canvas without bouncing
-        const buffer = 200; // Buffer zone beyond canvas edges
+        // Wrap-around boundaries only in Deep Space mode
+        // In Black Hole mode, gravitational constraints handle boundaries
+        if (this.mode === 'deepspace') {
+            // Allow particles to move beyond visible canvas without bouncing
+            const buffer = 200; // Buffer zone beyond canvas edges
 
-        // Wrap horizontally
-        if (this.x < -buffer) {
-            this.x = this.canvas.width + buffer;
-        } else if (this.x > this.canvas.width + buffer) {
-            this.x = -buffer;
-        }
+            // Wrap horizontally
+            if (this.x < -buffer) {
+                this.x = this.canvas.width + buffer;
+            } else if (this.x > this.canvas.width + buffer) {
+                this.x = -buffer;
+            }
 
-        // Wrap vertically
-        if (this.y < -buffer) {
-            this.y = this.canvas.height + buffer;
-        } else if (this.y > this.canvas.height + buffer) {
-            this.y = -buffer;
+            // Wrap vertically
+            if (this.y < -buffer) {
+                this.y = this.canvas.height + buffer;
+            } else if (this.y > this.canvas.height + buffer) {
+                this.y = -buffer;
+            }
         }
     }
 
