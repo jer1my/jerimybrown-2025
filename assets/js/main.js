@@ -1121,6 +1121,10 @@ class CarouselDrag {
         this.dragDistance = 0;
         this.startTime = 0;
 
+        // Transition guard to prevent drag during slide changes
+        this.isTransitioning = false;
+        this.lastTransitionTime = 0;
+
         // Navigation functions
         this.goToSlide = options.goToSlide || this.defaultGoToSlide.bind(this);
 
@@ -1154,6 +1158,12 @@ class CarouselDrag {
     handleStart(e) {
         // Only handle primary touch/click
         if (e.touches && e.touches.length > 1) return;
+
+        // Don't allow drag to start if a transition is in progress
+        const timeSinceLastTransition = Date.now() - this.lastTransitionTime;
+        if (this.isTransitioning || timeSinceLastTransition < 100) {
+            return;
+        }
 
         this.isDragging = true;
         this.startX = this.getEventX(e);
@@ -1212,9 +1222,16 @@ class CarouselDrag {
             }
         } else {
             // Snap back to current slide by restoring CSS-based positioning
+            this.isTransitioning = true;
+            this.lastTransitionTime = Date.now();
             this.track.style.transform = '';
             this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
             this.goToSlide(this.currentSlide);
+
+            // Clear transition flag after animation completes
+            setTimeout(() => {
+                this.isTransitioning = false;
+            }, 500);
         }
 
         // Reset drag state
@@ -1223,19 +1240,53 @@ class CarouselDrag {
 
 
     nextSlide() {
-        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
-        // Clear inline transform and restore CSS-based positioning
-        this.track.style.transform = '';
-        this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        this.goToSlide(this.currentSlide);
+        // Mark transition as starting
+        this.isTransitioning = true;
+        this.lastTransitionTime = Date.now();
+
+        // Don't wrap around - stop at last slide
+        if (this.currentSlide < this.totalSlides - 1) {
+            this.currentSlide = this.currentSlide + 1;
+            // Clear inline transform and restore CSS-based positioning
+            this.track.style.transform = '';
+            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            this.goToSlide(this.currentSlide);
+        } else {
+            // At last slide, just snap back to current position
+            this.track.style.transform = '';
+            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            this.goToSlide(this.currentSlide);
+        }
+
+        // Clear transition flag after animation completes
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 500);
     }
 
     prevSlide() {
-        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
-        // Clear inline transform and restore CSS-based positioning
-        this.track.style.transform = '';
-        this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        this.goToSlide(this.currentSlide);
+        // Mark transition as starting
+        this.isTransitioning = true;
+        this.lastTransitionTime = Date.now();
+
+        // Don't wrap around - stop at first slide
+        if (this.currentSlide > 0) {
+            this.currentSlide = this.currentSlide - 1;
+            // Clear inline transform and restore CSS-based positioning
+            this.track.style.transform = '';
+            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            this.goToSlide(this.currentSlide);
+        } else {
+            // At first slide, just snap back to current position
+            this.track.style.transform = '';
+            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            this.goToSlide(this.currentSlide);
+        }
+
+        // Clear transition flag after animation completes
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 500);
     }
 
     defaultGoToSlide(slideIndex) {
@@ -1266,7 +1317,81 @@ function initCarousel() {
 
         // Update drag instance when slide changes externally
         window.aboutCarouselDrag = aboutDrag;
+
+        // Pause auto-rotation on hover
+        aboutCarouselContainer.addEventListener('mouseenter', () => {
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+            }
+        });
+
+        // Resume auto-rotation on mouse leave
+        aboutCarouselContainer.addEventListener('mouseleave', () => {
+            if (!autoRotateInterval) {
+                autoRotateInterval = setInterval(nextSlide, 8000);
+            }
+        });
+
+        // Pause auto-rotation when drag starts
+        aboutCarouselContainer.addEventListener('mousedown', () => {
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+            }
+        });
+
+        aboutCarouselContainer.addEventListener('touchstart', () => {
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+            }
+        });
+
+        // Resume auto-rotation when drag ends (if not hovering)
+        const resumeAutoRotation = (e) => {
+            // Only resume if mouse has left the container
+            const rect = aboutCarouselContainer.getBoundingClientRect();
+            const x = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
+            const y = e.clientY || (e.changedTouches && e.changedTouches[0].clientY);
+
+            const isOutside = x < rect.left || x > rect.right || y < rect.top || y > rect.bottom;
+
+            if (isOutside && !autoRotateInterval) {
+                autoRotateInterval = setInterval(nextSlide, 8000);
+            }
+        };
+
+        aboutCarouselContainer.addEventListener('mouseup', resumeAutoRotation);
+        aboutCarouselContainer.addEventListener('touchend', resumeAutoRotation);
     }
+
+    // Handle page visibility changes to prevent race conditions on refocus
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // Page is hidden - pause auto-rotation and clear interval
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+            }
+        } else {
+            // Page is visible again - resume auto-rotation if carousel is in view
+            const aboutSection = document.getElementById('about');
+            const aboutCarouselContainer = document.querySelector('.carousel-container');
+
+            if (aboutSection && aboutCarouselContainer) {
+                const rect = aboutSection.getBoundingClientRect();
+                const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+
+                // Only resume if section is in view and not currently hovering
+                const isHovering = aboutCarouselContainer.matches(':hover');
+
+                if (isInView && !isHovering && !autoRotateInterval) {
+                    autoRotateInterval = setInterval(nextSlide, 8000);
+                }
+            }
+        }
+    });
 
     // Use Intersection Observer to start auto-rotation when about section is visible
     const aboutSection = document.getElementById('about');

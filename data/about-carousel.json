@@ -3,29 +3,29 @@
     {
       "id": "about-design",
       "dataCard": "about-design",
-      "title": "Hey it's me!",
-      "description": "Glad you're here nice to meet you 👋 ",
+      "title": "Hey it's me! &nbsp;&nbsp;👋",
+      "description": "Glad you're here, nice to see you",
       "backgroundClass": "about-design"
     },
     {
       "id": "about-background",
       "dataCard": "about-background",
-      "title": "My last track day",
-      "description": "This was my last track day at HPR. I got a new personal best of 2 minutes flat. That's not too bad 🏍️",
+      "title": "Hey it's me again! &nbsp;&nbsp;😂",
+      "description": "Last track day at HPR, I got a new personal best of 2 minutes flat. Not bad.",
       "backgroundClass": "about-background"
     },
     {
       "id": "about-creative",
       "dataCard": "about-creative",
-      "title": "A recent favorite photograph",
-      "description": "One of my favorite captures to date, because of the patience it took 📸.",
+      "title": "Something I captured &nbsp;&nbsp;📸",
+      "description": "One of my favorite captures to date, because of the patience it took.",
       "backgroundClass": "about-creative"
     },
     {
       "id": "about-personal",
       "dataCard": "about-personal",
-      "title": "My current painting",
-      "description": "This is my latest painting. Follow me on other platforms to watch me finish it 🎨",
+      "title": "Something I'm making &nbsp;&nbsp;🎨",
+      "description": "This is my latest painting. Follow me on other platforms to watch me finish it.",
       "backgroundClass": "about-personal"
     }
   ]

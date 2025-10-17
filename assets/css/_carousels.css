@@ -35,25 +35,35 @@
 
 /* About cards show less overlay by default to show more image */
 .about-card .project-content-overlay {
-    min-height: 15%;
-    justify-content: flex-end;
+    height: 18%;
+    min-height: 18%;
+    justify-content: flex-start;
     padding: 16px 40px 20px;
+    transition: all 0.3s ease;
+    overflow: visible;
 }
 
 .about-card .project-title {
     margin-bottom: 0;
+    font-size: 18px;
+}
+
+.about-card .project-description {
+    color: var(--text-primary);
 }
 
 .about-card .project-content-overlay::before {
     height: 100%;
 }
 
-.about-card:hover .project-content-overlay {
-    min-height: 50%;
-    padding: 40px;
+/* Sync hover state across all cards - hover on container affects all cards */
+.carousel-container:hover .about-card .project-content-overlay {
+    height: 38%;
+    min-height: 38%;
+    padding: 32px 40px 16px;
 }
 
-.about-card:hover .project-content-overlay::before {
+.carousel-container:hover .about-card .project-content-overlay::before {
     height: 100%;
 }
 

@@ -269,10 +269,10 @@
     margin-bottom: 24px;
 }
 
-/* About section carousel cards hover (without link wrapper) */
-.about-card:hover .project-description {
+/* About section carousel cards hover - synced across all cards via container hover */
+.carousel-container:hover .about-card .project-description {
     opacity: 1;
-    max-height: 200px;
+    max-height: 300px;
     margin-bottom: 24px;
 }
 
