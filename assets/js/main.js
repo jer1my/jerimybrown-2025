@@ -326,6 +326,7 @@ function initSmoothScrolling() {
 function toggleMobileMenu() {
     const overlay = document.getElementById('mobileMenuOverlay');
     const body = document.body;
+    const toggle = document.querySelector('.nav-mobile-toggle');
 
     if (overlay) {
         const isActive = overlay.classList.contains('active');
@@ -334,10 +335,12 @@ function toggleMobileMenu() {
             // Close menu
             overlay.classList.remove('active');
             body.classList.remove('mobile-menu-open');
+            if (toggle) toggle.classList.remove('menu-active');
         } else {
             // Open menu
             overlay.classList.add('active');
             body.classList.add('mobile-menu-open');
+            if (toggle) toggle.classList.add('menu-active');
         }
     }
 }

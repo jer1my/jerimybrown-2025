@@ -238,7 +238,7 @@ body {
     background: var(--bg-overlay-light);
     backdrop-filter: var(--blur-lg);
     -webkit-backdrop-filter: var(--blur-lg);
-    z-index: var(--z-sticky);
+    z-index: 1200;
     padding: var(--space-5) 0;
     transition: background var(--transition-base), backdrop-filter var(--transition-base);
 }
@@ -440,17 +440,37 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     display: none;
     align-items: center;
     justify-content: center;
-}
-
-.nav-mobile-toggle svg {
-    width: var(--font-size-xl);
-    height: var(--font-size-xl);
-    stroke: currentColor;
-    transition: all 0.2s ease;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
 }
 
 .nav-mobile-toggle:hover {
     opacity: 0.5;
+}
+
+/* Hamburger bars */
+.hamburger-bar {
+    width: 24px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+/* Active state - Transform to X */
+.nav-mobile-toggle.menu-active .hamburger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-mobile-toggle.menu-active .hamburger-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.nav-mobile-toggle.menu-active .hamburger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Mobile Menu Overlay */
