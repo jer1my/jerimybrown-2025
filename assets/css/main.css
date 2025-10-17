@@ -526,6 +526,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     transform: translateY(20px);
     transition: all var(--transition-base);
     position: relative;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-home-icon {
