@@ -1,0 +1,143 @@
+{
+  "experience": [
+    {
+      "company": "Precisely",
+      "location": "Denver, CO",
+      "title": "Director of UX",
+      "dates": "06/2018 - PRESENT",
+      "startDate": "2018-06",
+      "endDate": null,
+      "description": "Direct global UX strategy and design systems across the product portfolio, leading distributed teams of designers and researchers. Transform disparate legacy products and on-premises solutions into the unified Data Integrity Suite—a modern SaaS platform with hybrid deployment options—through scalable design frameworks, strategic AI integration, and rapid research methodologies. Establish design standards that accelerate development, ensure consistency across deployment models, and drive innovation throughout the product lifecycle.",
+      "featured": true
+    },
+    {
+      "company": "Hitachi",
+      "location": "Denver, CO",
+      "title": "Sr. UX/UI Engineer",
+      "dates": "06/2018 - 06/2021",
+      "startDate": "2018-06",
+      "endDate": "2021-06",
+      "description": "Responsible for defining all user experience and human factor designs, which align to the global solutions strategy and roadmap for the Unified Offering Management group. The role collaborates with end users, internal subject matter experts, and engineering teams around the globe, to create solutions for a broad variety of market verticals.",
+      "featured": true
+    },
+    {
+      "company": "Form LLC",
+      "location": "Denver, CO",
+      "title": "Owner/Creative Director",
+      "dates": "10/2017 – 06/2018",
+      "startDate": "2017-10",
+      "endDate": "2018-06",
+      "description": "As the owner and Creative Director of Form, it was my job to craft engaging stories and experiences for my clients. Strategic shaping and aesthetic direction of campaign initiatives, branding, and story telling at all levels, played a large part of the assured quality of those things from start to finish.",
+      "featured": true
+    },
+    {
+      "company": "ProtectWise",
+      "location": "Denver, CO",
+      "title": "Creative Director",
+      "dates": "11/2016 – 10/2017",
+      "startDate": "2016-11",
+      "endDate": "2017-10",
+      "description": "I was Responsible for leading the traditional and digital experience design for all marketing needs. ProtectWise was a unique challenge, in that, they had already rebranded a couple times, so it was up to me and the marketing team to evolve the brand in a way that would soften the disconnect between new and old material. We ended up developing our own agile approach to design, similar to what development teams use. I was lucky enough to be able to partner up with Jake Sargeant and Legwork to produce some exceptional digital work, that we were all proud of.",
+      "featured": true
+    },
+    {
+      "company": "AgileData",
+      "location": "Denver, CO",
+      "title": "Developer Experience Engineer",
+      "dates": "08/2015 – 11/2016",
+      "startDate": "2015-08",
+      "endDate": "2016-11",
+      "featured": false
+    },
+    {
+      "company": "NCC Group",
+      "location": "San Francisco, CA",
+      "title": "Sr. UX/UI Designer",
+      "dates": "10/2014 – 08/2015",
+      "startDate": "2014-10",
+      "endDate": "2015-08",
+      "featured": false
+    },
+    {
+      "company": "Finish Line",
+      "location": "Boulder, CO",
+      "title": "Sr. Art Director",
+      "dates": "05/2013 – 10/2014",
+      "startDate": "2013-05",
+      "endDate": "2014-10",
+      "featured": false
+    },
+    {
+      "company": "Mondo Robot",
+      "location": "Boulder, CO",
+      "title": "Sr. Art Director",
+      "dates": "05/2011 – 05/2013",
+      "startDate": "2011-05",
+      "endDate": "2013-05",
+      "featured": false
+    },
+    {
+      "company": "Factory Design Labs",
+      "location": "Denver, CO",
+      "title": "Sr. Art Director",
+      "dates": "12/2008 – 05/2011",
+      "startDate": "2008-12",
+      "endDate": "2011-05",
+      "featured": false
+    },
+    {
+      "company": "Crispin Porter + Bogusky",
+      "location": "Boulder, CO",
+      "title": "Sr. Interactive Designer",
+      "dates": "06/2008 – 12/2008",
+      "startDate": "2008-06",
+      "endDate": "2008-12",
+      "featured": false
+    },
+    {
+      "company": "Texture Media",
+      "location": "Boulder, CO",
+      "title": "Art Director",
+      "dates": "03/2006 – 06/2008",
+      "startDate": "2006-03",
+      "endDate": "2008-06",
+      "featured": false
+    },
+    {
+      "company": "NOD interactive",
+      "location": "Boulder, CO",
+      "title": "Art Director",
+      "dates": "07/2004 – 01/2006",
+      "startDate": "2004-07",
+      "endDate": "2006-01",
+      "featured": false
+    },
+    {
+      "company": "Leopard",
+      "location": "Boulder, CO",
+      "title": "New Media Specialist",
+      "dates": "01/2002 – 07/2004",
+      "startDate": "2002-01",
+      "endDate": "2004-07",
+      "featured": false
+    },
+    {
+      "company": "Level 3 Communications",
+      "location": "Denver, CO",
+      "title": "Art Director",
+      "dates": "05/1999 – 10/2001",
+      "startDate": "1999-05",
+      "endDate": "2001-10",
+      "featured": false
+    },
+    {
+      "company": "Vannevar New Media",
+      "location": "Houston, TX",
+      "title": "New Media Designer",
+      "dates": "01/1997 – 05/1999",
+      "startDate": "1997-01",
+      "endDate": "1999-05",
+      "featured": false
+    }
+  ]
+}

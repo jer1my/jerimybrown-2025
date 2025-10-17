@@ -1,0 +1,45 @@
+/* ==========================================
+   Reset & Base Styles
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-padding-top: 76px;
+}
+
+body {
+    font-family: var(--font-family-primary);
+    line-height: 1.7;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-weight: var(--font-weight-regular);
+    -webkit-font-smoothing: antialiased;
+    font-size: var(--font-size-base);
+    transition: background-color var(--transition-base), color var(--transition-base);
+    overflow-x: hidden;
+}
+
+/* Text Selection */
+::selection {
+    background: rgba(21, 181, 255, 0.3);
+    color: #15B5FF;
+}
+
+::-moz-selection {
+    background: rgba(21, 181, 255, 0.3);
+    color: #15B5FF;
+}
+
+[data-theme="dark"] ::selection {
+    background: rgba(234, 88, 12, 0.3);
+    color: #ea580c;
+}
+
+[data-theme="dark"] ::-moz-selection {
+    background: rgba(234, 88, 12, 0.3);
+    color: #ea580c;
+}

@@ -1,0 +1,610 @@
+/* ==========================================
+   Particle System
+   ========================================== */
+
+.particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Particle Controls */
+.particle-controls {
+    position: absolute;
+    bottom: 12px;
+    right: 24px;
+    width: 240px;
+    z-index: 100;
+    transform: translateY(calc(100% - 46px));
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.particle-controls.expanded {
+    transform: translateY(0);
+}
+
+.particle-controls {
+    background: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+}
+
+.particle-controls-header {
+    background: transparent;
+    border-radius: 16px 16px 0 0;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.4s ease;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.particle-controls-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #15B5FF;
+    transition: all 0.3s ease;
+}
+
+.particle-controls-header:hover .particle-controls-title {
+    opacity: 0.5;
+}
+
+.particle-controls-header:hover .particle-controls-close {
+    opacity: 0.5;
+}
+
+.particle-controls.expanded .particle-controls-title {
+    color: #0f0f0f;
+}
+
+.particle-controls-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #15B5FF;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    opacity: 1;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.particle-controls.expanded .particle-controls-close {
+    color: #525252;
+}
+
+/* Small hamburger bars for particle controls */
+.hamburger-bar-sm {
+    width: 16px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+/* Active state - Transform to X when panel is expanded */
+.particle-controls.expanded .hamburger-bar-sm:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.particle-controls.expanded .hamburger-bar-sm:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.particle-controls.expanded .hamburger-bar-sm:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+}
+
+.particle-controls-content {
+    background: transparent;
+    padding: 0 16px 12px 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 1;
+    min-height: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.particle-controls.expanded .particle-controls-content {
+    opacity: 1;
+}
+
+/* Custom scrollbar for particle controls */
+.particle-controls-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.particle-controls-content::-webkit-scrollbar-track {
+    background: rgba(212, 212, 212, 0.2);
+    border-radius: 3px;
+}
+
+.particle-controls-content::-webkit-scrollbar-thumb {
+    background: rgba(21, 181, 255, 0.4);
+    border-radius: 3px;
+}
+
+.particle-controls-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(21, 181, 255, 0.6);
+}
+
+.particle-control-group {
+    margin-bottom: 12px;
+}
+
+.particle-control-group:last-of-type {
+    margin-bottom: 12px;
+}
+
+/* Animated black hole strength control */
+.particle-control-group.animated-control {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease,
+                margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.particle-control-group.animated-control.visible {
+    max-height: 100px;
+    opacity: 1;
+    margin-bottom: 12px;
+}
+
+.particle-control-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #525252;
+}
+
+.particle-control-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #15B5FF;
+}
+
+.particle-slider {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(212, 212, 212, 0.5);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.particle-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #15B5FF;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(21, 181, 255, 0.3);
+    transition: all 0.2s ease;
+}
+
+.particle-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 12px rgba(21, 181, 255, 0.5);
+}
+
+.particle-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #15B5FF;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(21, 181, 255, 0.3);
+    transition: all 0.2s ease;
+}
+
+.particle-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 12px rgba(21, 181, 255, 0.5);
+}
+
+.remember-me-label {
+    cursor: pointer;
+}
+
+.remember-me-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid rgba(212, 212, 212, 0.5);
+    border-radius: 4px;
+    background: transparent;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.remember-me-checkbox:hover {
+    border-color: #15B5FF;
+}
+
+.remember-me-checkbox:checked {
+    background: #15B5FF;
+    border-color: #15B5FF;
+}
+
+.remember-me-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.particle-color-chips {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.particle-color-chip {
+    cursor: pointer;
+}
+
+.particle-color-chip input[type="radio"] {
+    display: none;
+}
+
+.particle-color-chip .chip {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.particle-color-chip .chip::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.particle-color-chip input[type="radio"]:checked + .chip::after {
+    border-color: #0f0f0f;
+}
+
+.chip-grey {
+    background: #d4d4d4;
+    color: #d4d4d4;
+}
+
+.chip-accent {
+    background: #15B5FF;
+    color: #15B5FF;
+}
+
+.particle-color-chip:hover .chip {
+    transform: scale(1.1);
+}
+
+.particle-slider-toggle {
+    position: relative;
+    display: flex;
+    background: rgba(212, 212, 212, 0.2);
+    border-radius: 20px;
+    padding: 2px;
+    gap: 2px;
+}
+
+.slider-toggle-pill {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: calc(100% - 4px);
+    width: calc(33.333% - 3px);
+    background: rgba(21, 181, 255, 0.2);
+    border: 1px solid #15B5FF;
+    border-radius: 18px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Mode toggle specific (2 options) */
+.particle-mode-toggle .slider-toggle-pill {
+    width: calc(50% - 3px);
+}
+
+.slider-toggle-option {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.slider-toggle-option input[type="radio"] {
+    display: none;
+}
+
+.slider-toggle-option span {
+    display: block;
+    padding: 4px 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #525252;
+    transition: color 0.3s ease;
+}
+
+.slider-toggle-option input[type="radio"]:checked + span {
+    color: #15B5FF;
+}
+
+.slider-toggle-option:hover span {
+    opacity: 0.7;
+}
+
+.particle-radio-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.particle-radio-label {
+    flex: 1;
+    min-width: 60px;
+}
+
+.particle-radio-label input[type="radio"] {
+    display: none;
+}
+
+.particle-radio-label span {
+    display: block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(212, 212, 212, 0.3);
+    border: 1px solid transparent;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #525252;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.particle-radio-label input[type="radio"]:checked + span {
+    background: rgba(21, 181, 255, 0.15);
+    border-color: #15B5FF;
+    color: #15B5FF;
+}
+
+.particle-radio-label:hover span {
+    background: rgba(212, 212, 212, 0.4);
+}
+
+.particle-radio-label input[type="radio"]:checked + span:hover {
+    background: rgba(21, 181, 255, 0.2);
+}
+
+/* Small button variant for reset */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 11px;
+    width: auto;
+}
+
+/* Particle reset button with accent color */
+.particle-controls .btn-primary {
+    background: #15B5FF;
+    color: white;
+    border: 1px solid #15B5FF;
+}
+
+.particle-controls .btn-primary:hover {
+    opacity: 0.5;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Dark theme particle controls */
+[data-theme="dark"] .particle-controls-header {
+    background: transparent;
+}
+
+[data-theme="dark"] .particle-controls-content {
+    background: transparent;
+}
+
+[data-theme="dark"] .particle-controls-content::-webkit-scrollbar-track {
+    background: rgba(64, 64, 64, 0.2);
+}
+
+[data-theme="dark"] .particle-controls-content::-webkit-scrollbar-thumb {
+    background: rgba(234, 88, 12, 0.4);
+}
+
+[data-theme="dark"] .particle-controls-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(234, 88, 12, 0.6);
+}
+
+[data-theme="dark"] .particle-controls-title {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-controls-header:hover .particle-controls-title {
+    opacity: 0.5;
+}
+
+[data-theme="dark"] .particle-controls-header:hover .particle-controls-close {
+    opacity: 0.5;
+}
+
+[data-theme="dark"] .particle-controls.expanded .particle-controls-title {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .particle-controls-close {
+    background: transparent;
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-controls.expanded .particle-controls-close {
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .particle-controls .btn-primary {
+    background: #ea580c;
+    color: white;
+    border: 1px solid #ea580c;
+}
+
+[data-theme="dark"] .particle-controls .btn-primary:hover {
+    opacity: 0.5;
+    transform: none;
+    box-shadow: none;
+}
+
+[data-theme="dark"] .particle-control-label {
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .particle-control-value {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .chip-grey {
+    background: #404040;
+    color: #404040;
+}
+
+[data-theme="dark"] .chip-accent {
+    background: #ea580c;
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-color-chip input[type="radio"]:checked + .chip::after {
+    border-color: #ffffff;
+}
+
+[data-theme="dark"] .particle-slider {
+    background: rgba(64, 64, 64, 0.5);
+}
+
+[data-theme="dark"] .particle-slider::-webkit-slider-thumb {
+    background: #ea580c;
+    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+}
+
+[data-theme="dark"] .particle-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 3px 12px rgba(234, 88, 12, 0.5);
+}
+
+[data-theme="dark"] .particle-slider::-moz-range-thumb {
+    background: #ea580c;
+    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+}
+
+[data-theme="dark"] .particle-slider::-moz-range-thumb:hover {
+    box-shadow: 0 3px 12px rgba(234, 88, 12, 0.5);
+}
+
+[data-theme="dark"] .remember-me-checkbox {
+    border-color: rgba(64, 64, 64, 0.5);
+}
+
+[data-theme="dark"] .remember-me-checkbox:hover {
+    border-color: #ea580c;
+}
+
+[data-theme="dark"] .remember-me-checkbox:checked {
+    background: #ea580c;
+    border-color: #ea580c;
+}
+
+[data-theme="dark"] .particle-slider-toggle {
+    background: rgba(64, 64, 64, 0.2);
+}
+
+[data-theme="dark"] .slider-toggle-pill {
+    background: rgba(234, 88, 12, 0.2);
+    border-color: #ea580c;
+}
+
+[data-theme="dark"] .slider-toggle-option span {
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .slider-toggle-option input[type="radio"]:checked + span {
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-radio-label span {
+    background: rgba(64, 64, 64, 0.4);
+    color: #a3a3a3;
+}
+
+[data-theme="dark"] .particle-radio-label input[type="radio"]:checked + span {
+    background: rgba(234, 88, 12, 0.15);
+    border-color: #ea580c;
+    color: #ea580c;
+}
+
+[data-theme="dark"] .particle-radio-label:hover span {
+    background: rgba(64, 64, 64, 0.5);
+}
+
+[data-theme="dark"] .particle-radio-label input[type="radio"]:checked + span:hover {
+    background: rgba(234, 88, 12, 0.2);
+}
+
+/* Responsive: Show particles on mobile, hide controls */
+@media (max-width: 768px) {
+    .particle-controls {
+        display: none;
+    }
+
+    .hero-subtitle .mobile-break {
+        display: inline;
+    }
+}
+

@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="icon" href="../favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/main.css?v=10">
+    <link rel="stylesheet" href="../assets/css/main.css?v=11">
     <style>
         /* Prevent navigation flash on first load */
         .nav {
@@ -33,6 +33,29 @@
             background: rgba(23, 23, 23, 0.1) !important;
         }
     </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "Building an Enterprise Design System",
+        "description": "Unifying enterprise product experiences through a comprehensive design system with accessibility as a foundational standard. Delivered a scalable component library, design tokens, and documentation that reduced design-to-development time by 43%.",
+        "author": {
+            "@type": "Person",
+            "name": "Jerimy Brown",
+            "url": "https://jerimybrown.com"
+        },
+        "datePublished": "2024",
+        "keywords": ["design system", "enterprise design", "accessibility", "component library", "design tokens", "atomic design", "UX design"],
+        "about": {
+            "@type": "Thing",
+            "name": "Enterprise Design System Development"
+        },
+        "url": "https://jerimybrown.com/work/design-system.html",
+        "inLanguage": "en-US"
+    }
+    </script>
 </head>
 <body>
     <script>
@@ -80,12 +103,7 @@
             </a>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="../index.html" class="nav-home-icon" aria-label="Home">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.3926 4.19531C11.7701 3.98557 12.2299 3.98557 12.6074 4.19531L19.6074 8.08398C20.0041 8.30447 20.25 8.7229 20.25 9.17676V19C20.25 19.6904 19.6904 20.25 19 20.25H5C4.30964 20.25 3.75 19.6904 3.75 19V9.17676C3.75002 8.72291 3.99589 8.30447 4.39258 8.08398L11.3926 4.19531Z" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M12.75 13C12.75 12.5858 12.4142 12.25 12 12.25C11.5858 12.25 11.25 12.5858 11.25 13L12 13L12.75 13ZM11.25 20L11.25 20.75L12.75 20.75L12.75 20L12 20L11.25 20ZM12 13L11.25 13L11.25 20L12 20L12.75 20L12.75 13L12 13Z" fill="currentColor"/>
-                        </svg>
-                    </a></li>
+                    <li><a href="../index.html"><span class="link-text">Home</span></a></li>
                     <li><a href="../index.html#projects"><span class="link-text">Work</span></a></li>
                     <li><a href="../index.html#about"><span class="link-text">About</span></a></li>
                     <li><a href="../index.html#contact"><span class="link-text">Contact</span></a></li>
@@ -112,6 +130,7 @@
     <div class="mobile-menu-overlay" id="mobileMenuOverlay">
         <div class="mobile-menu-content">
             <nav class="mobile-nav">
+                <a href="../index.html" onclick="toggleMobileMenu()"><span class="mobile-link-text">Home</span></a>
                 <a href="../index.html#projects" onclick="toggleMobileMenu()"><span class="mobile-link-text">Work</span></a>
                 <a href="../index.html#about" onclick="toggleMobileMenu()"><span class="mobile-link-text">About</span></a>
                 <a href="../index.html#contact" onclick="toggleMobileMenu()"><span class="mobile-link-text">Contact</span></a>
@@ -203,6 +222,9 @@
             <div class="content-grid">
                 <aside class="content-sidebar">
                     <nav class="project-nav">
+                        <div class="project-nav-back">
+                            <a href="../index.html#projects">← Back</a>
+                        </div>
                         <h3>Contents</h3>
                         <ul>
                             <li><a href="#overview">Overview</a></li>
@@ -216,38 +238,19 @@
 
                 <main class="content-main">
                     <section id="overview" class="content-section">
-                        <h2>Overview</h2>
-                        <p>This case study showcases the development of a comprehensive design system that unified user experiences across a complex suite of enterprise products—from hybrid AI platforms, to SaaS products and on-premises solutions. The project required extensive cross-functional collaboration and established accessibility as a foundational standard across the organization.</p>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="challenge" class="content-section">
-                        <h2>The Challenge</h2>
-                        <p>Our enterprise product suite had grown organically over years, resulting in inconsistent user experiences, duplicated design work, and significant development overhead. Teams were working in silos, creating their own patterns and components without consideration for the broader ecosystem.</p>
-
-                        <div class="highlight-box">
-                            <h4>Key Challenges</h4>
-                            <ul>
-                                <li>Inconsistent UI patterns created fragmented experiences across enterprise products</li>
-                                <li>No centralized component library—teams rebuilt common patterns repeatedly</li>
-                                <li>Accessibility compliance gaps with no standardized WCAG strategy or implementation</li>
-                                <li>Development cycles slowed by redundant component recreation and design-dev handoff friction</li>
-                                <li>Jarring user experience when navigating between products due to visual and interaction inconsistencies</li>
-                                <li>Limited organizational awareness of design system value and ROI</li>
-                            </ul>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="solution" class="content-section">
-                        <h2>Solution</h2>
-                        <p>We developed a comprehensive design system that addressed these challenges through a multi-phased approach:</p>
-                        <p><b>Foundation & Standards</b><br>
-                        Built on atomic design principles, we created a scalable component library with more than 100 reusable components, eliminating redundant development work. A robust design token system enabled consistent styling across all products while supporting theming for different platforms.</p>
-                        <p><b>Accessibility</b><br>
-                        We established WCAG 2.1 AA compliance as a baseline standard, integrating accessibility testing into every component. This included comprehensive documentation on color contrast, keyboard navigation, focus management, and screen reader support.</p>
-                        <p><b>Enabling Cross-Product Consistency</b><br>
-                        A responsive grid system and clear layout patterns ensured visual and interaction consistency across all products. Implementation guidelines provided clear adoption pathways for both greenfield projects and legacy application updates.</p>
-                        <p><b>Building Organizational Buy-In</b><br>
-                        Through stakeholder workshops, pilot programs, and measurable ROI demonstrations, we cultivated understanding of the design system's strategic value—transforming it from a 'nice-to-have' to a core organizational asset.</p>
+                        <h2></h2>
+                        <div class="section-content"></div>
+                    </section>
                         <!-- HIDE CAROUSEL UNTIL LATER
                         <div class="project-carousel">
                             <div class="carousel-container" id="projectCarouselContainer">
@@ -273,97 +276,15 @@
                                 <button class="indicator" data-slide="2" onclick="goToProjectSlide(2)"></button>
                             </div>
                         </div> -->
-                    </section>
 
                     <section id="process" class="content-section">
-                        <h2>Design Process</h2>
-                        <p>The design system development followed a structured, iterative approach that prioritized high-impact components first to minimize disruption. By addressing the most commonly used elements initially and expanding to edge cases over time, we ensured smooth adoption and delivered immediate value across the organization.</p>
-
-                        <div class="process-steps">
-                            <div class="process-step">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h4>Audit & Research</h4>
-                                    <p>Conducted comprehensive UI audit across all products, interviewed product teams, and researched best practices for enterprise design systems.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h4>Foundation & Principles</h4>
-                                    <p>Established design principles, token architecture (color, typography, spacing, radius), responsive grid system with breakpoint strategy, and WCAG 2.1 AA accessibility standards.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4>Component Development</h4>
-                                    <p>Built and tested a comprehensive library of reusable components with extensive documentation and implementation guidelines.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">4</div>
-                                <div class="step-content">
-                                    <h4>Adoption & Governance</h4>
-                                    <p>Implemented phased adoption strategy beginning with pilot teams to validate the system in production. Established governance processes with clear contribution guidelines and created comprehensive training materials for organization-wide rollout. The measurable improvements in pilot products generated organic demand—legacy teams proactively reached out seeking migration strategies to modernize their applications.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="results" class="content-section">
-                        <h2>Results & Impact</h2>
-                        <p>The design system transformed how our organization approached product development, resulting in significant improvements in efficiency, consistency, and user experience quality.</p>
-
-                        <div class="results-grid">
-                            <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="43">
-                                    <svg viewBox="0 0 60 60">
-                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
-                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
-                                    </svg>
-                                    <div class="chart-center">
-                                        <div class="chart-value">43%</div>
-                                    </div>
-                                </div>
-                                <div class="chart-label">Reduction in design-to-development time</div>
-                            </div>
-                            <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="84">
-                                    <svg viewBox="0 0 60 60">
-                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
-                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
-                                    </svg>
-                                    <div class="chart-center">
-                                        <div class="chart-value">84%</div>
-                                    </div>
-                                </div>
-                                <div class="chart-label">Improvement in accessibility compliance</div>
-                            </div>
-                            <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="79">
-                                    <svg viewBox="0 0 60 60">
-                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
-                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
-                                    </svg>
-                                    <div class="chart-center">
-                                        <div class="chart-value">79%</div>
-                                    </div>
-                                </div>
-                                <div class="chart-label">Of product teams now using the system</div>
-                            </div>
-                        </div>
-
-                        <div class="highlight-box">
-                            <h4>Additional Outcomes</h4>
-                            <ul>
-                                <li>Unified user experience across all enterprise products</li>
-                                <li>Established design system governance and maintenance processes</li>
-                                <li>Created comprehensive accessibility training program</li>
-                                <li>Reduced component recreation by 80%</li>
-                                <li>Improved cross-team collaboration and communication</li>
-                            </ul>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
                 </main>
             </div>
@@ -425,6 +346,7 @@
         </svg>
     </button>
 
+    <script src="../assets/js/marked.min.js"></script>
     <script src="../assets/js/main.js?v=2"></script>
 </body>
 </html>

@@ -1,0 +1,91 @@
+{
+  "id": "ai-strategy",
+  "sections": {
+    "overview": {
+      "heading": "Overview",
+      "content": "Successful AI integration into legacy applications is tricky—it's about adding user value and building trust, not just cranking out features. This project demonstrates how to design intelligent experiences that build trust progressively through phased integration. Starting with low-risk writing assistance, evolving through conversational chat, and advancing to proactive recommendations and automation—each phase validates user confidence before introducing more autonomous capabilities. This approach makes complex AI feel intuitive and trustworthy while maintaining user control throughout."
+    },
+    "challenge": {
+      "heading": "The Challenge",
+      "intro": "AI-powered features often feel like black boxes, creating trust issues and adoption barriers. The challenge was designing an experience that leverages AI's power while maintaining transparency—helping users understand what the AI is doing, why it's making recommendations, and how to remain in control.",
+      "highlightTitle": "Key Challenges",
+      "keyPoints": [
+        "**Building progressive trust** in AI recommendations through phased capability introduction",
+        "**Maintaining transparency** in AI decision-making—showing reasoning, not just results",
+        "**Balancing automation with agency**—keeping users in control of critical decisions",
+        "**Designing for imperfection**—handling variable AI accuracy and edge cases gracefully",
+        "**Translating AI complexity** into intuitive, actionable interfaces",
+        "**Setting realistic expectations** about AI capabilities and limitations from the start"
+      ]
+    },
+    "solution": {
+      "heading": "Solution",
+      "intro": "We designed a transparent AI experience that builds user confidence through progressive capability introduction. Starting with simple writing assistance and advancing to automation, the solution surfaces AI reasoning at every step while keeping users in control of critical decisions—transforming complex AI into an intuitive, trusted tool."
+    },
+    "process": {
+      "heading": "Design Process",
+      "intro": "The design process emphasized understanding user mental models of AI and iteratively building interfaces that match user expectations while gradually introducing more sophisticated AI capabilities.",
+      "steps": [
+        {
+          "number": 1,
+          "title": "AI Mental Model Research",
+          "description": "Conducted user interviews to understand how people conceptualize AI and what builds or erodes trust in automated systems."
+        },
+        {
+          "number": 2,
+          "title": "Transparency Framework",
+          "description": "Developed design principles for AI transparency, including explainability patterns and confidence visualization methods."
+        },
+        {
+          "number": 3,
+          "title": "Progressive Disclosure Design",
+          "description": "Created interfaces that gradually introduce AI capabilities as users become more comfortable and experienced with the system."
+        },
+        {
+          "number": 4,
+          "title": "Trust Building & Testing",
+          "description": "Tested AI interfaces with users to validate trust-building mechanisms and refine the balance between automation and control."
+        }
+      ]
+    },
+    "results": {
+      "heading": "Results & Impact",
+      "intro": "Our AI design approach successfully increased user adoption of AI features while maintaining high satisfaction scores and building long-term trust in the platform's intelligent capabilities.",
+      "metrics": [
+        {
+          "value": "78%",
+          "label": "Increase in AI feature adoption",
+          "chartProgress": 78
+        },
+        {
+          "value": "92%",
+          "label": "User trust score for AI recommendations",
+          "chartProgress": 92
+        },
+        {
+          "value": "45%",
+          "label": "Reduction in task completion time",
+          "chartProgress": 45
+        }
+      ],
+      "additionalOutcomesTitle": "Design Impact",
+      "additionalOutcomes": [
+        "**Standardized AI patterns** across the product suite, ensuring consistency in AI experiences",
+        "**Built reusable explainability components** that surface AI reasoning throughout the platform",
+        "**Defined AI-human collaboration models** that preserve user agency while enabling automation",
+        "**Created AI design guidelines** now used by product teams for new feature development",
+        "**Established ethical AI principles** that guide organizational AI strategy"
+      ]
+    }
+  },
+  "sidebar": {
+    "title": "Contents",
+    "sections": [
+      { "id": "overview", "label": "Overview" },
+      { "id": "challenge", "label": "The Challenge" },
+      { "id": "solution", "label": "Solution" },
+      { "id": "process", "label": "Design Process" },
+      { "id": "results", "label": "Results" }
+    ]
+  }
+}

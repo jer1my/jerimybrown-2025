@@ -1,0 +1,114 @@
+{
+  "id": "research-strategy",
+  "sections": {
+    "overview": {
+      "heading": "Overview",
+      "content": "Demonstrating the strategic value of user research by selecting the right methodology for the challenge at hand. When stakeholders questioned the timeline and ROI of user testing, I pivoted from slow moderated sessions to rapid unmoderated testing—validating a new progressive disclosure pattern in 48 hours and proving that research delivers actionable insights quickly when properly scoped."
+    },
+    "challenge": {
+      "heading": "The Challenge",
+      "subheadings": [
+        {
+          "title": "Research Perception Problem",
+          "content": "Stakeholders viewed user research as time-consuming and questioned its value for iterative design decisions, creating pressure to skip validation and ship unproven patterns."
+        },
+        {
+          "title": "Pattern Validation Need",
+          "content": "A new progressive disclosure approach needed validation before implementation, but traditional moderated testing timelines (weeks) conflicted with development schedules."
+        }
+      ],
+      "highlightTitle": "Key Challenges",
+      "keyPoints": [
+        "Overcoming perception that research slows down product development",
+        "Validating a new interaction pattern within aggressive timelines",
+        "Demonstrating research ROI to skeptical stakeholders",
+        "Selecting appropriate methodology that balanced rigor with speed",
+        "Proving quick research can deliver reliable, actionable insights"
+      ]
+    },
+    "solution": {
+      "heading": "Solution",
+      "intro": "When initial moderated testing proved too slow, I pivoted to unmoderated remote testing—optimizing for speed without sacrificing insight quality. This strategic shift delivered validated results in 48 hours, proved the pattern's effectiveness with quantitative data, and demonstrated that well-scoped research accelerates rather than delays decision-making."
+    },
+    "process": {
+      "heading": "Design Process",
+      "intro": "The research process combined rapid prototyping with systematic testing to quickly validate or invalidate new interaction patterns while building a comprehensive understanding of user mental models.",
+      "steps": [
+        {
+          "number": 1,
+          "title": "Strategic Methodology Pivot",
+          "description": "Recognized moderated testing timeline (weeks) conflicted with project needs. Shifted to unmoderated remote testing optimized for rapid, scalable feedback."
+        },
+        {
+          "number": 2,
+          "title": "Efficient Test Design",
+          "description": "Created focused task-based scenarios targeting specific pattern validation—eliminating unnecessary scope to maximize speed while maintaining rigor."
+        },
+        {
+          "number": 3,
+          "title": "Rapid Execution & Analysis",
+          "description": "Deployed unmoderated test achieving high participation within 48 hours. Analyzed quantitative and qualitative data to extract clear, actionable insights."
+        },
+        {
+          "number": 4,
+          "title": "Stakeholder Communication",
+          "description": "Presented findings with clear metrics and recommendations—demonstrating research value through speed, clarity, and business impact."
+        }
+      ]
+    },
+    "results": {
+      "heading": "Results & Impact",
+      "intro": "The strategic methodology pivot delivered both immediate pattern validation and long-term organizational change—proving research can be both fast and valuable when properly scoped.",
+      "metricsType": "mixed",
+      "metrics": [
+        {
+          "value": "94.1%",
+          "label": "Success Rate",
+          "chartProgress": 94.1
+        },
+        {
+          "value": "73",
+          "label": "Participant",
+          "type": "simple"
+        },
+        {
+          "value": "48",
+          "label": "Hours",
+          "type": "simple"
+        }
+      ],
+      "outcomeGroups": [
+        {
+          "title": "Research Outcomes",
+          "outcomes": [
+            "**94.1% task success rate** validating the progressive disclosure pattern",
+            "**48-hour turnaround** from test launch to actionable insights",
+            "**73 participants** providing statistically significant validation",
+            "**Clear usability wins identified:** [specific findings if you have them]",
+            "**Pattern implemented confidently** with data-backed design decisions"
+          ]
+        },
+        {
+          "title": "Organizational Impact",
+          "outcomes": [
+            "Shifted stakeholder perception of research from \"blocker\" to \"accelerator\"",
+            "Established unmoderated testing as viable methodology for rapid validation",
+            "Demonstrated appropriate methodology selection delivers faster ROI",
+            "Created framework for matching research approach to project constraints",
+            "Influenced team to incorporate research into agile workflows"
+          ]
+        }
+      ]
+    }
+  },
+  "sidebar": {
+    "title": "Contents",
+    "sections": [
+      { "id": "overview", "label": "Overview" },
+      { "id": "challenge", "label": "The Challenge" },
+      { "id": "solution", "label": "Solution" },
+      { "id": "process", "label": "Design Process" },
+      { "id": "results", "label": "Results" }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "awards": [
+    {
+      "date": "07/2008",
+      "year": 2008,
+      "month": 7,
+      "name": "WEBBY - Peoples Voice",
+      "description": "AEG & National Geographic's King Tut web site"
+    },
+    {
+      "date": "01/2005",
+      "year": 2005,
+      "month": 1,
+      "name": "Society For Technical Communications Best of Show",
+      "description": "IBM Tivoli City"
+    },
+    {
+      "date": "04/2004",
+      "year": 2004,
+      "month": 4,
+      "name": "One Show",
+      "description": "IBM Printing Systems CD"
+    },
+    {
+      "date": "04/2004",
+      "year": 2004,
+      "month": 4,
+      "name": "One Show",
+      "description": "Terraspring Flash demos"
+    },
+    {
+      "date": "04/2003",
+      "year": 2003,
+      "month": 4,
+      "name": "BMA - Silver",
+      "description": "eSoft web site"
+    },
+    {
+      "date": "09/2002",
+      "year": 2002,
+      "month": 9,
+      "name": "DAF",
+      "description": "eSoft banner ad campaign"
+    },
+    {
+      "date": "04/2002",
+      "year": 2002,
+      "month": 4,
+      "name": "ADCD - Silver",
+      "description": "Terraspring Flash Demo"
+    }
+  ],
+  "features": [
+    {
+      "date": "2021",
+      "year": 2021,
+      "title": "@Mountain.Shots (Photography Feature)"
+    },
+    {
+      "date": "2013",
+      "year": 2013,
+      "title": "The Denver Egotist (#TalentLivesHere)"
+    },
+    {
+      "date": "2012",
+      "year": 2012,
+      "title": "Bordo Bello Art Fundraiser"
+    },
+    {
+      "date": "2011",
+      "year": 2011,
+      "title": "Hangar 51 (First Friday Gallery Showing Denver, CO)"
+    },
+    {
+      "date": "2011",
+      "year": 2011,
+      "title": "Comm Arts Illustration Annual 52"
+    },
+    {
+      "date": "2011",
+      "year": 2011,
+      "title": "Bordo Bello Art Fundraiser"
+    },
+    {
+      "date": "2010",
+      "year": 2010,
+      "title": "Art Crank Poster Show"
+    },
+    {
+      "date": "2009",
+      "year": 2009,
+      "title": "Art Crank Poster Show"
+    },
+    {
+      "date": "2009",
+      "year": 2009,
+      "title": "Bordo Bello Art Fundraiser"
+    }
+  ]
+}
