@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=8">
+    <link rel="stylesheet" href="assets/css/main.css?v=10">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -139,10 +139,10 @@
         <div class="particle-controls" id="particleControls">
             <div class="particle-controls-header" id="particleControlsHeader">
                 <h3 class="particle-controls-title">Particle Controls</h3>
-                <button class="particle-controls-close" id="particleControlsClose" aria-label="Close particle controls">
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <button class="particle-controls-close" id="particleControlsClose" aria-label="Toggle particle controls">
+                    <span class="hamburger-bar-sm"></span>
+                    <span class="hamburger-bar-sm"></span>
+                    <span class="hamburger-bar-sm"></span>
                 </button>
             </div>
 
@@ -453,7 +453,7 @@
         </svg>
     </button>
 
-    <script src="assets/js/particle-system.js?v=2"></script>
+    <script src="assets/js/particle-system.js?v=3"></script>
     <script src="assets/js/main.js?v=2"></script>
 </body>
 </html>
