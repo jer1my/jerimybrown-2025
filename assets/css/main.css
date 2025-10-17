@@ -362,6 +362,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-theme-toggle svg {
@@ -447,6 +448,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     top: 20px;
     right: 24px;
     z-index: 1300;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-mobile-toggle:hover {
@@ -522,6 +524,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     align-items: center;
     justify-content: center;
     z-index: 10001;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-close svg {
@@ -641,6 +644,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     margin: 0 auto;
     opacity: 0;
     transform: translateY(20px);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-overlay.active .mobile-theme-toggle {
