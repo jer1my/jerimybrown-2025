@@ -30,13 +30,18 @@
     width: 25%; /* Each card takes 1/4 of track width */
     flex-shrink: 0;
     min-height: 400px;
+    border-radius: 0 !important; /* Remove individual card rounding - let carousel-container handle it */
 }
 
 /* About cards show less overlay by default to show more image */
 .about-card .project-content-overlay {
-    min-height: 20%;
+    min-height: 15%;
     justify-content: flex-end;
-    padding: 20px 40px;
+    padding: 16px 40px 20px;
+}
+
+.about-card .project-title {
+    margin-bottom: 0;
 }
 
 .about-card .project-content-overlay::before {
@@ -52,11 +57,16 @@
     height: 100%;
 }
 
-/* Remove hover effects from about cards - blur and text animation is enough */
-.about-card:hover {
-    transform: none;
-    box-shadow: none;
-    filter: none;
+/* Remove ALL hover effects from about cards - no lift, no shadows, no filters */
+.about-card,
+.about-card:hover,
+.about-card.project-card,
+.about-card.project-card:hover,
+.about-card.project-card-featured,
+.about-card.project-card-featured:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
 }
 
 /* Carousel Indicators */
