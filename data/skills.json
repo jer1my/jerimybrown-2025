@@ -1,0 +1,80 @@
+{
+  "skillCategories": [
+    {
+      "category": "Computer",
+      "title": "Computer",
+      "description": "Basically, whatever it takes to get the job done ;). Proficient on both MAC and PC.",
+      "skills": [
+        "AI / Vibe Coding",
+        "Terminal",
+        "Figma",
+        "Adobe Creative Cloud (All)",
+        "Sketch",
+        "Apple",
+        "Microsoft"
+      ]
+    },
+    {
+      "category": "Creative",
+      "title": "Creative",
+      "skills": [
+        "Concepting",
+        "Usability & Wireframing",
+        "Interactive & Print",
+        "Logo & Identity",
+        "Typography",
+        "Icons & Information Systems",
+        "Storyboarding",
+        "Illustration",
+        "Motion",
+        "Audio Editing & Production",
+        "Some 3D"
+      ]
+    },
+    {
+      "category": "Development",
+      "title": "Development",
+      "skillLevels": {
+        "Expert": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "jQuery",
+          "WordPress",
+          "Bootstrap",
+          "Sass",
+          "Less"
+        ],
+        "Intermediate": [
+          "Ruby",
+          "Ember",
+          "Play",
+          "Gulp",
+          "Git",
+          "NPM",
+          "Node",
+          "Jekyll"
+        ],
+        "Beginner": [
+          "Objective-C",
+          "Java",
+          "Angular",
+          "React"
+        ]
+      }
+    },
+    {
+      "category": "Management",
+      "title": "Management",
+      "skills": [
+        "Team Building",
+        "Leadership",
+        "Problem Solving",
+        "Communication",
+        "Adaptability",
+        "Time Management",
+        "Presentation"
+      ]
+    }
+  ]
+}

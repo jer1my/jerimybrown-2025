@@ -1,0 +1,109 @@
+{
+  "id": "design-system",
+  "sections": {
+    "overview": {
+      "heading": "Overview",
+      "content": "This case study showcases the development of a comprehensive design system that unified user experiences across a complex suite of enterprise products—from hybrid AI platforms, to SaaS products and on-premises solutions. The project required extensive cross-functional collaboration and established accessibility as a foundational standard across the organization."
+    },
+    "challenge": {
+      "heading": "The Challenge",
+      "intro": "Our enterprise product suite had grown organically over years, resulting in inconsistent user experiences, duplicated design work, and significant development overhead. Teams were working in silos, creating their own patterns and components without consideration for the broader ecosystem.",
+      "highlightTitle": "Key Challenges",
+      "keyPoints": [
+        "Inconsistent UI patterns created fragmented experiences across enterprise products",
+        "No centralized component library—teams rebuilt common patterns repeatedly",
+        "Accessibility compliance gaps with no standardized WCAG strategy or implementation",
+        "Development cycles slowed by redundant component recreation and design-dev handoff friction",
+        "Jarring user experience when navigating between products due to visual and interaction inconsistencies",
+        "Limited organizational awareness of design system value and ROI"
+      ]
+    },
+    "solution": {
+      "heading": "Solution",
+      "intro": "We developed a comprehensive design system that addressed these challenges through a multi-phased approach:",
+      "approaches": [
+        {
+          "title": "Foundation & Standards",
+          "description": "Built on atomic design principles, we created a scalable component library with more than 100 reusable components, eliminating redundant development work. A robust design token system enabled consistent styling across all products while supporting theming for different platforms."
+        },
+        {
+          "title": "Accessibility",
+          "description": "We established WCAG 2.1 AA compliance as a baseline standard, integrating accessibility testing into every component. This included comprehensive documentation on color contrast, keyboard navigation, focus management, and screen reader support."
+        },
+        {
+          "title": "Enabling Cross-Product Consistency",
+          "description": "A responsive grid system and clear layout patterns ensured visual and interaction consistency across all products. Implementation guidelines provided clear adoption pathways for both greenfield projects and legacy application updates."
+        },
+        {
+          "title": "Building Organizational Buy-In",
+          "description": "Through stakeholder workshops, pilot programs, and measurable ROI demonstrations, we cultivated understanding of the design system's strategic value—transforming it from a 'nice-to-have' to a core organizational asset."
+        }
+      ]
+    },
+    "process": {
+      "heading": "Design Process",
+      "intro": "The design system development followed a structured, iterative approach that prioritized high-impact components first to minimize disruption. By addressing the most commonly used elements initially and expanding to edge cases over time, we ensured smooth adoption and delivered immediate value across the organization.",
+      "steps": [
+        {
+          "number": 1,
+          "title": "Audit & Research",
+          "description": "Conducted comprehensive UI audit across all products, interviewed product teams, and researched best practices for enterprise design systems."
+        },
+        {
+          "number": 2,
+          "title": "Foundation & Principles",
+          "description": "Established design principles, token architecture (color, typography, spacing, radius), responsive grid system with breakpoint strategy, and WCAG 2.1 AA accessibility standards."
+        },
+        {
+          "number": 3,
+          "title": "Component Development",
+          "description": "Built and tested a comprehensive library of reusable components with extensive documentation and implementation guidelines."
+        },
+        {
+          "number": 4,
+          "title": "Adoption & Governance",
+          "description": "Implemented phased adoption strategy beginning with pilot teams to validate the system in production. Established governance processes with clear contribution guidelines and created comprehensive training materials for organization-wide rollout. The measurable improvements in pilot products generated organic demand—legacy teams proactively reached out seeking migration strategies to modernize their applications."
+        }
+      ]
+    },
+    "results": {
+      "heading": "Results & Impact",
+      "intro": "The design system transformed how our organization approached product development, resulting in significant improvements in efficiency, consistency, and user experience quality.",
+      "metrics": [
+        {
+          "value": "43%",
+          "label": "Reduction in design-to-development time",
+          "chartProgress": 43
+        },
+        {
+          "value": "84%",
+          "label": "Improvement in accessibility compliance",
+          "chartProgress": 84
+        },
+        {
+          "value": "79%",
+          "label": "Of product teams now using the system",
+          "chartProgress": 79
+        }
+      ],
+      "additionalOutcomesTitle": "Additional Outcomes",
+      "additionalOutcomes": [
+        "Unified user experience across all enterprise products",
+        "Established design system governance and maintenance processes",
+        "Created comprehensive accessibility training program",
+        "Reduced component recreation by 80%",
+        "Improved cross-team collaboration and communication"
+      ]
+    }
+  },
+  "sidebar": {
+    "title": "Contents",
+    "sections": [
+      { "id": "overview", "label": "Overview" },
+      { "id": "challenge", "label": "The Challenge" },
+      { "id": "solution", "label": "Solution" },
+      { "id": "process", "label": "Design Process" },
+      { "id": "results", "label": "Results" }
+    ]
+  }
+}

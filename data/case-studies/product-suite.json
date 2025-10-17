@@ -1,0 +1,97 @@
+{
+  "id": "product-suite",
+  "sections": {
+    "overview": {
+      "heading": "Overview",
+      "content": "Led the UX strategy and design for a comprehensive platform consolidation—unifying multiple legacy products into a modern, AI-enhanced SaaS solution. This initiative required synthesizing disparate user experiences, extracting value from existing systems, and establishing a scalable design foundation that could evolve with emerging AI capabilities while serving both legacy and new user bases."
+    },
+    "challenge": {
+      "heading": "The Challenge",
+      "intro": "Transform multiple legacy products into a unified SaaS platform while integrating AI capabilities. This required balancing the familiar with the new—extracting value from existing systems while building a scalable foundation that could evolve beyond legacy constraints.",
+      "highlightTitle": "Key Challenges",
+      "keyPoints": [
+        "**Legacy consolidation:** Reconciling disparate UX patterns and workflows from multiple existing products",
+        "**Data limitations:** Minimal unified user research across legacy platforms",
+        "**Evolving target market:** Redefining personas as we unified previously separate user bases",
+        "**AI integration:** Designing for emerging AI capabilities while maintaining core functionality",
+        "**Technical debt vs. innovation:** Determining what to preserve, what to rebuild, and what to reimagine",
+        "**Scalable architecture:** Building a flexible system that supports both current needs and future AI-driven features",
+        "**Change management:** Helping existing users transition while attracting new ones"
+      ]
+    },
+    "solution": {
+      "heading": "Solution",
+      "intro": "We developed a unified design system that bridges legacy patterns with modern capabilities—creating a flexible foundation that serves existing users while enabling AI-enhanced features. The modular architecture allows us to evolve specific components without disrupting core workflows, supporting both immediate consolidation needs and long-term innovation."
+    },
+    "process": {
+      "heading": "Design Process",
+      "intro": "Our process balanced synthesis of existing knowledge with new discovery—extracting insights from legacy products while validating assumptions through rapid prototyping and testing. This approach allowed us to honor what worked while confidently modernizing outdated patterns.",
+      "steps": [
+        {
+          "number": 1,
+          "title": "Legacy & Market Analysis",
+          "description": "Audited existing products to identify successful patterns and pain points. Conducted competitive analysis and stakeholder interviews to understand market gaps and define our unified product vision."
+        },
+        {
+          "number": 2,
+          "title": "User Research & Consolidation",
+          "description": "Synthesized fragmented user data across legacy platforms and conducted new research to redefine personas for our unified user base. Created journey maps that bridged existing workflows with new capabilities."
+        },
+        {
+          "number": 3,
+          "title": "Design System & Architecture",
+          "description": "Built a modular design system that harmonizes disparate legacy patterns while establishing modern standards. Designed scalable information architecture that accommodates both current features and future AI integration"
+        },
+        {
+          "number": 4,
+          "title": "Prototyping & AI Integration",
+          "description": "Created interactive prototypes testing core consolidated workflows and emerging AI features. Validated concepts with both legacy users (testing transition) and new users (testing modern experience)."
+        },
+        {
+          "number": 5,
+          "title": "Iterative Testing & Refinement",
+          "description": "Conducted continuous user testing throughout development with both existing and target users. Iterated based on feedback, usage analytics, and AI feature performance to refine the unified experience."
+        }
+      ]
+    },
+    "results": {
+      "heading": "Results & Impact",
+      "intro": "Successfully launched the unified platform, consolidating 2 legacy products with 3 greenfield capabilities into a single SaaS solution. Our phased AI integration strategy—starting with transparent inline actions and evolving toward copilot and recommendation experiences—is building user trust progressively, with the start of users engaging with foundational AI features. Early feedback validates our design approach and continues to inform our iteration roadmap as we scale toward more advanced capabilities.",
+      "metricsType": "simple",
+      "metrics": [
+        {
+          "value": "2",
+          "label": "AI features added with 3rd on the way"
+        },
+        {
+          "value": "5",
+          "label": "2 legacy + 3 greenfield products, with more on the horizon"
+        },
+        {
+          "value": "2",
+          "label": "Added spatial capabilities & working on master data management"
+        }
+      ],
+      "additionalOutcomesTitle": "Long-term Impact",
+      "additionalOutcomes": [
+        "Design patterns adopted across other company products",
+        "Established foundation for international expansion",
+        "Achieved product-market fit within first year",
+        "Created reusable design methodology for future greenfield projects",
+        "Implamented a new data catalog first approach after first year based on market needs",
+        "First phase of trust building AI approach implamented with more to come this year and next",
+        "Working on VPAT to announce our organizations accessibility intents with the product"
+      ]
+    }
+  },
+  "sidebar": {
+    "title": "Contents",
+    "sections": [
+      { "id": "overview", "label": "Overview" },
+      { "id": "challenge", "label": "The Challenge" },
+      { "id": "solution", "label": "Solution" },
+      { "id": "process", "label": "Design Process" },
+      { "id": "results", "label": "Results" }
+    ]
+  }
+}
