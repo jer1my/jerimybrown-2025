@@ -483,7 +483,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: var(--blur-lg);
     -webkit-backdrop-filter: var(--blur-lg);
-    z-index: 1100;
+    z-index: 1250;
     display: flex;
     align-items: center;
     justify-content: center;
