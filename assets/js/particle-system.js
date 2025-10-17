@@ -24,7 +24,7 @@ class ParticleSystem {
 
         // Default configuration
         this.config = {
-            particleCount: 300,
+            particleCount: 200,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys', // 'accent' or 'greys'
@@ -112,10 +112,14 @@ class ParticleSystem {
             const rect = connectsWord.getBoundingClientRect();
             const canvasRect = this.canvas.getBoundingClientRect();
 
+            // Use larger radius on mobile for better visual effect
+            const isMobile = window.innerWidth <= 768;
+            const radiusMultiplier = isMobile ? 1.15 : 0.8;
+
             this.connectsCircle = {
                 x: rect.left + rect.width / 2 - canvasRect.left,
                 y: rect.top + rect.height / 2 - canvasRect.top,
-                radius: Math.max(rect.width, rect.height) * 0.8
+                radius: Math.max(rect.width, rect.height) * radiusMultiplier
             };
         }
     }
@@ -471,7 +475,7 @@ class ParticleSystem {
 
     reset() {
         this.config = {
-            particleCount: 300,
+            particleCount: 200,
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys',
@@ -1007,8 +1011,8 @@ class ParticleControlPanel {
         const countSlider = document.getElementById('particleCount');
         const countValue = document.getElementById('particleCountValue');
         if (countSlider && countValue) {
-            countSlider.value = 300;
-            countValue.textContent = '300';
+            countSlider.value = 200;
+            countValue.textContent = '200';
         }
 
         const distanceSlider = document.getElementById('connectionDistance');
