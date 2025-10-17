@@ -853,15 +853,42 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     color: #15B5FF;
     cursor: pointer;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 3px;
     opacity: 1;
     pointer-events: auto;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .particle-controls.expanded .particle-controls-close {
     color: #525252;
+}
+
+/* Small hamburger bars for particle controls */
+.hamburger-bar-sm {
+    width: 16px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+/* Active state - Transform to X when panel is expanded */
+.particle-controls.expanded .hamburger-bar-sm:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.particle-controls.expanded .hamburger-bar-sm:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.particle-controls.expanded .hamburger-bar-sm:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
 }
 
 .particle-controls-content {
