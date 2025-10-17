@@ -533,8 +533,8 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
 .mobile-nav {
     display: flex;
     flex-direction: column;
-    gap: var(--space-8);
-    margin-bottom: var(--space-12);
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
 }
 
 .mobile-nav a {
