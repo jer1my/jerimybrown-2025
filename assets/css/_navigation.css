@@ -154,6 +154,26 @@ body.work-page .logo:hover .logo-letter {
     }
 }
 
+/* Completely hide logo animation on mobile screens */
+@media (max-width: 768px) {
+    .logo-text {
+        display: none !important;
+    }
+
+    .logo-letter {
+        opacity: 0 !important;
+        transition: none !important;
+    }
+
+    .logo:hover .logo-letter {
+        opacity: 0 !important;
+    }
+
+    .logo:hover .logo-svg {
+        opacity: 1 !important;
+    }
+}
+
 .nav-right {
     display: flex;
     align-items: center;
