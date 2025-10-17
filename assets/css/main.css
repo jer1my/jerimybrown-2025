@@ -692,6 +692,10 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     animation: fadeInUp 0.8s ease-out 0.4s forwards;
 }
 
+.hero-subtitle .mobile-break {
+    display: none;
+}
+
 .hero-description {
     font-size: 18px;
     max-width: 600px;
@@ -706,10 +710,18 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     bottom: 48px;
     left: 50%;
     transform: translateX(-50%) translateY(30px);
-    background: transparent;
-    border: none;
+    background: rgba(250, 250, 250, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
     opacity: 0;
     animation: fadeInUpCentered 0.8s ease-out 0.8s forwards;
     z-index: 20;
@@ -1302,14 +1314,14 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     background: rgba(234, 88, 12, 0.2);
 }
 
-/* Responsive: Hide on mobile for performance */
+/* Responsive: Show particles on mobile, hide controls */
 @media (max-width: 768px) {
-    .particle-canvas {
+    .particle-controls {
         display: none;
     }
 
-    .particle-controls {
-        display: none;
+    .hero-subtitle .mobile-break {
+        display: inline;
     }
 }
 
@@ -2703,6 +2715,11 @@ body[data-theme="dark"] .nav {
 
 [data-theme="dark"] .mobile-nav a::after {
     background: #ea580c;
+}
+
+[data-theme="dark"] .scroll-arrow {
+    background: rgba(23, 23, 23, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .scroll-arrow svg circle {
