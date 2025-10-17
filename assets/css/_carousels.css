@@ -1,0 +1,468 @@
+/* About Carousel Styles */
+.about-carousel {
+    flex: 1;
+    max-width: 600px;
+    position: relative;
+}
+
+/* Center carousel on mobile when text stacks above */
+@media (max-width: 768px) {
+    .about-carousel {
+        margin: 0 auto;
+        max-width: none;
+        width: 100%;
+    }
+}
+
+.carousel-container {
+    overflow: hidden;
+    border-radius: 20px;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 400%; /* 4 cards × 100% each */
+}
+
+.about-card {
+    width: 25%; /* Each card takes 1/4 of track width */
+    flex-shrink: 0;
+    min-height: 400px;
+}
+
+/* About cards show less overlay by default to show more image */
+.about-card .project-content-overlay {
+    min-height: 20%;
+    justify-content: flex-end;
+    padding: 20px 40px;
+}
+
+.about-card .project-content-overlay::before {
+    height: 100%;
+}
+
+.about-card:hover .project-content-overlay {
+    min-height: 50%;
+    padding: 40px;
+}
+
+.about-card:hover .project-content-overlay::before {
+    height: 100%;
+}
+
+/* Remove hover effects from about cards - blur and text animation is enough */
+.about-card:hover {
+    transform: none;
+    box-shadow: none;
+    filter: none;
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 32px;
+}
+
+.indicator {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(115, 115, 115, 0.3);
+    transition: all 0.3s ease;
+}
+
+.indicator:hover::before {
+    background: rgba(115, 115, 115, 0.6);
+}
+
+.indicator.active::before {
+    background: var(--color-accent);
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Carousel slide positions */
+.carousel-track[data-position="0"] {
+    transform: translateX(0%);
+}
+
+.carousel-track[data-position="1"] {
+    transform: translateX(-25%);
+}
+
+.carousel-track[data-position="2"] {
+    transform: translateX(-50%);
+}
+
+.carousel-track[data-position="3"] {
+    transform: translateX(-75%);
+}
+
+/* Rotating Word Animation */
+.rotating-word {
+    position: relative;
+    color: var(--color-accent);
+    min-width: 120px;
+    display: inline-block;
+}
+
+.rotating-word.typing::after {
+    content: '|';
+    color: var(--color-accent);
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+
+/* Bottom Spacing */
+.bottom-spacing {
+    height: 20vh;
+}
+
+/* Featured Image Carousel */
+.featured-image-carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    width: 100%;
+}
+
+.featured-image-carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-image-slide {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.featured-image-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Featured carousel slide positions */
+.featured-image-carousel-track[data-position="0"] {
+    transform: translateX(0%);
+}
+
+.featured-image-carousel-track[data-position="1"] {
+    transform: translateX(-100%);
+}
+
+.featured-image-carousel-track[data-position="2"] {
+    transform: translateX(-200%);
+}
+
+.featured-image-carousel-track[data-position="3"] {
+    transform: translateX(-300%);
+}
+
+.featured-image-carousel-track[data-position="4"] {
+    transform: translateX(-400%);
+}
+
+.featured-image-carousel-track[data-position="5"] {
+    transform: translateX(-500%);
+}
+
+.featured-image-carousel-track[data-position="6"] {
+    transform: translateX(-600%);
+}
+
+/* Design system specific - 7 slide carousel */
+.design-system .featured-image-carousel-track {
+    width: 700%; /* 7 slides × 100% each */
+}
+
+.design-system .featured-image-slide {
+    width: calc(100% / 7); /* Each slide takes 1/7 of track width */
+    flex-shrink: 0;
+}
+
+.design-system .featured-image-slide img {
+    width: 100%;
+    height: auto; /* Natural height like other carousels */
+}
+
+/* Override transforms for design system 7-slide positioning */
+.design-system .featured-image-carousel-track[data-position="0"] {
+    transform: translateX(0%);
+}
+
+.design-system .featured-image-carousel-track[data-position="1"] {
+    transform: translateX(calc(-100% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="2"] {
+    transform: translateX(calc(-200% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="3"] {
+    transform: translateX(calc(-300% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="4"] {
+    transform: translateX(calc(-400% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="5"] {
+    transform: translateX(calc(-500% / 7));
+}
+
+.design-system .featured-image-carousel-track[data-position="6"] {
+    transform: translateX(calc(-600% / 7));
+}
+
+/* Draggable Carousel Styles */
+.carousel-container,
+.featured-image-carousel-container {
+    cursor: grab;
+}
+
+.carousel-container:active,
+.featured-image-carousel-container:active {
+    cursor: grabbing;
+}
+
+/* Prevent text selection and image dragging during carousel interaction */
+.carousel-container *,
+.featured-image-carousel-container * {
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Smooth transitions - will be temporarily disabled during drag */
+.carousel-track,
+.featured-image-carousel-track {
+    will-change: transform;
+}
+
+/* First-visit drag gesture animation */
+.drag-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.featured-image-carousel-container.show-drag-hint .drag-hint {
+    opacity: 1;
+    animation: dragGesture 5s ease-in-out;
+}
+
+.drag-hint-cursor {
+    width: 48px;
+    height: 48px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.drag-hint-cursor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    background-image: url('../icons/pointer-light.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Dark mode version */
+body[data-theme="dark"] .drag-hint-cursor::before {
+    background-image: url('../icons/pointer-dark.svg');
+}
+
+.drag-hint-cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    border: 3px solid var(--color-accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+    animation: pulseRing 2s ease-out infinite;
+}
+
+.drag-hint-text {
+    margin-top: 16px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    text-align: center;
+    background: var(--bg-overlay-light);
+    backdrop-filter: var(--blur-md);
+    -webkit-backdrop-filter: var(--blur-md);
+    padding: 8px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+@keyframes dragGesture {
+    0%, 100% {
+        transform: translate(-50%, -50%);
+    }
+    25% {
+        transform: translate(-80%, -50%);
+    }
+    75% {
+        transform: translate(-20%, -50%);
+    }
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: translate(-50%, -50%) scale(0.6);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.6);
+        opacity: 0;
+    }
+}
+
+/* ==========================================
+   Project Detail Carousel
+   ========================================== */
+
+.project-carousel {
+    margin: var(--space-8) 0;
+}
+
+.project-carousel .carousel-container {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    position: relative;
+}
+
+.project-carousel .carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 300%; /* 3 slides × 100% each */
+}
+
+.project-slide {
+    width: 33.333%; /* Each slide takes 1/3 of track width */
+    flex-shrink: 0;
+    position: relative;
+}
+
+.project-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-lg);
+}
+
+.slide-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-overlay-light);
+    backdrop-filter: var(--blur-lg);
+    -webkit-backdrop-filter: var(--blur-lg);
+    color: var(--text-primary);
+    padding: var(--space-4) var(--space-4);
+    font-size: var(--font-size-sm);
+    text-align: center;
+    font-style: italic;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* Project carousel slide positions */
+.project-carousel .carousel-track[data-position="0"] {
+    transform: translateX(0%);
+}
+
+.project-carousel .carousel-track[data-position="1"] {
+    transform: translateX(-33.333%);
+}
+
+.project-carousel .carousel-track[data-position="2"] {
+    transform: translateX(-66.666%);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .project-carousel .carousel-indicators {
+        gap: var(--space-4);
+        margin-top: var(--space-4);
+    }
+
+    .slide-caption {
+        font-size: var(--font-size-xs);
+        padding: var(--space-4) var(--space-3) var(--space-3);
+    }
+
+    /* Mobile responsive for project metadata overlay */
+    .project-meta-overlay {
+        position: static;
+        background: transparent !important;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-radius: 0;
+        margin-top: var(--space-4);
+        padding: 0;
+    }
+
+    .project-meta {
+        gap: var(--space-6);
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .meta-label {
+        font-size: 10px;
+    }
+
+    .meta-value {
+        font-size: var(--font-size-xs);
+    }
+}

@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="icon" href="../favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/main.css?v=10">
+    <link rel="stylesheet" href="../assets/css/main.css?v=11">
     <style>
         /* Prevent navigation flash on first load */
         .nav {
@@ -33,6 +33,29 @@
             background: rgba(23, 23, 23, 0.1) !important;
         }
     </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "AI Product Design Strategy",
+        "description": "Designing intelligent experiences that build trust progressively through phased AI integration—from writing assistance to automation. Achieved 78% increase in AI feature adoption with 92% user trust score.",
+        "author": {
+            "@type": "Person",
+            "name": "Jerimy Brown",
+            "url": "https://jerimybrown.com"
+        },
+        "datePublished": "2024",
+        "keywords": ["AI design", "machine learning", "AI strategy", "trust building", "AI transparency", "product design", "progressive disclosure"],
+        "about": {
+            "@type": "Thing",
+            "name": "AI-First Product Design"
+        },
+        "url": "https://jerimybrown.com/work/ai-strategy.html",
+        "inLanguage": "en-US"
+    }
+    </script>
 </head>
 <body>
     <script>
@@ -80,12 +103,7 @@
             </a>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="../index.html" class="nav-home-icon" aria-label="Home">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.3926 4.19531C11.7701 3.98557 12.2299 3.98557 12.6074 4.19531L19.6074 8.08398C20.0041 8.30447 20.25 8.7229 20.25 9.17676V19C20.25 19.6904 19.6904 20.25 19 20.25H5C4.30964 20.25 3.75 19.6904 3.75 19V9.17676C3.75002 8.72291 3.99589 8.30447 4.39258 8.08398L11.3926 4.19531Z" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M12.75 13C12.75 12.5858 12.4142 12.25 12 12.25C11.5858 12.25 11.25 12.5858 11.25 13L12 13L12.75 13ZM11.25 20L11.25 20.75L12.75 20.75L12.75 20L12 20L11.25 20ZM12 13L11.25 13L11.25 20L12 20L12.75 20L12.75 13L12 13Z" fill="currentColor"/>
-                        </svg>
-                    </a></li>
+                    <li><a href="../index.html"><span class="link-text">Home</span></a></li>
                     <li><a href="../index.html#projects"><span class="link-text">Work</span></a></li>
                     <li><a href="../index.html#about"><span class="link-text">About</span></a></li>
                     <li><a href="../index.html#contact"><span class="link-text">Contact</span></a></li>
@@ -112,6 +130,7 @@
     <div class="mobile-menu-overlay" id="mobileMenuOverlay">
         <div class="mobile-menu-content">
             <nav class="mobile-nav">
+                <a href="../index.html" onclick="toggleMobileMenu()"><span class="mobile-link-text">Home</span></a>
                 <a href="../index.html#projects" onclick="toggleMobileMenu()"><span class="mobile-link-text">Work</span></a>
                 <a href="../index.html#about" onclick="toggleMobileMenu()"><span class="mobile-link-text">About</span></a>
                 <a href="../index.html#contact" onclick="toggleMobileMenu()"><span class="mobile-link-text">Contact</span></a>
@@ -187,6 +206,9 @@
             <div class="content-grid">
                 <aside class="content-sidebar">
                     <nav class="project-nav">
+                        <div class="project-nav-back">
+                            <a href="../index.html#projects">← Back</a>
+                        </div>
                         <h3>Contents</h3>
                         <ul>
                             <li><a href="#overview">Overview</a></li>
@@ -200,92 +222,176 @@
 
                 <main class="content-main">
                     <section id="overview" class="content-section">
-                        <h2>Overview</h2>
-                        <p>Successful AI integration into legacy applications is tricky—it's about adding user value and building trust, not just cranking out features. This project demonstrates how to design intelligent experiences that build trust progressively through phased integration. Starting with low-risk writing assistance, evolving through conversational chat, and advancing to proactive recommendations and automation—each phase validates user confidence before introducing more autonomous capabilities. This approach makes complex AI feel intuitive and trustworthy while maintaining user control throughout.</p>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="challenge" class="content-section">
-                        <h2>The Challenge</h2>
-                        <p>AI-powered features often feel like black boxes, creating trust issues and adoption barriers. The challenge was designing an experience that leverages AI's power while maintaining transparency—helping users understand what the AI is doing, why it's making recommendations, and how to remain in control.</p>
-
-                        <div class="highlight-box">
-                            <h4>Key Challenges</h4>
-                            <ul>
-                                <li><strong>Building progressive trust</strong> in AI recommendations through phased capability introduction</li>
-                                <li><strong>Maintaining transparency</strong> in AI decision-making—showing reasoning, not just results</li>
-                                <li><strong>Balancing automation with agency</strong>—keeping users in control of critical decisions</li>
-                                <li><strong>Designing for imperfection</strong>—handling variable AI accuracy and edge cases gracefully</li>
-                                <li><strong>Translating AI complexity</strong> into intuitive, actionable interfaces</li>
-                                <li><strong>Setting realistic expectations</strong> about AI capabilities and limitations from the start</li>
-                            </ul>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="solution" class="content-section">
-                        <h2>Solution</h2>
-                        <p>We designed a transparent AI experience that builds user confidence through progressive capability introduction. Starting with simple writing assistance and advancing to automation, the solution surfaces AI reasoning at every step while keeping users in control of critical decisions—transforming complex AI into an intuitive, trusted tool.</p>
-
-                        <div class="project-carousel" style="display: none;">
-                            <div class="carousel-container" id="projectCarouselContainer">
-                                <div class="carousel-track" id="projectCarouselTrack">
-                                    <div class="project-slide">
-                                        <img src="../assets/images/work/ai-first-light.png" alt="AI transparency interface" class="theme-responsive-image">
-                                        <div class="slide-caption">Transparent AI decision-making with confidence indicators</div>
-                                    </div>
-                                    <div class="project-slide">
-                                        <img src="../assets/images/work/ai-first-light.png" alt="Progressive AI assistance" class="theme-responsive-image">
-                                        <div class="slide-caption">Progressive AI assistance that adapts to user experience</div>
-                                    </div>
-                                    <div class="project-slide">
-                                        <img src="../assets/images/work/ai-first-light.png" alt="AI workflow integration" class="theme-responsive-image">
-                                        <div class="slide-caption">Seamless AI integration into existing workflow patterns</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Indicators -->
-                            <div class="carousel-indicators">
-                                <button class="indicator active" data-slide="0" onclick="goToProjectSlide(0)"></button>
-                                <button class="indicator" data-slide="1" onclick="goToProjectSlide(1)"></button>
-                                <button class="indicator" data-slide="2" onclick="goToProjectSlide(2)"></button>
-                            </div>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="process" class="content-section">
-                        <h2>Design Process</h2>
-                        <p>The design process emphasized understanding user mental models of AI and iteratively building interfaces that match user expectations while gradually introducing more sophisticated AI capabilities.</p>
-
-                        <div class="process-steps">
-                            <div class="process-step">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h4>AI Mental Model Research</h4>
-                                    <p>Conducted user interviews to understand how people conceptualize AI and what builds or erodes trust in automated systems.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h4>Transparency Framework</h4>
-                                    <p>Developed design principles for AI transparency, including explainability patterns and confidence visualization methods.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4>Progressive Disclosure Design</h4>
-                                    <p>Created interfaces that gradually introduce AI capabilities as users become more comfortable and experienced with the system.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">4</div>
-                                <div class="step-content">
-                                    <h4>Trust Building & Testing</h4>
-                                    <p>Tested AI interfaces with users to validate trust-building mechanisms and refine the balance between automation and control.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
+
+                    <section id="results" class="content-section">
+                        <h2></h2>
+                        <div class="section-content"></div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Navigation -->
+    <section class="project-navigation">
+        <div class="container">
+            <div class="nav-grid">
+                <div class="nav-item prev">
+                    <a href="#">
+                        <span class="nav-direction">← Previous</span>
+                        <span class="nav-title"><!-- Dynamic from PROJECTS config --></span>
+                    </a>
+                </div>
+                <div class="nav-item next">
+                    <a href="#">
+                        <span class="nav-direction">Next →</span>
+                        <span class="nav-title"><!-- Dynamic from PROJECTS config --></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Work Together</h2>
+            <p>Have a project in mind? I'd love to hear about it and explore how we can bring your ideas to life.</p>
+            <div class="contact-buttons">
+                <a href="mailto:jerimy@comcast.net" class="button btn-secondary">Email</a>
+                <a href="https://www.linkedin.com/in/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://dribbble.com/Jerimy" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Dribbble</a>
+                <a href="https://www.instagram.com/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="https://github.com/jer1my" class="button btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Spacing -->
+    <div class="bottom-spacing"></div>
+
+    <!-- Back to Projects Button -->
+    <a href="../index.html#projects" class="back-to-projects">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22"/>
+            <path d="M32 24L16 24" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 18L16 24L22 30" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" fill="rgba(26, 26, 26, 0.8)"/>
+            <path d="M24 32L24 16M18 22L24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script src="../assets/js/marked.min.js"></script>
+    <script src="../assets/js/main.js?v=2"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     <section id="results" class="content-section">
                         <h2>Results & Impact</h2>

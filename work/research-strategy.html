@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="icon" href="../favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/main.css?v=10">
+    <link rel="stylesheet" href="../assets/css/main.css?v=11">
     <style>
         /* Prevent navigation flash on first load */
         .nav {
@@ -33,6 +33,29 @@
             background: rgba(23, 23, 23, 0.1) !important;
         }
     </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "User Testing New Patterns: Research Strategy",
+        "description": "Demonstrating research value by pivoting to rapid unmoderated testing—validating new patterns in 48 hours with 94.1% success rate. Shifted stakeholder perception from research as blocker to accelerator.",
+        "author": {
+            "@type": "Person",
+            "name": "Jerimy Brown",
+            "url": "https://jerimybrown.com"
+        },
+        "datePublished": "2024",
+        "keywords": ["user research", "usability testing", "research strategy", "unmoderated testing", "UX validation", "research methodology", "rapid testing"],
+        "about": {
+            "@type": "Thing",
+            "name": "User Research and Testing Strategy"
+        },
+        "url": "https://jerimybrown.com/work/research-strategy.html",
+        "inLanguage": "en-US"
+    }
+    </script>
 </head>
 <body>
     <script>
@@ -81,12 +104,7 @@
             </a>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="../index.html" class="nav-home-icon" aria-label="Home">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.3926 4.19531C11.7701 3.98557 12.2299 3.98557 12.6074 4.19531L19.6074 8.08398C20.0041 8.30447 20.25 8.7229 20.25 9.17676V19C20.25 19.6904 19.6904 20.25 19 20.25H5C4.30964 20.25 3.75 19.6904 3.75 19V9.17676C3.75002 8.72291 3.99589 8.30447 4.39258 8.08398L11.3926 4.19531Z" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M12.75 13C12.75 12.5858 12.4142 12.25 12 12.25C11.5858 12.25 11.25 12.5858 11.25 13L12 13L12.75 13ZM11.25 20L11.25 20.75L12.75 20.75L12.75 20L12 20L11.25 20ZM12 13L11.25 13L11.25 20L12 20L12.75 20L12.75 13L12 13Z" fill="currentColor"/>
-                        </svg>
-                    </a></li>
+                    <li><a href="../index.html"><span class="link-text">Home</span></a></li>
                     <li><a href="../index.html#projects"><span class="link-text">Work</span></a></li>
                     <li><a href="../index.html#about"><span class="link-text">About</span></a></li>
                     <li><a href="../index.html#contact"><span class="link-text">Contact</span></a></li>
@@ -113,6 +131,7 @@
     <div class="mobile-menu-overlay" id="mobileMenuOverlay">
         <div class="mobile-menu-content">
             <nav class="mobile-nav">
+                <a href="../index.html" onclick="toggleMobileMenu()"><span class="mobile-link-text">Home</span></a>
                 <a href="../index.html#projects" onclick="toggleMobileMenu()"><span class="mobile-link-text">Work</span></a>
                 <a href="../index.html#about" onclick="toggleMobileMenu()"><span class="mobile-link-text">About</span></a>
                 <a href="../index.html#contact" onclick="toggleMobileMenu()"><span class="mobile-link-text">Contact</span></a>
@@ -188,6 +207,9 @@
             <div class="content-grid">
                 <aside class="content-sidebar">
                     <nav class="project-nav">
+                        <div class="project-nav-back">
+                            <a href="../index.html#projects">← Back</a>
+                        </div>
                         <h3>Contents</h3>
                         <ul>
                             <li><a href="#overview">Overview</a></li>
@@ -201,144 +223,228 @@
 
                 <main class="content-main">
                     <section id="overview" class="content-section">
-                        <h2>Overview</h2>
-                        <p>Demonstrating the strategic value of user research by selecting the right methodology for the challenge at hand. When stakeholders questioned the timeline and ROI of user testing, I pivoted from slow moderated sessions to rapid unmoderated testing—validating a new progressive disclosure pattern in 48 hours and proving that research delivers actionable insights quickly when properly scoped.</p>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="challenge" class="content-section">
-                        <h2>The Challenge</h2>
-                        <h4>Research Perception Problem</h4>
-                        <p>Stakeholders viewed user research as time-consuming and questioned its value for iterative design decisions, creating pressure to skip validation and ship unproven patterns.</p>
-    
-                        <h4>Pattern Validation Need</h4>
-                         <p>A new progressive disclosure approach needed validation before implementation, but traditional moderated testing timelines (weeks) conflicted with development schedules.</p>
-
-                        <div class="highlight-box">
-                            <h4>Key Challenges</h4>
-                            <ul>
-                                <li>Overcoming perception that research slows down product development</li>
-                                <li>Validating a new interaction pattern within aggressive timelines</li>
-                                <li>Demonstrating research ROI to skeptical stakeholders</li>
-                                <li>Selecting appropriate methodology that balanced rigor with speed</li>
-                                <li>Proving quick research can deliver reliable, actionable insights</li>
-                            </ul>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="solution" class="content-section">
-                        <h2>Solution</h2>
-                        <p>When initial moderated testing proved too slow, I pivoted to unmoderated remote testing—optimizing for speed without sacrificing insight quality. This strategic shift delivered validated results in 48 hours, proved the pattern's effectiveness with quantitative data, and demonstrated that well-scoped research accelerates rather than delays decision-making.</p>
-
-                        <div class="project-carousel" style="display: none;">
-                            <div class="carousel-container" id="projectCarouselContainer">
-                                <div class="carousel-track" id="projectCarouselTrack">
-                                    <div class="project-slide">
-                                        <img src="../assets/images/work/research-1-light.png" alt="User testing setup and methodology" class="theme-responsive-image">
-                                        <div class="slide-caption">Remote and in-person user testing methodology</div>
-                                    </div>
-                                    <div class="project-slide">
-                                        <img src="../assets/images/work/research-2-light.png" alt="New interaction patterns" class="theme-responsive-image">
-                                        <div class="slide-caption">Validated interaction patterns and cognitive load testing</div>
-                                    </div>
-                                    <div class="project-slide">
-                                        <img src="../assets/images/work/research-3-light.png" alt="Usability metrics and insights" class="theme-responsive-image">
-                                        <div class="slide-caption">Data-driven insights and usability performance metrics</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Indicators -->
-                            <div class="carousel-indicators">
-                                <button class="indicator active" data-slide="0" onclick="goToProjectSlide(0)"></button>
-                                <button class="indicator" data-slide="1" onclick="goToProjectSlide(1)"></button>
-                                <button class="indicator" data-slide="2" onclick="goToProjectSlide(2)"></button>
-                            </div>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="process" class="content-section">
-                        <h2>Design Process</h2>
-                        <p>The research process combined rapid prototyping with systematic testing to quickly validate or invalidate new interaction patterns while building a comprehensive understanding of user mental models.</p>
-
-                        <div class="process-steps">
-                            <div class="process-step">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h4>Strategic Methodology Pivot</h4>
-                                    <p>Recognized moderated testing timeline (weeks) conflicted with project needs. Shifted to unmoderated remote testing optimized for rapid, scalable feedback.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h4>Efficient Test Design</h4>
-                                    <p>Created focused task-based scenarios targeting specific pattern validation—eliminating unnecessary scope to maximize speed while maintaining rigor.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4>Rapid Execution & Analysis</h4>
-                                    <p>Deployed unmoderated test achieving high participation within 48 hours. Analyzed quantitative and qualitative data to extract clear, actionable insights.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">4</div>
-                                <div class="step-content">
-                                    <h4>Stakeholder Communication</h4>
-                                    <p>Presented findings with clear metrics and recommendations—demonstrating research value through speed, clarity, and business impact.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
 
                     <section id="results" class="content-section">
-                        <h2>Results & Impact</h2>
-                        <p>The strategic methodology pivot delivered both immediate pattern validation and long-term organizational change—proving research can be both fast and valuable when properly scoped.</p>
-
-                        <div class="results-grid">
-                            <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="94.1">
-                                    <svg viewBox="0 0 60 60">
-                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
-                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
-                                    </svg>
-                                    <div class="chart-center">
-                                        <div class="chart-value">94.1%</div>
-                                    </div>
-                                </div>
-                                <div class="chart-label">Success Rate</div>
-                            </div>
-                            <div class="result-metric">
-                                <div class="metric-value">73</div>
-                                <div class="metric-label">Participant</div>
-                            </div>
-                            <div class="result-metric">
-                                <div class="metric-value">48</div>
-                                <div class="metric-label">Hours</div>
-                            </div>
-                        </div>
-                        <p></p>
-
-                        <div class="highlight-box">
-                                <h4>Research Outcomes</h4>
-                                 <ul>
-                                     <li><strong>94.1% task success rate</strong> validating the progressive disclosure pattern</li>
-                                     <li><strong>48-hour turnaround</strong> from test launch to actionable insights</li>
-                                     <li><strong>73 participants</strong> providing statistically significant validation</li>
-                                     <li><strong>Clear usability wins identified:</strong> [specific findings if you have them]</li>
-                                     <li><strong>Pattern implemented confidently</strong> with data-backed design decisions</li>
-                                 </ul>
-
-                                 <h4>Organizational Impact</h4>
-                                 <ul>
-                                     <li>Shifted stakeholder perception of research from "blocker" to "accelerator"</li>
-                                     <li>Established unmoderated testing as viable methodology for rapid validation</li>
-                                     <li>Demonstrated appropriate methodology selection delivers faster ROI</li>
-                                     <li>Created framework for matching research approach to project constraints</li>
-                                     <li>Influenced team to incorporate research into agile workflows</li>
-                                 </ul>
-                        </div>
+                        <h2></h2>
+                        <div class="section-content"></div>
                     </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Navigation -->
+    <section class="project-navigation">
+        <div class="container">
+            <div class="nav-grid">
+                <div class="nav-item prev">
+                    <a href="#">
+                        <span class="nav-direction">← Previous</span>
+                        <span class="nav-title"><!-- Dynamic from PROJECTS config --></span>
+                    </a>
+                </div>
+                <div class="nav-item next">
+                    <a href="#">
+                        <span class="nav-direction">Next →</span>
+                        <span class="nav-title"><!-- Dynamic from PROJECTS config --></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Work Together</h2>
+            <p>Have a project in mind? I'd love to hear about it and explore how we can bring your ideas to life.</p>
+            <div class="contact-buttons">
+                <a href="mailto:jerimy@comcast.net" class="button btn-secondary">Email</a>
+                <a href="https://www.linkedin.com/in/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://dribbble.com/Jerimy" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Dribbble</a>
+                <a href="https://www.instagram.com/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="https://github.com/jer1my" class="button btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Spacing -->
+    <div class="bottom-spacing"></div>
+
+    <!-- Back to Projects Button -->
+    <a href="../index.html#projects" class="back-to-projects">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22"/>
+            <path d="M32 24L16 24" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 18L16 24L22 30" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" fill="rgba(26, 26, 26, 0.8)"/>
+            <path d="M24 32L24 16M18 22L24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script src="../assets/js/marked.min.js"></script>
+    <script src="../assets/js/main.js?v=2"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </main>
             </div>
         </div>

@@ -1,0 +1,724 @@
+/* Animations */
+@keyframes arrowSlideDown {
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes arrowBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-6px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUpCentered {
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Layout Components */
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding-desktop);
+}
+
+.section-title {
+    font-size: 48px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 80px;
+    letter-spacing: -0.02em;
+}
+
+/* Projects Section */
+.projects {
+    padding: 120px 0;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.project-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(30px);
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.project-image {
+    width: 100%;
+    height: 200px;
+    background: rgba(21, 181, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #15B5FF;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.02);
+}
+
+.project-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.project-description {
+    color: #525252;
+    margin-bottom: 24px;
+}
+
+.project-link {
+    color: #15B5FF;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    margin-top: auto;
+}
+
+.project-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: #15B5FF;
+    transition: width 0.3s ease;
+}
+
+.project-link:hover::after {
+    width: 100%;
+}
+
+/* Project link text hover behavior */
+.link-text-hover {
+    display: none;
+}
+
+.project-link:hover .link-text-default {
+    display: none;
+}
+
+.project-link:hover .link-text-hover {
+    display: inline;
+}
+
+/* Featured Project Card with Full-Bleed Background */
+.project-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 20px;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card-link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    transform: translateY(-8px);
+}
+
+[data-theme="dark"] .project-card-link:focus-visible {
+    outline-color: #ea580c;
+    transform: translateY(-8px);
+}
+
+.project-card-featured {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    min-height: 400px;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+}
+
+.project-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+/* Default dark mode images for each card */
+[data-card="design-system"] .project-bg-image {
+    background-image: url('../images/design-system-dark.png');
+}
+
+[data-card="ai-strategy"] .project-bg-image {
+    background-image: url('../images/ai-first-dark.png');
+}
+
+[data-card="product-suite"] .project-bg-image {
+    background-image: url('../images/product-dark.png');
+}
+
+[data-card="research-strategy"] .project-bg-image {
+    background-image: url('../images/research-dark.png');
+}
+
+[data-card="style-guide-sample"] .project-bg-image {
+    background-image: url('../images/design-system-dark.png');
+}
+
+.project-content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.1) 40%,
+        rgba(0, 0, 0, 0.4) 70%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    min-height: 30%;
+    transition: min-height 0.3s ease, padding 0.3s ease;
+}
+
+.project-content-overlay::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: -1;
+}
+
+.project-card-featured .project-title {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.project-card-featured .project-description {
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+}
+
+.project-card-link:hover .project-description {
+    opacity: 1;
+    max-height: 200px;
+    margin-bottom: 24px;
+}
+
+/* About section carousel cards hover (without link wrapper) */
+.about-card:hover .project-description {
+    opacity: 1;
+    max-height: 200px;
+    margin-bottom: 24px;
+}
+
+.project-card-featured .project-link-text {
+    color: #ffffff;
+    font-weight: 500;
+    display: block;
+    margin-top: auto;
+    position: relative;
+}
+
+.project-card-featured .project-link-text::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: #ffffff;
+    transition: width 0.3s ease;
+}
+
+.project-card-link:hover .project-link-text::after {
+    width: 100%;
+}
+
+
+.project-card-link:hover .project-card-featured {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode hover glow with darker grey drop-shadow */
+[data-theme="dark"] .project-card-link:hover .project-card-featured {
+    box-shadow: none;
+    filter: drop-shadow(0 20px 60px rgba(80, 80, 80, 0.3));
+}
+
+.project-card-link:hover .project-content-overlay {
+    min-height: 50%;
+}
+
+/* Light Mode Styles for Featured Cards */
+body:not([data-theme="dark"]) [data-card="design-system"] .project-bg-image {
+    background-image: url('../images/design-system-light.png');
+}
+
+body:not([data-theme="dark"]) [data-card="ai-strategy"] .project-bg-image {
+    background-image: url('../images/ai-first-light.png');
+}
+
+body:not([data-theme="dark"]) [data-card="product-suite"] .project-bg-image {
+    background-image: url('../images/product-light.png');
+}
+
+body:not([data-theme="dark"]) [data-card="research-strategy"] .project-bg-image {
+    background-image: url('../images/research-light.png');
+}
+
+body:not([data-theme="dark"]) [data-card="style-guide-sample"] .project-bg-image {
+    background-image: url('../images/design-system-light.png');
+}
+
+/* About carousel card images - using dedicated about-me images */
+[data-card="about-design"] .project-bg-image {
+    background-image: url('../images/about-me-1.png');
+}
+
+[data-card="about-background"] .project-bg-image {
+    background-image: url('../images/about-me-2.png');
+}
+
+[data-card="about-creative"] .project-bg-image {
+    background-image: url('../images/about-me-3.png');
+}
+
+[data-card="about-personal"] .project-bg-image {
+    background-image: url('../images/about-me-4.png');
+}
+
+body:not([data-theme="dark"]) .project-content-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 40%,
+        rgba(255, 255, 255, 0.4) 70%,
+        rgba(255, 255, 255, 0.8) 100%
+    );
+}
+
+body:not([data-theme="dark"]) .project-content-overlay::before {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-title {
+    color: #1a1a1a;
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-description {
+    color: rgba(26, 26, 26, 0.9);
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-link-text {
+    color: var(--color-accent);
+}
+
+body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
+    background: var(--color-accent);
+}
+
+
+/* Ensure featured cards have no shadow in both light and dark modes */
+[data-theme="dark"] .project-card-featured {
+    box-shadow: none;
+}
+
+/* Override any inherited shadows from .card class - only for default state */
+.card.project-card-featured:not(:hover) {
+    box-shadow: none !important;
+}
+
+/* About Section */
+.about {
+    padding: 120px 0;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.about-text {
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.about-image {
+    width: 100%;
+    height: 400px;
+    background: rgba(21, 181, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    color: #15B5FF;
+}
+
+/* ==========================================
+   Brands Section
+   ========================================== */
+.brands {
+    text-align: center;
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.logo-scroller {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 160px;
+    margin-bottom: 120px;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.logo-scroller-track {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    will-change: transform;
+}
+
+@keyframes scrollLogos {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(var(--scroll-distance));
+    }
+}
+
+.brand-logo {
+    width: auto;
+    height: auto;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.brand-logo:hover {
+    opacity: 1;
+    filter: brightness(1.1);
+}
+
+/* Theme-aware logo display */
+.logo-light {
+    display: block;
+}
+
+.logo-dark {
+    display: none;
+}
+
+body[data-theme="dark"] .logo-light {
+    display: none;
+}
+
+body[data-theme="dark"] .logo-dark {
+    display: block;
+}
+
+/* Pause animation on hover */
+.logo-scroller:hover .logo-scroller-track {
+    animation-play-state: paused;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .logo-scroller-track {
+        animation: scrollLogos 100s linear infinite;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .brands {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .logo-scroller {
+        margin-top: 80px;
+        margin-bottom: 64px;
+    }
+
+    .logo-scroller-track {
+        gap: 48px;
+    }
+}
+
+/* Contact Section */
+.contact {
+    min-height: 100vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    background: var(--bg-primary);
+}
+
+.contact-buttons {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 48px;
+}
+
+.contact-button {
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50px;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Style Guide Specific */
+.header {
+    text-align: center;
+    padding: 120px 0 80px;
+}
+
+.title {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 300;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+}
+
+.subtitle {
+    font-size: clamp(18px, 2.5vw, 32px);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-regular);
+}
+
+.section {
+    margin-bottom: 80px;
+}
+
+/* User Controls Section */
+.user-controls-description-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 32px;
+    align-items: start;
+}
+
+.user-controls-description {
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.user-controls-right {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 48px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.control-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* Typography Samples */
+.type-sample {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.type-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.h1-sample {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+}
+
+.h2-sample {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+.h3-sample {
+    font-size: clamp(20px, 3vw, 24px);
+    font-weight: 500;
+}
+
+.body-sample {
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 50%;
+    padding-right: 16px;
+}
+
+.small-sample {
+    font-size: 14px;
+    color: #525252;
+}
+
+/* Font Info Layout */
+.font-description-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 24px;
+}
+
+/* Header Description Layout */
+.header-description-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 24px;
+}
+
+.font-link-row {
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+
+.font-link {
+    color: #15B5FF;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+}
+
+.font-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: #15B5FF;
+    transition: width 0.3s ease;
+}
+
+.font-link:hover::after {
+    width: 100%;
+}
+
+/* Color Section Layout */
+.color-section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+}
+
+/* Color Swatches */
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 120px));
+    gap: 24px;
+    margin-bottom: 32px;
+    justify-content: start;
+}
+

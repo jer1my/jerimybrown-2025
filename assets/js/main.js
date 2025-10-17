@@ -2,9 +2,250 @@
 // Main functionality for theme system, navigation, and interactive elements
 
 // ==========================================
+// Data Loading System
+// ==========================================
+// Centralized data management - loads content from JSON files
+
+class DataLoader {
+    constructor() {
+        this.data = {
+            person: null,
+            projects: null,
+            experience: null,
+            skills: null,
+            accolades: null,
+            brands: null,
+            aboutCarousel: null,
+            caseStudy: null
+        };
+        this.loaded = false;
+        this.loadPromise = null;
+    }
+
+    async fetchJSON(path) {
+        try {
+            const response = await fetch(path);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch ${path}: ${response.statusText}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error(`Error loading ${path}:`, error);
+            return null;
+        }
+    }
+
+    async loadAll() {
+        if (this.loadPromise) return this.loadPromise;
+
+        this.loadPromise = Promise.all([
+            this.fetchJSON('data/person.json'),
+            this.fetchJSON('data/projects.json'),
+            this.fetchJSON('data/experience.json'),
+            this.fetchJSON('data/skills.json'),
+            this.fetchJSON('data/accolades.json'),
+            this.fetchJSON('data/brands.json'),
+            this.fetchJSON('data/about-carousel.json')
+        ]).then(([person, projects, experience, skills, accolades, brands, aboutCarousel]) => {
+            this.data.person = person;
+            this.data.projects = projects?.projects || [];
+            this.data.experience = experience?.experience || [];
+            this.data.skills = skills?.skillCategories || [];
+            this.data.accolades = accolades || { awards: [], features: [] };
+            this.data.brands = brands?.brands || [];
+            this.data.aboutCarousel = aboutCarousel?.carouselCards || [];
+            this.loaded = true;
+            return this.data;
+        });
+
+        return this.loadPromise;
+    }
+
+    async loadCaseStudy(caseStudyId) {
+        const path = `../data/case-studies/${caseStudyId}.json`;
+        this.data.caseStudy = await this.fetchJSON(path);
+        return this.data.caseStudy;
+    }
+
+    getProjects() {
+        return this.data.projects || [];
+    }
+
+    getProject(identifier) {
+        const projects = this.getProjects();
+        return projects.find(p => p.id === identifier || p.url === identifier);
+    }
+
+    getAdjacentProjects(identifier) {
+        const projects = this.getProjects();
+        const currentIndex = projects.findIndex(p => p.id === identifier || p.url === identifier);
+        if (currentIndex === -1) return { prev: null, next: null };
+
+        const prevIndex = (currentIndex - 1 + projects.length) % projects.length;
+        const nextIndex = (currentIndex + 1) % projects.length;
+
+        return {
+            prev: projects[prevIndex],
+            next: projects[nextIndex]
+        };
+    }
+
+    getPerson() {
+        return this.data.person;
+    }
+
+    getExperience() {
+        return this.data.experience;
+    }
+
+    getSkills() {
+        return this.data.skills;
+    }
+
+    getAccolades() {
+        return this.data.accolades;
+    }
+
+    getBrands() {
+        return this.data.brands;
+    }
+
+    getAboutCarousel() {
+        return this.data.aboutCarousel;
+    }
+
+    getCaseStudy() {
+        return this.data.caseStudy;
+    }
+}
+
+// Create global instance
+const dataLoader = new DataLoader();
+
+// ==========================================
+// JSON-LD Schema Generation
+// ==========================================
+
+function generatePersonSchema(personData) {
+    if (!personData) return null;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": personData.name,
+        "jobTitle": personData.jobTitle,
+        "description": personData.description,
+        "url": personData.website,
+        "image": personData.image,
+        "email": personData.email,
+        "telephone": personData.phone,
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": personData.location.address,
+            "addressLocality": personData.location.city,
+            "addressRegion": personData.location.state,
+            "postalCode": personData.location.zip,
+            "addressCountry": personData.location.country
+        },
+        "sameAs": [
+            personData.socialLinks.linkedin,
+            personData.socialLinks.github,
+            personData.socialLinks.dribbble,
+            personData.socialLinks.instagram
+        ],
+        "knowsAbout": personData.skills
+    };
+}
+
+function generateProjectSchema(projectData, personData) {
+    if (!projectData || !personData) return null;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": projectData.title,
+        "description": projectData.description,
+        "author": {
+            "@type": "Person",
+            "name": personData.name,
+            "url": personData.website
+        },
+        "datePublished": projectData.year?.toString(),
+        "image": `https://jerimybrown.com/assets/images/work/${projectData.id}-light.png`,
+        "keywords": projectData.tags?.join(', '),
+        "genre": projectData.category
+    };
+}
+
+function generateBreadcrumbSchema(items) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": items.map((item, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": item.name,
+            "item": item.url
+        }))
+    };
+}
+
+function generateWebSiteSchema(personData) {
+    if (!personData) return null;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": `${personData.name} - Portfolio`,
+        "url": personData.website,
+        "description": personData.description,
+        "author": {
+            "@type": "Person",
+            "name": personData.name
+        }
+    };
+}
+
+function injectJSONLD(schema) {
+    if (!schema) return;
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schema, null, 2);
+    document.head.appendChild(script);
+}
+
+function initJSONLDSchemas() {
+    const personData = dataLoader.getPerson();
+    const currentPath = window.location.pathname;
+    const currentPage = currentPath.split('/').pop();
+
+    // Always inject Person schema on all pages
+    injectJSONLD(generatePersonSchema(personData));
+
+    // Inject appropriate schemas based on page
+    if (currentPath.includes('/work/') || currentPath.includes('work/')) {
+        // Project page
+        const projectData = dataLoader.getProject(currentPage);
+        if (projectData) {
+            injectJSONLD(generateProjectSchema(projectData, personData));
+            injectJSONLD(generateBreadcrumbSchema([
+                { name: 'Home', url: 'https://jerimybrown.com' },
+                { name: 'Work', url: 'https://jerimybrown.com#projects' },
+                { name: projectData.title, url: `https://jerimybrown.com/work/${projectData.url}` }
+            ]));
+        }
+    } else if (currentPage === 'index.html' || currentPath === '/' || currentPath === '') {
+        // Homepage
+        injectJSONLD(generateWebSiteSchema(personData));
+    }
+}
+
+// ==========================================
 // Centralized Project Configuration
 // ==========================================
-// Edit project information here - changes will automatically update across all pages
+// DEPRECATED: This array is now loaded from data/projects.json
+// Keeping for backwards compatibility during transition
 
 const PROJECTS = [
     {
@@ -42,12 +283,18 @@ const PROJECTS = [
 ];
 
 // Helper function to get project by ID or URL
+// Updated to use dataLoader
 function getProject(identifier) {
-    return PROJECTS.find(p => p.id === identifier || p.url === identifier);
+    return dataLoader.getProject(identifier) || PROJECTS.find(p => p.id === identifier || p.url === identifier);
 }
 
 // Helper function to get previous/next projects
+// Updated to use dataLoader
 function getAdjacentProjects(identifier) {
+    const adjacent = dataLoader.getAdjacentProjects(identifier);
+    if (adjacent.prev || adjacent.next) return adjacent;
+
+    // Fallback to PROJECTS array
     const currentIndex = PROJECTS.findIndex(p => p.id === identifier || p.url === identifier);
     if (currentIndex === -1) return { prev: null, next: null };
 
@@ -357,6 +604,14 @@ function initMobileMenuClose() {
             }
         });
     }
+
+    // Close mobile menu immediately when resizing to desktop breakpoint
+    window.addEventListener('resize', function() {
+        // Check if mobile menu is open and window is now desktop size
+        if (overlay && overlay.classList.contains('active') && window.innerWidth > 768) {
+            toggleMobileMenu();
+        }
+    });
 }
 
 // ==========================================
@@ -451,7 +706,7 @@ function initRotatingWord() {
 // ==========================================
 
 let currentSlide = 0;
-const totalSlides = 4;
+let totalSlides = 4; // Will be updated dynamically based on loaded carousel data
 let autoRotateInterval;
 let isUserInteracting = false;
 
@@ -523,7 +778,9 @@ function goToProjectSlide(slideIndex, animate = false) {
     }
 }
 
-// Featured carousel slide content data
+// DEPRECATED: Featured carousel slide content data
+// This object is now loaded from data/projects.json (carouselMetadata property)
+// Keeping for backwards compatibility during transition
 const featuredSlideContent = {
     'ai-strategy': [
         {
@@ -644,8 +901,10 @@ function updateFeaturedSlideContent(slideIndex) {
         projectKey = 'design-system';
     }
 
-    // Get the content for this project and slide
-    const content = featuredSlideContent[projectKey];
+    // Get the project data from dataLoader (with fallback to hardcoded content)
+    const project = dataLoader.getProject(projectKey);
+    const content = project?.carouselMetadata || featuredSlideContent[projectKey];
+
     if (content && content[slideIndex]) {
         const metaItems = metaContainer.querySelectorAll('.meta-item');
         const slideContent = content[slideIndex];
@@ -1040,7 +1299,7 @@ function initLogoColorChange() {
     }
 
     const logo = document.querySelector('.logo');
-    const homeIcon = document.querySelector('.nav-home-icon');
+    const homeLink = document.querySelector('.nav-links a[href="#"]');
 
     if (!logo) {
         return;
@@ -1053,8 +1312,8 @@ function initLogoColorChange() {
         if (!heroSection) {
             // Not on index page, don't add accent color
             logo.classList.remove('accent-color');
-            if (homeIcon) {
-                homeIcon.classList.remove('accent-color');
+            if (homeLink) {
+                homeLink.classList.remove('accent-color');
             }
             return;
         }
@@ -1063,13 +1322,13 @@ function initLogoColorChange() {
         // Use a small threshold to account for minor scroll variations
         if (window.scrollY <= 50) {
             logo.classList.add('accent-color');
-            if (homeIcon) {
-                homeIcon.classList.add('accent-color');
+            if (homeLink) {
+                homeLink.classList.add('accent-color');
             }
         } else {
             logo.classList.remove('accent-color');
-            if (homeIcon) {
-                homeIcon.classList.remove('accent-color');
+            if (homeLink) {
+                homeLink.classList.remove('accent-color');
             }
         }
     }
@@ -1079,6 +1338,55 @@ function initLogoColorChange() {
 
     // Update on page load
     updateLogoColor();
+}
+
+// Logo Letter Animation
+function initLogoLetterAnimation() {
+    const logoTexts = document.querySelectorAll('.logo-text');
+
+    // Detect if we're on a work page
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('/work/')) {
+        document.body.classList.add('work-page');
+    }
+
+    logoTexts.forEach(logoText => {
+        const text = logoText.textContent.trim();
+
+        // Skip if already transformed
+        if (logoText.querySelector('.logo-letter')) {
+            return;
+        }
+
+        // Keep the space between first and last name
+        const letters = text.split('');
+        const totalLetters = letters.length;
+
+        // Clear the original text
+        logoText.innerHTML = '';
+
+        // Create a span for each letter with REVERSED delay order
+        // Animation goes from end (n) to beginning (J)
+        letters.forEach((letter, index) => {
+            const span = document.createElement('span');
+            span.className = 'logo-letter';
+
+            // If it's a space, use non-breaking space and add extra width
+            if (letter === ' ') {
+                span.innerHTML = '&nbsp;&nbsp;'; // Double space for better separation
+            } else {
+                span.textContent = letter;
+            }
+
+            // Reverse the delay: last letter (n) has 0ms, first letter (J) has max delay
+            const reverseDelay = (totalLetters - 1 - index) * 30;
+            span.style.transitionDelay = `${reverseDelay}ms`;
+            logoText.appendChild(span);
+        });
+
+        // Mark as transformed to make it visible
+        logoText.classList.add('transformed');
+    });
 }
 
 // Navigation Active State Management
@@ -1114,8 +1422,15 @@ function initNavigationActiveState() {
             }
         });
 
-        // Add active class to current section's links
-        if (currentSection) {
+        // Special handling for Home link when at top of page
+        // Check if we're at the very top or in the hero section
+        if (window.scrollY <= 50) {
+            const homeLinks = document.querySelectorAll('a[href="#"]');
+            homeLinks.forEach(link => {
+                link.classList.add('active');
+            });
+        } else if (currentSection) {
+            // Add active class to current section's links
             const currentLinks = document.querySelectorAll(`a[href="#${currentSection}"]`);
             currentLinks.forEach(link => {
                 link.classList.add('active');
@@ -1389,8 +1704,9 @@ function initProjectCards() {
     // Clear existing cards
     projectsGrid.innerHTML = '';
 
-    // Generate cards from PROJECTS configuration
-    PROJECTS.forEach(project => {
+    // Generate cards from dataLoader (with fallback to PROJECTS)
+    const projects = dataLoader.getProjects().length > 0 ? dataLoader.getProjects() : PROJECTS;
+    projects.forEach(project => {
         const cardHTML = `
             <a href="work/${project.url}" class="project-card-link" aria-label="${project.ariaLabel}">
                 <article class="project-card project-card-featured" data-card="${project.id}">
@@ -1456,16 +1772,627 @@ function initProjectNavigation() {
     }
 }
 
+// Generate brand logos for brands section
+function initBrandLogos() {
+    // Only run on index page
+    const logoScrollerTrack = document.querySelector('.logo-scroller-track');
+    if (!logoScrollerTrack) return;
+
+    // Clear existing logos
+    logoScrollerTrack.innerHTML = '';
+
+    // Get brands from dataLoader
+    const brands = dataLoader.getBrands();
+    if (brands.length === 0) return;
+
+    // Generate first set of logos
+    brands.forEach(brand => {
+        const lightImg = document.createElement('img');
+        lightImg.src = brand.lightLogo;
+        lightImg.alt = brand.alt;
+        lightImg.className = 'brand-logo logo-light';
+        logoScrollerTrack.appendChild(lightImg);
+
+        const darkImg = document.createElement('img');
+        darkImg.src = brand.darkLogo;
+        darkImg.alt = brand.alt;
+        darkImg.className = 'brand-logo logo-dark';
+        logoScrollerTrack.appendChild(darkImg);
+    });
+
+    // Duplicate set for seamless infinite loop
+    brands.forEach(brand => {
+        const lightImg = document.createElement('img');
+        lightImg.src = brand.lightLogo;
+        lightImg.alt = brand.alt;
+        lightImg.className = 'brand-logo logo-light';
+        logoScrollerTrack.appendChild(lightImg);
+
+        const darkImg = document.createElement('img');
+        darkImg.src = brand.darkLogo;
+        darkImg.alt = brand.alt;
+        darkImg.className = 'brand-logo logo-dark';
+        logoScrollerTrack.appendChild(darkImg);
+    });
+}
+
+// Generate about carousel cards
+function initAboutCarousel() {
+    // Only run on index page
+    const carouselTrack = document.getElementById('aboutCarouselTrack');
+    if (!carouselTrack) return;
+
+    // Clear existing cards
+    carouselTrack.innerHTML = '';
+
+    // Get carousel cards from dataLoader
+    const cards = dataLoader.getAboutCarousel();
+    if (cards.length === 0) return;
+
+    // Generate carousel cards
+    cards.forEach((card, index) => {
+        const article = document.createElement('article');
+        article.className = `about-card project-card project-card-featured${index === 0 ? ' active' : ''}`;
+        article.setAttribute('data-card', card.dataCard);
+
+        article.innerHTML = `
+            <div class="project-bg-image"></div>
+            <div class="project-content-overlay">
+                <h3 class="project-title">${card.title}</h3>
+                <p class="project-description">${card.description}</p>
+            </div>
+        `;
+
+        carouselTrack.appendChild(article);
+    });
+
+    // Update totalSlides to match loaded data
+    totalSlides = cards.length;
+}
+
+// Generate about carousel indicators
+function initAboutCarouselIndicators() {
+    // Only run on index page
+    const indicatorsContainer = document.querySelector('.about-carousel .carousel-indicators');
+    if (!indicatorsContainer) return;
+
+    // Clear existing indicators
+    indicatorsContainer.innerHTML = '';
+
+    // Get carousel cards from dataLoader
+    const cards = dataLoader.getAboutCarousel();
+    if (cards.length === 0) return;
+
+    // Generate indicators
+    cards.forEach((card, index) => {
+        const button = document.createElement('button');
+        button.className = `indicator${index === 0 ? ' active' : ''}`;
+        button.setAttribute('data-slide', index);
+        button.onclick = function() { goToSlide(index, true); };
+        indicatorsContainer.appendChild(button);
+    });
+}
+
+// Generate experience items for resume page
+function initExperienceTimeline() {
+    // Only run on resume page
+    const timeline = document.querySelector('.experience-timeline');
+    if (!timeline) return;
+
+    // Clear existing content
+    timeline.innerHTML = '';
+
+    // Get experience data
+    const experience = dataLoader.getExperience();
+    if (experience.length === 0) return;
+
+    // Separate featured and compact items
+    const featured = experience.filter(exp => exp.featured);
+    const compact = experience.filter(exp => !exp.featured);
+
+    // Generate featured items
+    featured.forEach(exp => {
+        const div = document.createElement('div');
+        div.className = 'experience-item experience-detailed';
+        div.innerHTML = `
+            <div class="experience-header">
+                <div class="experience-dates">${exp.dates}</div>
+                <div class="experience-company">${exp.company}</div>
+                <div class="experience-location">${exp.location}</div>
+                <h3 class="experience-title">${exp.title}</h3>
+            </div>
+            <p class="experience-description">${exp.description}</p>
+        `;
+        timeline.appendChild(div);
+    });
+
+    // Generate compact items grid
+    if (compact.length > 0) {
+        const gridDiv = document.createElement('div');
+        gridDiv.className = 'experience-compact-grid';
+
+        compact.forEach(exp => {
+            const div = document.createElement('div');
+            div.className = 'experience-item experience-compact';
+            div.innerHTML = `
+                <div class="experience-header">
+                    <div class="experience-dates">${exp.dates}</div>
+                    <div class="experience-company">${exp.company}</div>
+                    <div class="experience-location">${exp.location}</div>
+                    <h3 class="experience-title">${exp.title}</h3>
+                </div>
+            `;
+            gridDiv.appendChild(div);
+        });
+
+        timeline.appendChild(gridDiv);
+    }
+}
+
+// Generate skills grid for resume page
+function initSkillsGrid() {
+    // Only run on resume page
+    const skillsGrid = document.querySelector('.skills-grid');
+    if (!skillsGrid) return;
+
+    // Clear existing content
+    skillsGrid.innerHTML = '';
+
+    // Get skills data
+    const skills = dataLoader.getSkills();
+    if (skills.length === 0) return;
+
+    // Generate skill categories
+    skills.forEach(category => {
+        const div = document.createElement('div');
+        div.className = 'skill-category';
+
+        let skillsHTML = '';
+
+        // Check if this category has skill levels (Development category)
+        if (category.skillLevels) {
+            const levels = Object.keys(category.skillLevels);
+            skillsHTML = levels.map(level => {
+                const skillsList = category.skillLevels[level].join(' / ');
+                return `<span class="skill-level">${level}:</span> ${skillsList}`;
+            }).join('<br>\n                        ');
+        } else if (category.skills) {
+            // Regular skills list
+            skillsHTML = category.skills.join(' / ');
+            if (category.description) {
+                skillsHTML += `<br><br>\n                        ${category.description}`;
+            }
+        }
+
+        div.innerHTML = `
+            <h3 class="skill-category-title">${category.title}</h3>
+            <div class="skill-list">
+                ${skillsHTML}
+            </div>
+        `;
+
+        skillsGrid.appendChild(div);
+    });
+}
+
+// Generate accolades for resume page
+function initAccolades() {
+    // Only run on resume page
+    const accoladesGrid = document.querySelector('.accolades-grid');
+    if (!accoladesGrid) return;
+
+    // Clear existing content
+    accoladesGrid.innerHTML = '';
+
+    // Get accolades data
+    const accolades = dataLoader.getAccolades();
+    if (!accolades.awards && !accolades.features) return;
+
+    // Generate Awards section
+    if (accolades.awards && accolades.awards.length > 0) {
+        const awardsDiv = document.createElement('div');
+        awardsDiv.className = 'accolade-category';
+        awardsDiv.innerHTML = '<h3 class="accolade-category-title">Awards</h3>';
+
+        accolades.awards.forEach(award => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'accolade-item';
+            itemDiv.innerHTML = `
+                <div class="accolade-date">${award.date}</div>
+                <div class="accolade-title"><span class="accolade-award-name">${award.name}</span> - ${award.description}</div>
+            `;
+            awardsDiv.appendChild(itemDiv);
+        });
+
+        accoladesGrid.appendChild(awardsDiv);
+    }
+
+    // Generate Features section
+    if (accolades.features && accolades.features.length > 0) {
+        const featuresDiv = document.createElement('div');
+        featuresDiv.className = 'accolade-category';
+        featuresDiv.innerHTML = '<h3 class="accolade-category-title">Features</h3>';
+
+        accolades.features.forEach(feature => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'accolade-item';
+            itemDiv.innerHTML = `
+                <div class="accolade-date">${feature.date}</div>
+                <div class="accolade-title">${feature.title}</div>
+            `;
+            featuresDiv.appendChild(itemDiv);
+        });
+
+        accoladesGrid.appendChild(featuresDiv);
+    }
+}
+
+// ==========================================
+// Case Study Content Rendering
+// ==========================================
+
+// Main initialization function for case study pages
+async function initCaseStudyContent() {
+    // Detect which case study page we're on
+    const currentPath = window.location.pathname;
+    let caseStudyId = null;
+
+    if (currentPath.includes('design-system')) {
+        caseStudyId = 'design-system';
+    } else if (currentPath.includes('product-suite')) {
+        caseStudyId = 'product-suite';
+    } else if (currentPath.includes('ai-strategy')) {
+        caseStudyId = 'ai-strategy';
+    } else if (currentPath.includes('research-strategy')) {
+        caseStudyId = 'research-strategy';
+    }
+
+    // Only run on case study pages
+    if (!caseStudyId) return;
+
+    // Load case study data
+    try {
+        const caseStudy = await dataLoader.loadCaseStudy(caseStudyId);
+        if (!caseStudy || !caseStudy.sections) {
+            console.error('Failed to load case study data');
+            return;
+        }
+
+        // Render each section
+        renderOverview(caseStudy.sections.overview);
+        renderChallenge(caseStudy.sections.challenge);
+        renderSolution(caseStudy.sections.solution);
+        renderProcess(caseStudy.sections.process);
+        renderResults(caseStudy.sections.results);
+
+    } catch (error) {
+        console.error('Error loading case study content:', error);
+    }
+}
+
+// Render overview section
+function renderOverview(data) {
+    if (!data) return;
+
+    const section = document.getElementById('overview');
+    if (!section) return;
+
+    const heading = section.querySelector('h2');
+    const contentDiv = section.querySelector('.section-content');
+
+    if (heading) heading.textContent = data.heading;
+    if (contentDiv && data.content) {
+        contentDiv.innerHTML = marked.parse(data.content);
+    }
+}
+
+// Render challenge section
+function renderChallenge(data) {
+    if (!data) return;
+
+    const section = document.getElementById('challenge');
+    if (!section) return;
+
+    const heading = section.querySelector('h2');
+    const contentDiv = section.querySelector('.section-content');
+
+    if (heading) heading.textContent = data.heading;
+
+    if (contentDiv) {
+        let html = '';
+
+        // Add intro if present
+        if (data.intro) {
+            html += `<p>${marked.parseInline(data.intro)}</p>`;
+        }
+
+        // Add subheadings if present (research-strategy format)
+        if (data.subheadings && data.subheadings.length > 0) {
+            data.subheadings.forEach(subheading => {
+                html += `
+                    <h3>${subheading.title}</h3>
+                    <p>${marked.parseInline(subheading.content)}</p>
+                `;
+            });
+        }
+
+        // Add highlight box with key points
+        if (data.highlightTitle && data.keyPoints && data.keyPoints.length > 0) {
+            html += `
+                <div class="challenge-highlight">
+                    <h3>${data.highlightTitle}</h3>
+                    <ul>
+                        ${data.keyPoints.map(point => `<li>${marked.parseInline(point)}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        contentDiv.innerHTML = html;
+    }
+}
+
+// Render solution section
+function renderSolution(data) {
+    if (!data) return;
+
+    const section = document.getElementById('solution');
+    if (!section) return;
+
+    const heading = section.querySelector('h2');
+    const contentDiv = section.querySelector('.section-content');
+
+    if (heading) heading.textContent = data.heading;
+
+    if (contentDiv) {
+        let html = '';
+
+        // Add intro
+        if (data.intro) {
+            html += `<p>${marked.parseInline(data.intro)}</p>`;
+        }
+
+        // Add approaches if present (design-system format)
+        if (data.approaches && data.approaches.length > 0) {
+            html += '<div class="solution-approaches">';
+            data.approaches.forEach(approach => {
+                html += `
+                    <div class="approach-item">
+                        <h3>${approach.title}</h3>
+                        <p>${marked.parseInline(approach.description)}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+
+        contentDiv.innerHTML = html;
+    }
+}
+
+// Render process section
+function renderProcess(data) {
+    if (!data) return;
+
+    const section = document.getElementById('process');
+    if (!section) return;
+
+    const heading = section.querySelector('h2');
+    const contentDiv = section.querySelector('.section-content');
+
+    if (heading) heading.textContent = data.heading;
+
+    if (contentDiv) {
+        let html = '';
+
+        // Add intro
+        if (data.intro) {
+            html += `<p class="process-intro">${marked.parseInline(data.intro)}</p>`;
+        }
+
+        // Add process steps
+        if (data.steps && data.steps.length > 0) {
+            html += '<div class="process-steps">';
+            data.steps.forEach(step => {
+                html += `
+                    <div class="process-step">
+                        <div class="step-number">${step.number}</div>
+                        <div class="step-content">
+                            <h3>${step.title}</h3>
+                            <p>${marked.parseInline(step.description)}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+
+        contentDiv.innerHTML = html;
+    }
+}
+
+// Render results section
+function renderResults(data) {
+    if (!data) return;
+
+    const section = document.getElementById('results');
+    if (!section) return;
+
+    const heading = section.querySelector('h2');
+    const contentDiv = section.querySelector('.section-content');
+
+    if (heading) heading.textContent = data.heading;
+
+    if (contentDiv) {
+        let html = '';
+
+        // Add intro
+        if (data.intro) {
+            html += `<p class="results-intro">${marked.parseInline(data.intro)}</p>`;
+        }
+
+        // Add metrics based on type
+        if (data.metrics && data.metrics.length > 0) {
+            const metricsType = data.metricsType || 'chart';
+
+            if (metricsType === 'simple') {
+                // Simple metrics without charts
+                html += '<div class="results-grid">';
+                data.metrics.forEach(metric => {
+                    html += `
+                        <div class="result-metric">
+                            <div class="metric-value">${metric.value}</div>
+                            <div class="metric-label">${metric.label}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else if (metricsType === 'mixed') {
+                // Mixed metrics with both charts and simple
+                html += '<div class="results-grid">';
+                data.metrics.forEach(metric => {
+                    if (metric.type === 'simple' || !metric.chartProgress) {
+                        html += `
+                            <div class="result-metric">
+                                <div class="metric-value">${metric.value}</div>
+                                <div class="metric-label">${metric.label}</div>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="result-metric-chart">
+                                <div class="donut-chart" data-progress="${metric.chartProgress}">
+                                    <svg viewBox="0 0 60 60">
+                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                    </svg>
+                                    <div class="chart-center">
+                                        <div class="chart-value">${metric.value}</div>
+                                    </div>
+                                </div>
+                                <div class="chart-label">${metric.label}</div>
+                            </div>
+                        `;
+                    }
+                });
+                html += '</div>';
+            } else {
+                // Standard donut chart metrics
+                html += '<div class="results-grid">';
+                data.metrics.forEach(metric => {
+                    html += `
+                        <div class="result-metric-chart">
+                            <div class="donut-chart" data-progress="${metric.chartProgress}">
+                                <svg viewBox="0 0 60 60">
+                                    <circle class="donut-track" cx="30" cy="30" r="25"></circle>
+                                    <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
+                                </svg>
+                                <div class="chart-center">
+                                    <div class="chart-value">${metric.value}</div>
+                                </div>
+                            </div>
+                            <div class="chart-label">${metric.label}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+        }
+
+        // Add outcome groups (research-strategy format)
+        if (data.outcomeGroups && data.outcomeGroups.length > 0) {
+            html += '<div class="outcome-groups">';
+            data.outcomeGroups.forEach(group => {
+                html += `
+                    <div class="outcome-group">
+                        <h3>${group.title}</h3>
+                        <ul>
+                            ${group.outcomes.map(outcome => `<li>${marked.parseInline(outcome)}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+
+        // Add additional outcomes (design-system format)
+        if (data.additionalOutcomesTitle && data.additionalOutcomes && data.additionalOutcomes.length > 0) {
+            html += `
+                <div class="additional-outcomes">
+                    <h3>${data.additionalOutcomesTitle}</h3>
+                    <ul>
+                        ${data.additionalOutcomes.map(outcome => `<li>${marked.parseInline(outcome)}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        contentDiv.innerHTML = html;
+
+        // Re-initialize donut charts after rendering
+        if (typeof initDonutCharts === 'function') {
+            initDonutCharts();
+        }
+    }
+}
+
+// Sticky Project Nav Detection
+function initStickyProjectNav() {
+    const projectNav = document.querySelector('.project-nav');
+    const sidebar = document.querySelector('.content-sidebar');
+
+    if (!projectNav || !sidebar) return;
+
+    // Use scroll detection to determine when sidebar is sticky
+    function checkStickyState() {
+        const sidebarRect = sidebar.getBoundingClientRect();
+        const stickyTop = 120; // Same as CSS sticky top value
+
+        // If sidebar top is at or above the sticky position, it's stuck
+        if (sidebarRect.top <= stickyTop) {
+            projectNav.classList.add('is-sticky');
+        } else {
+            projectNav.classList.remove('is-sticky');
+        }
+    }
+
+    // Check on scroll
+    window.addEventListener('scroll', checkStickyState);
+
+    // Check on load
+    checkStickyState();
+}
+
 // Initialize everything when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Load all data from JSON files first
+    try {
+        await dataLoader.loadAll();
+        console.log('Data loaded successfully');
+
+        // Inject JSON-LD schemas for SEO
+        initJSONLDSchemas();
+    } catch (error) {
+        console.error('Error loading data:', error);
+        // Continue with fallback data from PROJECTS array
+    }
+
     initTheme();
     initGridLines();
+    initLogoLetterAnimation(); // Transform logo text into animated letter spans
 
     // Dynamic project content - must run BEFORE scroll animations
     initProjectCards(); // Generate project cards on index page
     initProjectPageContent(); // Update page title and subtitle on project pages
     initProjectNavigation(); // Update prev/next navigation on project pages
+    initBrandLogos(); // Generate brand logos from JSON
+    initAboutCarousel(); // Generate about carousel cards from JSON
+    initAboutCarouselIndicators(); // Generate about carousel indicators from JSON
+    initExperienceTimeline(); // Generate experience timeline for resume page
+    initSkillsGrid(); // Generate skills grid for resume page
+    initAccolades(); // Generate accolades for resume page
     initHoverPreloading(); // Initialize hover intent image preloading
+    await initCaseStudyContent(); // Load and render case study content from JSON
 
     initScrollAnimations(); // Now project cards exist and can be observed
     initSmoothScrolling();
@@ -1476,6 +2403,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initLogoColorChange();
     initNavigationActiveState();
     initProjectNavigationActiveState();
+    initStickyProjectNav();
     initPageTransitions();
     initDonutCharts();
 
@@ -1484,7 +2412,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initParticleSystem();
     }
 
-    // Initialize logo scroller
+    // Initialize logo scroller (must run AFTER initBrandLogos)
     initLogoScroller();
 });
 

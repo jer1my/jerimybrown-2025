@@ -1,0 +1,179 @@
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding-desktop);
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+.hero-title {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 0.9;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+}
+
+.hero-subtitle {
+    font-size: clamp(18px, 2.5vw, 32px);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-secondary);
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+}
+
+.hero-subtitle .mobile-break {
+    display: none;
+}
+
+.hero-description {
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto 48px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out 0.6s forwards;
+}
+
+.scroll-arrow {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px);
+    background: rgba(250, 250, 250, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUpCentered 0.8s ease-out 0.8s forwards;
+    z-index: 20;
+}
+
+.scroll-arrow svg {
+    width: 56px;
+    height: 56px;
+    transition: all 0.3s ease;
+}
+
+.scroll-arrow svg .arrow-group {
+    transform: translateY(-40px);
+    animation: arrowSlideDown 0.8s ease-out 1.4s forwards, arrowBounce 2s infinite 2.4s;
+}
+
+.scroll-arrow:hover {
+    opacity: 0.5 !important;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: max(24px, calc((100vw - 1200px) / 2 - 80px));
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(100px);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-top svg {
+    width: 48px;
+    height: 48px;
+    transition: opacity 0.3s ease;
+}
+
+.back-to-top:hover {
+    opacity: 0.5 !important;
+}
+
+/* Back to Projects Button */
+.back-to-projects {
+    position: fixed;
+    bottom: 84px; /* 48px (button height) + 24px (bottom gap) + 12px (gap between buttons) */
+    right: max(24px, calc((100vw - 1200px) / 2 - 80px));
+    width: 48px;
+    height: 48px;
+    background: rgba(250, 250, 250, 0.1);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(100px);
+    z-index: 1000;
+    pointer-events: none;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.back-to-projects.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-projects svg {
+    width: 48px;
+    height: 48px;
+    transition: opacity 0.3s ease;
+}
+
+.back-to-projects svg circle {
+    fill: transparent;
+    stroke: #1a1a1a;
+    stroke-width: 2;
+}
+
+.back-to-projects svg path {
+    stroke: #1a1a1a;
+    stroke-width: 2;
+}
+
+.back-to-projects:hover {
+    opacity: 0.5 !important;
+}
+
