@@ -22,9 +22,10 @@ class ParticleSystem {
         this.mouseIdleTimeout = 800; // ms of inactivity before releasing
         this.mouseActivityCheckInterval = null;
 
-        // Default configuration
+        // Default configuration with responsive particle count
+        const isMobile = window.innerWidth <= 768;
         this.config = {
-            particleCount: 200,
+            particleCount: isMobile ? 200 : 300, // 200 on mobile, 300 on desktop
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys', // 'accent' or 'greys'
@@ -474,8 +475,9 @@ class ParticleSystem {
     }
 
     reset() {
+        const isMobile = window.innerWidth <= 768;
         this.config = {
-            particleCount: 200,
+            particleCount: isMobile ? 200 : 300, // 200 on mobile, 300 on desktop
             connectionDistance: 150,
             mouseRadius: 150,
             colorScheme: 'greys',
@@ -1007,12 +1009,14 @@ class ParticleControlPanel {
     resetControls() {
         this.particleSystem.reset();
 
-        // Update all control values
+        // Update all control values with responsive particle count
+        const isMobile = window.innerWidth <= 768;
+        const defaultParticleCount = isMobile ? 200 : 300;
         const countSlider = document.getElementById('particleCount');
         const countValue = document.getElementById('particleCountValue');
         if (countSlider && countValue) {
-            countSlider.value = 200;
-            countValue.textContent = '200';
+            countSlider.value = defaultParticleCount;
+            countValue.textContent = defaultParticleCount.toString();
         }
 
         const distanceSlider = document.getElementById('connectionDistance');
