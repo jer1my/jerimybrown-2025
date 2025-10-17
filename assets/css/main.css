@@ -256,6 +256,7 @@ body {
     text-decoration: none;
     cursor: pointer;
     color: inherit;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .logo-container {
@@ -537,7 +538,7 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-6);
 }
 
 .mobile-nav a {
