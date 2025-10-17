@@ -733,6 +733,11 @@ function goToSlide(slideIndex, userTriggered = false) {
         }
     });
 
+    // Keep CarouselDrag instance in sync
+    if (window.aboutCarouselDrag) {
+        window.aboutCarouselDrag.updateCurrentSlide(slideIndex);
+    }
+
     // If user clicked a dot, reset the auto-rotation with slower timing
     if (userTriggered) {
         isUserInteracting = true;
@@ -1244,19 +1249,13 @@ class CarouselDrag {
         this.isTransitioning = true;
         this.lastTransitionTime = Date.now();
 
-        // Don't wrap around - stop at last slide
-        if (this.currentSlide < this.totalSlides - 1) {
-            this.currentSlide = this.currentSlide + 1;
-            // Clear inline transform and restore CSS-based positioning
-            this.track.style.transform = '';
-            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            this.goToSlide(this.currentSlide);
-        } else {
-            // At last slide, just snap back to current position
-            this.track.style.transform = '';
-            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            this.goToSlide(this.currentSlide);
-        }
+        // Wrap around from last to first
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+
+        // Clear inline transform and restore CSS-based positioning
+        this.track.style.transform = '';
+        this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.goToSlide(this.currentSlide);
 
         // Clear transition flag after animation completes
         setTimeout(() => {
@@ -1269,19 +1268,13 @@ class CarouselDrag {
         this.isTransitioning = true;
         this.lastTransitionTime = Date.now();
 
-        // Don't wrap around - stop at first slide
-        if (this.currentSlide > 0) {
-            this.currentSlide = this.currentSlide - 1;
-            // Clear inline transform and restore CSS-based positioning
-            this.track.style.transform = '';
-            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            this.goToSlide(this.currentSlide);
-        } else {
-            // At first slide, just snap back to current position
-            this.track.style.transform = '';
-            this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            this.goToSlide(this.currentSlide);
-        }
+        // Wrap around from first to last
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+
+        // Clear inline transform and restore CSS-based positioning
+        this.track.style.transform = '';
+        this.track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.goToSlide(this.currentSlide);
 
         // Clear transition flag after animation completes
         setTimeout(() => {
@@ -1348,18 +1341,15 @@ function initCarousel() {
             }
         });
 
-        // Resume auto-rotation when drag ends (if not hovering)
-        const resumeAutoRotation = (e) => {
-            // Only resume if mouse has left the container
-            const rect = aboutCarouselContainer.getBoundingClientRect();
-            const x = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
-            const y = e.clientY || (e.changedTouches && e.changedTouches[0].clientY);
-
-            const isOutside = x < rect.left || x > rect.right || y < rect.top || y > rect.bottom;
-
-            if (isOutside && !autoRotateInterval) {
-                autoRotateInterval = setInterval(nextSlide, 8000);
-            }
+        // Resume auto-rotation when drag ends (with delay to check hover state)
+        const resumeAutoRotation = () => {
+            // Use a short delay to let hover state settle, then check if we should resume
+            setTimeout(() => {
+                const isHovering = aboutCarouselContainer.matches(':hover');
+                if (!isHovering && !autoRotateInterval) {
+                    autoRotateInterval = setInterval(nextSlide, 8000);
+                }
+            }, 100);
         };
 
         aboutCarouselContainer.addEventListener('mouseup', resumeAutoRotation);
