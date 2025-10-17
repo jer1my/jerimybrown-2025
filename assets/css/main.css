@@ -442,7 +442,10 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     justify-content: center;
     flex-direction: column;
     gap: 5px;
-    position: relative;
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 1300;
 }
 
 .nav-mobile-toggle:hover {
