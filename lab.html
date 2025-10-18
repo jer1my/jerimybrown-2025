@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1760825314">
+    <link rel="stylesheet" href="assets/css/main.css?v=1760825747">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -370,49 +370,53 @@
             </div>
 
             <div style="margin-top: 48px;">
-                <div class="type-label">Selectors</div>
+                <!-- Two Column: Selectors (left) and Interactive Elements (right) -->
+                <div class="component-grid">
+                    <!-- Left Column: Selectors -->
+                    <div>
+                        <div class="type-label">Selectors</div>
 
-                <!-- Toggle Selector and Slider - Two Column -->
-                <div class="selectors-grid">
-                    <!-- Toggle Selector -->
-                    <div class="particle-control-group">
-                        <label class="particle-control-label">Toggle Selector</label>
-                        <div class="particle-slider-toggle" id="labPillToggle">
-                            <div class="slider-toggle-pill"></div>
-                            <label class="slider-toggle-option">
-                                <input type="radio" name="labPillToggle" value="option1" checked>
-                                <span>Option 1</span>
+                        <!-- Toggle Selector -->
+                        <div class="particle-control-group" style="margin-bottom: 32px;">
+                            <label class="particle-control-label">Toggle Selector</label>
+                            <div class="particle-slider-toggle" id="labPillToggle">
+                                <div class="slider-toggle-pill"></div>
+                                <label class="slider-toggle-option">
+                                    <input type="radio" name="labPillToggle" value="option1" checked>
+                                    <span>Option 1</span>
+                                </label>
+                                <label class="slider-toggle-option">
+                                    <input type="radio" name="labPillToggle" value="option2">
+                                    <span>Option 2</span>
+                                </label>
+                                <label class="slider-toggle-option">
+                                    <input type="radio" name="labPillToggle" value="option3">
+                                    <span>Option 3</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Slider -->
+                        <div class="particle-control-group">
+                            <label class="particle-control-label">
+                                <span>Slider</span>
+                                <span class="particle-control-value" id="labSliderValue">50</span>
                             </label>
-                            <label class="slider-toggle-option">
-                                <input type="radio" name="labPillToggle" value="option2">
-                                <span>Option 2</span>
-                            </label>
-                            <label class="slider-toggle-option">
-                                <input type="radio" name="labPillToggle" value="option3">
-                                <span>Option 3</span>
-                            </label>
+                            <input type="range" id="labSlider" min="0" max="100" value="50" step="1" class="particle-slider">
                         </div>
                     </div>
 
-                    <!-- Slider -->
-                    <div class="particle-control-group">
-                        <label class="particle-control-label">
-                            <span>Slider</span>
-                            <span class="particle-control-value" id="labSliderValue">50</span>
-                        </label>
-                        <input type="range" id="labSlider" min="0" max="100" value="50" step="1" class="particle-slider">
+                    <!-- Right Column: Interactive Elements -->
+                    <div>
+                        <div class="type-label">Interactive Elements</div>
+                        <div style="display: flex; flex-direction: column; gap: 24px; align-items: flex-start;">
+                            <a href="#" class="accent-link" style="margin: 0;">Primary underline effect</a>
+                            <label class="particle-control-label remember-me-label" style="gap: 12px; justify-content: flex-start; margin: 0;">
+                                <span>Checkbox</span>
+                                <input type="checkbox" id="labCheckbox" class="remember-me-checkbox">
+                            </label>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 48px;">
-                <div class="type-label">Interactive Elements</div>
-                <div style="display: flex; align-items: center; gap: 32px; flex-wrap: wrap;">
-                    <a href="#" class="accent-link" style="margin: 0;">Primary underline effect</a>
-                    <label class="particle-control-label remember-me-label" style="gap: 12px; justify-content: flex-start; margin: 0;">
-                        <span>Checkbox</span>
-                        <input type="checkbox" id="labCheckbox" class="remember-me-checkbox">
-                    </label>
                 </div>
             </div>
 
