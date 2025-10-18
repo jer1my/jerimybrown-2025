@@ -31,6 +31,9 @@ async function initCaseStudyContent() {
 
     // Load case study data
     try {
+        // Load all data first (needed for project info)
+        await dataLoader.loadAll();
+
         const caseStudy = await dataLoader.loadCaseStudy(caseStudyId);
         if (!caseStudy || !caseStudy.sections) {
             console.error('Failed to load case study data');
@@ -38,7 +41,7 @@ async function initCaseStudyContent() {
         }
 
         // Update page title and meta tags from project data
-        const project = await dataLoader.loadProject(caseStudyId);
+        const project = dataLoader.getProject(caseStudyId);
         if (project) {
             updatePageMeta(project);
         }
