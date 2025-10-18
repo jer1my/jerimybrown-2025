@@ -785,6 +785,10 @@ body[data-theme="dark"] .logo-dark {
         grid-template-columns: 1fr;
         gap: 24px;
     }
+
+    .grid-controls-centered {
+        max-width: 100%;
+    }
 }
 
 /* Typography Samples */
