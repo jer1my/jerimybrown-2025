@@ -341,8 +341,8 @@
     left: 2px;
     height: calc(100% - 4px);
     width: calc(33.333% - 3px);
-    background: rgba(21, 181, 255, 0.2);
-    border: 1px solid #15B5FF;
+    background: transparent;
+    border: 2px solid #15B5FF;
     border-radius: 18px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
@@ -371,12 +371,12 @@
     text-align: center;
     font-size: 11px;
     font-weight: 500;
-    color: #525252;
+    color: #1a1a1a;
     transition: color 0.3s ease;
 }
 
 .slider-toggle-option input[type="radio"]:checked + span {
-    color: #15B5FF;
+    color: #1a1a1a;
 }
 
 .slider-toggle-option:hover span {
@@ -566,16 +566,16 @@
 }
 
 [data-theme="dark"] .slider-toggle-pill {
-    background: rgba(234, 88, 12, 0.2);
+    background: transparent;
     border-color: #ea580c;
 }
 
 [data-theme="dark"] .slider-toggle-option span {
-    color: #a3a3a3;
+    color: #e0e0e0;
 }
 
 [data-theme="dark"] .slider-toggle-option input[type="radio"]:checked + span {
-    color: #ea580c;
+    color: #e0e0e0;
 }
 
 [data-theme="dark"] .particle-radio-label span {
