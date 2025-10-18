@@ -104,51 +104,21 @@ body[data-theme="dark"] .nav {
     background: #ea580c;
 }
 
-[data-theme="dark"] .scroll-arrow {
-    background: rgba(23, 23, 23, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="dark"] .scroll-arrow svg circle {
-    stroke: rgba(255, 255, 255, 0.8);
-}
-
 [data-theme="dark"] .scroll-arrow svg .arrow-group path {
     stroke: rgba(255, 255, 255, 0.8);
-}
-
-[data-theme="dark"] .back-to-top svg circle {
-    fill: rgba(255, 255, 255, 0.8);
 }
 
 [data-theme="dark"] .back-to-top svg path {
     stroke: rgba(26, 26, 26, 0.8);
 }
 
-[data-theme="dark"] .back-to-projects {
-    background: rgba(23, 23, 23, 0.1);
-}
-
-[data-theme="dark"] .back-to-projects svg circle {
-    fill: transparent;
-    stroke: #ffffff;
-    stroke-width: 2;
-}
-
-[data-theme="dark"] .back-to-projects svg path {
-    stroke: #ffffff;
-    stroke-width: 2;
-}
-
 [data-theme="dark"] .project-card {
     background: rgba(255, 255, 255, 0.03);
     border: none;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .project-card:hover {
     background: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 [data-theme="dark"] .contact-button {
@@ -200,13 +170,13 @@ body[data-theme="dark"] .nav {
 [data-theme="dark"] .btn-primary {
     background: rgba(255, 255, 255, 1);
     color: #1a1a1a;
-    border: none;
+    border: 2px solid transparent;
 }
 
 [data-theme="dark"] .btn-primary:hover {
-    opacity: 0.8;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
 }
 
 [data-theme="dark"] .btn-secondary {
@@ -216,16 +186,15 @@ body[data-theme="dark"] .nav {
 }
 
 [data-theme="dark"] .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
 }
 
 /* Dark Mode Cards */
 [data-theme="dark"] .card {
     background: rgba(255, 255, 255, 0.05);
     border: none;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .interactive-card {
@@ -237,7 +206,7 @@ body[data-theme="dark"] .nav {
 }
 
 [data-theme="dark"] .interactive-card:hover {
-    box-shadow: 0 20px 60px rgba(255,255,255,0.02);
+    /* Shadows removed */
 }
 
 /* Dark Mode Spacing Demo */
@@ -251,10 +220,6 @@ body[data-theme="dark"] .nav {
 
 [data-theme="dark"] .color-hex {
     color: #a3a3a3;
-}
-
-[data-theme="dark"] .type-sample {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .color-circle {
@@ -289,7 +254,7 @@ body[data-theme="dark"] .nav {
 .grid-lines-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 60px;
+    padding: 0 var(--container-padding-desktop);
     height: 100vh;
     position: relative;
 }
@@ -303,8 +268,8 @@ body[data-theme="dark"] .nav {
 }
 
 .grid-line {
-    border-right: 1px solid rgba(212, 212, 212, 0.2);
-    border-left: 1px solid rgba(212, 212, 212, 0.5);
+    border-right: 1px solid rgba(156, 156, 156, 0.2);
+    border-left: 1px solid rgba(156, 156, 156, 0.5);
     height: 100%;
 }
 
@@ -362,11 +327,24 @@ body[data-theme="dark"] .nav {
 }
 
 .grid-toggle.active:hover {
-    background: var(--grid-toggle-bg-hover);
+    background: var(--grid-toggle-bg-active-hover);
 }
 
 .grid-toggle.active::before {
     transform: translateX(var(--grid-toggle-translate));
+    background: white; /* White dot in light mode when active */
+}
+
+.grid-toggle.active .grid-text-off {
+    color: white; /* White text in light mode when active */
+}
+
+.grid-toggle.active:hover::before {
+    background: #1a1a1a; /* Dark dot on hover in light mode */
+}
+
+.grid-toggle.active:hover .grid-text-off {
+    color: #1a1a1a; /* Dark text on hover in light mode */
 }
 
 /* Grid Toggle Text - positioned inside the pill */
@@ -396,7 +374,22 @@ body[data-theme="dark"] .nav {
     opacity: 0; /* Hidden when covered */
 }
 
-/* Dark mode grid toggle colors are handled by CSS variables above */
+/* Dark mode grid toggle colors */
+[data-theme="dark"] .grid-toggle.active::before {
+    background: #1a1a1a; /* Dark dot in dark mode when active */
+}
+
+[data-theme="dark"] .grid-toggle.active .grid-text-off {
+    color: #1a1a1a; /* Dark text in dark mode when active */
+}
+
+[data-theme="dark"] .grid-toggle.active:hover::before {
+    background: #fafafa; /* Light dot on hover in dark mode */
+}
+
+[data-theme="dark"] .grid-toggle.active:hover .grid-text-off {
+    color: #fafafa; /* Light text on hover in dark mode */
+}
 
 /* Mobile responsive */
 @media (max-width: 768px) {
@@ -416,8 +409,8 @@ body[data-theme="dark"] .nav {
 }
 
 [data-theme="dark"] .grid-line {
-    border-right-color: rgba(64, 64, 64, 0.2);
-    border-left-color: rgba(64, 64, 64, 0.5);
+    border-right-color: rgba(122, 122, 122, 0.2);
+    border-left-color: rgba(122, 122, 122, 0.5);
 }
 
 
@@ -436,10 +429,6 @@ body[data-theme="dark"] .nav {
 @media (max-width: 900px) {
     .logo-text {
         font-size: var(--font-size-base);
-    }
-
-    .logo:hover .logo-container {
-        width: 160px;
     }
 }
 
@@ -463,19 +452,6 @@ body[data-theme="dark"] .nav {
 
     .nav-right {
         gap: 16px;
-    }
-
-    /* Disable logo hover animation on mobile */
-    .logo:hover .logo-container {
-        width: auto;
-    }
-
-    .logo:hover .logo-text {
-        opacity: 0;
-    }
-
-    .logo:hover .logo-svg {
-        opacity: 1;
     }
 
     .hero-content,

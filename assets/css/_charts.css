@@ -20,8 +20,9 @@
    Page Transitions
    ========================================== */
 
-/* Page transition container */
+/* Page transition container - start hidden */
 body {
+    opacity: 0;
     transition: opacity var(--transition-page);
 }
 
@@ -38,6 +39,7 @@ body {
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
     body {
+        opacity: 1 !important;
         transition: none !important;
     }
 

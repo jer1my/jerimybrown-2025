@@ -19,8 +19,9 @@ function initProjectCards() {
     // Clear existing cards
     projectsGrid.innerHTML = '';
 
-    // Generate cards from dataLoader (with fallback to PROJECTS)
-    const projects = dataLoader.getProjects().length > 0 ? dataLoader.getProjects() : PROJECTS;
+    // Generate cards from dataLoader (single source of truth)
+    const projects = dataLoader.getProjects();
+    console.log('Rendering project cards with titles:', projects.map(p => p.title));
     projects.forEach(project => {
         const cardHTML = `
             <a href="work/${project.url}" class="project-card-link" aria-label="${project.ariaLabel}">
@@ -63,8 +64,10 @@ function initProjectPageContent() {
 
 // Update project navigation (prev/next links)
 function initProjectNavigation() {
-    const navPrev = document.querySelector('.project-navigation .nav-item.prev a');
-    const navNext = document.querySelector('.project-navigation .nav-item.next a');
+    const navPrev = document.querySelector('.project-navigation .nav-prev-next.align-left');
+    const navNext = document.querySelector('.project-navigation .nav-prev-next.align-right');
+
+    console.log('Navigation elements found:', { navPrev: !!navPrev, navNext: !!navNext });
 
     if (!navPrev && !navNext) return;
 
@@ -72,17 +75,19 @@ function initProjectNavigation() {
     const currentPage = window.location.pathname.split('/').pop();
     const { prev, next } = getAdjacentProjects(currentPage);
 
+    console.log('Setting navigation titles:', { prev: prev?.title, next: next?.title });
+
     // Update previous link
     if (navPrev && prev) {
         navPrev.href = prev.url;
-        const prevTitle = navPrev.querySelector('.nav-title');
+        const prevTitle = navPrev.querySelector('.nav-prev-next-title');
         if (prevTitle) prevTitle.textContent = prev.title;
     }
 
     // Update next link
     if (navNext && next) {
         navNext.href = next.url;
-        const nextTitle = navNext.querySelector('.nav-title');
+        const nextTitle = navNext.querySelector('.nav-prev-next-title');
         if (nextTitle) nextTitle.textContent = next.title;
     }
 }

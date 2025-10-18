@@ -18,6 +18,7 @@ body {
     background: var(--bg-primary);
     font-weight: var(--font-weight-regular);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     font-size: var(--font-size-base);
     transition: background-color var(--transition-base), color var(--transition-base);
     overflow-x: hidden;

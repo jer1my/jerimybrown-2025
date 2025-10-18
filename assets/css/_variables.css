@@ -77,7 +77,7 @@
 
   /* Layout */
   --container-max-width: 1200px;
-  --container-padding-desktop: 60px;
+  --container-padding-desktop: 32px;
   --container-padding-mobile: 24px;
 
   /* Border Radius */
@@ -124,8 +124,9 @@
 
   /* Grid Toggle Colors - Light Mode */
   --grid-toggle-bg-inactive: rgb(193, 193, 193, .3);
-  --grid-toggle-bg-active: rgb(193, 193, 193, 1);
-  --grid-toggle-bg-hover: rgba(21, 181, 255, .5);
+  --grid-toggle-bg-active: #15B5FF;
+  --grid-toggle-bg-hover: rgba(193, 193, 193, .15);
+  --grid-toggle-bg-active-hover: rgba(21, 181, 255, .4);
   --grid-toggle-pill-bg: #1a1a1a;
   --grid-toggle-text-color: var(--text-secondary);
 }
@@ -147,8 +148,9 @@
 
   /* Grid Toggle Colors - Dark Mode */
   --grid-toggle-bg-inactive: rgb(124, 124, 124, .4);
-  --grid-toggle-bg-active: rgb(124, 124, 124, 1);
-  --grid-toggle-bg-hover: rgba(234, 88, 12, 1);
+  --grid-toggle-bg-active: #ea580c;
+  --grid-toggle-bg-hover: rgba(124, 124, 124, .2);
+  --grid-toggle-bg-active-hover: rgba(234, 88, 12, .4);
   --grid-toggle-pill-bg: #fafafa;
   --grid-toggle-text-color: #fafafa;
 }

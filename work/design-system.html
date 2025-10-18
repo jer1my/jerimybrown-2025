@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Building an Enterprise Design System - Jerimy Brown</title>
+    <title>Building a Design System - Jerimy Brown</title>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jerimybrown.com/work/design-system.html">
-    <meta property="og:title" content="Building an Enterprise Design System - Jerimy Brown">
+    <meta property="og:title" content="Building a Design System - Jerimy Brown">
     <meta property="og:description" content="Unifying enterprise product experiences through a comprehensive design system with accessibility as a foundational standard.">
     <meta property="og:image" content="https://jerimybrown.com/assets/images/preview/home-preview.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://jerimybrown.com/work/design-system.html">
-    <meta property="twitter:title" content="Building an Enterprise Design System - Jerimy Brown">
+    <meta property="twitter:title" content="Building a Design System - Jerimy Brown">
     <meta property="twitter:description" content="Unifying enterprise product experiences through a comprehensive design system with accessibility as a foundational standard.">
     <meta property="twitter:image" content="https://jerimybrown.com/assets/images/preview/home-preview.png">
 
@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="icon" href="../favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/main.css?v=1760760481">
+    <link rel="stylesheet" href="../assets/css/main.css?v=1760822556">
     <style>
         /* Prevent navigation flash on first load */
         .nav {
@@ -39,7 +39,7 @@
     {
         "@context": "https://schema.org",
         "@type": "CreativeWork",
-        "name": "Building an Enterprise Design System",
+        "name": "Building a Design System",
         "description": "Unifying enterprise product experiences through a comprehensive design system with accessibility as a foundational standard. Delivered a scalable component library, design tokens, and documentation that reduced design-to-development time by 43%.",
         "author": {
             "@type": "Person",
@@ -50,7 +50,7 @@
         "keywords": ["design system", "enterprise design", "accessibility", "component library", "design tokens", "atomic design", "UX design"],
         "about": {
             "@type": "Thing",
-            "name": "Enterprise Design System Development"
+            "name": "Design System Development"
         },
         "url": "https://jerimybrown.com/work/design-system.html",
         "inLanguage": "en-US"
@@ -294,19 +294,15 @@
     <!-- Project Navigation -->
     <section class="project-navigation">
         <div class="container">
-            <div class="nav-grid">
-                <div class="nav-item prev">
-                    <a href="#">
-                        <span class="nav-direction">← Previous</span>
-                        <span class="nav-title"><!-- Dynamic from PROJECTS config --></span>
-                    </a>
-                </div>
-                <div class="nav-item next">
-                    <a href="#">
-                        <span class="nav-direction">Next →</span>
-                        <span class="nav-title"><!-- Dynamic from PROJECTS config --></span>
-                    </a>
-                </div>
+            <div class="projects-grid">
+                <a href="#" class="nav-prev-next align-left">
+                    <span class="nav-prev-next-title"><!-- Dynamic from PROJECTS config --></span>
+                    <span class="nav-prev-next-direction">← PREV</span>
+                </a>
+                <a href="#" class="nav-prev-next align-right">
+                    <span class="nav-prev-next-title"><!-- Dynamic from PROJECTS config --></span>
+                    <span class="nav-prev-next-direction">NEXT →</span>
+                </a>
             </div>
         </div>
     </section>
@@ -330,42 +326,37 @@
     <div class="bottom-spacing"></div>
 
     <!-- Back to Projects Button -->
-    <a href="../index.html#projects" class="back-to-projects">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22"/>
-            <path d="M32 24L16 24" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M22 18L16 24L22 30" stroke-linecap="round" stroke-linejoin="round"/>
+    <a href="../index.html#projects" class="btn-arrow btn-arrow-md back-to-projects">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 12L6 12M10 8L6 12L10 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </a>
-
     <!-- Back to Top Button -->
-    <button class="back-to-top" onclick="scrollToTop()">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" fill="rgba(26, 26, 26, 0.8)"/>
-            <path d="M24 32L24 16M18 22L24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <button class="btn-arrow btn-arrow-md btn-arrow-filled back-to-top" onclick="scrollToTop()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 18L12 6M8 10L12 6L16 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </button>
-
     <!-- Modular JavaScript Architecture -->
-    <script src="../assets/js/core/config.js?v=4"></script>
-    <script src="../assets/js/core/data-loader.js?v=4"></script>
-    <script src="../assets/js/core/theme-system.js?v=4"></script>
-    <script src="../assets/js/utils/helpers.js?v=4"></script>
-    <script src="../assets/js/utils/animations.js?v=4"></script>
-    <script src="../assets/js/utils/image-preloader.js?v=4"></script>
-    <script src="../assets/js/components/navigation.js?v=4"></script>
-    <script src="../assets/js/components/mobile-menu.js?v=4"></script>
-    <script src="../assets/js/components/logo-animation.js?v=4"></script>
-    <script src="../assets/js/components/carousel-base.js?v=4"></script>
-    <script src="../assets/js/components/carousel-about.js?v=4"></script>
-    <script src="../assets/js/components/carousel-project.js?v=4"></script>
-    <script src="../assets/js/components/carousel-featured.js?v=4"></script>
-    <script src="../assets/js/content/project-renderer.js?v=4"></script>
-    <script src="../assets/js/content/carousel-renderer.js?v=4"></script>
-    <script src="../assets/js/content/brand-renderer.js?v=4"></script>
-    <script src="../assets/js/content/resume-renderer.js?v=4"></script>
-    <script src="../assets/js/content/case-study-renderer.js?v=4"></script>
+    <script src="../assets/js/core/config.js?v=1760813122"></script>
+    <script src="../assets/js/core/data-loader.js?v=1760813122"></script>
+    <script src="../assets/js/core/theme-system.js?v=1760813122"></script>
+    <script src="../assets/js/utils/helpers.js?v=1760813122"></script>
+    <script src="../assets/js/utils/animations.js?v=1760813122"></script>
+    <script src="../assets/js/utils/image-preloader.js?v=1760813122"></script>
+    <script src="../assets/js/components/navigation.js?v=1760813122"></script>
+    <script src="../assets/js/components/mobile-menu.js?v=1760813122"></script>
+    <script src="../assets/js/components/logo-animation.js?v=1760813122"></script>
+    <script src="../assets/js/components/carousel-base.js?v=1760813122"></script>
+    <script src="../assets/js/components/carousel-about.js?v=1760813122"></script>
+    <script src="../assets/js/components/carousel-project.js?v=1760813122"></script>
+    <script src="../assets/js/components/carousel-featured.js?v=1760813122"></script>
+    <script src="../assets/js/content/project-renderer.js?v=1760813122"></script>
+    <script src="../assets/js/content/carousel-renderer.js?v=1760813122"></script>
+    <script src="../assets/js/content/brand-renderer.js?v=1760813122"></script>
+    <script src="../assets/js/content/resume-renderer.js?v=1760813122"></script>
+    <script src="../assets/js/content/case-study-renderer.js?v=1760813122"></script>
     <script src="../assets/js/marked.min.js"></script>
-    <script src="../assets/js/main.js?v=4"></script>
+    <script src="../assets/js/main.js?v=1760813122"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1760760481">
+    <link rel="stylesheet" href="assets/css/main.css?v=1760822556">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -116,26 +116,39 @@
                     <p class="accent-text">Your preferences are retained.</p>
                 </div>
                 <div class="user-controls-right">
-                    <div class="control-group">
-                        <div class="control-label">Theme</div>
-                        <button class="nav-theme-toggle" onclick="toggleTheme()" id="styleGuideThemeToggle">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="control-group">
-                        <div class="control-label">Grid Lines</div>
-                        <div class="grid-toggle-container">
-                            <button class="grid-toggle" onclick="toggleGridLines()" id="gridToggle">
-                                <span class="grid-text-off">Off</span>
-                                <span class="grid-text-on">On</span>
+                    <!-- Row 1: Theme and Hints -->
+                    <div class="user-controls-row user-controls-row-left">
+                        <div class="control-group control-group-left">
+                            <div class="control-label">Theme</div>
+                            <button class="nav-theme-toggle" onclick="toggleTheme()" id="styleGuideThemeToggle">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+                                </svg>
                             </button>
                         </div>
+                        <div class="control-group control-group-left">
+                            <div class="control-label">Hints</div>
+                            <button class="button btn-accent btn-sm" onclick="resetGestureHints()">Reset</button>
+                        </div>
                     </div>
-                    <div class="control-group">
-                        <div class="control-label">Gesture Hints</div>
-                        <button class="button btn-primary btn-sm" onclick="resetGestureHints()">Reset</button>
+                    <!-- Row 2: Grid with Opacity Slider -->
+                    <div class="user-controls-row">
+                        <div class="grid-controls-wrapper-inline">
+                            <div class="grid-toggle-container">
+                                <div class="control-label">Grid</div>
+                                <button class="grid-toggle" onclick="toggleGridLines()" id="gridToggle">
+                                    <span class="grid-text-off">Off</span>
+                                    <span class="grid-text-on">On</span>
+                                </button>
+                            </div>
+                            <div class="grid-opacity-slider-container" id="gridOpacitySliderContainer">
+                                <div class="control-label">Opacity</div>
+                                <div class="slider-with-value">
+                                    <input type="range" id="gridOpacitySlider" min="40" max="100" value="50" step="1" class="particle-slider">
+                                    <span class="slider-value" id="gridOpacityValue">50</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,30 +172,36 @@
                     <p><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="font-link">View on Google Fonts →</a></p>
                 </div>
             </div>
-            
-            <div class="type-sample">
-                <div class="type-label">Heading 1</div>
-                <div class="h1-sample">The quick brown fox</div>
-            </div>
-            
-            <div class="type-sample">
-                <div class="type-label">Heading 2</div>
-                <div class="h2-sample">The quick brown fox</div>
-            </div>
-            
-            <div class="type-sample">
-                <div class="type-label">Heading 3</div>
-                <div class="h3-sample">The quick brown fox</div>
-            </div>
-            
-            <div class="type-sample">
-                <div class="type-label">Body Text</div>
-                <div class="body-sample">Good design is invisible. It creates an intuitive experience that feels natural and effortless. Every element should serve a purpose, contributing to a cohesive and meaningful user journey.</div>
-            </div>
-            
-            <div class="type-sample">
-                <div class="type-label">Small Text</div>
-                <div class="small-sample">Supporting information and captions</div>
+
+            <div class="type-samples-grid">
+                <div>
+                    <div class="type-sample">
+                        <div class="type-label">Heading 1</div>
+                        <div class="h1-sample">The quick brown fox</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Heading 2</div>
+                        <div class="h2-sample">The quick brown fox</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Heading 3</div>
+                        <div class="h3-sample">The quick brown fox</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="type-sample">
+                        <div class="type-label">Body Text</div>
+                        <div class="body-sample">Good design is invisible. It creates an intuitive experience that feels natural and effortless. Every element should serve a purpose, contributing to a cohesive and meaningful user journey.</div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Small Text</div>
+                        <div class="small-sample">Supporting information and captions</div>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -309,13 +328,97 @@
             <div class="component-grid">
                 <div>
                     <div class="type-label">Buttons</div>
-                    <a href="#" class="button btn-primary">Primary Button</a>
-                    <a href="#" class="button btn-secondary">Secondary Button</a>
+                    <div style="margin-bottom: 24px;">
+                        <a href="#" class="button btn-primary">Primary Button</a>
+                        <a href="#" class="button btn-secondary">Secondary Button</a>
+                        <button class="button btn-sm btn-accent">Accent Button</button>
+                    </div>
                 </div>
-                
+
                 <div>
-                    <div class="type-label">Cards</div>
-                    <div class="projects-grid">
+                    <div class="type-label">Arrow Buttons</div>
+                    <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+                        <!-- Down Arrow (Large) -->
+                        <button class="btn-arrow btn-arrow-lg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 6L12 18M8 14L12 18L16 14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Up Arrow (Filled) -->
+                        <button class="btn-arrow btn-arrow-md btn-arrow-filled">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 18L12 6M8 10L12 6L16 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Left Arrow -->
+                        <button class="btn-arrow btn-arrow-md">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 12L6 12M10 8L6 12L10 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <!-- Right Arrow -->
+                        <button class="btn-arrow btn-arrow-md">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 12L18 12M14 8L18 12L14 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px;">
+                <div class="type-label">Selectors</div>
+
+                <!-- Toggle Selector and Slider - Two Column -->
+                <div class="selectors-grid">
+                    <!-- Toggle Selector -->
+                    <div class="particle-control-group">
+                        <label class="particle-control-label">Toggle Selector</label>
+                        <div class="particle-slider-toggle" id="labPillToggle">
+                            <div class="slider-toggle-pill"></div>
+                            <label class="slider-toggle-option">
+                                <input type="radio" name="labPillToggle" value="option1" checked>
+                                <span>Option 1</span>
+                            </label>
+                            <label class="slider-toggle-option">
+                                <input type="radio" name="labPillToggle" value="option2">
+                                <span>Option 2</span>
+                            </label>
+                            <label class="slider-toggle-option">
+                                <input type="radio" name="labPillToggle" value="option3">
+                                <span>Option 3</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Slider -->
+                    <div class="particle-control-group">
+                        <label class="particle-control-label">
+                            <span>Slider</span>
+                            <span class="particle-control-value" id="labSliderValue">50</span>
+                        </label>
+                        <input type="range" id="labSlider" min="0" max="100" value="50" step="1" class="particle-slider">
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px;">
+                <div class="type-label">Interactive Elements</div>
+                <div style="display: flex; align-items: center; gap: 32px; flex-wrap: wrap;">
+                    <a href="#" class="accent-link" style="margin: 0;">Primary underline effect</a>
+                    <label class="particle-control-label remember-me-label" style="gap: 12px; justify-content: flex-start; margin: 0;">
+                        <span>Checkbox</span>
+                        <input type="checkbox" id="labCheckbox" class="remember-me-checkbox">
+                    </label>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px;">
+                <div class="type-label">Cards</div>
+                <div class="projects-grid">
                         <a href="#" class="project-card-link" aria-label="Sample interactive card">
                             <article class="project-card project-card-featured" data-card="style-guide-sample">
                                 <div class="project-bg-image"></div>
@@ -337,61 +440,79 @@
                             </article>
                         </a>
                     </div>
-                </div>
-                
-                <div>
-                    <div class="type-label">Interactive Elements</div>
-                    <div style="display: flex; align-items: center; gap: 32px; flex-wrap: wrap;">
-                        <a href="#" class="accent-link" style="margin: 0;">Primary underline effect</a>
-                        <p class="interactive-text" style="display: inline-block; margin: 0;">Hover for underline effect</p>
-                        <div class="hover-lift transition-all hover-demo">Hover Lift</div>
+            </div>
+
+            <div style="margin-top: 48px;">
+                <div class="type-label">Previous and Next</div>
+                <div class="projects-grid">
+                        <a href="#" class="nav-prev-next align-left">
+                            <span class="nav-prev-next-title">Previous Project Title</span>
+                            <span class="nav-prev-next-direction">← PREV</span>
+                        </a>
+                        <a href="#" class="nav-prev-next align-right">
+                            <span class="nav-prev-next-title">Next Project Title</span>
+                            <span class="nav-prev-next-direction">NEXT →</span>
+                        </a>
                     </div>
                 </div>
-                
-                <div>
-                    <div class="type-label">Grid System</div>
-                    <!-- Grid Toggle Button -->
-                    <div class="grid-toggle-container" style="margin-bottom: 16px;">
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Grid System</h2>
+            <!-- Grid Toggle Button with Opacity Slider -->
+            <div class="grid-controls-centered" style="margin-bottom: 32px;">
+                <div class="grid-controls-wrapper-inline">
+                    <div class="grid-toggle-container">
+                        <div class="control-label">Grid</div>
                         <button class="grid-toggle" onclick="toggleGridLines()" id="gridToggleLocal">
                             <span class="grid-text-off">Off</span>
                             <span class="grid-text-on">On</span>
                         </button>
                     </div>
-                    <div class="grid grid-cols-3 gap-4 mb-6">
-                        <div class="grid-demo-item">Col 1</div>
-                        <div class="grid-demo-item">Col 2</div>
-                        <div class="grid-demo-item">Col 3</div>
-                    </div>
-                    <div class="grid grid-cols-4 gap-4 mb-6">
-                        <div class="col-span-2 grid-demo-accent">Span 2</div>
-                        <div class="grid-demo-item">1</div>
-                        <div class="grid-demo-item">1</div>
+                    <div class="grid-opacity-slider-container" id="gridOpacitySliderContainerLocal">
+                        <div class="control-label">Opacity</div>
+                        <div class="slider-with-value">
+                            <input type="range" id="gridOpacitySliderLocal" min="40" max="100" value="50" step="1" class="particle-slider">
+                            <span class="slider-value" id="gridOpacityValueLocal">50</span>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="grid-demo-item">Col 1</div>
+                <div class="grid-demo-item">Col 2</div>
+                <div class="grid-demo-item">Col 3</div>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mb-6">
+                <div class="col-span-2 grid-demo-accent">Span 2</div>
+                <div class="grid-demo-item">1</div>
+                <div class="grid-demo-item">1</div>
             </div>
         </section>
         
         <section class="section">
             <h2 class="section-title">Spacing Scale</h2>
-            <div class="spacing-demo">
-                <div class="spacing-box xs"></div>
-                <div class="spacing-label">8px - xs</div>
-            </div>
-            <div class="spacing-demo">
-                <div class="spacing-box sm"></div>
-                <div class="spacing-label">16px - sm</div>
-            </div>
-            <div class="spacing-demo">
-                <div class="spacing-box md"></div>
-                <div class="spacing-label">24px - md</div>
-            </div>
-            <div class="spacing-demo">
-                <div class="spacing-box lg"></div>
-                <div class="spacing-label">48px - lg</div>
-            </div>
-            <div class="spacing-demo">
-                <div class="spacing-box xl"></div>
-                <div class="spacing-label">80px - xl</div>
+            <div>
+                <div class="spacing-demo">
+                    <div class="spacing-box xs"></div>
+                    <div class="spacing-label">8px - xs</div>
+                </div>
+                <div class="spacing-demo">
+                    <div class="spacing-box sm"></div>
+                    <div class="spacing-label">16px - sm</div>
+                </div>
+                <div class="spacing-demo">
+                    <div class="spacing-box md"></div>
+                    <div class="spacing-label">24px - md</div>
+                </div>
+                <div class="spacing-demo">
+                    <div class="spacing-box lg"></div>
+                    <div class="spacing-label">48px - lg</div>
+                </div>
+                <div class="spacing-demo">
+                    <div class="spacing-box xl"></div>
+                    <div class="spacing-label">80px - xl</div>
+                </div>
             </div>
         </section>
     </div>
@@ -417,32 +538,179 @@
     </div>
 
     <!-- Back to Top Button -->
-    <button class="back-to-top" onclick="scrollToTop()">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" fill="rgba(26, 26, 26, 0.8)"/>
-            <path d="M24 32L24 16M18 22L24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <button class="btn-arrow btn-arrow-md btn-arrow-filled back-to-top" onclick="scrollToTop()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 18L12 6M8 10L12 6L16 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-    </button>
-    
+    </button>    
     <!-- Modular JavaScript Architecture -->
-    <script src="assets/js/core/config.js?v=4"></script>
-    <script src="assets/js/core/data-loader.js?v=4"></script>
-    <script src="assets/js/core/theme-system.js?v=4"></script>
-    <script src="assets/js/utils/helpers.js?v=4"></script>
-    <script src="assets/js/utils/animations.js?v=4"></script>
-    <script src="assets/js/utils/image-preloader.js?v=4"></script>
-    <script src="assets/js/components/navigation.js?v=4"></script>
-    <script src="assets/js/components/mobile-menu.js?v=4"></script>
-    <script src="assets/js/components/logo-animation.js?v=4"></script>
-    <script src="assets/js/components/carousel-base.js?v=4"></script>
-    <script src="assets/js/components/carousel-about.js?v=4"></script>
-    <script src="assets/js/components/carousel-project.js?v=4"></script>
-    <script src="assets/js/components/carousel-featured.js?v=4"></script>
-    <script src="assets/js/content/project-renderer.js?v=4"></script>
-    <script src="assets/js/content/carousel-renderer.js?v=4"></script>
-    <script src="assets/js/content/brand-renderer.js?v=4"></script>
-    <script src="assets/js/content/resume-renderer.js?v=4"></script>
-    <script src="assets/js/content/case-study-renderer.js?v=4"></script>
-    <script src="assets/js/main.js?v=4"></script>
+    <script src="assets/js/core/config.js?v=1760817100"></script>
+    <script src="assets/js/core/data-loader.js?v=1760817100"></script>
+    <script src="assets/js/core/theme-system.js?v=1760817100"></script>
+    <script src="assets/js/utils/helpers.js?v=1760817100"></script>
+    <script src="assets/js/utils/animations.js?v=1760817100"></script>
+    <script src="assets/js/utils/image-preloader.js?v=1760817100"></script>
+    <script src="assets/js/components/navigation.js?v=1760817100"></script>
+    <script src="assets/js/components/mobile-menu.js?v=1760817100"></script>
+    <script src="assets/js/components/logo-animation.js?v=1760817100"></script>
+    <script src="assets/js/components/carousel-base.js?v=1760817100"></script>
+    <script src="assets/js/components/carousel-about.js?v=1760817100"></script>
+    <script src="assets/js/components/carousel-project.js?v=1760817100"></script>
+    <script src="assets/js/components/carousel-featured.js?v=1760817100"></script>
+    <script src="assets/js/content/project-renderer.js?v=1760817100"></script>
+    <script src="assets/js/content/carousel-renderer.js?v=1760817100"></script>
+    <script src="assets/js/content/brand-renderer.js?v=1760817100"></script>
+    <script src="assets/js/content/resume-renderer.js?v=1760817100"></script>
+    <script src="assets/js/content/case-study-renderer.js?v=1760817100"></script>
+    <script src="assets/js/main.js?v=1760817100"></script>
+
+    <!-- Lab page form element interactions -->
+    <script>
+        // Update slider value display
+        const labSlider = document.getElementById('labSlider');
+        const labSliderValue = document.getElementById('labSliderValue');
+        if (labSlider && labSliderValue) {
+            labSlider.addEventListener('input', function() {
+                labSliderValue.textContent = this.value;
+            });
+        }
+
+        // Initialize pill toggle for lab page
+        const labPillToggle = document.getElementById('labPillToggle');
+        if (labPillToggle) {
+            const pill = labPillToggle.querySelector('.slider-toggle-pill');
+            const options = labPillToggle.querySelectorAll('.slider-toggle-option');
+
+            // Calculate pill position based on option position
+            function updatePillPosition(index) {
+                const option = options[index];
+                const container = labPillToggle.getBoundingClientRect();
+                const optionRect = option.getBoundingClientRect();
+                const pillWidth = pill.offsetWidth;
+                const containerLeft = container.left;
+
+                // Calculate the position to center the pill on the option
+                const optionCenter = optionRect.left - containerLeft + (optionRect.width / 2);
+                const pillLeft = optionCenter - (pillWidth / 2);
+
+                pill.style.left = pillLeft + 'px';
+                pill.style.transform = 'none';
+            }
+
+            options.forEach((option, index) => {
+                option.addEventListener('click', function() {
+                    updatePillPosition(index);
+                });
+            });
+
+            // Set initial position
+            const checkedOption = Array.from(options).findIndex(opt =>
+                opt.querySelector('input[type="radio"]').checked
+            );
+            if (checkedOption !== -1) {
+                // Use setTimeout to ensure layout is complete
+                setTimeout(() => updatePillPosition(checkedOption), 0);
+            }
+        }
+
+        // Grid Opacity Slider Functionality
+        const gridOpacitySlider = document.getElementById('gridOpacitySlider');
+        const gridOpacitySliderLocal = document.getElementById('gridOpacitySliderLocal');
+        const gridOpacityValue = document.getElementById('gridOpacityValue');
+        const gridOpacityValueLocal = document.getElementById('gridOpacityValueLocal');
+        const gridOpacitySliderContainer = document.getElementById('gridOpacitySliderContainer');
+        const gridOpacitySliderContainerLocal = document.getElementById('gridOpacitySliderContainerLocal');
+        const gridLinesOverlay = document.getElementById('gridLinesOverlay');
+
+        // Load saved grid opacity or use default
+        const savedGridOpacity = localStorage.getItem('gridOpacity') || '50';
+
+        // Set initial opacity values
+        if (gridOpacitySlider) gridOpacitySlider.value = savedGridOpacity;
+        if (gridOpacitySliderLocal) gridOpacitySliderLocal.value = savedGridOpacity;
+        if (gridOpacityValue) gridOpacityValue.textContent = savedGridOpacity;
+        if (gridOpacityValueLocal) gridOpacityValueLocal.textContent = savedGridOpacity;
+
+        // Apply saved opacity to grid
+        function updateGridOpacity(value) {
+            const opacity = value / 100;
+            if (gridLinesOverlay) {
+                // Only set inline opacity if grid is visible, otherwise let CSS handle it
+                if (gridLinesOverlay.classList.contains('visible')) {
+                    gridLinesOverlay.style.opacity = opacity;
+                } else {
+                    gridLinesOverlay.style.opacity = '';
+                }
+            }
+        }
+
+        // Initialize with saved opacity (after grid state is set)
+        setTimeout(() => updateGridOpacity(savedGridOpacity), 250);
+
+        // Show/hide slider based on grid state
+        function updateSliderVisibility() {
+            const isGridVisible = gridLinesOverlay && gridLinesOverlay.classList.contains('visible');
+            if (gridOpacitySliderContainer) {
+                gridOpacitySliderContainer.classList.toggle('visible', isGridVisible);
+            }
+            if (gridOpacitySliderContainerLocal) {
+                gridOpacitySliderContainerLocal.classList.toggle('visible', isGridVisible);
+            }
+        }
+
+        // Check initial grid state after a brief delay to ensure grid system has initialized
+        setTimeout(updateSliderVisibility, 200);
+
+        // Watch for grid overlay class changes with MutationObserver
+        if (gridLinesOverlay) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        updateSliderVisibility();
+                        // Update opacity based on new visibility state
+                        const currentOpacity = gridOpacitySlider ? gridOpacitySlider.value : savedGridOpacity;
+                        updateGridOpacity(currentOpacity);
+                    }
+                });
+            });
+
+            observer.observe(gridLinesOverlay, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
+
+        // Also listen for grid toggle changes as backup
+        const gridToggles = document.querySelectorAll('.grid-toggle');
+        gridToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                // Wait for toggle animation to complete
+                setTimeout(updateSliderVisibility, 50);
+            });
+        });
+
+        // Sync both sliders
+        if (gridOpacitySlider) {
+            gridOpacitySlider.addEventListener('input', function() {
+                const value = this.value;
+                gridOpacityValue.textContent = value;
+                if (gridOpacitySliderLocal) gridOpacitySliderLocal.value = value;
+                if (gridOpacityValueLocal) gridOpacityValueLocal.textContent = value;
+                updateGridOpacity(value);
+                localStorage.setItem('gridOpacity', value);
+            });
+        }
+
+        if (gridOpacitySliderLocal) {
+            gridOpacitySliderLocal.addEventListener('input', function() {
+                const value = this.value;
+                gridOpacityValueLocal.textContent = value;
+                if (gridOpacitySlider) gridOpacitySlider.value = value;
+                if (gridOpacityValue) gridOpacityValue.textContent = value;
+                updateGridOpacity(value);
+                localStorage.setItem('gridOpacity', value);
+            });
+        }
+    </script>
 </body>
 </html>
