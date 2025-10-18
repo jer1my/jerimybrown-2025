@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1760825747">
+    <link rel="stylesheet" href="assets/css/main.css?v=1760826242">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -144,8 +144,8 @@
                             <div class="grid-opacity-slider-container" id="gridOpacitySliderContainer">
                                 <div class="control-label">Opacity</div>
                                 <div class="slider-with-value">
-                                    <input type="range" id="gridOpacitySlider" min="40" max="100" value="50" step="1" class="particle-slider">
-                                    <span class="slider-value" id="gridOpacityValue">50</span>
+                                    <input type="range" id="gridOpacitySlider" min="40" max="100" value="40" step="1" class="particle-slider">
+                                    <span class="slider-value" id="gridOpacityValue">40</span>
                                 </div>
                             </div>
                         </div>
@@ -476,8 +476,8 @@
                     <div class="grid-opacity-slider-container" id="gridOpacitySliderContainerLocal">
                         <div class="control-label">Opacity</div>
                         <div class="slider-with-value">
-                            <input type="range" id="gridOpacitySliderLocal" min="40" max="100" value="50" step="1" class="particle-slider">
-                            <span class="slider-value" id="gridOpacityValueLocal">50</span>
+                            <input type="range" id="gridOpacitySliderLocal" min="40" max="100" value="40" step="1" class="particle-slider">
+                            <span class="slider-value" id="gridOpacityValueLocal">40</span>
                         </div>
                     </div>
                 </div>
@@ -627,7 +627,7 @@
         const gridLinesOverlay = document.getElementById('gridLinesOverlay');
 
         // Load saved grid opacity or use default
-        const savedGridOpacity = localStorage.getItem('gridOpacity') || '50';
+        const savedGridOpacity = localStorage.getItem('gridOpacity') || '40';
 
         // Set initial opacity values
         if (gridOpacitySlider) gridOpacitySlider.value = savedGridOpacity;
