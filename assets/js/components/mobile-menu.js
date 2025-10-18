@@ -10,7 +10,7 @@
 // Mobile Menu System
 // ==========================================
 
-function toggleMobileMenu() {
+function toggleMobileMenu(event) {
     const overlay = document.getElementById('mobileMenuOverlay');
     const body = document.body;
     const toggle = document.querySelector('.nav-mobile-toggle');
@@ -19,6 +19,18 @@ function toggleMobileMenu() {
         const isActive = overlay.classList.contains('active');
 
         if (isActive) {
+            // Check if this was called from a link click
+            if (event && event.target) {
+                const link = event.target.closest('a');
+                if (link) {
+                    const href = link.getAttribute('href');
+                    // If link navigates to another page (ends with .html), don't close - let page transition handle it
+                    if (href && (href.endsWith('.html') || href.includes('.html#') || href.includes('.html?'))) {
+                        return;
+                    }
+                }
+            }
+
             // Close menu
             overlay.classList.remove('active');
             body.classList.remove('mobile-menu-open');

@@ -87,10 +87,15 @@ function initPageTransitions() {
             // Add fade out class
             document.body.classList.add('page-transition-out');
 
+            // Check if mobile menu is open - use longer delay if it is
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            const isMobileMenuOpen = mobileMenuOverlay && mobileMenuOverlay.classList.contains('active');
+            const delay = isMobileMenuOpen ? 600 : 300; // Longer delay for mobile menu sequential fade
+
             // Navigate after transition completes
             setTimeout(() => {
                 window.location.href = targetUrl;
-            }, 300); // Match CSS transition duration
+            }, delay);
         });
     });
 }
