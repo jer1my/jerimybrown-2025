@@ -32,7 +32,10 @@ class DataLoader {
 
     async fetchJSON(path) {
         try {
-            const response = await fetch(path);
+            // Add cache-busting parameter
+            const cacheBuster = new Date().getTime();
+            const url = path.includes('?') ? `${path}&v=${cacheBuster}` : `${path}?v=${cacheBuster}`;
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Failed to fetch ${path}: ${response.statusText}`);
             }

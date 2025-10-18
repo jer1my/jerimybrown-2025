@@ -53,7 +53,7 @@
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 40px;
 }
 
@@ -63,7 +63,6 @@
     padding: 40px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
@@ -80,7 +79,6 @@
 .project-card:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
 }
 
 .project-image {
@@ -162,12 +160,10 @@
 .project-card-link:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
-    transform: translateY(-8px);
 }
 
 [data-theme="dark"] .project-card-link:focus-visible {
     outline-color: #ea580c;
-    transform: translateY(-8px);
 }
 
 .project-card-featured {
@@ -301,14 +297,12 @@
 
 
 .project-card-link:hover .project-card-featured {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    /* Lift effect and shadows removed */
 }
 
-/* Dark mode hover glow with darker grey drop-shadow */
+/* Dark mode hover - shadows removed */
 [data-theme="dark"] .project-card-link:hover .project-card-featured {
-    box-shadow: none;
-    filter: drop-shadow(0 20px 60px rgba(80, 80, 80, 0.3));
+    /* Shadows removed */
 }
 
 .project-card-link:hover .project-content-overlay {
@@ -503,6 +497,10 @@ body[data-theme="dark"] .logo-dark {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
     .brands {
         padding-top: 80px;
         padding-bottom: 80px;
@@ -545,14 +543,11 @@ body[data-theme="dark"] .logo-dark {
     font-weight: 500;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
 
 .contact-button:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
 /* Style Guide Specific */
@@ -595,16 +590,60 @@ body[data-theme="dark"] .logo-dark {
 
 .user-controls-right {
     display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.user-controls-row {
+    display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 48px;
+    width: 100%;
+}
+
+.user-controls-centered {
+    justify-content: center;
+    max-width: calc(66.67% - 0.33rem);
+    margin: 0 auto;
+}
+
+.user-controls-row-left {
+    justify-content: flex-start;
 }
 
 .control-group {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 12px;
+}
+
+.control-group-left {
+    align-items: flex-start;
+}
+
+.control-group-left .control-label {
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.control-group-left .button,
+.control-group-left .nav-theme-toggle {
+    margin: 0;
+}
+
+.control-group .button,
+.control-group .nav-theme-toggle {
+    margin: 0 auto;
+}
+
+.control-group-with-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
 }
 
 .control-label {
@@ -616,13 +655,142 @@ body[data-theme="dark"] .logo-dark {
     min-height: 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+/* Grid Controls Wrapper (Top Section - spans full right column width) */
+.grid-controls-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;
+    flex: 1;
+}
+
+.user-controls-right .grid-controls-wrapper-inline {
+    width: 100%;
+}
+
+.user-controls-right .grid-controls-wrapper-inline .grid-toggle-container,
+.user-controls-right .grid-controls-wrapper-inline .grid-opacity-slider-container {
+    align-items: flex-start;
+}
+
+.user-controls-right .grid-controls-wrapper-inline .control-label {
+    text-align: left;
+    justify-content: flex-start;
+}
+
+/* Grid Controls Centered Container (for bottom section) */
+.grid-controls-centered {
+    display: flex;
+    justify-content: flex-start;
+    max-width: 50%;
+}
+
+.grid-controls-wrapper-inline {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 48px;
+    width: 100%;
+}
+
+.grid-controls-wrapper-inline .grid-toggle-container,
+.grid-controls-wrapper-inline .grid-opacity-slider-container {
+    align-items: flex-start;
+}
+
+.grid-controls-wrapper-inline .control-label {
+    text-align: left;
+    justify-content: flex-start;
+}
+
+/* Grid Toggle Group */
+.grid-toggle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.grid-toggle-container .control-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Grid Opacity Slider Container */
+.grid-opacity-slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.grid-opacity-slider-container.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.grid-opacity-slider-container .control-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Slider with value on the right */
+.slider-with-value {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.slider-with-value .particle-slider {
+    flex: 1;
+}
+
+.slider-with-value .slider-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    min-width: 32px;
+    text-align: right;
+}
+
+/* Selectors Grid - Two Column Layout */
+.selectors-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .selectors-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
 }
 
 /* Typography Samples */
 .type-sample {
     margin-bottom: 32px;
     padding-bottom: 32px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .type-label {

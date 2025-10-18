@@ -2,11 +2,11 @@
   "projects": [
     {
       "id": "design-system",
-      "title": "Building an Enterprise Design System",
+      "title": "Design System",
       "subtitle": "Creating unified experiences across a complex product ecosystem",
       "description": "Building a comprehensive design system that covers a suite of products from SaaS to on-prem, unifying product, UX and Dev teams while embedding accessibility standards throughout the organization.",
       "url": "design-system.html",
-      "ariaLabel": "View Enterprise Design System Case Study",
+      "ariaLabel": "View Design System Case Study",
       "category": "Design Systems",
       "year": 2024,
       "tags": ["UX", "Design Systems", "Accessibility", "Enterprise Software", "Design Tokens", "Component Library"],
@@ -65,7 +65,7 @@
     },
     {
       "id": "product-suite",
-      "title": "Designing a Hybrid Product Suite",
+      "title": "Hybrid Product Suite",
       "subtitle": "Building foundational UX patterns for scalable growth",
       "description": "Leading the end-to-end design of a new product ecosystem from concept to launch, establishing foundational UX patterns and information architecture for scalable growth.",
       "url": "product-suite.html",
@@ -113,7 +113,7 @@
     },
     {
       "id": "ai-strategy",
-      "title": "AI Product Design Strategy",
+      "title": "AI Design Strategy",
       "subtitle": "Making complex automation feel intuitive and trustworthy",
       "description": "Designing intelligent user experiences that seamlessly integrate AI capabilities into existing workflows, making complex automation feel intuitive and trustworthy.",
       "url": "ai-strategy.html",
@@ -156,7 +156,7 @@
     },
     {
       "id": "research-strategy",
-      "title": "User Research Strategy",
+      "title": "Research Strategy",
       "subtitle": "Validating designs through rigorous research",
       "description": "Validating innovative interaction patterns through rigorous user research, turning insights into design decisions that improve usability and reduce cognitive load.",
       "url": "research-strategy.html",

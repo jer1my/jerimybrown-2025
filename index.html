@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1760760481">
+    <link rel="stylesheet" href="assets/css/main.css?v=1760822556">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -34,6 +34,13 @@
             background: rgba(23, 23, 23, 0.1) !important;
         }
     </style>
+    <noscript>
+        <style>
+            body {
+                opacity: 1 !important;
+            }
+        </style>
+    </noscript>
 </head>
 <body>
     <script>
@@ -111,16 +118,10 @@
         </div>
 
         <!-- Scroll Arrow -->
-        <button class="scroll-arrow" onclick="scrollToProjects()">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <clipPath id="circleClip">
-                        <circle cx="28" cy="28" r="20"/>
-                    </clipPath>
-                </defs>
-                <circle cx="28" cy="28" r="26" stroke="rgba(26, 26, 26, 0.8)" stroke-width="2"/>
-                <g class="arrow-group" clip-path="url(#circleClip)">
-                    <path d="M28 18L28 38M22 32L28 38L34 32" stroke="rgba(26, 26, 26, 0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <button class="btn-arrow btn-arrow-lg scroll-arrow" onclick="scrollToProjects()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g class="arrow-group">
+                    <path d="M12 6L12 18M8 14L12 18L16 14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </g>
             </svg>
         </button>
@@ -232,7 +233,7 @@
                     </label>
                 </div>
 
-                <button class="button btn-sm btn-primary" id="particleReset">Reset</button>
+                <button class="button btn-sm btn-accent" id="particleReset">Reset</button>
             </div>
         </div>
     </section>
@@ -309,46 +310,45 @@
     <div class="bottom-spacing"></div>
 
     <!-- Back to Top Button -->
-    <button class="back-to-top" onclick="scrollToTop()">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" fill="rgba(26, 26, 26, 0.8)"/>
-            <path d="M24 32L24 16M18 22L24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <button class="btn-arrow btn-arrow-md btn-arrow-filled back-to-top" onclick="scrollToTop()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 18L12 6M8 10L12 6L16 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </button>
 
     <!-- Modular JavaScript Architecture -->
     <!-- Core systems -->
-    <script src="assets/js/core/config.js?v=4"></script>
-    <script src="assets/js/core/data-loader.js?v=4"></script>
-    <script src="assets/js/core/theme-system.js?v=4"></script>
+    <script src="assets/js/core/config.js?v=1760813122"></script>
+    <script src="assets/js/core/data-loader.js?v=1760813122"></script>
+    <script src="assets/js/core/theme-system.js?v=1760813122"></script>
 
     <!-- Utilities -->
-    <script src="assets/js/utils/helpers.js?v=4"></script>
-    <script src="assets/js/utils/animations.js?v=4"></script>
-    <script src="assets/js/utils/image-preloader.js?v=4"></script>
+    <script src="assets/js/utils/helpers.js?v=1760813122"></script>
+    <script src="assets/js/utils/animations.js?v=1760813122"></script>
+    <script src="assets/js/utils/image-preloader.js?v=1760813122"></script>
 
     <!-- Base components -->
-    <script src="assets/js/components/navigation.js?v=4"></script>
-    <script src="assets/js/components/mobile-menu.js?v=4"></script>
-    <script src="assets/js/components/logo-animation.js?v=4"></script>
-    <script src="assets/js/components/carousel-base.js?v=4"></script>
+    <script src="assets/js/components/navigation.js?v=1760813122"></script>
+    <script src="assets/js/components/mobile-menu.js?v=1760813122"></script>
+    <script src="assets/js/components/logo-animation.js?v=1760813122"></script>
+    <script src="assets/js/components/carousel-base.js?v=1760813122"></script>
 
     <!-- Carousel implementations -->
-    <script src="assets/js/components/carousel-about.js?v=4"></script>
-    <script src="assets/js/components/carousel-project.js?v=4"></script>
-    <script src="assets/js/components/carousel-featured.js?v=4"></script>
+    <script src="assets/js/components/carousel-about.js?v=1760813122"></script>
+    <script src="assets/js/components/carousel-project.js?v=1760813122"></script>
+    <script src="assets/js/components/carousel-featured.js?v=1760813122"></script>
 
     <!-- Content renderers -->
-    <script src="assets/js/content/project-renderer.js?v=4"></script>
-    <script src="assets/js/content/carousel-renderer.js?v=4"></script>
-    <script src="assets/js/content/brand-renderer.js?v=4"></script>
-    <script src="assets/js/content/resume-renderer.js?v=4"></script>
-    <script src="assets/js/content/case-study-renderer.js?v=4"></script>
+    <script src="assets/js/content/project-renderer.js?v=1760813122"></script>
+    <script src="assets/js/content/carousel-renderer.js?v=1760813122"></script>
+    <script src="assets/js/content/brand-renderer.js?v=1760813122"></script>
+    <script src="assets/js/content/resume-renderer.js?v=1760813122"></script>
+    <script src="assets/js/content/case-study-renderer.js?v=1760813122"></script>
 
     <!-- Particle system (vendor) -->
-    <script src="assets/js/particle-system.js?v=4"></script>
+    <script src="assets/js/particle-system.js?v=1760813122"></script>
 
     <!-- Main initialization -->
-    <script src="assets/js/main.js?v=4"></script>
+    <script src="assets/js/main.js?v=1760813122"></script>
 </body>
 </html>

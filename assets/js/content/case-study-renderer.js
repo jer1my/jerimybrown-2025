@@ -37,6 +37,12 @@ async function initCaseStudyContent() {
             return;
         }
 
+        // Update page title and meta tags from project data
+        const project = await dataLoader.loadProject(caseStudyId);
+        if (project) {
+            updatePageMeta(project);
+        }
+
         // Render each section
         renderOverview(caseStudy.sections.overview);
         renderChallenge(caseStudy.sections.challenge);
@@ -46,6 +52,37 @@ async function initCaseStudyContent() {
 
     } catch (error) {
         console.error('Error loading case study content:', error);
+    }
+}
+
+// Update page title and meta tags from project data
+function updatePageMeta(project) {
+    if (!project) return;
+
+    const pageTitle = `Building ${project.title.startsWith('a') || project.title.startsWith('an') ? project.title : 'a ' + project.title} - Jerimy Brown`;
+
+    // Update document title
+    document.title = pageTitle;
+
+    // Update Open Graph title
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+
+    // Update Twitter title
+    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+    if (twitterTitle) twitterTitle.setAttribute('content', pageTitle);
+
+    // Update JSON-LD structured data
+    const jsonLd = document.querySelector('script[type="application/ld+json"]');
+    if (jsonLd) {
+        try {
+            const data = JSON.parse(jsonLd.textContent);
+            data.name = `Building ${project.title.startsWith('a') || project.title.startsWith('an') ? project.title : 'a ' + project.title}`;
+            data.about.name = `${project.title} Development`;
+            jsonLd.textContent = JSON.stringify(data, null, 2);
+        } catch (e) {
+            console.error('Error updating JSON-LD:', e);
+        }
     }
 }
 
