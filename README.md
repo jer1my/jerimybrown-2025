@@ -29,12 +29,11 @@ A modern UX portfolio showcasing design work with sophisticated glassmorphism ef
 ### Glass Effects
 - Backdrop blur filters
 - Semi-transparent backgrounds
-- Enhanced shadow systems
 - Smooth cubic-bezier transitions
 
 ## 🚀 Live Demo
 
-[View Portfolio](https://jer1my.github.io/jerimybrown-2025/)
+[View Portfolio](https://www.jerimybrown.com)
 
 ## 📁 Project Structure
 
