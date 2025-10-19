@@ -251,11 +251,22 @@ Built with a branch-based workflow:
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This repository is dual-licensed:
+
+**Code & Technical Implementation:** [MIT License](LICENSE)
+The HTML, CSS, JavaScript, and design system code are freely available for reference and use with attribution.
+
+**Portfolio Content & Designs:** All Rights Reserved
+Case studies, images, designs, and creative work are protected and may not be reproduced without permission.
+
+See the [LICENSE](LICENSE) file for complete details.
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/jer1my/jerimybrown-2025/issues).
+This is a personal portfolio project. While the code is open source under MIT, please note:
+- **Code improvements and bug fixes** are welcome via pull requests
+- **Portfolio content** (case studies, designs, images) is not open for contribution
+- Issues and feature suggestions are appreciated on the [issues page](https://github.com/jer1my/jerimybrown-2025/issues)
 
 ## 🙏 Acknowledgments
 
