@@ -75,4 +75,15 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Initialize logo scroller (must run AFTER initBrandLogos)
     initLogoScroller();
+
+    // Handle hash navigation after everything is loaded and rendered
+    if (window.location.hash) {
+        // Wait for layout to fully settle
+        setTimeout(() => {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                target.scrollIntoView({ behavior: 'instant', block: 'start' });
+            }
+        }, 300); // Longer delay ensures all content above is laid out
+    }
 });

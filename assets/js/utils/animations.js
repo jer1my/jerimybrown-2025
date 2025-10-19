@@ -44,7 +44,7 @@ function initSmoothScrolling() {
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
-                const targetPosition = target.offsetTop - 76;
+                const targetPosition = target.offsetTop - 48;
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'

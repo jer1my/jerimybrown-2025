@@ -20,7 +20,7 @@
     width: 280px;
     z-index: 100;
     transform: translateY(calc(100% - 20px));
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     max-height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
@@ -198,6 +198,12 @@
     margin-bottom: 12px;
 }
 
+/* Disable transitions for initial page load */
+.particle-control-group.no-transition,
+.slider-toggle-pill.no-transition {
+    transition: none !important;
+}
+
 .particle-control-label {
     display: flex;
     justify-content: space-between;
@@ -299,7 +305,7 @@
 
 .particle-color-chips {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     align-items: center;
     margin-top: 12px;
 }
@@ -616,6 +622,20 @@
 
     .hero-subtitle .mobile-break {
         display: inline;
+    }
+}
+
+/* Short screens: Prevent toggle button cutoff */
+@media (max-height: 700px) {
+    .particle-controls.expanded {
+        max-height: calc(100vh - var(--nav-height) - 52px); /* nav-height + 12px bottom margin + 40px toggle */
+    }
+}
+
+/* Wide screens: Pin panel right edge to content left edge */
+@media (min-width: 1728px) {
+    .particle-controls {
+        left: calc((100vw - 1200px) / 2 - 240px);
     }
 }
 

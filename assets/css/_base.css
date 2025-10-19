@@ -8,7 +8,7 @@
 }
 
 html {
-    scroll-padding-top: 76px;
+    scroll-padding-top: var(--scroll-offset);
 }
 
 body {
