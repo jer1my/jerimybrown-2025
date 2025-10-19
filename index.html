@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1760829803">
+    <link rel="stylesheet" href="assets/css/main.css?v=1760838526">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -128,71 +128,16 @@
 
         <!-- Particle Control Panel -->
         <div class="particle-controls" id="particleControls">
-            <div class="particle-controls-header" id="particleControlsHeader">
-                <h3 class="particle-controls-title">Particle Controls</h3>
-                <button class="particle-controls-close" id="particleControlsClose" aria-label="Toggle particle controls">
-                    <span class="hamburger-bar-sm"></span>
-                    <span class="hamburger-bar-sm"></span>
-                    <span class="hamburger-bar-sm"></span>
-                </button>
-            </div>
+            <!-- Toggle button (sticks to top of panel) -->
+            <button class="particle-controls-toggle" id="particleControlsToggle" aria-label="Toggle particle controls">
+                <span class="hamburger-bar-sm"></span>
+                <span class="hamburger-bar-sm"></span>
+                <span class="hamburger-bar-sm"></span>
+            </button>
 
             <div class="particle-controls-content">
                 <div class="particle-control-group">
-                    <label class="particle-control-label">Mode</label>
-                    <div class="particle-slider-toggle particle-mode-toggle" id="particleModeToggle">
-                        <div class="slider-toggle-pill"></div>
-                        <label class="slider-toggle-option">
-                            <input type="radio" name="particleMode" value="blackhole" checked>
-                            <span>Black Hole</span>
-                        </label>
-                        <label class="slider-toggle-option">
-                            <input type="radio" name="particleMode" value="deepspace">
-                            <span>Deep Space</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="particle-control-group animated-control" id="blackHoleStrengthControl">
-                    <label class="particle-control-label">
-                        <span>Black Hole Strength</span>
-                        <span class="particle-control-value" id="blackHoleStrengthValue">110</span>
-                    </label>
-                    <input type="range" id="blackHoleStrength" min="80" max="360" value="110" step="10" class="particle-slider">
-                </div>
-
-                <div class="particle-control-group">
-                    <label class="particle-control-label">
-                        <span>Particle Count</span>
-                        <span class="particle-control-value" id="particleCountValue">300</span>
-                    </label>
-                    <input type="range" id="particleCount" min="100" max="500" value="300" step="10" class="particle-slider">
-                </div>
-
-                <div class="particle-control-group">
-                    <label class="particle-control-label">Color</label>
-                    <div class="particle-color-chips">
-                        <label class="particle-color-chip">
-                            <input type="radio" name="colorScheme" value="greys" checked>
-                            <span class="chip chip-grey"></span>
-                        </label>
-                        <label class="particle-color-chip">
-                            <input type="radio" name="colorScheme" value="accent">
-                            <span class="chip chip-accent"></span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="particle-control-group">
-                    <label class="particle-control-label">
-                        <span>Color Strength</span>
-                        <span class="particle-control-value" id="colorStrengthValue">1.0</span>
-                    </label>
-                    <input type="range" id="colorStrength" min="0.3" max="1.5" value="1.0" step="0.1" class="particle-slider">
-                </div>
-
-                <div class="particle-control-group">
-                    <label class="particle-control-label">Interaction Mode</label>
+                    <label class="particle-control-label">Mouse</label>
                     <div class="particle-slider-toggle" id="interactionModeToggle">
                         <div class="slider-toggle-pill"></div>
                         <label class="slider-toggle-option">
@@ -211,29 +156,86 @@
                 </div>
 
                 <div class="particle-control-group">
+                    <label class="particle-control-label">Mode</label>
+                    <div class="particle-slider-toggle particle-mode-toggle" id="particleModeToggle">
+                        <div class="slider-toggle-pill"></div>
+                        <label class="slider-toggle-option">
+                            <input type="radio" name="particleMode" value="blackhole" checked>
+                            <span>Black Hole</span>
+                        </label>
+                        <label class="slider-toggle-option">
+                            <input type="radio" name="particleMode" value="deepspace">
+                            <span>Deep Space</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="particle-control-group animated-control" id="blackHoleStrengthControl">
                     <label class="particle-control-label">
-                        <span>Connection Distance</span>
-                        <span class="particle-control-value" id="connectionDistanceValue">150</span>
+                        <span>Strength</span>
+                        <span class="particle-control-value" id="blackHoleStrengthValue">110</span>
                     </label>
-                    <input type="range" id="connectionDistance" min="50" max="200" value="150" step="10" class="particle-slider">
+                    <input type="range" id="blackHoleStrength" min="80" max="360" value="110" step="10" class="particle-slider">
                 </div>
 
                 <div class="particle-control-group">
                     <label class="particle-control-label">
-                        <span>Speed</span>
-                        <span class="particle-control-value" id="particleSpeedValue">1.0</span>
+                        <span>Particle Count</span>
+                        <span class="particle-control-value" id="particleCountValue">300</span>
                     </label>
-                    <input type="range" id="particleSpeed" min="0.1" max="2.0" value="1.0" step="0.1" class="particle-slider">
+                    <input type="range" id="particleCount" min="100" max="500" value="300" step="10" class="particle-slider">
                 </div>
 
-                <div class="particle-control-group">
+                <div class="particle-control-group-row">
+                    <div class="particle-control-group particle-control-color">
+                        <label class="particle-control-label">Color</label>
+                        <div class="particle-color-chips">
+                            <label class="particle-color-chip">
+                                <input type="radio" name="colorScheme" value="greys" checked>
+                                <span class="chip chip-grey"></span>
+                            </label>
+                            <label class="particle-color-chip">
+                                <input type="radio" name="colorScheme" value="accent">
+                                <span class="chip chip-accent"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="particle-control-group particle-control-strength">
+                        <label class="particle-control-label">
+                            <span>Strength</span>
+                            <span class="particle-control-value" id="colorStrengthValue">1.0</span>
+                        </label>
+                        <input type="range" id="colorStrength" min="0.3" max="1.5" value="1.0" step="0.1" class="particle-slider">
+                    </div>
+                </div>
+
+                <div class="particle-control-group-row">
+                    <div class="particle-control-group particle-control-speed">
+                        <label class="particle-control-label">
+                            <span>Speed</span>
+                            <span class="particle-control-value" id="particleSpeedValue">1.0</span>
+                        </label>
+                        <input type="range" id="particleSpeed" min="0.1" max="2.0" value="1.0" step="0.1" class="particle-slider">
+                    </div>
+
+                    <div class="particle-control-group particle-control-connections">
+                        <label class="particle-control-label">
+                            <span>Connections</span>
+                            <span class="particle-control-value" id="connectionDistanceValue">150</span>
+                        </label>
+                        <input type="range" id="connectionDistance" min="50" max="200" value="150" step="10" class="particle-slider">
+                    </div>
+                </div>
+
+                <div class="particle-control-group-row particle-settings-row">
                     <label class="particle-control-label remember-me-label">
-                        <span>Remember My Settings</span>
+                        <span>Save Settings</span>
                         <input type="checkbox" id="rememberMeToggle" class="remember-me-checkbox">
                     </label>
-                </div>
 
-                <button class="button btn-sm btn-accent" id="particleReset">Reset</button>
+                    <button class="button btn-sm btn-accent" id="particleReset">Reset</button>
+                </div>
             </div>
         </div>
     </section>
@@ -318,37 +320,37 @@
 
     <!-- Modular JavaScript Architecture -->
     <!-- Core systems -->
-    <script src="assets/js/core/config.js?v=1760822963"></script>
-    <script src="assets/js/core/data-loader.js?v=1760822963"></script>
-    <script src="assets/js/core/theme-system.js?v=1760822963"></script>
+    <script src="assets/js/core/config.js?v=1760837691"></script>
+    <script src="assets/js/core/data-loader.js?v=1760837691"></script>
+    <script src="assets/js/core/theme-system.js?v=1760837691"></script>
 
     <!-- Utilities -->
-    <script src="assets/js/utils/helpers.js?v=1760822963"></script>
-    <script src="assets/js/utils/animations.js?v=1760822963"></script>
-    <script src="assets/js/utils/image-preloader.js?v=1760822963"></script>
+    <script src="assets/js/utils/helpers.js?v=1760837691"></script>
+    <script src="assets/js/utils/animations.js?v=1760837691"></script>
+    <script src="assets/js/utils/image-preloader.js?v=1760837691"></script>
 
     <!-- Base components -->
-    <script src="assets/js/components/navigation.js?v=1760822963"></script>
-    <script src="assets/js/components/mobile-menu.js?v=1760822963"></script>
-    <script src="assets/js/components/logo-animation.js?v=1760822963"></script>
-    <script src="assets/js/components/carousel-base.js?v=1760822963"></script>
+    <script src="assets/js/components/navigation.js?v=1760837691"></script>
+    <script src="assets/js/components/mobile-menu.js?v=1760837691"></script>
+    <script src="assets/js/components/logo-animation.js?v=1760837691"></script>
+    <script src="assets/js/components/carousel-base.js?v=1760837691"></script>
 
     <!-- Carousel implementations -->
-    <script src="assets/js/components/carousel-about.js?v=1760822963"></script>
-    <script src="assets/js/components/carousel-project.js?v=1760822963"></script>
-    <script src="assets/js/components/carousel-featured.js?v=1760822963"></script>
+    <script src="assets/js/components/carousel-about.js?v=1760837691"></script>
+    <script src="assets/js/components/carousel-project.js?v=1760837691"></script>
+    <script src="assets/js/components/carousel-featured.js?v=1760837691"></script>
 
     <!-- Content renderers -->
-    <script src="assets/js/content/project-renderer.js?v=1760822963"></script>
-    <script src="assets/js/content/carousel-renderer.js?v=1760822963"></script>
-    <script src="assets/js/content/brand-renderer.js?v=1760822963"></script>
-    <script src="assets/js/content/resume-renderer.js?v=1760822963"></script>
-    <script src="assets/js/content/case-study-renderer.js?v=1760822963"></script>
+    <script src="assets/js/content/project-renderer.js?v=1760837691"></script>
+    <script src="assets/js/content/carousel-renderer.js?v=1760837691"></script>
+    <script src="assets/js/content/brand-renderer.js?v=1760837691"></script>
+    <script src="assets/js/content/resume-renderer.js?v=1760837691"></script>
+    <script src="assets/js/content/case-study-renderer.js?v=1760837691"></script>
 
     <!-- Particle system (vendor) -->
-    <script src="assets/js/particle-system.js?v=1760822963"></script>
+    <script src="assets/js/particle-system.js?v=1760837691"></script>
 
     <!-- Main initialization -->
-    <script src="assets/js/main.js?v=1760822963"></script>
+    <script src="assets/js/main.js?v=1760837691"></script>
 </body>
 </html>

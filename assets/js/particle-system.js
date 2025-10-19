@@ -665,33 +665,16 @@ class ParticleControlPanel {
         const panel = document.getElementById('particleControls');
         if (!panel) return;
 
-        const closeBtn = document.getElementById('particleControlsClose');
+        const toggleBtn = document.getElementById('particleControlsToggle');
 
         // Set initial expanded state
         if (this.isExpanded) {
             panel.classList.add('expanded');
         }
 
-        // Set initial aria label (CSS handles the animation)
-        if (closeBtn) {
-            closeBtn.setAttribute('aria-label', this.isExpanded ? 'Close particle controls' : 'Toggle particle controls');
-        }
-
-        // Toggle panel - header click to expand
-        const header = document.getElementById('particleControlsHeader');
-        if (header) {
-            header.addEventListener('click', (e) => {
-                // Don't toggle if clicking the close button
-                if (!e.target.closest('.particle-controls-close')) {
-                    this.togglePanel();
-                }
-            });
-        }
-
-        // Close button - now always toggles
-        if (closeBtn) {
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent header click
+        // Toggle button click (opens/closes panel)
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
                 this.togglePanel();
             });
         }
@@ -945,7 +928,6 @@ class ParticleControlPanel {
 
     togglePanel() {
         const panel = document.getElementById('particleControls');
-        const closeBtn = document.getElementById('particleControlsClose');
         if (!panel) return;
 
         this.isExpanded = !this.isExpanded;
@@ -958,15 +940,6 @@ class ParticleControlPanel {
         } else {
             // Remember Me is OFF - save to sessionStorage for current session only
             sessionStorage.setItem('particleControlsExpanded', this.isExpanded.toString());
-        }
-
-        // Update aria label (CSS handles the animation)
-        if (closeBtn) {
-            if (this.isExpanded) {
-                closeBtn.setAttribute('aria-label', 'Close particle controls');
-            } else {
-                closeBtn.setAttribute('aria-label', 'Open particle controls');
-            }
         }
     }
 
@@ -998,6 +971,14 @@ class ParticleControlPanel {
 
     resetControls() {
         this.particleSystem.reset();
+
+        // Clear the "Save Settings" checkbox
+        const rememberMeToggle = document.getElementById('rememberMeToggle');
+        if (rememberMeToggle) {
+            rememberMeToggle.checked = false;
+            // Trigger the change event to update the particle system config
+            this.particleSystem.updateRememberMe(false);
+        }
 
         // Update all control values with responsive particle count
         const isMobile = window.innerWidth <= 768;
