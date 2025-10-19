@@ -686,11 +686,19 @@ class ParticleControlPanel {
         modeBtns.forEach((btn, index) => {
             if (btn.value === this.particleSystem.config.mode) {
                 btn.checked = true;
-                this.updateModePillPosition(index);
-                // Show/hide black hole strength based on initial mode with animation
+                this.updateModePillPosition(index, true); // Skip transition on initial load
+                // Show/hide black hole strength based on initial mode without animation
                 if (blackHoleControl) {
                     if (btn.value === 'blackhole') {
+                        // Disable transitions during initial load to prevent animation
+                        blackHoleControl.classList.add('no-transition');
                         blackHoleControl.classList.add('visible');
+                        // Re-enable transitions after render
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                blackHoleControl.classList.remove('no-transition');
+                            });
+                        });
                     } else {
                         blackHoleControl.classList.remove('visible');
                     }
@@ -782,7 +790,7 @@ class ParticleControlPanel {
         interactionBtns.forEach((btn, index) => {
             if (btn.value === this.particleSystem.config.interactionMode) {
                 btn.checked = true;
-                this.updateSliderPillPosition(index);
+                this.updateSliderPillPosition(index, true); // Skip transition on initial load
             }
 
             btn.addEventListener('change', (e) => {
@@ -943,9 +951,14 @@ class ParticleControlPanel {
         }
     }
 
-    updateSliderPillPosition(index) {
+    updateSliderPillPosition(index, skipTransition = false) {
         const pill = document.querySelector('#interactionModeToggle .slider-toggle-pill');
         if (!pill) return;
+
+        // Disable transitions during initial load to prevent animation
+        if (skipTransition) {
+            pill.classList.add('no-transition');
+        }
 
         // Calculate position based on index (0=attract, 1=repel, 2=static)
         // Each option is 33.333% width with 2px padding and 2px gaps
@@ -954,11 +967,25 @@ class ParticleControlPanel {
         const pillLeft = 2 + (index * (optionWidthPercent + 0.2)); // 2px initial padding + option width
 
         pill.style.left = `calc(${pillLeft}% - ${index * 1}px)`;
+
+        // Re-enable transitions after positioning
+        if (skipTransition) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    pill.classList.remove('no-transition');
+                });
+            });
+        }
     }
 
-    updateModePillPosition(index) {
+    updateModePillPosition(index, skipTransition = false) {
         const pill = document.querySelector('#particleModeToggle .slider-toggle-pill');
         if (!pill) return;
+
+        // Disable transitions during initial load to prevent animation
+        if (skipTransition) {
+            pill.classList.add('no-transition');
+        }
 
         // Calculate position based on index (0=blackhole, 1=deepspace)
         // Each option is 50% width with 2px padding and 2px gaps
@@ -967,6 +994,15 @@ class ParticleControlPanel {
         const pillLeft = 2 + (index * (optionWidthPercent + 0.15)); // 2px initial padding + option width
 
         pill.style.left = `calc(${pillLeft}% - ${index * 1}px)`;
+
+        // Re-enable transitions after positioning
+        if (skipTransition) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    pill.classList.remove('no-transition');
+                });
+            });
+        }
     }
 
     resetControls() {

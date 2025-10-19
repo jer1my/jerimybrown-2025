@@ -523,6 +523,7 @@ body[data-theme="dark"] .logo-dark {
     display: flex;
     align-items: center;
     background: var(--bg-primary);
+    padding-bottom: 50vh; /* Allow scrolling past center to top of viewport */
 }
 
 .contact-buttons {

@@ -105,13 +105,14 @@ body[data-theme="dark"] .logo.accent-color .logo-svg {
     letter-spacing: 0.05em;
     color: inherit;
     position: absolute;
-    right: calc(100% + 32px);
+    right: calc(100% + var(--logo-text-offset));
     top: 0;
     transform: rotate(-90deg);
     transform-origin: right top;
     z-index: 1;
     white-space: nowrap;
     visibility: hidden; /* Hide until JavaScript transforms it */
+    pointer-events: none; /* Prevent text from triggering hover/clicks */
 }
 
 .logo-text.transformed {
@@ -171,6 +172,13 @@ body.work-page .logo:hover .logo-letter {
 
     .logo:hover .logo-svg {
         opacity: 1 !important;
+    }
+}
+
+/* Disable logo animation on short screens to prevent interference with particle panel */
+@media (max-height: 680px) {
+    .logo:hover .logo-letter {
+        opacity: 0 !important;
     }
 }
 

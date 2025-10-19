@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1760838526">
+    <link rel="stylesheet" href="assets/css/main.css?v=1760840600">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -128,6 +128,28 @@
 
         <!-- Particle Control Panel -->
         <div class="particle-controls" id="particleControls">
+            <script>
+                // Apply expanded state immediately to prevent animation on load
+                (function() {
+                    const savedPrefs = localStorage.getItem('particlePreferences');
+                    if (savedPrefs) {
+                        const prefs = JSON.parse(savedPrefs);
+                        if (prefs.rememberMe) {
+                            const savedPanelState = localStorage.getItem('particleControlsExpanded');
+                            if (savedPanelState === 'true') {
+                                document.getElementById('particleControls').classList.add('expanded');
+                            }
+                        }
+                    } else {
+                        // Check sessionStorage if no localStorage
+                        const sessionPanelState = sessionStorage.getItem('particleControlsExpanded');
+                        if (sessionPanelState === 'true') {
+                            document.getElementById('particleControls').classList.add('expanded');
+                        }
+                    }
+                })();
+            </script>
+
             <!-- Toggle button (sticks to top of panel) -->
             <button class="particle-controls-toggle" id="particleControlsToggle" aria-label="Toggle particle controls">
                 <span class="hamburger-bar-sm"></span>
@@ -171,6 +193,44 @@
                 </div>
 
                 <div class="particle-control-group animated-control" id="blackHoleStrengthControl">
+                    <script>
+                        // Show black hole slider immediately if mode is saved as blackhole
+                        (function() {
+                            let shouldShow = false;
+
+                            // Check localStorage first (when rememberMe is enabled)
+                            const savedPrefs = localStorage.getItem('particlePreferences');
+                            if (savedPrefs) {
+                                const prefs = JSON.parse(savedPrefs);
+                                if (prefs.rememberMe && prefs.mode === 'blackhole') {
+                                    shouldShow = true;
+                                }
+                            } else {
+                                // Check sessionStorage (when rememberMe is disabled)
+                                const sessionPrefs = sessionStorage.getItem('particlePreferences');
+                                if (sessionPrefs) {
+                                    const prefs = JSON.parse(sessionPrefs);
+                                    if (prefs.mode === 'blackhole') {
+                                        shouldShow = true;
+                                    }
+                                }
+                            }
+
+                            if (shouldShow) {
+                                const el = document.getElementById('blackHoleStrengthControl');
+                                // Disable transitions first
+                                el.classList.add('no-transition');
+                                // Add visible class
+                                el.classList.add('visible');
+                                // Re-enable transitions after render
+                                requestAnimationFrame(() => {
+                                    requestAnimationFrame(() => {
+                                        el.classList.remove('no-transition');
+                                    });
+                                });
+                            }
+                        })();
+                    </script>
                     <label class="particle-control-label">
                         <span>Strength</span>
                         <span class="particle-control-value" id="blackHoleStrengthValue">110</span>
@@ -320,37 +380,37 @@
 
     <!-- Modular JavaScript Architecture -->
     <!-- Core systems -->
-    <script src="assets/js/core/config.js?v=1760837691"></script>
-    <script src="assets/js/core/data-loader.js?v=1760837691"></script>
-    <script src="assets/js/core/theme-system.js?v=1760837691"></script>
+    <script src="assets/js/core/config.js?v=1760840700"></script>
+    <script src="assets/js/core/data-loader.js?v=1760840700"></script>
+    <script src="assets/js/core/theme-system.js?v=1760840700"></script>
 
     <!-- Utilities -->
-    <script src="assets/js/utils/helpers.js?v=1760837691"></script>
-    <script src="assets/js/utils/animations.js?v=1760837691"></script>
-    <script src="assets/js/utils/image-preloader.js?v=1760837691"></script>
+    <script src="assets/js/utils/helpers.js?v=1760840700"></script>
+    <script src="assets/js/utils/animations.js?v=1760840700"></script>
+    <script src="assets/js/utils/image-preloader.js?v=1760840700"></script>
 
     <!-- Base components -->
-    <script src="assets/js/components/navigation.js?v=1760837691"></script>
-    <script src="assets/js/components/mobile-menu.js?v=1760837691"></script>
-    <script src="assets/js/components/logo-animation.js?v=1760837691"></script>
-    <script src="assets/js/components/carousel-base.js?v=1760837691"></script>
+    <script src="assets/js/components/navigation.js?v=1760840700"></script>
+    <script src="assets/js/components/mobile-menu.js?v=1760840700"></script>
+    <script src="assets/js/components/logo-animation.js?v=1760840700"></script>
+    <script src="assets/js/components/carousel-base.js?v=1760840700"></script>
 
     <!-- Carousel implementations -->
-    <script src="assets/js/components/carousel-about.js?v=1760837691"></script>
-    <script src="assets/js/components/carousel-project.js?v=1760837691"></script>
-    <script src="assets/js/components/carousel-featured.js?v=1760837691"></script>
+    <script src="assets/js/components/carousel-about.js?v=1760840700"></script>
+    <script src="assets/js/components/carousel-project.js?v=1760840700"></script>
+    <script src="assets/js/components/carousel-featured.js?v=1760840700"></script>
 
     <!-- Content renderers -->
-    <script src="assets/js/content/project-renderer.js?v=1760837691"></script>
-    <script src="assets/js/content/carousel-renderer.js?v=1760837691"></script>
-    <script src="assets/js/content/brand-renderer.js?v=1760837691"></script>
-    <script src="assets/js/content/resume-renderer.js?v=1760837691"></script>
-    <script src="assets/js/content/case-study-renderer.js?v=1760837691"></script>
+    <script src="assets/js/content/project-renderer.js?v=1760840700"></script>
+    <script src="assets/js/content/carousel-renderer.js?v=1760840700"></script>
+    <script src="assets/js/content/brand-renderer.js?v=1760840700"></script>
+    <script src="assets/js/content/resume-renderer.js?v=1760840700"></script>
+    <script src="assets/js/content/case-study-renderer.js?v=1760840700"></script>
 
     <!-- Particle system (vendor) -->
-    <script src="assets/js/particle-system.js?v=1760837691"></script>
+    <script src="assets/js/particle-system.js?v=1760840700"></script>
 
     <!-- Main initialization -->
-    <script src="assets/js/main.js?v=1760837691"></script>
+    <script src="assets/js/main.js?v=1760840700"></script>
 </body>
 </html>
