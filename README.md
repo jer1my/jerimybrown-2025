@@ -1,16 +1,17 @@
-# Modern UX Portfolio Style Guide
+# Jerimy Brown - UX Portfolio
 
-A comprehensive design system featuring glassmorphism effects, responsive typography, and intelligent theming for modern UX portfolios.
+A modern UX portfolio showcasing design work with sophisticated glassmorphism effects, interactive particle systems, and intelligent temperature-based theming.
 
 ## ✨ Features
 
+- **Interactive Particle System** - Dynamic WebGL particle effects with customizable controls
 - **Modern Glassmorphism** - Sophisticated glass effects with backdrop blur and transparency
 - **Temperature-based Theming** - Cool blues for light mode, warm oranges for dark mode
 - **Responsive Typography** - IBM Plex Sans with fluid scaling across breakpoints
-- **Comprehensive Color System** - 10-step neutral scale with carefully crafted accent colors
-- **Interactive Components** - Hover effects, smooth transitions, and micro-interactions
-- **Modular Spacing** - Consistent spacing scale with utility classes
-- **Flexible Grid System** - CSS Grid with responsive breakpoints and utilities
+- **Modular CSS Architecture** - Organized, maintainable stylesheet system
+- **Case Study Pages** - Detailed project showcases with hero imagery and content sections
+- **Interactive Lab** - Experimental features and visual demonstrations
+- **Data-Driven Projects** - JSON-based project management system
 
 ## 🎨 Design System
 
@@ -21,7 +22,7 @@ A comprehensive design system featuring glassmorphism effects, responsive typogr
 
 ### Color Palette
 - **Primary:** `#0f0f0f` (Ultra-dark primary)
-- **Accent Cool:** `#2563eb` (Light mode)
+- **Accent Cool:** `#15B5FF` (Light mode)
 - **Accent Warm:** `#ea580c` (Dark mode)
 - **Neutrals:** 10-step scale from `#ffffff` to `#171717`
 
@@ -33,26 +34,96 @@ A comprehensive design system featuring glassmorphism effects, responsive typogr
 
 ## 🚀 Live Demo
 
-[View the Style Guide](https://jer1my.github.io/jerimybrown-2025/style-guide.html)
+[View Portfolio](https://jer1my.github.io/jerimybrown-2025/)
 
 ## 📁 Project Structure
 
 ```
-├── style-guide.html          # Main style guide showcase
-├── CLAUDE.md                 # Design system documentation for AI assistance
-├── README.md                 # Project documentation
-└── .DS_Store                 # System file (ignored in production)
+├── index.html                 # Main portfolio page
+├── lab.html                   # Interactive experiments
+├── resume.html                # Resume page
+├── work/                      # Case study pages
+│   ├── design-system.html
+│   ├── product-suite.html
+│   ├── ai-strategy.html
+│   └── research-strategy.html
+├── assets/
+│   ├── css/                   # Modular CSS architecture
+│   │   ├── main.css           # Main import file
+│   │   ├── _variables.css     # CSS custom properties
+│   │   ├── _base.css          # Reset & base styles
+│   │   ├── _navigation.css    # Header & navigation
+│   │   ├── _hero.css          # Hero section
+│   │   ├── _particles.css     # Particle system
+│   │   ├── _components.css    # Reusable components
+│   │   ├── _carousels.css     # Carousel implementations
+│   │   ├── _sections.css      # Page sections
+│   │   ├── _project-pages.css # Project detail pages
+│   │   ├── _charts.css        # Data visualizations
+│   │   └── _utilities.css     # Helper classes & dark mode
+│   ├── js/                    # Interactive features
+│   │   ├── main.js            # Core functionality
+│   │   ├── particles.js       # Particle system
+│   │   └── theme.js           # Theme switching
+│   └── images/                # Image assets
+├── data/
+│   └── projects.json          # Project data
+├── .claude/                   # Claude Code configuration
+│   ├── commands/              # Slash commands
+│   └── settings.local.json
+├── CLAUDE.md                  # Design system docs (AI context)
+└── README.md                  # This file
 ```
 
 ## 🛠️ Technologies Used
 
 - **HTML5** - Semantic markup structure
-- **CSS3** - Modern CSS with Grid, Flexbox, and advanced effects
-- **Vanilla JavaScript** - Theme switching functionality
+- **CSS3** - Modular CSS with Grid, Flexbox, glassmorphism effects
+- **Vanilla JavaScript** - Particle system, theme switching, dynamic content loading
+- **WebGL** - Hardware-accelerated particle effects
 - **Google Fonts** - IBM Plex Sans typography
-- **Glassmorphism** - Modern UI design trend implementation
+- **JSON** - Data-driven project management
+
+## 🚀 Development
+
+### Local Development
+Start a local server to preview the portfolio:
+
+```bash
+# Python 3
+python3 -m http.server 8000
+
+# Visit http://localhost:8000
+```
+
+### Cache Busting Strategy
+CSS and JavaScript files use query parameter versioning:
+
+```html
+<link rel="stylesheet" href="assets/css/main.css?v=1760841100">
+<script src="assets/js/main.js?v=1760840700"></script>
+```
+
+Update version numbers in HTML files after making CSS/JS changes to force browser cache refresh.
+
+### Deployment Workflow
+Slash commands available via Claude Code (`.claude/commands/`):
+
+- **`/status`** - Show git status, current branch, and recent commits
+- **`/quick-commit`** - Quick commit on current branch (no merge, no push)
+- **`/deploy`** - Commit changes, merge to main, push both branches, return to dev
+
+### Branch Strategy
+- **`main`** - Production branch (deployed to GitHub Pages)
+- **`development`** - Active development branch
 
 ## ⚡ Key Components
+
+### Particle System
+- Interactive WebGL particle effects
+- Customizable controls (mouse interaction, color, speed, connections)
+- Multiple modes: Black Hole, Deep Space
+- Persistent settings via localStorage
 
 ### Buttons
 - Pill-shaped design (`border-radius: 50px`)
@@ -64,47 +135,85 @@ A comprehensive design system featuring glassmorphism effects, responsive typogr
 - Multiple card types (`.card`, `.glass-card`, `.interactive-card`)
 - Subtle transparency and blur effects
 - Hover animations with lift and scale effects
+- Project cards with dynamic loading from JSON
 
 ### Theme Toggle
 - Circular sun/moon icon button
 - Fixed positioning with glass backdrop
 - Smooth theme transitions
+- Temperature-based color switching
 
-### Grid System
-- CSS Grid-based layout system
-- Responsive columns and spanning
-- Flexible gap controls
+### Navigation
+- Fixed glass navigation bar
+- Smooth scroll to sections
+- Active state indicators
+- Mobile-responsive menu
 
-## 🎯 Use Cases
+## 📐 Technical Notes
 
-Perfect for:
-- **UX/UI Portfolios** - Showcase design work with modern aesthetics
-- **Design Systems** - Reference implementation for glassmorphism
-- **Frontend Learning** - Study modern CSS techniques and effects
-- **Component Libraries** - Base for building design system components
+### Container Strategy
+Content uses max-width containers to maintain readability on large displays:
+- **Max-width:** 1200px (configurable via `--container-max-width` CSS variable)
+- **Behavior:** Content is fluid up to 1200px, then centers with whitespace
+- **Applied to:** Hero, navigation, sections
+
+### Large Display Considerations
+The portfolio uses a max-width container approach rather than viewport scaling. CSS cannot replicate browser zoom behavior with `vh` units, so:
+- ✅ Max-width containers prevent excessive content spread
+- ✅ Users can apply browser zoom if needed
+- ❌ Avoid `transform: scale()` or CSS `zoom` with `vh` layouts (causes misalignment)
+
+See `CLAUDE.md` for detailed technical architecture and best practices.
+
+## 🎯 Portfolio Highlights
+
+### Case Studies
+- **Design System** - Building comprehensive design systems across product suites
+- **Hybrid Product Suite** - End-to-end product ecosystem design
+- **AI Design Strategy** - Integrating AI capabilities into user workflows
+- **Research Strategy** - User research and interaction pattern validation
+
+### Interactive Features
+- **Lab Page** - Experimental UI patterns and visual demonstrations
+- **Particle System** - Engaging visual effects with user controls
+- **Dynamic Content** - JSON-driven project management
+- **Responsive Design** - Optimized for all screen sizes
 
 ## 🔧 Customization
 
 ### Changing Colors
-Update CSS custom properties in the `:root` selector:
+Update CSS custom properties in `assets/css/_variables.css`:
 ```css
 :root {
-  --accent-cool: #2563eb;
+  --accent-cool: #15B5FF;
   --accent-warm: #ea580c;
   --primary: #0f0f0f;
+  --container-max-width: 1200px;
+}
+```
+
+### Adding Projects
+Edit `data/projects.json` to add or modify project cards:
+```json
+{
+  "title": "Your Project",
+  "category": "UX Design",
+  "description": "Project description",
+  "link": "work/your-project.html",
+  "featured": true
 }
 ```
 
 ### Typography
-Swap IBM Plex Sans for another font:
-```html
-<link href="https://fonts.googleapis.com/css2?family=Your+Font:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+Change font in `assets/css/_variables.css`:
+```css
+--font-family-primary: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 ```
 
-### Glass Effects
-Adjust backdrop blur intensity:
+### Container Width
+Adjust max-width for large displays:
 ```css
-backdrop-filter: blur(20px); /* Increase for more blur */
+--container-max-width: 1400px; /* Default: 1200px */
 ```
 
 ## 🌐 Browser Support
@@ -134,11 +243,12 @@ This style guide embodies:
 - **Performance** - Optimized CSS and smooth animations
 - **Adaptability** - Themes that respond to user preferences
 
-## 🔄 Development Workflow
+## 🔄 Git Workflow
 
 Built with a branch-based workflow:
-- `main` - Production-ready code
-- `style-exploration` - Experimental features and iterations
+- **`main`** - Production-ready code (deployed to GitHub Pages)
+- **`development`** - Active development branch
+- **Slash Commands** - Use `/deploy`, `/quick-commit`, `/status` for streamlined git operations
 
 ## 📄 License
 
@@ -152,10 +262,11 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 - **IBM Plex Sans** - IBM's excellent open-source typeface
 - **Glassmorphism** - Modern design trend inspiration
+- **WebGL** - Hardware-accelerated graphics for particle system
 - **CSS Grid** - Powerful layout system enabling flexible designs
 
 ---
 
 **Built with ❤️ for the design community**
 
-*This style guide serves as both a showcase of modern web design techniques and a practical foundation for building sophisticated user interfaces.*
+*Portfolio showcasing modern UX design work with sophisticated interactive features and glassmorphism effects.*

@@ -201,21 +201,96 @@ Transition: width 0.3s ease
 
 ```
 /assets/
-  /fonts/ (if self-hosting)
-  /images/
-    /projects/
-    /profile/
-/css/
-  style.css (main stylesheet)
-/js/
-  theme-toggle.js
-  smooth-scroll.js
-index.html
-projects/
-  project-1.html
-  project-2.html
-about.html
-contact.html
+  /css/                      # Modular CSS architecture
+    main.css                 # Main import file
+    _variables.css           # CSS custom properties
+    _base.css                # Reset & base styles
+    _navigation.css          # Header & navigation
+    _hero.css                # Hero section
+    _particles.css           # Particle system
+    _components.css          # Reusable components
+    _carousels.css           # Carousel implementations
+    _sections.css            # Page sections
+    _project-pages.css       # Project detail pages
+    _charts.css              # Data visualizations
+    _utilities.css           # Helper classes & dark mode
+  /js/                       # Interactive features
+    main.js                  # Core functionality
+    particles.js             # Particle system
+    theme.js                 # Theme switching
+  /images/                   # Image assets
+/data/
+  projects.json              # Project data
+/work/                       # Case study pages
+  design-system.html
+  product-suite.html
+  ai-strategy.html
+  research-strategy.html
+/.claude/                    # Claude Code configuration
+  /commands/                 # Slash commands
+  settings.local.json
+index.html                   # Main portfolio page
+lab.html                     # Interactive experiments
+resume.html                  # Resume page
+CLAUDE.md                    # This file - AI context
+README.md                    # Public documentation
 ```
+
+## Technical Architecture
+
+### Modular CSS System
+The stylesheet is organized as a series of CSS modules imported into `main.css`:
+1. **Variables** - CSS custom properties and theme tokens (`--container-max-width`, colors, fonts)
+2. **Base** - Reset, foundational styles, text selection
+3. **Navigation** - Header, menu, theme toggle
+4. **Hero** - Hero section, back-to-top button
+5. **Particles** - Particle system and controls
+6. **Components** - Reusable UI components (buttons, cards)
+7. **Carousels** - Carousel implementations
+8. **Sections** - Page sections (projects, about, brands, contact)
+9. **Project Pages** - Case study layouts
+10. **Charts** - Data visualizations
+11. **Utilities** - Helper classes, dark mode, responsive overrides (must load last)
+
+### Cache Busting Strategy
+CSS and JavaScript files use query parameter versioning for browser cache control:
+```html
+<link rel="stylesheet" href="assets/css/main.css?v=1760841100">
+<script src="assets/js/main.js?v=1760840700"></script>
+```
+Update version numbers after CSS/JS changes to force browser refresh.
+
+### Container Strategy
+Max-width containers prevent content from becoming excessively wide on large displays:
+- **CSS Variable:** `--container-max-width: 1200px` (defined in `_variables.css`)
+- **Applied to:** Hero content, navigation, sections
+- **Behavior:** Content is fluid up to 1200px, then centers with whitespace on sides
+- **Rationale:** Maintains readability and prevents "tiny elements spread out" on 4K+ displays
+
+### Known Limitations & Best Practices
+
+**Viewport Scaling on Large Displays:**
+CSS cannot replicate browser zoom behavior when using `vh` (viewport height) units. Attempts to use `transform: scale()` or CSS `zoom` property will break layouts that depend on viewport units because:
+- Browser zoom recalculates viewport dimensions **before** layout
+- CSS scaling happens **after** layout (viewport units already computed)
+- Result: Misaligned or broken `vh`-based elements
+
+**Recommended Approaches for Large Displays:**
+1. ✅ **Max-width containers** (current implementation) - Prevents excessive spread
+2. ✅ **Targeted media queries** - Increase specific font sizes at 2K/4K if needed
+3. ✅ **User-controlled zoom** - Let users apply browser zoom themselves
+4. ❌ **Avoid** `transform: scale()` or `zoom` property with `vh` layouts
+
+**Future Considerations:**
+If elements feel too small on ultra-high-resolution displays, consider:
+- Increasing `--container-max-width` to 1400-1600px
+- Adding media queries for larger base font sizes at 2560px+ breakpoints
+- Adjusting specific component sizes (nav, buttons) via targeted media queries
+
+### Development Workflow
+Slash commands available via `.claude/commands/`:
+- `/quick-commit` - Commit changes on current branch
+- `/deploy` - Commit, merge to main, push both branches
+- `/status` - Show git status and recent commits
 
 This design system provides a comprehensive foundation for building a modern, professional UX portfolio that stands out with sophisticated glassmorphism effects and intelligent theming.
