@@ -225,53 +225,105 @@ function animateChartValue(element, start, end, duration) {
 
 function initLogoScroller() {
     const track = document.querySelector('.logo-scroller-track');
-    if (!track) return;
+    const scroller = document.querySelector('.logo-scroller');
+    if (!track || !scroller) return;
 
-    // Function to setup seamless scroll
-    function setupSeamlessScroll() {
-        // Get all visible brand logos (either light or dark, depending on theme)
-        const visibleLogos = track.querySelectorAll('.brand-logo:not([style*="display: none"])');
+    // Animation state
+    let animationId = null;
+    let position = 0;
+    let isPaused = false;
+    let scrollWidth = 0;
+    let speed = 0;
+
+    // Calculate width of one complete set and scroll speed
+    function calculateScrollParameters() {
+        // Get all logos and filter for actually visible ones (not hidden by CSS)
+        const allLogos = Array.from(track.querySelectorAll('.brand-logo'));
+        const visibleLogos = allLogos.filter(logo => {
+            return window.getComputedStyle(logo).display !== 'none';
+        });
 
         if (visibleLogos.length === 0) {
-            // Fallback: count all logos and divide by 2 (since half are hidden)
-            const allLogos = track.querySelectorAll('.brand-logo');
-            const logoCount = allLogos.length / 2; // Each brand has 2 versions
-
-            // Calculate approximate width
-            // Average logo width ~120px + 64px gap
-            const approximateWidth = logoCount * 184;
-            track.style.setProperty('--scroll-distance', `-${approximateWidth}px`);
-        } else {
-            // Calculate the exact width of one complete set (half of all visible logos)
-            const totalLogos = visibleLogos.length;
-            const oneSetCount = totalLogos / 2;
-
-            // Get computed gap between logos
-            const trackStyles = window.getComputedStyle(track);
-            const gap = parseInt(trackStyles.gap) || 64;
-
-            // Calculate total width of one set
-            let totalWidth = 0;
-            for (let i = 0; i < oneSetCount; i++) {
-                totalWidth += visibleLogos[i].offsetWidth + gap;
-            }
-
-            // Set the scroll distance as a negative value
-            track.style.setProperty('--scroll-distance', `-${totalWidth}px`);
+            return; // No logos to scroll
         }
 
-        // Apply the animation with responsive duration
+        // visibleLogos contains 2 sets (original + duplicate)
+        // We need to calculate the width of exactly one set
+        const oneSetCount = visibleLogos.length / 2;
+
+        // Get computed gap between logos
+        const trackStyles = window.getComputedStyle(track);
+        const gap = parseInt(trackStyles.gap) || 64;
+
+        // Calculate total width of one set
+        let totalWidth = 0;
+        for (let i = 0; i < oneSetCount; i++) {
+            totalWidth += visibleLogos[i].offsetWidth + gap;
+        }
+
+        scrollWidth = totalWidth;
+
+        // Calculate speed based on viewport size
+        // Mobile: complete scroll in 40s, Desktop: 50s
         const isMobile = window.innerWidth <= 768;
-        const duration = isMobile ? '40s' : '50s';
-        track.style.animation = `scrollLogos ${duration} linear infinite`;
+        const duration = isMobile ? 40000 : 50000; // milliseconds
+        speed = scrollWidth / duration; // pixels per millisecond
+    }
+
+    // Animation loop
+    function animate(timestamp) {
+        if (!isPaused && scrollWidth > 0) {
+            // Move position based on speed (pixels per frame at ~60fps)
+            position += speed * 16.67; // Approximate 60fps frame time
+
+            // Reset position when we've scrolled one complete set
+            if (position >= scrollWidth) {
+                position = position - scrollWidth; // Seamless reset
+            }
+
+            // Apply transform
+            track.style.transform = `translateX(-${position}px)`;
+        }
+
+        // Continue animation loop
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Pause on hover
+    scroller.addEventListener('mouseenter', () => {
+        isPaused = true;
+    });
+
+    scroller.addEventListener('mouseleave', () => {
+        isPaused = false;
+    });
+
+    // Setup and start animation
+    function start() {
+        // Cancel existing animation
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+
+        // Reset position
+        position = 0;
+        track.style.transform = 'translateX(0)';
+
+        // Calculate parameters
+        calculateScrollParameters();
+
+        // Start animation
+        if (scrollWidth > 0) {
+            animationId = requestAnimationFrame(animate);
+        }
     }
 
     // Initial setup
-    setupSeamlessScroll();
+    start();
 
     // Recalculate on theme change to ensure accuracy with different logo versions
     const observer = new MutationObserver(() => {
-        setupSeamlessScroll();
+        start();
     });
 
     observer.observe(document.body, {
@@ -283,6 +335,6 @@ function initLogoScroller() {
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(setupSeamlessScroll, 150);
+        resizeTimeout = setTimeout(start, 150);
     });
 }

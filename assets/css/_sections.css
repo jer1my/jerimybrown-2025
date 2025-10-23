@@ -444,15 +444,6 @@ body:not([data-theme="dark"]) .project-card-featured .project-link-text::after {
     will-change: transform;
 }
 
-@keyframes scrollLogos {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(var(--scroll-distance));
-    }
-}
-
 .brand-logo {
     width: auto;
     height: auto;
@@ -481,18 +472,6 @@ body[data-theme="dark"] .logo-light {
 
 body[data-theme="dark"] .logo-dark {
     display: block;
-}
-
-/* Pause animation on hover */
-.logo-scroller:hover .logo-scroller-track {
-    animation-play-state: paused;
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .logo-scroller-track {
-        animation: scrollLogos 100s linear infinite;
-    }
 }
 
 /* Responsive adjustments */
