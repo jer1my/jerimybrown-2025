@@ -223,6 +223,12 @@ function animateChartValue(element, start, end, duration) {
 // Logo Scroller - Seamless Infinite Scroll
 // ==========================================
 
+// Global variable for brands scroll duration (milliseconds)
+// Default: 60% speed = 60s duration (120 - 60 = 60)
+let brandScrollDuration = 60000;
+let restartLogoScroller = null; // Function to restart animation
+let updateLogoScrollSpeed = null; // Function to update speed without resetting position
+
 function initLogoScroller() {
     const track = document.querySelector('.logo-scroller-track');
     const scroller = document.querySelector('.logo-scroller');
@@ -263,11 +269,8 @@ function initLogoScroller() {
 
         scrollWidth = totalWidth;
 
-        // Calculate speed based on viewport size
-        // Mobile: complete scroll in 40s, Desktop: 50s
-        const isMobile = window.innerWidth <= 768;
-        const duration = isMobile ? 40000 : 50000; // milliseconds
-        speed = scrollWidth / duration; // pixels per millisecond
+        // Calculate speed using global brandScrollDuration variable
+        speed = scrollWidth / brandScrollDuration; // pixels per millisecond
     }
 
     // Animation loop
@@ -318,6 +321,17 @@ function initLogoScroller() {
         }
     }
 
+    // Update speed without resetting position (for smooth speed changes)
+    function updateSpeed() {
+        // Just recalculate the speed based on new duration
+        // The animation loop will pick up the new speed automatically
+        calculateScrollParameters();
+    }
+
+    // Expose functions globally
+    restartLogoScroller = start;
+    updateLogoScrollSpeed = updateSpeed;
+
     // Initial setup
     start();
 
@@ -336,5 +350,52 @@ function initLogoScroller() {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(start, 150);
+    });
+}
+
+// Brands Speed Control
+// ==========================================
+
+function initBrandsSpeedControl() {
+    const slider = document.getElementById('brandsSpeedSlider');
+    const valueDisplay = document.getElementById('brandsSpeedValue');
+
+    if (!slider || !valueDisplay) return;
+
+    // Load saved speed percentage from localStorage
+    const savedSpeed = localStorage.getItem('brandsScrollSpeed');
+    if (savedSpeed) {
+        const speedPercent = parseInt(savedSpeed);
+        slider.value = speedPercent;
+        valueDisplay.textContent = `${speedPercent}%`;
+
+        // Calculate duration: higher percentage = faster = shorter duration
+        // Formula: duration = (120 - percentage) * 1000
+        // 100% = 20s (fastest), 60% = 60s (default), 20% = 100s (slowest)
+        brandScrollDuration = (120 - speedPercent) * 1000;
+
+        // Update speed smoothly without resetting position
+        if (updateLogoScrollSpeed) {
+            updateLogoScrollSpeed();
+        }
+    }
+
+    // Update speed when slider changes
+    slider.addEventListener('input', function() {
+        const speedPercent = parseInt(this.value);
+
+        // Update display as percentage
+        valueDisplay.textContent = `${speedPercent}%`;
+
+        // Calculate duration: higher percentage = faster = shorter duration
+        brandScrollDuration = (120 - speedPercent) * 1000;
+
+        // Save to localStorage
+        localStorage.setItem('brandsScrollSpeed', speedPercent);
+
+        // Update speed smoothly without resetting position
+        if (updateLogoScrollSpeed) {
+            updateLogoScrollSpeed();
+        }
     });
 }

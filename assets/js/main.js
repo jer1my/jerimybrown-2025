@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Initialize logo scroller (must run AFTER initBrandLogos)
     initLogoScroller();
 
+    // Initialize brands speed control
+    initBrandsSpeedControl();
+
     // Handle hash navigation after everything is loaded and rendered
     if (window.location.hash) {
         // Wait for layout to fully settle

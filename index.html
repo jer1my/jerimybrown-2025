@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1761179535">
+    <link rel="stylesheet" href="assets/css/main.css?v=1761271532">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -316,6 +316,13 @@
             <h2 class="section-title">The Brands</h2>
             <p class="section-subtitle">I've been fortunate enough to work with some amazing brands and people.</p>
 
+            <!-- Brands Speed Control -->
+            <div class="brands-speed-control">
+                <span class="brands-speed-label">Speed</span>
+                <input type="range" id="brandsSpeedSlider" min="20" max="100" value="60" step="5" class="particle-slider">
+                <span class="brands-speed-value" id="brandsSpeedValue">60%</span>
+            </div>
+
             <div class="logo-scroller">
                 <div class="logo-scroller-track">
                     <!-- Brand logos are dynamically generated from data/brands.json -->
@@ -385,7 +392,7 @@
     <script src="assets/js/core/theme-system.js?v=1760886500"></script>
 
     <!-- Utilities -->
-    <script src="assets/js/utils/helpers.js?v=1760886500"></script>
+    <script src="assets/js/utils/helpers.js?v=1761271272"></script>
     <script src="assets/js/utils/animations.js?v=1760886500"></script>
     <script src="assets/js/utils/image-preloader.js?v=1760886500"></script>
 
@@ -411,6 +418,6 @@
     <script src="assets/js/particle-system.js?v=1760886500"></script>
 
     <!-- Main initialization -->
-    <script src="assets/js/main.js?v=1760886500"></script>
+    <script src="assets/js/main.js?v=1761270420"></script>
 </body>
 </html>
