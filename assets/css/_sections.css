@@ -474,6 +474,36 @@ body[data-theme="dark"] .logo-dark {
     display: block;
 }
 
+/* Brands Speed Control */
+.brands-speed-control {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 500px;
+    margin: 32px auto 0;
+}
+
+.brands-speed-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    min-width: 50px;
+}
+
+.brands-speed-control .particle-slider {
+    flex: 1;
+}
+
+.brands-speed-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-accent);
+    white-space: nowrap;
+    min-width: 45px;
+    text-align: right;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .projects-grid {
