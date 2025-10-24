@@ -224,8 +224,8 @@ function animateChartValue(element, start, end, duration) {
 // ==========================================
 
 // Global variable for brands scroll duration (milliseconds)
-// Default: 60% speed = 60s duration (120 - 60 = 60)
-let brandScrollDuration = 60000;
+// Default: 40% speed = 80s duration (120 - 40 = 80)
+let brandScrollDuration = 80000;
 let restartLogoScroller = null; // Function to restart animation
 let updateLogoScrollSpeed = null; // Function to update speed without resetting position
 
