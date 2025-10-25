@@ -255,7 +255,7 @@ body[data-theme="dark"] .nav {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--container-padding-desktop);
-    height: 100vh;
+    height: 100%;
     position: relative;
 }
 
@@ -263,14 +263,15 @@ body[data-theme="dark"] .nav {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 1rem;
-    height: 100%;
+    min-height: 100%;
     padding-top: 80px; /* Account for nav height */
 }
 
 .grid-line {
     border-right: 1px solid rgba(156, 156, 156, 0.2);
     border-left: 1px solid rgba(156, 156, 156, 0.5);
-    height: 100%;
+    min-height: 100vh;
+    align-self: stretch;
 }
 
 
