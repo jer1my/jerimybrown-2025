@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1761271975">
+    <link rel="stylesheet" href="assets/css/main.css?v=1761367620">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -105,11 +105,14 @@
         <header class="header">
             <h1 class="title">The Lab</h1>
             <p class="subtitle">The framework behind this experience</p>
-            <p class="description">An intentionally minimal system where every element serves a clear purpose—keeping focus on the work, not the interface.</p>
+            <p class="description">An intentionally minimal system where every element serves a clear purpose—keeping the focus on the work and user controls.</p>
         </header>
         
         <section class="section">
-            <h2 class="section-title">User Controls</h2>
+            <h2 class="section-title" id="userControlsTitle" style="margin-bottom: 12px;">User Controls</h2>
+            <div style="margin-bottom: 120px; display: flex; justify-content: center;">
+                <input type="range" id="titleWaveSlider" min="0" max="100" value="0" class="particle-slider" style="width: 500px;">
+            </div>
             <div class="user-controls-description-grid">
                 <div class="user-controls-description">
                     <p class="mb-4">Switch between light and dark themes, reveal the underlying grid structure, or reset gesture hints for carousels on project pages.</p>
@@ -570,6 +573,85 @@
 
     <!-- Lab page form element interactions -->
     <script>
+        // Title Weight Slider Effect
+        const userControlsTitle = document.getElementById('userControlsTitle');
+        const titleWaveSlider = document.getElementById('titleWaveSlider');
+
+        // Split title into individual letter spans
+        if (userControlsTitle && titleWaveSlider) {
+            const text = userControlsTitle.textContent;
+            userControlsTitle.innerHTML = '';
+
+            // Split into letters, preserving spaces
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = text[i];
+                span.style.fontWeight = '300'; // Start thin (light)
+                span.style.display = 'inline-block';
+                span.style.transition = 'font-weight 0.1s linear, transform 0.1s linear, letter-spacing 0.1s linear';
+                span.style.transformOrigin = '50% 87%'; // Anchor closer to visual baseline
+                span.style.verticalAlign = 'baseline';
+                span.style.lineHeight = '1'; // Eliminate extra vertical space
+                span.style.letterSpacing = '0.02em'; // Base spacing
+                if (text[i] === ' ') {
+                    span.style.width = '0.3em';
+                }
+                userControlsTitle.appendChild(span);
+            }
+
+            const letterSpans = userControlsTitle.querySelectorAll('span');
+            const totalLetters = letterSpans.length;
+
+            // Track previous slider value for interpolation
+            let previousSliderValue = 0;
+
+            // Update weights and scale based on slider position
+            titleWaveSlider.addEventListener('input', function() {
+                const sliderValue = parseFloat(this.value); // 0 to 100
+
+                letterSpans.forEach((span, index) => {
+                    // Calculate letter position as percentage (20-80 range, centered with proper dead zones)
+                    // 20% dead zones on each side (nearly 3x the 7% wave width)
+                    const letterPosition = 20 + (index / (totalLetters - 1)) * 60;
+
+                    // Calculate distance from current slider position
+                    const distance = Math.abs(letterPosition - sliderValue);
+
+                    // Also check distance from path traveled (interpolation)
+                    const minPos = Math.min(previousSliderValue, sliderValue);
+                    const maxPos = Math.max(previousSliderValue, sliderValue);
+                    const isInPath = letterPosition >= minPos && letterPosition <= maxPos;
+
+                    // Create a smooth wave using cosine for natural falloff
+                    const waveWidth = 11; // Adjusted for 60% letter range to affect ~3 letters at a time
+                    let influence = 0;
+
+                    if (distance < waveWidth || isInPath) {
+                        // Pure cosine curve for smooth transitions
+                        const radians = (distance / waveWidth) * Math.PI;
+                        influence = (Math.cos(radians) + 1) / 2;
+                    }
+
+                    // Map influence to weight (300 to 700 - thin to bold)
+                    const weight = 300 + (influence * 400);
+
+                    // Map influence to scale (1.0 to 1.5 for drama)
+                    const scale = 1.0 + (influence * 0.5);
+
+                    // Map influence to letter spacing (0.02em to 0.15em)
+                    const spacing = 0.02 + (influence * 0.13);
+
+                    // Apply weight, scale, and spacing simultaneously
+                    span.style.fontWeight = weight.toFixed(0);
+                    span.style.transform = `scale(${scale.toFixed(3)})`;
+                    span.style.letterSpacing = `${spacing.toFixed(3)}em`;
+                });
+
+                // Update previous value for next iteration
+                previousSliderValue = sliderValue;
+            });
+        }
+
         // Update slider value display
         const labSlider = document.getElementById('labSlider');
         const labSliderValue = document.getElementById('labSliderValue');
