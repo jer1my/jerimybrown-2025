@@ -127,6 +127,11 @@
   --typo-small-weight: var(--font-weight-regular);
   --typo-small-line-height: 1.6;
 
+  /* Type Label */
+  --typo-label-size: 14px;
+  --typo-label-weight: var(--font-weight-medium);
+  --typo-label-spacing: 0.05em;
+
   /* Spacing Scale */
   --space-1: 4px;
   --space-2: 8px;
