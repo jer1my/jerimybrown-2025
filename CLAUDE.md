@@ -2,30 +2,95 @@
 
 This document outlines the design system and guidelines for constructing a modern UX portfolio based on the established style guide.
 
+## Design Principals
+
 ## Typography
 
 **Primary Font:** IBM Plex Sans (Google Fonts)
 - Weights: 300 (Light), 400 (Regular), 500 (Medium), 600 (Semi-Bold), 700 (Bold)
 - Fallback: `-apple-system, BlinkMacSystemFont, sans-serif`
 - Monospace: `'SF Mono', Monaco, monospace` (for code/technical content)
+- Ligatures: Enabled site-wide for improved readability (fi, fl, ff, ffi, ffl)
 
-**Responsive Typography Scale:**
+**Typography System - CSS Variables:**
+
+All typography is standardized using CSS custom properties in `_variables.css`. Each element has variables for size, weight, letter-spacing, and line-height.
+
 ```css
-/* Mobile (≤768px) */
-- Title: 36px
-- Subtitle: 14px  
-- H1: 32px
-- H2: 24px
-- H3: 20px
-- Body: 12px
+/* Hero Title */
+--typo-hero-title-size: clamp(48px, 8vw, 96px)
+--typo-hero-title-weight: 300 (Light)
+--typo-hero-title-spacing: -0.02em
+--typo-hero-title-line-height: 0.9
 
-/* Desktop (>768px) */
-- Title: 56px
-- Subtitle: 18px
-- H1: 48px
-- H2: 32px
-- H3: 24px
-- Body: 16px
+/* Subtitle */
+--typo-subtitle-size: clamp(18px, 2.5vw, 32px)
+--typo-subtitle-weight: 400 (Regular)
+--typo-subtitle-line-height: 1.5
+
+/* Section Title */
+--typo-section-title-size: clamp(36px, 5vw, 48px)
+--typo-section-title-weight: 300 (Light)
+--typo-section-title-spacing: -0.02em
+--typo-section-title-line-height: 1.2
+
+/* Section Subtitle */
+--typo-section-subtitle-size: 16px
+--typo-section-subtitle-weight: 400 (Regular)
+--typo-section-subtitle-line-height: 1.7
+
+/* Heading 1 */
+--typo-h1-size: clamp(32px, 5vw, 48px)
+--typo-h1-weight: 300 (Light)
+--typo-h1-spacing: -0.02em
+--typo-h1-line-height: 1.2
+
+/* Heading 2 */
+--typo-h2-size: clamp(24px, 4vw, 32px)
+--typo-h2-weight: 400 (Regular)
+--typo-h2-spacing: -0.01em
+--typo-h2-line-height: 1.3
+
+/* Heading 3 */
+--typo-h3-size: clamp(20px, 3vw, 24px)
+--typo-h3-weight: 500 (Medium)
+--typo-h3-line-height: 1.4
+
+/* Heading 4 */
+--typo-h4-size: clamp(18px, 2.5vw, 20px)
+--typo-h4-weight: 500 (Medium)
+--typo-h4-line-height: 1.4
+
+/* Heading 5 */
+--typo-h5-size: clamp(16px, 2vw, 18px)
+--typo-h5-weight: 600 (Semi-Bold)
+--typo-h5-line-height: 1.5
+
+/* Heading 6 */
+--typo-h6-size: clamp(14px, 1.5vw, 16px)
+--typo-h6-weight: 600 (Semi-Bold)
+--typo-h6-line-height: 1.5
+
+/* Body Text */
+--typo-body-size: 16px (desktop), 12px (mobile)
+--typo-body-weight: 400 (Regular)
+--typo-body-line-height: 1.7
+
+/* Small Text */
+--typo-small-size: 14px
+--typo-small-weight: 400 (Regular)
+--typo-small-line-height: 1.6
+```
+
+**Usage:**
+All typography elements use these variables for consistency. To apply typography styles:
+```css
+.my-heading {
+    font-size: var(--typo-h2-size);
+    font-weight: var(--typo-h2-weight);
+    letter-spacing: var(--typo-h2-spacing);
+    line-height: var(--typo-h2-line-height);
+}
 ```
 
 ## Color Palette
@@ -125,9 +190,8 @@ By inverting color temperature relative to the background, each theme maintains 
 - Enhanced contrast with deeper shadows
 
 **Theme Toggle:**
-- 48x48px circular button, top-right fixed position
-- Icons: 🌙 (light mode), ☀️ (dark mode)
-- Glass effect with backdrop blur
+- 32pxx32px top-right fixed position
+- Icons: `/assets/icons/moon-outlined.svg` (light mode), `/assets/icons/sun-outlined.svg` (dark mode)
 
 ## Component Library
 
