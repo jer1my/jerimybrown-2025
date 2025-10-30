@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1761419847">
+    <link rel="stylesheet" href="assets/css/main.css?v=1761862094">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -159,50 +159,195 @@
         
         <section class="section">
             <h2 class="section-title">Typography</h2>
-            
-            <div class="font-info">
-                <h3 class="text-lg font-weight-500 mb-4">Font Family</h3>
-                <div class="font-description-grid">
-                    <div class="font-description-left">
-                        <p class="mb-4"><strong>IBM Plex Sans</strong> serves as my primary typeface, chosen for its exceptional balance of technical precision and human warmth.</p>
-                        <p class="mb-4">Developed by IBM with Mike Abbink and Bold Monday.</p>
-                    </div>
-                    <div class="font-description-right">
-                        <p class="mb-4">This font family embodies good design principles: clarity, functionality, and subtle personality. Its neutral yet distinctive character conveys professionalism while remaining approachable.</p>
-                    </div>
-                </div>
-                <div class="font-link-row">
-                    <p><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="font-link">View on Google Fonts →</a></p>
-                </div>
-            </div>
 
-            <div class="type-samples-grid">
-                <div>
+            <div class="typography-layout">
+                <!-- Left Column: Font Family + Hero Styles -->
+                <div class="typography-column">
+                    <div class="type-sample">
+                        <div class="type-label">Font Family</div>
+                        <div class="font-info">
+                            <p class="mb-4"><strong>IBM Plex Sans</strong> serves as my primary typeface, chosen for its exceptional balance of technical precision and human warmth.</p>
+                            <p class="mb-4">Developed by IBM with Mike Abbink and Bold Monday.</p>
+                            <p class="mb-4">This font family embodies good design principles: clarity, functionality, and subtle personality. Its neutral yet distinctive character conveys professionalism while remaining approachable.</p>
+
+                            <p class="mb-4"><strong>Ligatures:</strong> IBM Plex Sans includes standard typographic ligatures that improve readability by combining specific character pairs into single glyphs. Ligatures are enabled site-wide using <code>font-variant-ligatures</code> and are particularly noticeable in combinations like fi, fl, ff, ffi, and ffl.</p>
+
+                            <div class="ligature-demo">
+                                <div class="ligature-example">
+                                    <span class="ligature-text">fi</span>
+                                    <span class="ligature-label">fi</span>
+                                </div>
+                                <div class="ligature-example">
+                                    <span class="ligature-text">fl</span>
+                                    <span class="ligature-label">fl</span>
+                                </div>
+                                <div class="ligature-example">
+                                    <span class="ligature-text">ff</span>
+                                    <span class="ligature-label">ff</span>
+                                </div>
+                                <div class="ligature-example">
+                                    <span class="ligature-text">ffi</span>
+                                    <span class="ligature-label">ffi</span>
+                                </div>
+                                <div class="ligature-example">
+                                    <span class="ligature-text">ffl</span>
+                                    <span class="ligature-label">ffl</span>
+                                </div>
+                            </div>
+
+                            <p style="margin-top: 24px;"><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="font-link">View on Google Fonts →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Type Label</div>
+                        <div class="type-label">TYPE LABEL EXAMPLE</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Labels for typography samples and UI categories<br>
+                            <strong>Size:</strong> 14px<br>
+                            <strong>Weight:</strong> Medium (500)<br>
+                            <strong>Letter-spacing:</strong> 5%<br>
+                            <strong>Transform:</strong> Uppercase
+                        </div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Hero Title</div>
+                        <div class="hero-title-sample">Title Sample</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Main page titles and hero headings<br>
+                            <strong>Size:</strong> 48–96px (responsive)<br>
+                            <strong>Weight:</strong> Light (300)<br>
+                            <strong>Letter-spacing:</strong> -2%<br>
+                            <strong>Line-height:</strong> 0.9
+                        </div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Subtitle</div>
+                        <div class="subtitle-sample">Subtitle Sample</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Hero subtitles and supporting text<br>
+                            <strong>Size:</strong> 18–32px (responsive)<br>
+                            <strong>Weight:</strong> Regular (400)<br>
+                            <strong>Line-height:</strong> 1.5
+                        </div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Section Title</div>
+                        <div class="section-title-sample">Section Title</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Main section headings throughout pages<br>
+                            <strong>Size:</strong> 36–48px (responsive)<br>
+                            <strong>Weight:</strong> Light (300)<br>
+                            <strong>Letter-spacing:</strong> -2%<br>
+                            <strong>Line-height:</strong> 1.2
+                        </div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Section Subtitle</div>
+                        <div class="section-subtitle-sample">Supporting information for sections</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Section descriptions below section titles<br>
+                            <strong>Size:</strong> 16px<br>
+                            <strong>Weight:</strong> Regular (400)<br>
+                            <strong>Line-height:</strong> 1.7
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: All Headings + Body Text -->
+                <div class="typography-column">
                     <div class="type-sample">
                         <div class="type-label">Heading 1</div>
                         <div class="h1-sample">The quick brown fox</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Primary section headings<br>
+                            <strong>Size:</strong> 32–48px (responsive)<br>
+                            <strong>Weight:</strong> Light (300)<br>
+                            <strong>Letter-spacing:</strong> -2%<br>
+                            <strong>Line-height:</strong> 1.2
+                        </div>
                     </div>
 
                     <div class="type-sample">
                         <div class="type-label">Heading 2</div>
                         <div class="h2-sample">The quick brown fox</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Secondary section headings<br>
+                            <strong>Size:</strong> 24–32px (responsive)<br>
+                            <strong>Weight:</strong> Regular (400)<br>
+                            <strong>Letter-spacing:</strong> -1%<br>
+                            <strong>Line-height:</strong> 1.3
+                        </div>
                     </div>
 
                     <div class="type-sample">
                         <div class="type-label">Heading 3</div>
                         <div class="h3-sample">The quick brown fox</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Subsection headings<br>
+                            <strong>Size:</strong> 20–24px (responsive)<br>
+                            <strong>Weight:</strong> Medium (500)<br>
+                            <strong>Line-height:</strong> 1.4
+                        </div>
                     </div>
-                </div>
 
-                <div>
+                    <div class="type-sample">
+                        <div class="type-label">Heading 4</div>
+                        <div class="h4-sample">The quick brown fox</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Card titles and minor headings<br>
+                            <strong>Size:</strong> 18–20px (responsive)<br>
+                            <strong>Weight:</strong> Medium (500)<br>
+                            <strong>Line-height:</strong> 1.4
+                        </div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Heading 5</div>
+                        <div class="h5-sample">The quick brown fox</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Component headings<br>
+                            <strong>Size:</strong> 16–18px (responsive)<br>
+                            <strong>Weight:</strong> Semi-Bold (600)<br>
+                            <strong>Line-height:</strong> 1.5
+                        </div>
+                    </div>
+
+                    <div class="type-sample">
+                        <div class="type-label">Heading 6</div>
+                        <div class="h6-sample">The quick brown fox</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Labels and small headings<br>
+                            <strong>Size:</strong> 14–16px (responsive)<br>
+                            <strong>Weight:</strong> Semi-Bold (600)<br>
+                            <strong>Line-height:</strong> 1.5
+                        </div>
+                    </div>
+
                     <div class="type-sample">
                         <div class="type-label">Body Text</div>
                         <div class="body-sample">Good design is invisible. It creates an intuitive experience that feels natural and effortless. Every element should serve a purpose, contributing to a cohesive and meaningful user journey.</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Paragraphs and main content<br>
+                            <strong>Size:</strong> 16px (desktop), 12px (mobile)<br>
+                            <strong>Weight:</strong> Regular (400)<br>
+                            <strong>Line-height:</strong> 1.7
+                        </div>
                     </div>
 
                     <div class="type-sample">
                         <div class="type-label">Small Text</div>
                         <div class="small-sample">Supporting information and captions</div>
+                        <div class="type-spec">
+                            <strong>Usage:</strong> Captions and supporting information<br>
+                            <strong>Size:</strong> 14px<br>
+                            <strong>Weight:</strong> Regular (400)<br>
+                            <strong>Line-height:</strong> 1.6
+                        </div>
                     </div>
                 </div>
             </div>

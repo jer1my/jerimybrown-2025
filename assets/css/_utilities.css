@@ -500,7 +500,20 @@ body[data-theme="dark"] .nav {
     .text-6xl { font-size: 4.6875rem; }
 
     .body-sample {
-        font-size: 12px;
+        font-size: var(--typo-body-size-mobile);
+    }
+
+    .font-info {
+        font-size: var(--typo-body-size-mobile);
+    }
+
+    .ligature-demo {
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .ligature-text {
+        font-size: 24px;
     }
 
     .font-description-grid {
@@ -512,7 +525,12 @@ body[data-theme="dark"] .nav {
         grid-template-columns: 1fr;
         gap: 0;
     }
-    
+
+    .typography-layout {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
     .color-section-grid {
         grid-template-columns: 1fr;
         gap: 32px;

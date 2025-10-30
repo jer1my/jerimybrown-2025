@@ -22,6 +22,9 @@ body {
     font-size: var(--font-size-base);
     transition: background-color var(--transition-base), color var(--transition-base);
     overflow-x: hidden;
+    /* Enable ligatures */
+    font-variant-ligatures: common-ligatures contextual;
+    font-feature-settings: "liga" 1, "clig" 1;
 }
 
 /* Text Selection */
