@@ -80,6 +80,11 @@ All typography is standardized using CSS custom properties in `_variables.css`. 
 --typo-small-size: 14px
 --typo-small-weight: 400 (Regular)
 --typo-small-line-height: 1.6
+
+/* Type Label */
+--typo-label-size: 14px
+--typo-label-weight: 500 (Medium)
+--typo-label-spacing: 0.05em
 ```
 
 **Usage:**

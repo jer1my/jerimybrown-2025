@@ -803,17 +803,17 @@ body[data-theme="dark"] .logo-dark {
 
 /* Typography Samples */
 .type-sample {
-    margin-bottom: 32px;
-    padding-bottom: 32px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
 }
 
 .type-label {
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--typo-label-size);
+    font-weight: var(--typo-label-weight);
     color: var(--text-secondary);
     margin-bottom: var(--space-2);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--typo-label-spacing);
 }
 
 .hero-title-sample {
@@ -835,7 +835,7 @@ body[data-theme="dark"] .logo-dark {
     font-weight: var(--typo-section-title-weight);
     letter-spacing: var(--typo-section-title-spacing);
     line-height: var(--typo-section-title-line-height);
-    text-align: center;
+    text-align: left;
 }
 
 .section-subtitle-sample {
@@ -843,7 +843,7 @@ body[data-theme="dark"] .logo-dark {
     font-weight: var(--typo-section-subtitle-weight);
     line-height: var(--typo-section-subtitle-line-height);
     color: var(--text-primary);
-    text-align: center;
+    text-align: left;
 }
 
 .h1-sample {
