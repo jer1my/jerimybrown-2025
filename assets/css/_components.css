@@ -197,7 +197,7 @@ body[data-theme="dark"] .section-subtitle {
 }
 
 .btn-accent {
-    background: #15B5FF;
+    background: var(--color-accent-cool);
     color: white;
     border: 2px solid transparent;
     backdrop-filter: blur(10px);
@@ -209,7 +209,7 @@ body[data-theme="dark"] .section-subtitle {
 .btn-accent:hover {
     background: transparent;
     color: #1a1a1a;
-    border-color: #15B5FF;
+    border-color: var(--color-accent-cool);
 }
 
 body[data-theme="dark"] .btn-accent {
@@ -376,7 +376,7 @@ body[data-theme="dark"] .btn-arrow-filled:hover svg path {
 }
 
 .grid-demo-accent {
-    background: #15B5FF;
+    background: var(--color-accent-cool);
     color: white;
     padding: 1rem;
     border-radius: 8px;
@@ -650,6 +650,36 @@ body[data-theme="dark"] .nav-prev-next-title {
     /* Tighter gap on mobile */
     .project-navigation .projects-grid {
         gap: 16px;
+    }
+}
+
+/* Lab Page Specific Components */
+
+/* Wave Slider Container */
+.wave-slider-container {
+    margin-bottom: 120px;
+    display: flex;
+    justify-content: center;
+}
+
+.wave-slider {
+    width: min(500px, 100%);
+}
+
+/* Interactive Checkbox Label */
+.interactive-checkbox-label {
+    gap: 12px;
+    justify-content: flex-start;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .wave-slider-container {
+        margin-bottom: 80px;
+    }
+
+    .wave-slider {
+        width: 100%;
     }
 }
 
