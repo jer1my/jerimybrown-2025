@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1761871998">
+    <link rel="stylesheet" href="assets/css/main.css?v=1761876380">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -147,8 +147,8 @@
                             <div class="grid-opacity-slider-container" id="gridOpacitySliderContainer">
                                 <div class="control-label">Opacity</div>
                                 <div class="slider-with-value">
-                                    <input type="range" id="gridOpacitySlider" min="40" max="100" value="40" step="1" class="particle-slider">
-                                    <span class="slider-value" id="gridOpacityValue">40</span>
+                                    <input type="range" id="gridOpacitySlider" min="20" max="100" value="20" step="1" class="particle-slider">
+                                    <span class="slider-value" id="gridOpacityValue">20</span>
                                 </div>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                                 </div>
                             </div>
 
-                            <p style="margin-top: 24px;"><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link">View on Google Fonts →</a></p>
+                            <p style="margin-top: 24px;"><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link">View on Google Fonts ↗</a></p>
                         </div>
                     </div>
 
@@ -541,7 +541,8 @@
                         <div class="type-label">Interactive Elements</div>
                         <div style="display: flex; flex-direction: column; gap: 24px; align-items: flex-start;">
                             <a href="#" class="accent-link" style="margin: 0;">Primary underline effect</a>
-                            <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link" style="margin: 0;">External link →</a>
+                            <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="accent-link-arrow" style="margin: 0;">Primary underline with arrow →</a>
+                            <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link" style="margin: 0;">External link ↗</a>
                             <label class="particle-control-label remember-me-label" style="gap: 12px; justify-content: flex-start; margin: 0;">
                                 <span>Checkbox</span>
                                 <input type="checkbox" id="labCheckbox" class="remember-me-checkbox">
@@ -641,8 +642,8 @@
                     <div class="grid-opacity-slider-container" id="gridOpacitySliderContainerLocal">
                         <div class="control-label">Opacity</div>
                         <div class="slider-with-value">
-                            <input type="range" id="gridOpacitySliderLocal" min="40" max="100" value="40" step="1" class="particle-slider">
-                            <span class="slider-value" id="gridOpacityValueLocal">40</span>
+                            <input type="range" id="gridOpacitySliderLocal" min="20" max="100" value="20" step="1" class="particle-slider">
+                            <span class="slider-value" id="gridOpacityValueLocal">20</span>
                         </div>
                     </div>
                 </div>
@@ -818,7 +819,7 @@
         const gridLinesOverlay = document.getElementById('gridLinesOverlay');
 
         // Load saved grid opacity or use default
-        const savedGridOpacity = localStorage.getItem('gridOpacity') || '40';
+        const savedGridOpacity = localStorage.getItem('gridOpacity') || '20';
 
         // Set initial opacity values
         if (gridOpacitySlider) gridOpacitySlider.value = savedGridOpacity;

@@ -116,24 +116,32 @@ All link styles are standardized using CSS custom properties in `_variables.css`
 
 **Standard Link Components:**
 
-1. **Primary Link (`.accent-link`)** - Standard internal link with animated underline
+1. **Accent Link (`.accent-link`)** - Standard link with animated underline
    - Color changes based on theme (cool blue in light, warm orange in dark)
    - Underline animates from left to right on hover
-   - Text fades to 50% opacity on hover
-   - Usage: Internal navigation, section links
+   - Text fades to 50% opacity on hover using `color-mix()`
+   - Usage: Internal navigation, section links, primary CTAs
 
-2. **External Link (`.external-link`)** - For external resources
-   - Same styling as primary link but semantic distinction
-   - Should include arrow symbol (→) in text
-   - Usage: External websites, documentation links
+2. **Accent Link with Arrow (`.accent-link-arrow`)** - Navigation link with right arrow
+   - Same styling as accent link with right-pointing arrow (→)
+   - Arrow included in link text
+   - Usage: "Read more" links, case study links, directional navigation
+
+3. **External Link (`.external-link`)** - For external resources opening in new tab
+   - Same styling as accent link with 45-degree arrow (↗)
+   - Arrow included in link text
+   - Usage: External websites, documentation links, resources that open in new window
 
 **Usage:**
 ```html
-<!-- Primary Link -->
+<!-- Accent Link -->
 <a href="#section" class="accent-link">Internal link</a>
 
+<!-- Accent Link with Arrow -->
+<a href="/case-study" class="accent-link-arrow">Read the case study →</a>
+
 <!-- External Link -->
-<a href="https://example.com" target="_blank" class="external-link">External link →</a>
+<a href="https://example.com" target="_blank" class="external-link">View documentation ↗</a>
 ```
 
 ## Color Palette

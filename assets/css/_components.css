@@ -31,7 +31,36 @@
     width: 100%;
 }
 
-/* External Link Component (with arrow) */
+/* Accent Link with Arrow Component (with right arrow) */
+.accent-link-arrow {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: var(--link-font-weight);
+    position: relative;
+    display: inline-block;
+    transition: color var(--link-transition);
+}
+
+.accent-link-arrow::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: var(--link-underline-height);
+    bottom: var(--link-underline-offset);
+    left: 0;
+    background: var(--link-color);
+    transition: width var(--link-transition);
+}
+
+.accent-link-arrow:hover {
+    color: color-mix(in srgb, var(--link-color) 50%, transparent);
+}
+
+.accent-link-arrow:hover::after {
+    width: 100%;
+}
+
+/* External Link Component (with 45° arrow) */
 .external-link {
     color: var(--link-color);
     text-decoration: none;
