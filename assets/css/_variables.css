@@ -132,6 +132,14 @@
   --typo-label-weight: var(--font-weight-medium);
   --typo-label-spacing: 0.05em;
 
+  /* Link Styles */
+  --link-color: var(--color-accent);
+  --link-hover-opacity: 0.5;
+  --link-underline-height: 2px;
+  --link-underline-offset: -2px;
+  --link-transition: 0.3s ease;
+  --link-font-weight: var(--font-weight-medium);
+
   /* Spacing Scale */
   --space-1: 4px;
   --space-2: 8px;
@@ -211,8 +219,9 @@
 }
 
 /* Dark Theme Variables */
-[data-theme="dark"] {
+body[data-theme="dark"] {
   --color-accent: var(--color-accent-warm);
+  --link-color: var(--color-accent-warm);
   --text-primary: #e0e0e0;
   --text-secondary: #a3a3a3;
   --text-tertiary: #737373;

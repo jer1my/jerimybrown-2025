@@ -27,6 +27,8 @@
 
 /* Dark Mode */
 [data-theme="dark"] {
+    --color-accent: var(--color-accent-warm);
+    --link-color: var(--color-accent-warm);
     background: var(--bg-primary);
     color: var(--text-primary);
 }
@@ -42,36 +44,36 @@
 [data-theme="dark"] .nav-links a::after,
 [data-theme="dark"] .project-link::after,
 [data-theme="dark"] .interactive-text::after {
-    background: #ea580c;
+    background: var(--color-accent);
 }
 
 [data-theme="dark"] .interactive-text {
-    color: #ea580c;
+    color: var(--color-accent);
 }
 
 [data-theme="dark"] .interactive-text:hover {
-    color: rgba(234, 88, 12, 0.5);
+    color: color-mix(in srgb, var(--color-accent) 50%, transparent);
 }
 
 [data-theme="dark"] .project-link {
-    color: #ea580c;
+    color: var(--color-accent);
 }
 [data-theme="dark"] .project-card-featured .project-link-text {
-    color: #ea580c;
+    color: var(--color-accent);
 }
 
 [data-theme="dark"] .project-card-featured .project-link-text::after {
-    background: #ea580c;
+    background: var(--color-accent);
 }
 
 [data-theme="dark"] .project-image {
-    background: rgba(234, 88, 12, 0.1);
-    color: #ea580c;
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent);
 }
 
 [data-theme="dark"] .about-image {
-    background: rgba(234, 88, 12, 0.1);
-    color: #ea580c;
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent);
 }
 
 [data-theme="dark"] .theme-toggle {
@@ -101,7 +103,7 @@ body[data-theme="dark"] .nav {
 
 
 [data-theme="dark"] .mobile-nav a::after {
-    background: #ea580c;
+    background: var(--color-accent);
 }
 
 [data-theme="dark"] .scroll-arrow svg .arrow-group path {
@@ -156,7 +158,7 @@ body[data-theme="dark"] .nav {
 }
 
 [data-theme="dark"] .grid-demo-accent {
-    background: #ea580c;
+    background: var(--color-accent);
     color: white;
 }
 
@@ -226,13 +228,6 @@ body[data-theme="dark"] .nav {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-[data-theme="dark"] .font-link {
-    color: #ea580c;
-}
-
-[data-theme="dark"] .font-link::after {
-    background: #ea580c;
-}
 
 /* Grid Lines Debug Feature */
 .grid-lines-overlay {
