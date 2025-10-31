@@ -23,7 +23,7 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css?v=1761876380">
+    <link rel="stylesheet" href="assets/css/main.css?v=1761930258">
     <style>
         /* Critical inline styles to prevent navigation flash on first load
            These must stay inline to override external CSS before it loads */
@@ -109,9 +109,9 @@
         </header>
         
         <section class="section">
-            <h2 class="section-title" id="userControlsTitle" style="margin-bottom: 12px;">User Controls</h2>
-            <div style="margin-bottom: 120px; display: flex; justify-content: center;">
-                <input type="range" id="titleWaveSlider" min="0" max="100" value="0" class="particle-slider" style="width: 500px;">
+            <h2 class="section-title mb-3" id="userControlsTitle">User Controls</h2>
+            <div class="wave-slider-container">
+                <input type="range" id="titleWaveSlider" min="0" max="100" value="0" class="particle-slider wave-slider">
             </div>
             <div class="user-controls-description-grid">
                 <div class="user-controls-description">
@@ -195,7 +195,7 @@
                                 </div>
                             </div>
 
-                            <p style="margin-top: 24px;"><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link">View on Google Fonts ↗</a></p>
+                            <p class="mt-6"><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link">View on Google Fonts ↗</a></p>
                         </div>
                     </div>
 
@@ -492,7 +492,7 @@
             <div class="component-grid">
                 <div>
                     <div class="type-label">Buttons</div>
-                    <div style="margin-bottom: 24px;">
+                    <div class="mb-6">
                         <a href="#" class="button btn-primary">Primary Button</a>
                         <a href="#" class="button btn-secondary">Secondary Button</a>
                         <button class="button btn-sm btn-accent">Accent Button</button>
@@ -501,7 +501,7 @@
 
                 <div>
                     <div class="type-label">Arrow Buttons</div>
-                    <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+                    <div class="flex-wrap-gap-6">
                         <!-- Down Arrow (Large) -->
                         <button class="btn-arrow btn-arrow-lg">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -533,17 +533,17 @@
                 </div>
             </div>
 
-            <div style="margin-top: 48px;">
+            <div class="mt-12">
                 <!-- Two Column: Interactive Elements (left) and Selectors (right) -->
                 <div class="component-grid">
                     <!-- Left Column: Interactive Elements -->
                     <div>
                         <div class="type-label">Interactive Elements</div>
-                        <div style="display: flex; flex-direction: column; gap: 24px; align-items: flex-start;">
-                            <a href="#" class="accent-link" style="margin: 0;">Primary underline effect</a>
-                            <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="accent-link-arrow" style="margin: 0;">Primary underline with arrow →</a>
-                            <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link" style="margin: 0;">External link ↗</a>
-                            <label class="particle-control-label remember-me-label" style="gap: 12px; justify-content: flex-start; margin: 0;">
+                        <div class="flex-column-gap-6">
+                            <a href="#" class="accent-link m-0">Primary underline effect</a>
+                            <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="accent-link-arrow m-0">Primary underline with arrow →</a>
+                            <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" class="external-link m-0">External link ↗</a>
+                            <label class="particle-control-label remember-me-label interactive-checkbox-label">
                                 <span>Checkbox</span>
                                 <input type="checkbox" id="labCheckbox" class="remember-me-checkbox">
                             </label>
@@ -555,7 +555,7 @@
                         <div class="type-label">Selectors</div>
 
                         <!-- Toggle Selector -->
-                        <div class="particle-control-group" style="margin-bottom: 32px;">
+                        <div class="particle-control-group mb-8">
                             <label class="particle-control-label">Toggle Selector</label>
                             <div class="particle-slider-toggle" id="labPillToggle">
                                 <div class="slider-toggle-pill"></div>
@@ -586,7 +586,7 @@
                 </div>
             </div>
 
-            <div style="margin-top: 48px;">
+            <div class="mt-12">
                 <div class="type-label">Cards</div>
                 <div class="projects-grid">
                         <a href="#" class="project-card-link" aria-label="Sample interactive card">
@@ -612,7 +612,7 @@
                     </div>
             </div>
 
-            <div style="margin-top: 48px;">
+            <div class="mt-12">
                 <div class="type-label">Previous and Next</div>
                 <div class="projects-grid">
                         <a href="#" class="nav-prev-next align-left">
@@ -630,7 +630,7 @@
         <section class="section">
             <h2 class="section-title">Grid System</h2>
             <!-- Grid Toggle Button with Opacity Slider -->
-            <div class="grid-controls-centered" style="margin-bottom: 32px;">
+            <div class="grid-controls-centered mb-8">
                 <div class="grid-controls-wrapper-inline">
                     <div class="grid-toggle-container">
                         <div class="control-label">Grid</div>

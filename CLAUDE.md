@@ -201,7 +201,27 @@ By inverting color temperature relative to the background, each theme maintains 
 
 **Modular Spacing Scale:**
 - xs: 4px, sm: 8px, md: 16px, lg: 24px, xl: 48px, xxl: 80px
-- Margin/padding utilities: `.m-{size}`, `.p-{size}`, `.mt-{size}`, etc.
+
+**Spacing Utilities:**
+
+Available margin utilities (replace inline styles with these):
+- `.m-0` - margin: 0
+- `.mb-3` - margin-bottom: 12px
+- `.mb-4` - margin-bottom: 16px
+- `.mb-6` - margin-bottom: 24px
+- `.mb-8` - margin-bottom: 32px
+- `.mb-12` - margin-bottom: 48px
+- `.mb-30` - margin-bottom: 120px
+- `.mt-6` - margin-top: 24px
+- `.mt-8` - margin-top: 32px
+- `.mt-12` - margin-top: 48px
+
+**Layout Utilities:**
+
+Flexbox utilities (replace inline flex styles with these):
+- `.flex-center` - Centers content horizontally with flexbox
+- `.flex-column-gap-6` - Vertical flex column with 24px gap, left-aligned
+- `.flex-wrap-gap-6` - Horizontal flex with 24px gap and wrapping
 
 **Grid System:**
 - CSS Grid with `.grid`, `.grid-cols-{n}`, `.col-span-{n}`
@@ -377,6 +397,13 @@ Color: Theme-appropriate accent color
 Transition: width 0.3s ease
 ```
 
+**Lab Page Components:**
+```css
+.wave-slider-container: Centers slider with 120px bottom margin (80px mobile)
+.wave-slider: Responsive slider with width: min(500px, 100%)
+.interactive-checkbox-label: Checkbox label with 12px gap and left alignment
+```
+
 ## Portfolio Construction Guidelines
 
 **Page Structure:**
@@ -409,6 +436,31 @@ Transition: width 0.3s ease
 - Maintain consistent voice and tone
 - Include case studies with problem/solution structure
 - Showcase diverse project types and skills
+
+## Coding Best Practices
+
+**Avoid Inline Styles:**
+- NEVER use inline `style=""` attributes in HTML
+- Use utility classes from `_utilities.css` for spacing, layout, and common patterns
+- Create component classes in `_components.css` for reusable patterns
+- Inline styles prevent responsive adjustments and theme switching
+
+**Use CSS Variables:**
+- ALWAYS use CSS variables instead of hardcoded color values
+- Use `var(--color-accent-cool)` instead of `#15B5FF`
+- Use `var(--color-accent-warm)` instead of `#ea580c`
+- This ensures proper theme switching and maintains consistency
+- Reference the complete variable list in `_variables.css`
+
+**Responsive Patterns:**
+- Use `min()` function for responsive sizing: `width: min(500px, 100%)`
+- Use `clamp()` for responsive typography (already defined in variables)
+- Prefer CSS Grid and Flexbox utilities over custom inline styles
+
+**Component Reusability:**
+- If a pattern appears more than once, create a reusable class
+- Document new components in this file for future reference
+- Keep lab-specific components in a dedicated section of `_components.css`
 
 ## Implementation Notes
 
