@@ -111,22 +111,27 @@
 }
 
 .project-link {
-    color: #15B5FF;
+    color: var(--link-color);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: var(--link-font-weight);
     position: relative;
     margin-top: auto;
+    transition: color var(--link-transition);
 }
 
 .project-link::after {
     content: '';
     position: absolute;
     width: 0;
-    height: 2px;
-    bottom: -2px;
+    height: var(--link-underline-height);
+    bottom: var(--link-underline-offset);
     left: 0;
-    background: #15B5FF;
-    transition: width 0.3s ease;
+    background: var(--link-color);
+    transition: width var(--link-transition);
+}
+
+.project-link:hover {
+    color: color-mix(in srgb, var(--link-color) 50%, transparent);
 }
 
 .project-link:hover::after {
@@ -978,21 +983,26 @@ body[data-theme="dark"] .logo-dark {
 }
 
 .font-link {
-    color: #15B5FF;
+    color: var(--link-color);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: var(--link-font-weight);
     position: relative;
+    transition: color var(--link-transition);
 }
 
 .font-link::after {
     content: '';
     position: absolute;
     width: 0;
-    height: 2px;
-    bottom: -2px;
+    height: var(--link-underline-height);
+    bottom: var(--link-underline-offset);
     left: 0;
-    background: #15B5FF;
-    transition: width 0.3s ease;
+    background: var(--link-color);
+    transition: width var(--link-transition);
+}
+
+.font-link:hover {
+    color: color-mix(in srgb, var(--link-color) 50%, transparent);
 }
 
 .font-link:hover::after {

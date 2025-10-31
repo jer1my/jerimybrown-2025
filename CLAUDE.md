@@ -98,6 +98,44 @@ All typography elements use these variables for consistency. To apply typography
 }
 ```
 
+## Link Styles
+
+**Link System - CSS Variables:**
+
+All link styles are standardized using CSS custom properties in `_variables.css`:
+
+```css
+/* Link Styles */
+--link-color: var(--color-accent)
+--link-hover-opacity: 0.5
+--link-underline-height: 2px
+--link-underline-offset: -2px
+--link-transition: 0.3s ease
+--link-font-weight: 500 (Medium)
+```
+
+**Standard Link Components:**
+
+1. **Primary Link (`.accent-link`)** - Standard internal link with animated underline
+   - Color changes based on theme (cool blue in light, warm orange in dark)
+   - Underline animates from left to right on hover
+   - Text fades to 50% opacity on hover
+   - Usage: Internal navigation, section links
+
+2. **External Link (`.external-link`)** - For external resources
+   - Same styling as primary link but semantic distinction
+   - Should include arrow symbol (→) in text
+   - Usage: External websites, documentation links
+
+**Usage:**
+```html
+<!-- Primary Link -->
+<a href="#section" class="accent-link">Internal link</a>
+
+<!-- External Link -->
+<a href="https://example.com" target="_blank" class="external-link">External link →</a>
+```
+
 ## Color Palette
 
 **Primary Colors:**
@@ -197,6 +235,113 @@ By inverting color temperature relative to the background, each theme maintains 
 **Theme Toggle:**
 - 32pxx32px top-right fixed position
 - Icons: `/assets/icons/moon-outlined.svg` (light mode), `/assets/icons/sun-outlined.svg` (dark mode)
+
+### CSS Variable Architecture & Theme Switching
+
+**CRITICAL: Understanding Variable Cascading**
+
+CSS variables that reference other variables do NOT automatically re-evaluate when the referenced variable changes. This is crucial for theme switching.
+
+**Correct Implementation:**
+```css
+/* ❌ INCORRECT - Won't work for theme switching */
+:root {
+  --color-accent: var(--color-accent-cool);
+  --link-color: var(--color-accent); /* This locks to the initial value */
+}
+
+body[data-theme="dark"] {
+  --color-accent: var(--color-accent-warm); /* Only updates accent, NOT link-color */
+}
+
+/* ✅ CORRECT - Explicitly override dependent variables */
+:root {
+  --color-accent: var(--color-accent-cool);
+  --link-color: var(--color-accent);
+}
+
+body[data-theme="dark"] {
+  --color-accent: var(--color-accent-warm);
+  --link-color: var(--color-accent-warm); /* Must explicitly override */
+}
+```
+
+**Theme Variable Override Locations:**
+
+Variables must be overridden in BOTH locations due to CSS cascade order:
+
+1. **`_variables.css`** (line ~222) - Base dark theme overrides
+   ```css
+   body[data-theme="dark"] {
+     --color-accent: var(--color-accent-warm);
+     --link-color: var(--color-accent-warm);
+     /* ... other overrides */
+   }
+   ```
+
+2. **`_utilities.css`** (line ~29) - Final dark theme overrides (loads last)
+   ```css
+   [data-theme="dark"] {
+     --color-accent: var(--color-accent-warm);
+     --link-color: var(--color-accent-warm);
+     /* ... other overrides */
+   }
+   ```
+
+**Why Both Locations?**
+- `_utilities.css` loads LAST in the cascade (see main.css import order)
+- This ensures theme variables have highest specificity
+- If you only update in `_variables.css`, hardcoded values elsewhere may override
+
+**When Adding New Theme-Aware Colors:**
+1. Define base color variable in `:root`
+2. If it references another variable, add it to BOTH dark theme blocks
+3. Use variables instead of hardcoded hex values in components
+4. Test in both light AND dark modes
+
+**Example - Adding a New Themed Element:**
+```css
+/* Step 1: Define in :root (_variables.css) */
+:root {
+  --button-accent: var(--color-accent);
+}
+
+/* Step 2: Override in BOTH dark theme blocks */
+body[data-theme="dark"] {  /* _variables.css */
+  --button-accent: var(--color-accent-warm);
+}
+
+[data-theme="dark"] {  /* _utilities.css */
+  --button-accent: var(--color-accent-warm);
+}
+
+/* Step 3: Use in components */
+.my-button {
+  background: var(--button-accent); /* ✅ Will switch with theme */
+  /* NOT: background: #15B5FF; ❌ Won't switch with theme */
+}
+```
+
+**Common Pitfalls to Avoid:**
+
+1. ❌ **Never use hardcoded hex colors in components**
+   - Bad: `.link { color: #15B5FF; }`
+   - Good: `.link { color: var(--link-color); }`
+
+2. ❌ **Don't use `rgba()` with hardcoded RGB values**
+   - Bad: `.element { color: rgba(21, 181, 255, 0.5); }`
+   - Good: `.element { color: color-mix(in srgb, var(--link-color) 50%, transparent); }`
+
+3. ❌ **Don't create theme-specific selectors for colors**
+   - Bad: `body[data-theme="dark"] .link { color: #ea580c; }`
+   - Good: Use variables that auto-switch: `.link { color: var(--link-color); }`
+
+4. ✅ **Always use CSS variables for any color that should respond to theme**
+   - Links, buttons, borders, backgrounds, shadows with color
+
+5. ✅ **The lab page (`lab.html`) is the source of truth**
+   - All colors on the lab page use variables
+   - Use it as reference when building new components
 
 ## Component Library
 
