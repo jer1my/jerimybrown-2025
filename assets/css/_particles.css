@@ -85,29 +85,29 @@
    7s cycle: first 22% idle (~1.5s), bounce 23-38%, rest until 100% */
 @keyframes hamburger-push-bottom {
     0%, 22%, 36%, 100% { transform: none; }
-    25% { transform: translateY(-10px); }
-    28% { transform: translateY(-1px); }
-    30% { transform: translateY(-5px); }
+    25% { transform: translateY(-18px); }
+    28% { transform: translateY(-2px); }
+    30% { transform: translateY(-9px); }
     33% { transform: translateY(-1px); }
-    34% { transform: translateY(-2px); }
+    34% { transform: translateY(-4px); }
 }
 
 @keyframes hamburger-push-middle {
     0%, 22%, 37%, 100% { transform: none; }
-    26% { transform: translateY(-8px); }
-    29% { transform: translateY(-1px); }
-    31% { transform: translateY(-4px); }
+    26% { transform: translateY(-14px); }
+    29% { transform: translateY(-2px); }
+    31% { transform: translateY(-7px); }
     34% { transform: translateY(-1px); }
-    35% { transform: translateY(-2px); }
+    35% { transform: translateY(-3px); }
 }
 
 @keyframes hamburger-push-top {
     0%, 22%, 38%, 100% { transform: none; }
-    27% { transform: translateY(-12px); }
-    30% { transform: translateY(-1px); }
-    32% { transform: translateY(-6px); }
+    27% { transform: translateY(-20px); }
+    30% { transform: translateY(-2px); }
+    32% { transform: translateY(-10px); }
     35% { transform: translateY(-1px); }
-    36% { transform: translateY(-3px); }
+    36% { transform: translateY(-5px); }
 }
 
 .particle-controls:not(.expanded) .hamburger-bar-sm:nth-child(1) {
