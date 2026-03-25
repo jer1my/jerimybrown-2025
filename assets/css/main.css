@@ -18,28 +18,28 @@
  */
 
 /* Foundation Layer */
-@import '_variables.css';
-@import '_base.css';
+@import '_variables.css?v=20260325';
+@import '_base.css?v=20260325';
 
 /* Navigation & UI Shell */
-@import '_navigation.css';
-@import '_hero.css';
+@import '_navigation.css?v=20260325';
+@import '_hero.css?v=20260325';
 
 /* Interactive Features */
-@import '_particles.css';
+@import '_particles.css?v=20260325';
 
 /* Component Library */
-@import '_components.css';
-@import '_carousels.css';
+@import '_components.css?v=20260325';
+@import '_carousels.css?v=20260325';
 
 /* Content Sections */
-@import '_sections.css';
+@import '_sections.css?v=20260325';
 
 /* Page-Specific Styles */
-@import '_project-pages.css';
+@import '_project-pages.css?v=20260325';
 
 /* Specialized Features */
-@import '_charts.css';
+@import '_charts.css?v=20260325';
 
 /* Utilities & Overrides (must be last) */
-@import '_utilities.css';
+@import '_utilities.css?v=20260325';

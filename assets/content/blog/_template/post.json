@@ -1,0 +1,11 @@
+{
+  "id": "blog-000",
+  "title": "Post Title Here",
+  "slug": "post-slug-here",
+  "datePublished": "2026-01-01",
+  "category": "process",
+  "excerpt": "A brief summary that appears on the blog listing page.",
+  "order": 1,
+  "relatedItem": null,
+  "content": "<p>Write your post content here using standard HTML.</p>\n<p>You can use any HTML elements — paragraphs, headings, lists, images, links, etc.</p>\n<h2>Subheadings</h2>\n<p>Use h2 and h3 for section breaks within your post. The post title is already rendered as h1 by the template.</p>"
+}

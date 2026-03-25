@@ -31,6 +31,12 @@ pids
 *.tmp
 *.temp
 
+# Source PNGs (only WebP files needed on server)
+assets/content/blog/**/*.png
+
+# Package lock
+package-lock.json
+
 # Tool configurations
 .claude/
 .playwright-mcp/

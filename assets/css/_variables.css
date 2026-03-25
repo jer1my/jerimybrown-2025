@@ -202,6 +202,12 @@
   --z-tooltip: 600;
   --z-toast: 700;
 
+  /* Product Carousel */
+  --product-carousel-arrow-size: 40px;
+  --product-carousel-arrow-bg: var(--bg-primary);
+  --product-carousel-transition: transform 0.5s var(--transition-cubic);
+  --product-thumb-inactive-opacity: 0.5;
+
   /* Grid Toggle Variables */
   --grid-toggle-width: 56px;
   --grid-toggle-height: 24px;
