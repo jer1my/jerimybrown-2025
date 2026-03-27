@@ -1224,6 +1224,11 @@ body[data-theme="dark"] .product-thumbnail-strip__bg {
     border-color: var(--color-accent);
 }
 
+#clear-filters {
+    align-self: center;
+    margin: 0;
+}
+
 body[data-theme="dark"] .blog-filter-group select {
     background: var(--color-neutral-800);
     border-color: var(--color-neutral-600);
