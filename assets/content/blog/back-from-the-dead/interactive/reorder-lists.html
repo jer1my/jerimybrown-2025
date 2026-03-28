@@ -446,6 +446,7 @@
       cursor: grab;
       color: var(--text-tertiary);
       transition: color var(--transition-fast);
+      touch-action: none;
     }
     .drag-handle:hover {
       color: var(--text-secondary);
@@ -889,31 +890,40 @@
       const containerRef = useRef(null);
       const itemRefs = useRef([]);
 
-      const handleMouseDown = (e, index) => {
+      const getPointerPos = (e) => {
+        if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        if (e.changedTouches && e.changedTouches.length > 0) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+        return { x: e.clientX, y: e.clientY };
+      };
+
+      const handlePointerDown = (e, index) => {
         if (!e.target.closest('.drag-handle')) return;
         if (isAnimating.current) return;
         e.preventDefault();
         const rect = itemRefs.current[index]?.getBoundingClientRect();
         if (!rect) return;
+        const pos = getPointerPos(e);
         setDraggedIndex(index);
         setTargetIndex(index);
         setItemWidth(rect.width);
-        setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        setDragOffset({ x: pos.x - rect.left, y: pos.y - rect.top });
         setDragPosition({ x: rect.left, y: rect.top });
       };
 
-      const handleMouseMove = useCallback((e) => {
+      const handlePointerMove = useCallback((e) => {
         if (draggedIndex === null) return;
-        setDragPosition({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y });
+        e.preventDefault();
+        const pos = getPointerPos(e);
+        setDragPosition({ x: pos.x - dragOffset.x, y: pos.y - dragOffset.y });
         if (!containerRef.current) return;
         const containerRect = containerRef.current.getBoundingClientRect();
-        const relativeY = e.clientY - containerRect.top;
+        const relativeY = pos.y - containerRect.top;
         let newTarget = Math.floor(relativeY / (itemHeight + 4));
         newTarget = Math.max(0, Math.min(items.length - 1, newTarget));
         if (newTarget !== targetIndex) setTargetIndex(newTarget);
       }, [draggedIndex, dragOffset, itemHeight, items.length, targetIndex]);
 
-      const handleMouseUp = useCallback(() => {
+      const handlePointerUp = useCallback((e) => {
         if (draggedIndex === null || targetIndex === null) return;
         if (targetIndex !== draggedIndex) setItems(reorder(items, draggedIndex, targetIndex));
         setDraggedIndex(null);
@@ -935,18 +945,24 @@
 
       useEffect(() => {
         if (draggedIndex !== null) {
-          window.addEventListener('mousemove', handleMouseMove);
-          window.addEventListener('mouseup', handleMouseUp);
+          window.addEventListener('mousemove', handlePointerMove);
+          window.addEventListener('mouseup', handlePointerUp);
+          window.addEventListener('touchmove', handlePointerMove, { passive: false });
+          window.addEventListener('touchend', handlePointerUp);
           document.body.style.userSelect = 'none';
           document.body.style.cursor = 'grabbing';
+          document.body.style.touchAction = 'none';
         }
         return () => {
-          window.removeEventListener('mousemove', handleMouseMove);
-          window.removeEventListener('mouseup', handleMouseUp);
+          window.removeEventListener('mousemove', handlePointerMove);
+          window.removeEventListener('mouseup', handlePointerUp);
+          window.removeEventListener('touchmove', handlePointerMove);
+          window.removeEventListener('touchend', handlePointerUp);
           document.body.style.userSelect = '';
           document.body.style.cursor = '';
+          document.body.style.touchAction = '';
         };
-      }, [draggedIndex, handleMouseMove, handleMouseUp]);
+      }, [draggedIndex, handlePointerMove, handlePointerUp]);
 
       const getItemStyle = (index) => {
         const shiftAmount = itemHeight + 4;
@@ -972,7 +988,7 @@
         return { transition: 'transform 0.2s ease', transform: 'translateY(0)' };
       };
 
-      return { draggedIndex, targetIndex, dragPosition, itemWidth, containerRef, itemRefs, handleMouseDown, getItemStyle, animatedMove, isAnimating: moveFrom !== null };
+      return { draggedIndex, targetIndex, dragPosition, itemWidth, containerRef, itemRefs, handlePointerDown, getItemStyle, animatedMove, isAnimating: moveFrom !== null };
     };
 
     const DragOverlay = ({ item, position, width, children }) => {
@@ -986,11 +1002,12 @@
     // ==========================================
     // Variant 0: PrimeNG-style (Bad UX)
     // ==========================================
-    const VariantOriginal = ({ items, setItems }) => {
+    const VariantOriginal = ({ items, setItems, onInteraction }) => {
       const [selectedIds, setSelectedIds] = useState(new Set());
       const [lastClickedId, setLastClickedId] = useState(null);
 
       const handleItemClick = (e, item) => {
+        if (onInteraction) onInteraction();
         const id = item.id;
         const isShiftKey = e.shiftKey;
         setSelectedIds(prev => {
@@ -1071,10 +1088,11 @@
     // ==========================================
     // Variant 1: Drag & Drop (Good UX)
     // ==========================================
-    const Variant1 = ({ items, setItems }) => {
+    const Variant1 = ({ items, setItems, onInteraction }) => {
       const drag = useDragAndDrop(items, setItems, 68);
 
       const moveItem = (index, direction) => {
+        if (onInteraction) onInteraction();
         if (drag.isAnimating) return;
         let newIndex;
         switch (direction) {
@@ -1087,8 +1105,13 @@
         if (newIndex !== index) drag.animatedMove(index, newIndex);
       };
 
+      const handleDragStart = (e, index) => {
+        if (onInteraction) onInteraction();
+        drag.handlePointerDown(e, index);
+      };
+
       const renderItem = (item, index, isOverlay = false) => (
-        <div className="list-item-v1 drag-handle" onMouseDown={!isOverlay ? (e) => drag.handleMouseDown(e, index) : undefined}>
+        <div className="list-item-v1 drag-handle" onMouseDown={!isOverlay ? (e) => handleDragStart(e, index) : undefined} onTouchStart={!isOverlay ? (e) => handleDragStart(e, index) : undefined}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)' }}>
             <Icon name="GripVertical" size={20} />
           </div>
@@ -1558,8 +1581,8 @@
             {/* Left Column: List */}
             <div className="test-layout__list">
               <div className="list-container">
-                {isPattern1 && <VariantOriginal items={items} setItems={setItemsWrapped} />}
-                {isPattern2 && <Variant1 items={items} setItems={setItemsWrapped} />}
+                {isPattern1 && <VariantOriginal items={items} setItems={setItemsWrapped} onInteraction={autoStartIfIdle} />}
+                {isPattern2 && <Variant1 items={items} setItems={setItemsWrapped} onInteraction={autoStartIfIdle} />}
               </div>
             </div>
 
