@@ -1455,6 +1455,7 @@ body[data-theme="dark"] .blog-card__image {
 @media (max-width: 767px) {
     .blog-article__images--active {
         position: static;
+        order: -1;
     }
 }
 
