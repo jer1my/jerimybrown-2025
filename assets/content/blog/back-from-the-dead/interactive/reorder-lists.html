@@ -578,6 +578,24 @@
       border-color: var(--color-accent);
     }
 
+    .leaderboard__submit-btn {
+      padding: 10px 24px !important;
+      margin-bottom: 0 !important;
+      white-space: nowrap;
+      overflow: hidden;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .leaderboard__submit-btn .btn-anon {
+      display: inline-block;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .leaderboard__submit-btn .btn-anon.hidden {
+      opacity: 0;
+      transform: translateX(8px);
+    }
+
     .leaderboard__submitted {
       font-size: var(--font-size-sm);
       color: var(--color-accent);
@@ -1193,6 +1211,30 @@
       const [name, setName] = useState('');
       const [submitted, setSubmitted] = useState(false);
       const [submitting, setSubmitting] = useState(false);
+      const btnRef = useRef(null);
+      const longRef = useRef(null);
+      const shortRef = useRef(null);
+      const [btnWidth, setBtnWidth] = useState(null);
+      const hasName = name.trim().length > 0;
+
+      // Measure both label widths on mount
+      useEffect(() => {
+        if (longRef.current) {
+          const padding = 48; // 24px each side
+          const longW = longRef.current.offsetWidth + padding;
+          const shortW = shortRef.current.offsetWidth + padding;
+          setBtnWidth(hasName ? shortW : longW);
+        }
+      }, []);
+
+      // Animate width on text change
+      useEffect(() => {
+        if (!longRef.current || !shortRef.current) return;
+        const padding = 48;
+        const longW = longRef.current.offsetWidth + padding;
+        const shortW = shortRef.current.offsetWidth + padding;
+        setBtnWidth(hasName ? shortW : longW);
+      }, [hasName]);
 
       const submit = async (displayName) => {
         if (submitting) return;
@@ -1234,14 +1276,22 @@
               onChange={(e) => setName(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && name.trim()) submit(name.trim()); }}
               maxLength={30}
+              autoComplete="off"
+              data-1p-ignore="true"
+              data-lpignore="true"
+              data-form-type="other"
             />
+            {/* Hidden measurement spans */}
+            <span ref={longRef} style={{ position: 'absolute', visibility: 'hidden', whiteSpace: 'nowrap', fontSize: '15px', fontWeight: 500 }}>Submit Anonymously</span>
+            <span ref={shortRef} style={{ position: 'absolute', visibility: 'hidden', whiteSpace: 'nowrap', fontSize: '15px', fontWeight: 500 }}>Submit</span>
             <button
-              className="button btn-primary"
-              style={{ padding: '10px 24px', marginBottom: 0 }}
+              ref={btnRef}
+              className="button btn-primary leaderboard__submit-btn"
+              style={btnWidth ? { width: btnWidth + 'px' } : {}}
               onClick={() => submit(name.trim() || 'Anonymous')}
               disabled={submitting}
             >
-              {name.trim() ? 'Submit' : 'Submit Anonymously'}
+              Submit<span className={`btn-anon ${hasName ? 'hidden' : ''}`}>&nbsp;Anonymously</span>
             </button>
           </div>
         </div>
@@ -1354,9 +1404,9 @@
     // ==========================================
     // Map hash to initial phase, with sessionStorage fallback
     const getInitialPhase = () => {
-      const hash = window.location.hash;
-      if (hash === '#pattern-2') return PHASES.IDLE_2;
-      if (hash === '#results') return PHASES.RESULTS;
+      const hash = window.location.hash.replace(/[^a-z0-9#-]/gi, '');
+      if (hash.includes('results')) return PHASES.RESULTS;
+      if (hash.includes('pattern-2')) return PHASES.IDLE_2;
       const savedPhase = sessionStorage.getItem('reorder-test-phase');
       if (savedPhase === 'RESULTS' && sessionStorage.getItem('reorder-test-time1') && sessionStorage.getItem('reorder-test-time2')) {
         return PHASES.RESULTS;
