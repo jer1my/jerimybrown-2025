@@ -1148,12 +1148,21 @@
     // Test Panel (Right Column)
     // ==========================================
     const TestPanel = ({ phase, elapsed, time1, time2, onStart, onContinue, onReset }) => {
+      const completionRef = useRef(null);
       const isResults = phase === PHASES.RESULTS;
       const isRunning = phase === PHASES.RUNNING_1 || phase === PHASES.RUNNING_2;
       const isComplete1 = phase === PHASES.COMPLETE_1;
       const isIdle1 = phase === PHASES.IDLE_1;
       const isIdle2 = phase === PHASES.IDLE_2;
       const isComplete2 = phase === PHASES.COMPLETE_2;
+
+      useEffect(() => {
+        if ((isComplete1 || isComplete2) && completionRef.current && window.innerWidth <= 768) {
+          setTimeout(() => {
+            completionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+        }
+      }, [isComplete1, isComplete2]);
       const patternNum = (phase === PHASES.IDLE_1 || phase === PHASES.RUNNING_1 || phase === PHASES.COMPLETE_1) ? 1 : 2;
       const config = PATTERN_CONFIG[patternNum];
 
@@ -1217,7 +1226,7 @@
 
           {/* Completed state */}
           {(isComplete1 || isComplete2) && (
-            <div className={`timer-display complete`}>{formatTime(patternNum === 1 ? time1 : time2)}</div>
+            <div ref={completionRef} className={`timer-display complete`}>{formatTime(patternNum === 1 ? time1 : time2)}</div>
           )}
 
           {isComplete1 && (
