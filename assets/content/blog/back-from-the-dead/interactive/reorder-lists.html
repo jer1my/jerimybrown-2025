@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reorderable List UX Patterns - Jerimy Brown</title>
+  <link rel="icon" href="../../../../../favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../../../assets/css/main.css">
+  <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore-compat.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyB_BNSS9fpyRS2Z_lDaxkP9MXVIaClQaVg",
+      authDomain: "jerimybrown-15ddc.firebaseapp.com",
+      projectId: "jerimybrown-15ddc",
+      storageBucket: "jerimybrown-15ddc.firebasestorage.app",
+      messagingSenderId: "762120003281",
+      appId: "1:762120003281:web:1758c9fde46f6b2a2faff0",
+      measurementId: "G-SC2BTWTQY4"
+    });
+    window.db = firebase.firestore();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* Critical inline styles to prevent navigation flash */
+    .nav {
+      background: rgba(250, 250, 250, 0.1) !important;
+    }
+    body[data-theme="dark"] .nav {
+      background: rgba(23, 23, 23, 0.1) !important;
+    }
+
+    /* Interactive demo specific styles */
+    .interactive-demo {
+      min-height: 100vh;
+      padding-top: 120px;
+    }
+
+    .interactive-demo .container {
+      max-width: var(--container-max-width);
+      margin: 0 auto;
+      padding: 0 var(--container-padding-desktop);
+    }
+
+    @media (max-width: 768px) {
+      .interactive-demo .container {
+        padding: 0 var(--container-padding-mobile);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    ::selection {
+      background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+      color: var(--text-primary);
+    }
+
+    .dragging-item {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-primary);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-accent);
+    }
+
+    /* ==========================================
+       Two-Column Test Layout
+       ========================================== */
+    .test-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .test-layout.results-mode {
+      grid-template-columns: 0fr 1fr;
+    }
+
+    .test-layout__list {
+      overflow: hidden;
+      transition: opacity 0.4s ease;
+      min-width: 0;
+    }
+
+    .test-layout.results-mode .test-layout__list {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .test-layout__panel {
+      min-width: 0;
+    }
+
+    @media (max-width: 768px) {
+      .test-layout {
+        grid-template-columns: 1fr;
+      }
+      .test-layout.results-mode {
+        grid-template-columns: 1fr;
+      }
+      .test-layout.results-mode .test-layout__list {
+        display: none;
+      }
+    }
+
+    /* ==========================================
+       Test Panel (Right Column)
+       ========================================== */
+    .test-panel {
+      padding: 0 0 var(--space-8) 0;
+    }
+
+    .test-panel__pattern-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-2);
+    }
+
+    .test-panel__title {
+      font-size: var(--typo-h3-size);
+      font-weight: var(--typo-h3-weight);
+      line-height: var(--typo-h3-line-height);
+      color: var(--text-primary);
+      margin: 0 0 var(--space-4) 0;
+    }
+
+    .test-panel__subtitle {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-regular);
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0 0 var(--space-6) 0;
+    }
+
+    /* Target order list in panel */
+    .target-order {
+      margin: 0 0 var(--space-6) 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .target-order li {
+      font-size: var(--font-size-sm);
+      color: var(--text-primary);
+      padding: 3px 0;
+      font-weight: var(--font-weight-medium);
+    }
+
+    .target-order-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-2);
+    }
+
+    /* Timer display */
+    .timer-display {
+      font-size: clamp(40px, 6vw, 56px);
+      font-weight: var(--font-weight-light);
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+      margin: var(--space-6) 0;
+      font-family: var(--font-family-primary);
+    }
+
+    .timer-display.running {
+      color: var(--color-accent);
+    }
+
+    .timer-display.complete {
+      color: var(--color-accent);
+    }
+
+    /* Previous round reference */
+    .prev-round {
+      font-size: var(--font-size-sm);
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-4);
+    }
+
+    .prev-round span {
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================
+       Results Panel
+       ========================================== */
+    .results-content {
+      text-align: center;
+      padding: var(--space-8) 0;
+    }
+
+    .results-content__heading {
+      font-size: var(--typo-h2-size);
+      font-weight: var(--typo-h2-weight);
+      letter-spacing: var(--typo-h2-spacing);
+      line-height: var(--typo-h2-line-height);
+      color: var(--text-primary);
+      margin: 0 0 var(--space-8) 0;
+    }
+
+    .results-times {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-12);
+      margin-bottom: var(--space-8);
+    }
+
+    @media (max-width: 480px) {
+      .results-times {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-6);
+      }
+    }
+
+    .results-time-block {
+      text-align: center;
+    }
+
+    .results-time-block__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-2);
+    }
+
+    .results-time-block__value {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: var(--font-weight-light);
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .results-improvement {
+      margin-bottom: var(--space-8);
+    }
+
+    .results-improvement__value {
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: var(--font-weight-light);
+      letter-spacing: -0.03em;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: var(--space-2);
+    }
+
+    .results-improvement__label {
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+    }
+
+    .results-ctas {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================
+       Mobile reveal animation
+       ========================================== */
+    @media (max-width: 768px) {
+      .mobile-reveal {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.4s ease, opacity 0.3s ease;
+      }
+      .mobile-reveal.visible {
+        max-height: 600px;
+        opacity: 1;
+      }
+    }
+
+    /* ==========================================
+       List Label (above pattern)
+       ========================================== */
+    .list-label {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: var(--font-weight-light);
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: var(--space-4);
+    }
+
+    /* ==========================================
+       List Container & Items (preserved from previous)
+       ========================================== */
+    .list-container {
+      background: var(--color-neutral-100);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      border: 1px solid var(--color-neutral-200);
+    }
+    [data-theme="dark"] .list-container {
+      background: var(--color-neutral-800);
+      border-color: var(--color-neutral-700);
+    }
+
+    /* List items - Variant 0 (PrimeNG) */
+    .list-panel {
+      background: var(--bg-primary);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-neutral-200);
+      overflow: hidden;
+    }
+    [data-theme="dark"] .list-panel {
+      background: var(--color-neutral-900);
+      border-color: var(--color-neutral-700);
+    }
+
+    .list-item-v0 {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+      user-select: none;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    [data-theme="dark"] .list-item-v0 {
+      border-bottom-color: var(--color-neutral-700);
+    }
+    .list-item-v0:last-child {
+      border-bottom: none;
+    }
+    .list-item-v0:hover {
+      background: var(--color-neutral-100);
+    }
+    [data-theme="dark"] .list-item-v0:hover {
+      background: var(--color-neutral-800);
+    }
+    .list-item-v0.selected {
+      background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    }
+    .list-item-v0.selected:hover {
+      background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    }
+
+    /* List items - Variant 1 (Drag & Drop) */
+    .list-item-v1 {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      background: var(--bg-primary);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-neutral-200);
+      transition: border-color var(--transition-fast);
+      cursor: grab;
+    }
+    .list-item-v1:active {
+      cursor: grabbing;
+    }
+    [data-theme="dark"] .list-item-v1 {
+      background: var(--color-neutral-900);
+      border-color: var(--color-neutral-700);
+    }
+    .list-item-v1:hover {
+      border-color: var(--color-neutral-300);
+    }
+    [data-theme="dark"] .list-item-v1:hover {
+      border-color: var(--color-neutral-600);
+    }
+
+    /* Control buttons */
+    .ctrl-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: var(--bg-primary);
+      border: 1px solid var(--color-neutral-200);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    [data-theme="dark"] .ctrl-btn {
+      background: var(--color-neutral-800);
+      border-color: var(--color-neutral-700);
+    }
+    .ctrl-btn:hover:not(:disabled) {
+      background: var(--color-neutral-100);
+      color: var(--text-primary);
+    }
+    [data-theme="dark"] .ctrl-btn:hover:not(:disabled) {
+      background: var(--color-neutral-700);
+    }
+    .ctrl-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* Inline control buttons */
+    .ctrl-btn-inline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .ctrl-btn-inline:hover:not(:disabled) {
+      background: var(--color-neutral-100);
+      color: var(--text-primary);
+    }
+    [data-theme="dark"] .ctrl-btn-inline:hover:not(:disabled) {
+      background: var(--color-neutral-700);
+    }
+    .ctrl-btn-inline:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* Drag handle */
+    .drag-handle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      color: var(--text-tertiary);
+      transition: color var(--transition-fast);
+    }
+    .drag-handle:hover {
+      color: var(--text-secondary);
+    }
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+
+    /* Item text */
+    .item-title {
+      font-weight: var(--font-weight-medium);
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item-subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--text-tertiary);
+    }
+    .selected .item-title {
+      color: var(--color-accent);
+    }
+    .selected .item-subtitle {
+      color: var(--color-accent);
+      opacity: 0.7;
+    }
+
+    /* ==========================================
+       Leaderboard
+       ========================================== */
+    .leaderboard {
+      margin-top: var(--space-12);
+    }
+
+    .leaderboard__title {
+      font-size: var(--typo-h3-size);
+      font-weight: var(--typo-h3-weight);
+      line-height: var(--typo-h3-line-height);
+      color: var(--text-primary);
+      margin: 0 0 var(--space-6) 0;
+    }
+
+    .leaderboard__summary {
+      display: flex;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .leaderboard__stat {
+      flex: 1;
+      min-width: 120px;
+      background: var(--color-neutral-100);
+      border: 1px solid var(--color-neutral-200);
+      border-radius: var(--radius-sm);
+      padding: var(--space-4);
+      text-align: center;
+    }
+    [data-theme="dark"] .leaderboard__stat {
+      background: var(--color-neutral-800);
+      border-color: var(--color-neutral-700);
+    }
+
+    .leaderboard__stat-value {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-light);
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .leaderboard__stat-value--accent {
+      color: var(--color-accent);
+    }
+
+    .leaderboard__stat-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    /* Submit form */
+    .leaderboard__submit {
+      margin-bottom: var(--space-6);
+    }
+
+    .leaderboard__submit p {
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+      margin: 0 0 var(--space-4) 0;
+    }
+
+    .leaderboard__submit-row {
+      display: flex;
+      gap: var(--space-3);
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 50%;
+    }
+
+    @media (max-width: 768px) {
+      .leaderboard__submit-row {
+        max-width: 100%;
+      }
+    }
+
+    .leaderboard__input {
+      flex: 1;
+      min-width: 150px;
+      padding: 10px 16px;
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family-primary);
+      border: 1px solid var(--color-neutral-300);
+      border-radius: var(--radius-full);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .leaderboard__input:focus {
+      border-color: var(--color-accent);
+    }
+    [data-theme="dark"] .leaderboard__input {
+      background: var(--color-neutral-800);
+      border-color: var(--color-neutral-700);
+    }
+    [data-theme="dark"] .leaderboard__input:focus {
+      border-color: var(--color-accent);
+    }
+
+    .leaderboard__submitted {
+      font-size: var(--font-size-sm);
+      color: var(--color-accent);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* Table */
+    .leaderboard__table-wrap {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid var(--color-neutral-200);
+      border-radius: var(--radius-sm);
+    }
+    [data-theme="dark"] .leaderboard__table-wrap {
+      border-color: var(--color-neutral-700);
+    }
+
+    .leaderboard__table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+
+    .leaderboard__table th {
+      position: sticky;
+      top: 0;
+      background: var(--color-neutral-100);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    [data-theme="dark"] .leaderboard__table th {
+      background: var(--color-neutral-800);
+      border-bottom-color: var(--color-neutral-700);
+    }
+
+    .leaderboard__table td {
+      padding: var(--space-3) var(--space-4);
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    [data-theme="dark"] .leaderboard__table td {
+      border-bottom-color: var(--color-neutral-700);
+    }
+
+    .leaderboard__table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .leaderboard__table tr.current-user td {
+      background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+      color: var(--color-accent);
+      font-weight: var(--font-weight-medium);
+    }
+
+    .leaderboard__empty {
+      text-align: center;
+      padding: var(--space-8);
+      color: var(--text-tertiary);
+      font-size: var(--font-size-sm);
+    }
+
+    .leaderboard__loading {
+      text-align: center;
+      padding: var(--space-8);
+      color: var(--text-tertiary);
+      font-size: var(--font-size-sm);
+    }
+  </style>
+  <noscript>
+    <style>
+      body { opacity: 1 !important; }
+    </style>
+  </noscript>
+</head>
+<body>
+  <script>
+    // Apply theme immediately to prevent flash
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.body.removeAttribute('data-theme');
+      } else {
+        document.body.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="../../../../../index.html" class="logo">
+        <div class="logo-container">
+          <div class="logo-svg"></div>
+          <span class="logo-text">Jerimy Brown</span>
+        </div>
+      </a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="../../../../../index.html"><span class="link-text">Home</span></a></li>
+          <li><a href="../../../../../index.html#projects"><span class="link-text">Work</span></a></li>
+          <li><a href="../../../../../index.html#about"><span class="link-text">About</span></a></li>
+          <li><a href="../../../../../index.html#contact"><span class="link-text">Contact</span></a></li>
+          <li><a href="../../../../../blog.html" class="active"><span class="link-text">Blog</span></a></li>
+          <li><a href="../../../../../lab.html"><span class="link-text">Lab</span></a></li>
+          <li><a href="../../../../../resume.html"><span class="link-text">Resume</span></a></li>
+        </ul>
+        <button class="nav-theme-toggle" onclick="toggleTheme()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Toggle Button -->
+  <button class="nav-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+  </button>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu-content">
+      <nav class="mobile-nav">
+        <a href="../../../../../index.html" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Home</span></a>
+        <a href="../../../../../index.html#projects" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Work</span></a>
+        <a href="../../../../../index.html#about" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">About</span></a>
+        <a href="../../../../../index.html#contact" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Contact</span></a>
+        <a href="../../../../../blog.html" onclick="toggleMobileMenu(event)" class="active"><span class="mobile-link-text">Blog</span></a>
+        <a href="../../../../../lab.html" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Lab</span></a>
+        <a href="../../../../../resume.html" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Resume</span></a>
+      </nav>
+      <button class="mobile-theme-toggle" onclick="toggleTheme()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <main class="interactive-demo">
+    <div class="container">
+      <!-- Back link -->
+      <a href="../../../../../blog/back-from-the-dead.html" class="blog-back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to Post
+      </a>
+
+      <div id="root"></div>
+    </div>
+  </main>
+
+  <!-- Back to Blog Button -->
+  <a href="../../../../../blog/back-from-the-dead.html" class="btn-arrow btn-arrow-md back-to-projects">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 12L6 12M10 8L6 12L10 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <!-- Back to Top Button -->
+  <button class="btn-arrow btn-arrow-md btn-arrow-filled back-to-top" onclick="scrollToTop()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 18L12 6M8 10L12 6L16 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- Site Scripts -->
+  <script src="../../../../../assets/js/core/config.js"></script>
+  <script src="../../../../../assets/js/core/data-loader.js"></script>
+  <script src="../../../../../assets/js/core/theme-system.js"></script>
+  <script src="../../../../../assets/js/utils/helpers.js"></script>
+  <script src="../../../../../assets/js/utils/animations.js"></script>
+  <script src="../../../../../assets/js/components/navigation.js"></script>
+  <script src="../../../../../assets/js/components/mobile-menu.js"></script>
+  <script src="../../../../../assets/js/components/logo-animation.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initTheme === 'function') initTheme();
+      if (typeof initLogoLetterAnimation === 'function') initLogoLetterAnimation();
+      if (typeof initBackToTop === 'function') initBackToTop();
+      if (typeof initPageTransitions === 'function') initPageTransitions();
+      if (typeof initNavigationActiveState === 'function') initNavigationActiveState();
+      if (typeof initMobileMenuClose === 'function') initMobileMenuClose();
+    });
+  </script>
+
+  <!-- React Interactive Demo -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+    // ==========================================
+    // Constants
+    // ==========================================
+    const TARGET_ORDER = [4, 3, 5, 2, 1];
+
+    const PHASES = {
+      IDLE_1: 'IDLE_1',
+      RUNNING_1: 'RUNNING_1',
+      COMPLETE_1: 'COMPLETE_1',
+      IDLE_2: 'IDLE_2',
+      RUNNING_2: 'RUNNING_2',
+      COMPLETE_2: 'COMPLETE_2',
+      RESULTS: 'RESULTS',
+    };
+
+    const PATTERN_CONFIG = {
+      1: {
+        patternLabel: 'Pattern One',
+        title: 'The Suspect (Bad UX)',
+        description: 'This is a reorderable list pulled straight from one of the most widely used component libraries in the industry. It works. Technically.',
+        cta: true,
+      },
+      2: {
+        patternLabel: 'Pattern Two',
+        title: 'The Resurrection (Good UX)',
+        description: 'Same task. Same goal. Very different experience. This version was designed from scratch with direct manipulation, micro interactions, and purposeful animation.',
+        cta: true,
+      },
+    };
+
+    // ==========================================
+    // Shared utilities
+    // ==========================================
+    const Icon = ({ name, size = 20 }) => {
+      const ref = React.useRef(null);
+      useEffect(() => {
+        if (ref.current) {
+          ref.current.innerHTML = '';
+          const icon = lucide.createElement(lucide.icons[name]);
+          icon.setAttribute('width', size);
+          icon.setAttribute('height', size);
+          ref.current.appendChild(icon);
+        }
+      }, [name, size]);
+      return <span ref={ref} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} />;
+    };
+
+    const initialItems = [
+      { id: 1, title: '1. List Item One', priority: 'High' },
+      { id: 2, title: '2. List Item Two', priority: 'Medium' },
+      { id: 3, title: '3. List Item Three', priority: 'Low' },
+      { id: 4, title: '4. List Item Four', priority: 'High' },
+      { id: 5, title: '5. List Item Five', priority: 'Medium' },
+    ];
+
+    const reorder = (list, fromIndex, toIndex) => {
+      const result = Array.from(list);
+      const [removed] = result.splice(fromIndex, 1);
+      result.splice(toIndex, 0, removed);
+      return result;
+    };
+
+    const formatTime = (ms) => {
+      const totalSeconds = ms / 1000;
+      if (totalSeconds < 60) {
+        return `${totalSeconds.toFixed(1)}s`;
+      }
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = (totalSeconds % 60).toFixed(1);
+      return `${minutes}:${seconds.padStart(4, '0')}`;
+    };
+
+    const isOrderComplete = (items) => {
+      return items.every((item, i) => item.id === TARGET_ORDER[i]);
+    };
+
+    // ==========================================
+    // Drag & Drop Hook
+    // ==========================================
+    const useDragAndDrop = (items, setItems, itemHeight = 60) => {
+      const [draggedIndex, setDraggedIndex] = useState(null);
+      const [targetIndex, setTargetIndex] = useState(null);
+      const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
+      const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+      const [itemWidth, setItemWidth] = useState(0);
+      const [moveFrom, setMoveFrom] = useState(null);
+      const [moveTo, setMoveTo] = useState(null);
+      const isAnimating = useRef(false);
+      const containerRef = useRef(null);
+      const itemRefs = useRef([]);
+
+      const handleMouseDown = (e, index) => {
+        if (!e.target.closest('.drag-handle')) return;
+        if (isAnimating.current) return;
+        e.preventDefault();
+        const rect = itemRefs.current[index]?.getBoundingClientRect();
+        if (!rect) return;
+        setDraggedIndex(index);
+        setTargetIndex(index);
+        setItemWidth(rect.width);
+        setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        setDragPosition({ x: rect.left, y: rect.top });
+      };
+
+      const handleMouseMove = useCallback((e) => {
+        if (draggedIndex === null) return;
+        setDragPosition({ x: e.clientX - dragOffset.x, y: e.clientY - dragOffset.y });
+        if (!containerRef.current) return;
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const relativeY = e.clientY - containerRect.top;
+        let newTarget = Math.floor(relativeY / (itemHeight + 4));
+        newTarget = Math.max(0, Math.min(items.length - 1, newTarget));
+        if (newTarget !== targetIndex) setTargetIndex(newTarget);
+      }, [draggedIndex, dragOffset, itemHeight, items.length, targetIndex]);
+
+      const handleMouseUp = useCallback(() => {
+        if (draggedIndex === null || targetIndex === null) return;
+        if (targetIndex !== draggedIndex) setItems(reorder(items, draggedIndex, targetIndex));
+        setDraggedIndex(null);
+        setTargetIndex(null);
+      }, [draggedIndex, targetIndex, items, setItems]);
+
+      const animatedMove = useCallback((fromIndex, toIndex) => {
+        if (fromIndex === toIndex || isAnimating.current) return;
+        isAnimating.current = true;
+        setMoveFrom(fromIndex);
+        setMoveTo(toIndex);
+        setTimeout(() => {
+          setItems(reorder(items, fromIndex, toIndex));
+          setMoveFrom(null);
+          setMoveTo(null);
+          isAnimating.current = false;
+        }, 200);
+      }, [items, setItems]);
+
+      useEffect(() => {
+        if (draggedIndex !== null) {
+          window.addEventListener('mousemove', handleMouseMove);
+          window.addEventListener('mouseup', handleMouseUp);
+          document.body.style.userSelect = 'none';
+          document.body.style.cursor = 'grabbing';
+        }
+        return () => {
+          window.removeEventListener('mousemove', handleMouseMove);
+          window.removeEventListener('mouseup', handleMouseUp);
+          document.body.style.userSelect = '';
+          document.body.style.cursor = '';
+        };
+      }, [draggedIndex, handleMouseMove, handleMouseUp]);
+
+      const getItemStyle = (index) => {
+        const shiftAmount = itemHeight + 4;
+        if (moveFrom !== null && moveTo !== null) {
+          if (index === moveFrom) {
+            const distance = (moveTo - moveFrom) * shiftAmount;
+            return { transition: 'transform 0.2s ease', transform: `translateY(${distance}px)`, zIndex: 10, position: 'relative' };
+          }
+          if (moveFrom < moveTo) {
+            if (index > moveFrom && index <= moveTo) return { transition: 'transform 0.2s ease', transform: `translateY(-${shiftAmount}px)` };
+          } else {
+            if (index >= moveTo && index < moveFrom) return { transition: 'transform 0.2s ease', transform: `translateY(${shiftAmount}px)` };
+          }
+          return { transition: 'transform 0.2s ease', transform: 'translateY(0)' };
+        }
+        if (draggedIndex === null || targetIndex === null) return {};
+        if (index === draggedIndex) return { visibility: 'hidden' };
+        if (draggedIndex < targetIndex) {
+          if (index > draggedIndex && index <= targetIndex) return { transition: 'transform 0.2s ease', transform: `translateY(-${shiftAmount}px)` };
+        } else if (draggedIndex > targetIndex) {
+          if (index >= targetIndex && index < draggedIndex) return { transition: 'transform 0.2s ease', transform: `translateY(${shiftAmount}px)` };
+        }
+        return { transition: 'transform 0.2s ease', transform: 'translateY(0)' };
+      };
+
+      return { draggedIndex, targetIndex, dragPosition, itemWidth, containerRef, itemRefs, handleMouseDown, getItemStyle, animatedMove, isAnimating: moveFrom !== null };
+    };
+
+    const DragOverlay = ({ item, position, width, children }) => {
+      if (!item) return null;
+      return ReactDOM.createPortal(
+        <div className="dragging-item" style={{ left: position.x, top: position.y, width: width }}>{children}</div>,
+        document.body
+      );
+    };
+
+    // ==========================================
+    // Variant 0: PrimeNG-style (Bad UX)
+    // ==========================================
+    const VariantOriginal = ({ items, setItems }) => {
+      const [selectedIds, setSelectedIds] = useState(new Set());
+      const [lastClickedId, setLastClickedId] = useState(null);
+
+      const handleItemClick = (e, item) => {
+        const id = item.id;
+        const isShiftKey = e.shiftKey;
+        setSelectedIds(prev => {
+          const next = new Set(prev);
+          if (isShiftKey && lastClickedId !== null) {
+            const lastIndex = items.findIndex(i => i.id === lastClickedId);
+            const currentIndex = items.findIndex(i => i.id === id);
+            const start = Math.min(lastIndex, currentIndex);
+            const end = Math.max(lastIndex, currentIndex);
+            for (let i = start; i <= end; i++) next.add(items[i].id);
+          } else {
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+          }
+          return next;
+        });
+        if (!e.shiftKey) setLastClickedId(id);
+      };
+
+      const selectedIndices = items.map((item, index) => selectedIds.has(item.id) ? index : -1).filter(i => i !== -1);
+      const hasSelection = selectedIndices.length > 0;
+      const canMoveUp = hasSelection && selectedIndices[0] > 0;
+      const canMoveDown = hasSelection && selectedIndices[selectedIndices.length - 1] < items.length - 1;
+
+      const moveItems = (direction) => {
+        if (!hasSelection) return;
+        const result = Array.from(items);
+        const selectedSet = new Set(selectedIds);
+        if (direction === 'top') {
+          const selected = selectedIndices.map(i => result[i]);
+          const rest = result.filter(item => !selectedSet.has(item.id));
+          setItems([...selected, ...rest]);
+        } else if (direction === 'bottom') {
+          const selected = selectedIndices.map(i => result[i]);
+          const rest = result.filter(item => !selectedSet.has(item.id));
+          setItems([...rest, ...selected]);
+        } else if (direction === 'up') {
+          if (!canMoveUp) return;
+          for (const idx of selectedIndices) {
+            if (idx > 0 && !selectedSet.has(result[idx - 1].id)) [result[idx - 1], result[idx]] = [result[idx], result[idx - 1]];
+          }
+          setItems(result);
+        } else if (direction === 'down') {
+          if (!canMoveDown) return;
+          for (let i = selectedIndices.length - 1; i >= 0; i--) {
+            const idx = selectedIndices[i];
+            if (idx < result.length - 1 && !selectedSet.has(result[idx + 1].id)) [result[idx], result[idx + 1]] = [result[idx + 1], result[idx]];
+          }
+          setItems(result);
+        }
+      };
+
+      return (
+        <div className="flex gap-3">
+          <div className="flex flex-col gap-1.5" style={{ paddingTop: '48px' }}>
+            <button onClick={() => moveItems('up')} disabled={!canMoveUp} className="ctrl-btn" title="Move up"><Icon name="ChevronUp" size={18} /></button>
+            <button onClick={() => moveItems('top')} disabled={!canMoveUp} className="ctrl-btn" title="Move to top"><Icon name="ChevronsUp" size={18} /></button>
+            <button onClick={() => moveItems('down')} disabled={!canMoveDown} className="ctrl-btn" title="Move down"><Icon name="ChevronDown" size={18} /></button>
+            <button onClick={() => moveItems('bottom')} disabled={!canMoveDown} className="ctrl-btn" title="Move to bottom"><Icon name="ChevronsDown" size={18} /></button>
+          </div>
+          <div className="flex-1 list-panel">
+            {items.map((item) => {
+              const isSelected = selectedIds.has(item.id);
+              return (
+                <div key={item.id} onClick={(e) => handleItemClick(e, item)} className={`list-item-v0 ${isSelected ? 'selected' : ''}`}>
+                  <div className="flex-1 min-w-0">
+                    <p className="item-title">{item.title}</p>
+                    <p className="item-subtitle">{item.priority} priority</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    };
+
+    // ==========================================
+    // Variant 1: Drag & Drop (Good UX)
+    // ==========================================
+    const Variant1 = ({ items, setItems }) => {
+      const drag = useDragAndDrop(items, setItems, 68);
+
+      const moveItem = (index, direction) => {
+        if (drag.isAnimating) return;
+        let newIndex;
+        switch (direction) {
+          case 'top': newIndex = 0; break;
+          case 'up': newIndex = Math.max(0, index - 1); break;
+          case 'down': newIndex = Math.min(items.length - 1, index + 1); break;
+          case 'bottom': newIndex = items.length - 1; break;
+          default: return;
+        }
+        if (newIndex !== index) drag.animatedMove(index, newIndex);
+      };
+
+      const renderItem = (item, index, isOverlay = false) => (
+        <div className="list-item-v1 drag-handle" onMouseDown={!isOverlay ? (e) => drag.handleMouseDown(e, index) : undefined}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-tertiary)' }}>
+            <Icon name="GripVertical" size={20} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="item-title">{item.title}</p>
+            <p className="item-subtitle">{item.priority} priority</p>
+          </div>
+          <div className="flex items-center gap-1">
+            <button onClick={() => moveItem(index, 'top')} disabled={index === 0} className="ctrl-btn-inline" title="Move to top"><Icon name="ChevronsUp" size={18} /></button>
+            <button onClick={() => moveItem(index, 'up')} disabled={index === 0} className="ctrl-btn-inline" title="Move up"><Icon name="ChevronUp" size={18} /></button>
+            <button onClick={() => moveItem(index, 'down')} disabled={index === items.length - 1} className="ctrl-btn-inline" title="Move down"><Icon name="ChevronDown" size={18} /></button>
+            <button onClick={() => moveItem(index, 'bottom')} disabled={index === items.length - 1} className="ctrl-btn-inline" title="Move to bottom"><Icon name="ChevronsDown" size={18} /></button>
+          </div>
+        </div>
+      );
+
+      return (
+        <>
+          <div className="relative" ref={drag.containerRef}>
+            {items.map((item, index) => (
+              <div key={item.id} ref={el => drag.itemRefs.current[index] = el} style={{ ...drag.getItemStyle(index), marginBottom: '4px' }}>
+                {renderItem(item, index)}
+              </div>
+            ))}
+          </div>
+          <DragOverlay item={drag.draggedIndex !== null ? items[drag.draggedIndex] : null} position={drag.dragPosition} width={drag.itemWidth}>
+            {drag.draggedIndex !== null && renderItem(items[drag.draggedIndex], drag.draggedIndex, true)}
+          </DragOverlay>
+        </>
+      );
+    };
+
+    // ==========================================
+    // Test Panel (Right Column)
+    // ==========================================
+    const TestPanel = ({ phase, elapsed, time1, time2, onStart, onContinue, onReset }) => {
+      const isResults = phase === PHASES.RESULTS;
+      const isRunning = phase === PHASES.RUNNING_1 || phase === PHASES.RUNNING_2;
+      const isComplete1 = phase === PHASES.COMPLETE_1;
+      const isIdle1 = phase === PHASES.IDLE_1;
+      const isIdle2 = phase === PHASES.IDLE_2;
+      const isComplete2 = phase === PHASES.COMPLETE_2;
+      const patternNum = (phase === PHASES.IDLE_1 || phase === PHASES.RUNNING_1 || phase === PHASES.COMPLETE_1) ? 1 : 2;
+      const config = PATTERN_CONFIG[patternNum];
+
+      if (isResults) {
+        const improvement = time1 > 0 ? Math.round(((time1 - time2) / time1) * 100) : 0;
+        return (
+          <div className="test-panel">
+            <div className="results-content">
+              <h2 className="results-content__heading">The Proof</h2>
+
+              <div className="results-times">
+                <div className="results-time-block">
+                  <div className="results-time-block__label">Bad UX</div>
+                  <div className="results-time-block__value">{formatTime(time1)}</div>
+                </div>
+                <div className="results-time-block">
+                  <div className="results-time-block__label">Good UX</div>
+                  <div className="results-time-block__value">{formatTime(time2)}</div>
+                </div>
+              </div>
+
+              <div className="results-improvement">
+                <div className="results-improvement__value">{improvement}%</div>
+                <div className="results-improvement__label">faster with intentional design</div>
+              </div>
+
+              <div className="results-ctas">
+                <button className="button btn-primary" onClick={onReset}>Try Again</button>
+                <a href="../../../../../blog/back-from-the-dead.html" className="button btn-secondary">Back to Post</a>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="test-panel">
+          <div className="test-panel__pattern-label">{config.patternLabel}</div>
+          <h2 className="test-panel__title">{config.title}</h2>
+          <p className="test-panel__subtitle">{config.description} Your job is to reorder the list to match the <span style={{ color: 'var(--color-accent)', fontWeight: 'var(--font-weight-semibold)', textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: 'var(--font-size-xs)' }}>Target Order</span> <span style={{ color: 'var(--text-primary)', fontWeight: 'var(--font-weight-semibold)' }}>(below)</span> as fast as you can.</p>
+
+          {/* Target order */}
+          <div className="target-order-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'middle' }}><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>Target Order</div>
+          <ol className="target-order">
+            <li>4. List Item Four</li>
+            <li>3. List Item Three</li>
+            <li>5. List Item Five</li>
+            <li>2. List Item Two</li>
+            <li>1. List Item One</li>
+          </ol>
+
+          {/* Pattern 2: show previous round time */}
+          {patternNum === 2 && time1 > 0 && (
+            <div className="prev-round">Round 1 time: <span>{formatTime(time1)}</span></div>
+          )}
+
+          {/* Timer */}
+          {isRunning && (
+            <div className={`timer-display running`}>{formatTime(elapsed)}</div>
+          )}
+
+          {/* Completed state */}
+          {(isComplete1 || isComplete2) && (
+            <div className={`timer-display complete`}>{formatTime(patternNum === 1 ? time1 : time2)}</div>
+          )}
+
+          {isComplete1 && (
+            <button className="button btn-primary" onClick={onContinue}>Continue to Pattern Two</button>
+          )}
+        </div>
+      );
+    };
+
+    // ==========================================
+    // Leaderboard Submit
+    // ==========================================
+    const LeaderboardSubmit = ({ time1, time2, onSubmitted }) => {
+      const [name, setName] = useState('');
+      const [submitted, setSubmitted] = useState(false);
+      const [submitting, setSubmitting] = useState(false);
+
+      const submit = async (displayName) => {
+        if (submitting) return;
+        setSubmitting(true);
+        const improvement = time1 > 0 ? Math.round(((time1 - time2) / time1) * 100) : 0;
+        try {
+          await window.db.collection('results').add({
+            name: displayName,
+            time1,
+            time2,
+            improvement,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+          setSubmitted(true);
+          if (onSubmitted) onSubmitted();
+        } catch (e) {
+          console.error('Failed to submit result:', e);
+        }
+        setSubmitting(false);
+      };
+
+      if (submitted) {
+        return (
+          <div className="leaderboard__submit">
+            <p className="leaderboard__submitted">Your result has been added to the leaderboard.</p>
+          </div>
+        );
+      }
+
+      return (
+        <div className="leaderboard__submit">
+          <p>Add your name to the leaderboard or submit anonymously.</p>
+          <div className="leaderboard__submit-row">
+            <input
+              type="text"
+              className="leaderboard__input"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && name.trim()) submit(name.trim()); }}
+              maxLength={30}
+            />
+            <button
+              className="button btn-primary"
+              style={{ padding: '10px 24px', marginBottom: 0 }}
+              onClick={() => submit(name.trim() || 'Anonymous')}
+              disabled={submitting}
+            >
+              {name.trim() ? 'Submit' : 'Submit Anonymously'}
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    // ==========================================
+    // Leaderboard Table
+    // ==========================================
+    const Leaderboard = ({ refreshKey, currentImprovement }) => {
+      const [entries, setEntries] = useState([]);
+      const [loading, setLoading] = useState(true);
+
+      const fetchEntries = async () => {
+        try {
+          const snapshot = await window.db.collection('results')
+            .orderBy('timestamp', 'desc')
+            .limit(50)
+            .get();
+          const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setEntries(data);
+        } catch (e) {
+          console.error('Failed to fetch leaderboard:', e);
+        }
+        setLoading(false);
+      };
+
+      useEffect(() => {
+        fetchEntries();
+      }, [refreshKey]);
+
+      if (loading) {
+        return (
+          <div className="leaderboard">
+            <h3 className="leaderboard__title">Leaderboard</h3>
+            <div className="leaderboard__loading">Loading results...</div>
+          </div>
+        );
+      }
+
+      if (entries.length === 0) {
+        return (
+          <div className="leaderboard">
+            <h3 className="leaderboard__title">Leaderboard</h3>
+            <div className="leaderboard__empty">Be the first to take the test!</div>
+          </div>
+        );
+      }
+
+      // Compute summary stats
+      const totalParticipants = entries.length;
+      const avgTime1 = Math.round(entries.reduce((sum, e) => sum + e.time1, 0) / totalParticipants);
+      const avgTime2 = Math.round(entries.reduce((sum, e) => sum + e.time2, 0) / totalParticipants);
+      const avgImprovement = Math.round(entries.reduce((sum, e) => sum + e.improvement, 0) / totalParticipants);
+
+      // Sort by improvement for display
+      const sorted = [...entries].sort((a, b) => b.improvement - a.improvement);
+
+      return (
+        <div className="leaderboard">
+          <h3 className="leaderboard__title">Leaderboard</h3>
+
+          <div className="leaderboard__summary">
+            <div className="leaderboard__stat">
+              <div className="leaderboard__stat-value">{totalParticipants}</div>
+              <div className="leaderboard__stat-label">Participants</div>
+            </div>
+            <div className="leaderboard__stat">
+              <div className="leaderboard__stat-value">{formatTime(avgTime1)}</div>
+              <div className="leaderboard__stat-label">Avg Bad UX</div>
+            </div>
+            <div className="leaderboard__stat">
+              <div className="leaderboard__stat-value">{formatTime(avgTime2)}</div>
+              <div className="leaderboard__stat-label">Avg Good UX</div>
+            </div>
+            <div className="leaderboard__stat">
+              <div className="leaderboard__stat-value leaderboard__stat-value--accent">{avgImprovement}%</div>
+              <div className="leaderboard__stat-label">Avg Improvement</div>
+            </div>
+          </div>
+
+          <div className="leaderboard__table-wrap">
+            <table className="leaderboard__table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Bad UX</th>
+                  <th>Good UX</th>
+                  <th>Improvement</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sorted.map((entry) => (
+                  <tr key={entry.id} className={entry.improvement === currentImprovement ? 'current-user' : ''}>
+                    <td>{entry.name}</td>
+                    <td>{formatTime(entry.time1)}</td>
+                    <td>{formatTime(entry.time2)}</td>
+                    <td>{entry.improvement}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    };
+
+    // ==========================================
+    // Main App
+    // ==========================================
+    // Map hash to initial phase, with sessionStorage fallback
+    const getInitialPhase = () => {
+      const hash = window.location.hash;
+      if (hash === '#pattern-2') return PHASES.IDLE_2;
+      if (hash === '#results') return PHASES.RESULTS;
+      const savedPhase = sessionStorage.getItem('reorder-test-phase');
+      if (savedPhase === 'RESULTS' && sessionStorage.getItem('reorder-test-time1') && sessionStorage.getItem('reorder-test-time2')) {
+        return PHASES.RESULTS;
+      }
+      return PHASES.IDLE_1;
+    };
+
+    function App() {
+      const [phase, setPhase] = useState(getInitialPhase);
+      const [items, setItems] = useState([...initialItems]);
+      const [time1, setTime1] = useState(() => {
+        const saved = sessionStorage.getItem('reorder-test-time1');
+        if (saved) return Number(saved);
+        return getInitialPhase() === PHASES.RESULTS ? 22000 : 0;
+      });
+      const [time2, setTime2] = useState(() => {
+        const saved = sessionStorage.getItem('reorder-test-time2');
+        if (saved) return Number(saved);
+        return getInitialPhase() === PHASES.RESULTS ? 6500 : 0;
+      });
+      const [elapsed, setElapsed] = useState(0);
+      const startTimeRef = useRef(null);
+      const intervalRef = useRef(null);
+      const [leaderboardKey, setLeaderboardKey] = useState(0);
+      const isResults = phase === PHASES.RESULTS;
+
+      // Timer management
+      const startTimer = () => {
+        startTimeRef.current = Date.now();
+        setElapsed(0);
+        intervalRef.current = setInterval(() => {
+          setElapsed(Date.now() - startTimeRef.current);
+        }, 100);
+      };
+
+      const stopTimer = () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        return Date.now() - startTimeRef.current;
+      };
+
+      // Cleanup on unmount
+      useEffect(() => {
+        return () => {
+          if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+      }, []);
+
+      // Sync hash with phase
+      useEffect(() => {
+        const hashMap = {
+          [PHASES.IDLE_1]: '#pattern-1',
+          [PHASES.RUNNING_1]: '#pattern-1',
+          [PHASES.COMPLETE_1]: '#pattern-1',
+          [PHASES.IDLE_2]: '#pattern-2',
+          [PHASES.RUNNING_2]: '#pattern-2',
+          [PHASES.COMPLETE_2]: '#pattern-2',
+          [PHASES.RESULTS]: '#results',
+        };
+        const newHash = hashMap[phase] || '';
+        if (window.location.hash !== newHash) {
+          history.replaceState(null, '', newHash);
+        }
+      }, [phase]);
+
+      // Auto-detect completion
+      useEffect(() => {
+        if (phase === PHASES.RUNNING_1 && isOrderComplete(items)) {
+          const finalTime = stopTimer();
+          setTime1(finalTime);
+          sessionStorage.setItem('reorder-test-time1', finalTime);
+          setPhase(PHASES.COMPLETE_1);
+        } else if (phase === PHASES.RUNNING_2 && isOrderComplete(items)) {
+          const finalTime = stopTimer();
+          setTime2(finalTime);
+          sessionStorage.setItem('reorder-test-time2', finalTime);
+          setPhase(PHASES.COMPLETE_2);
+          // Auto-advance to results after a brief pause
+          setTimeout(() => {
+            sessionStorage.setItem('reorder-test-phase', 'RESULTS');
+            setPhase(PHASES.RESULTS);
+          }, 800);
+        }
+      }, [items, phase]);
+
+      const handleStart = () => {
+        if (phase === PHASES.IDLE_1) {
+          setPhase(PHASES.RUNNING_1);
+          startTimer();
+        } else if (phase === PHASES.IDLE_2) {
+          setPhase(PHASES.RUNNING_2);
+          startTimer();
+        }
+      };
+
+      const handleContinue = () => {
+        setItems([...initialItems]);
+        setPhase(PHASES.IDLE_2);
+      };
+
+      const handleReset = () => {
+        setItems([...initialItems]);
+        setTime1(0);
+        setTime2(0);
+        setElapsed(0);
+        startTimeRef.current = null;
+        sessionStorage.removeItem('reorder-test-time1');
+        sessionStorage.removeItem('reorder-test-time2');
+        sessionStorage.removeItem('reorder-test-phase');
+        setPhase(PHASES.IDLE_1);
+      };
+
+      // Determine which variant to show
+      const isPattern1 = phase === PHASES.IDLE_1 || phase === PHASES.RUNNING_1 || phase === PHASES.COMPLETE_1;
+      const isPattern2 = phase === PHASES.IDLE_2 || phase === PHASES.RUNNING_2 || phase === PHASES.COMPLETE_2;
+      const isRunning = phase === PHASES.RUNNING_1 || phase === PHASES.RUNNING_2;
+
+      // Auto-start timer if user interacts before clicking Start
+      const autoStartIfIdle = () => {
+        if (phase === PHASES.IDLE_1) {
+          setPhase(PHASES.RUNNING_1);
+          startTimer();
+        } else if (phase === PHASES.IDLE_2) {
+          setPhase(PHASES.RUNNING_2);
+          startTimer();
+        }
+      };
+
+      // Wrapper for items that auto-starts timer on first interaction
+      const setItemsWrapped = (newItems) => {
+        autoStartIfIdle();
+        if (typeof newItems === 'function') {
+          setItems(prev => {
+            const result = newItems(prev);
+            return result;
+          });
+        } else {
+          setItems(newItems);
+        }
+      };
+
+      const currentImprovement = time1 > 0 ? Math.round(((time1 - time2) / time1) * 100) : null;
+
+      return (
+        <>
+          <div className={`test-layout ${isResults ? 'results-mode' : ''}`}>
+            {/* Left Column: List */}
+            <div className="test-layout__list">
+              <div className="list-container">
+                {isPattern1 && <VariantOriginal items={items} setItems={setItemsWrapped} />}
+                {isPattern2 && <Variant1 items={items} setItems={setItemsWrapped} />}
+              </div>
+            </div>
+
+            {/* Right Column: Panel */}
+            <div className="test-layout__panel">
+              <TestPanel
+                phase={phase}
+                elapsed={elapsed}
+                time1={time1}
+                time2={time2}
+                onStart={handleStart}
+                onContinue={handleContinue}
+                onReset={handleReset}
+              />
+            </div>
+          </div>
+
+          {/* Leaderboard - shown after results */}
+          {isResults && (
+            <>
+              <LeaderboardSubmit
+                time1={time1}
+                time2={time2}
+                onSubmitted={() => setLeaderboardKey(k => k + 1)}
+              />
+              <Leaderboard
+                refreshKey={leaderboardKey}
+                currentImprovement={currentImprovement}
+              />
+            </>
+          )}
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
