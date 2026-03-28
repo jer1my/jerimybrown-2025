@@ -99,9 +99,18 @@
       min-width: 0;
     }
 
+    .mobile-only {
+      display: none;
+      text-align: center;
+      padding-top: var(--space-6);
+    }
+
     @media (max-width: 768px) {
       .test-layout {
         grid-template-columns: 1fr;
+      }
+      .test-layout__panel {
+        order: -1;
       }
       .test-layout.results-mode {
         grid-template-columns: 1fr;
@@ -109,6 +118,8 @@
       .test-layout.results-mode .test-layout__list {
         display: none;
       }
+      .mobile-only { display: block; }
+      .desktop-only { display: none; }
     }
 
     /* ==========================================
@@ -480,6 +491,7 @@
        ========================================== */
     .leaderboard {
       margin-top: var(--space-12);
+      padding-bottom: var(--space-20);
     }
 
     .leaderboard__title {
@@ -665,10 +677,50 @@
     }
 
     .leaderboard__loading {
-      text-align: center;
-      padding: var(--space-8);
-      color: var(--text-tertiary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-12) var(--space-8);
+    }
+
+    .leaderboard__loading-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .leaderboard__loading-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      animation: dot-wave 1.4s ease-in-out infinite;
+    }
+
+    .leaderboard__loading-dot:nth-child(2) {
+      animation-delay: 0.16s;
+    }
+
+    .leaderboard__loading-dot:nth-child(3) {
+      animation-delay: 0.32s;
+    }
+
+    @keyframes dot-wave {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+      30% {
+        transform: translateY(-16px);
+        opacity: 1;
+      }
+    }
+
+    .leaderboard__loading-text {
+      color: var(--color-accent);
       font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: 0.05em;
     }
   </style>
   <noscript>
@@ -1148,21 +1200,12 @@
     // Test Panel (Right Column)
     // ==========================================
     const TestPanel = ({ phase, elapsed, time1, time2, onStart, onContinue, onReset }) => {
-      const completionRef = useRef(null);
       const isResults = phase === PHASES.RESULTS;
       const isRunning = phase === PHASES.RUNNING_1 || phase === PHASES.RUNNING_2;
       const isComplete1 = phase === PHASES.COMPLETE_1;
       const isIdle1 = phase === PHASES.IDLE_1;
       const isIdle2 = phase === PHASES.IDLE_2;
       const isComplete2 = phase === PHASES.COMPLETE_2;
-
-      useEffect(() => {
-        if ((isComplete1 || isComplete2) && completionRef.current && window.innerWidth <= 768) {
-          setTimeout(() => {
-            completionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 100);
-        }
-      }, [isComplete1, isComplete2]);
       const patternNum = (phase === PHASES.IDLE_1 || phase === PHASES.RUNNING_1 || phase === PHASES.COMPLETE_1) ? 1 : 2;
       const config = PATTERN_CONFIG[patternNum];
 
@@ -1219,19 +1262,18 @@
             <div className="prev-round">Round 1 time: <span>{formatTime(time1)}</span></div>
           )}
 
-          {/* Timer */}
-          {isRunning && (
-            <div className={`timer-display running`}>{formatTime(elapsed)}</div>
-          )}
-
-          {/* Completed state */}
-          {(isComplete1 || isComplete2) && (
-            <div ref={completionRef} className={`timer-display complete`}>{formatTime(patternNum === 1 ? time1 : time2)}</div>
-          )}
-
-          {isComplete1 && (
-            <button className="button btn-primary" onClick={onContinue}>Continue to Pattern Two</button>
-          )}
+          {/* Timer — desktop only (mobile shows below list) */}
+          <div className="desktop-only">
+            {isRunning && (
+              <div className={`timer-display running`}>{formatTime(elapsed)}</div>
+            )}
+            {(isComplete1 || isComplete2) && (
+              <div className={`timer-display complete`}>{formatTime(patternNum === 1 ? time1 : time2)}</div>
+            )}
+            {isComplete1 && (
+              <button className="button btn-primary" onClick={onContinue}>Continue to Pattern Two</button>
+            )}
+          </div>
         </div>
       );
     };
@@ -1337,8 +1379,11 @@
       const [entries, setEntries] = useState([]);
       const [loading, setLoading] = useState(true);
 
+      const isSlowLoad = new URLSearchParams(window.location.search).has('slow-load');
+
       const fetchEntries = async () => {
         try {
+          if (isSlowLoad) await new Promise(r => setTimeout(r, 5000));
           const snapshot = await window.db.collection('results')
             .orderBy('timestamp', 'desc')
             .limit(50)
@@ -1359,7 +1404,14 @@
         return (
           <div className="leaderboard">
             <h3 className="leaderboard__title">Leaderboard</h3>
-            <div className="leaderboard__loading">Loading results...</div>
+            <div className="leaderboard__loading">
+              <div className="leaderboard__loading-dots">
+                <div className="leaderboard__loading-dot"></div>
+                <div className="leaderboard__loading-dot"></div>
+                <div className="leaderboard__loading-dot"></div>
+              </div>
+              <div className="leaderboard__loading-text">Leaderboard loading</div>
+            </div>
           </div>
         );
       }
@@ -1489,13 +1541,27 @@
         };
       }, []);
 
-      // Disable browser scroll restoration
+      // Force scroll to top helper — fires after paint to beat layout shifts
+      const forceScrollTop = () => {
+        window.scrollTo(0, 0);
+        requestAnimationFrame(() => window.scrollTo(0, 0));
+        setTimeout(() => window.scrollTo(0, 0), 50);
+      };
+
+      // Disable browser scroll restoration and scroll to top on mount
       useEffect(() => {
         if ('scrollRestoration' in history) {
           history.scrollRestoration = 'manual';
         }
-        window.scrollTo(0, 0);
+        forceScrollTop();
       }, []);
+
+      // Scroll to top when entering pattern 2 idle or results
+      useEffect(() => {
+        if (phase === PHASES.IDLE_2 || phase === PHASES.RESULTS) {
+          forceScrollTop();
+        }
+      }, [phase]);
 
       // Sync hash with phase
       useEffect(() => {
@@ -1530,7 +1596,6 @@
           setTimeout(() => {
             sessionStorage.setItem('reorder-test-phase', 'RESULTS');
             setPhase(PHASES.RESULTS);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
           }, 800);
         }
       }, [items, phase]);
@@ -1548,7 +1613,6 @@
       const handleContinue = () => {
         setItems([...initialItems]);
         setPhase(PHASES.IDLE_2);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
       const handleReset = () => {
@@ -1594,6 +1658,21 @@
 
       const currentImprovement = time1 > 0 ? Math.round(((time1 - time2) / time1) * 100) : null;
 
+      const isComplete1 = phase === PHASES.COMPLETE_1;
+      const isComplete2 = phase === PHASES.COMPLETE_2;
+      const isComplete = isComplete1 || isComplete2;
+      const mobileCompletionRef = useRef(null);
+      const patternNum = (phase === PHASES.IDLE_1 || phase === PHASES.RUNNING_1 || phase === PHASES.COMPLETE_1) ? 1 : 2;
+
+      // Scroll to mobile completion area when test is done
+      useEffect(() => {
+        if (isComplete && mobileCompletionRef.current && window.innerWidth <= 768) {
+          setTimeout(() => {
+            mobileCompletionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+        }
+      }, [isComplete]);
+
       return (
         <>
           <div className={`test-layout ${isResults ? 'results-mode' : ''}`}>
@@ -1602,6 +1681,19 @@
               <div className="list-container">
                 {isPattern1 && <VariantOriginal items={items} setItems={setItemsWrapped} onInteraction={autoStartIfIdle} />}
                 {isPattern2 && <Variant1 items={items} setItems={setItemsWrapped} onInteraction={autoStartIfIdle} />}
+              </div>
+
+              {/* Mobile: Timer and completion below list */}
+              <div className="mobile-only" ref={mobileCompletionRef}>
+                {isRunning && (
+                  <div className={`timer-display running`}>{formatTime(elapsed)}</div>
+                )}
+                {isComplete && (
+                  <div className={`timer-display complete`}>{formatTime(patternNum === 1 ? time1 : time2)}</div>
+                )}
+                {isComplete1 && (
+                  <button className="button btn-primary" onClick={handleContinue}>Continue to Pattern Two</button>
+                )}
               </div>
             </div>
 
