@@ -105,6 +105,10 @@
       padding-top: var(--space-6);
     }
 
+    .mobile-results-inline {
+      padding-top: var(--space-12);
+    }
+
     @media (max-width: 768px) {
       .test-layout {
         grid-template-columns: 1fr;
@@ -175,6 +179,25 @@
       text-transform: uppercase;
       color: var(--color-accent);
       margin-bottom: var(--space-2);
+    }
+
+    .target-order-label svg {
+      transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .target-order-label svg {
+        transform: rotate(-90deg);
+      }
+      .test-panel {
+        padding-bottom: var(--space-2);
+      }
+      .test-panel__subtitle {
+        margin-bottom: var(--space-3);
+      }
+      .target-order {
+        margin-bottom: var(--space-3);
+      }
     }
 
     /* Timer display */
@@ -1592,11 +1615,13 @@
           setTime2(finalTime);
           sessionStorage.setItem('reorder-test-time2', finalTime);
           setPhase(PHASES.COMPLETE_2);
-          // Auto-advance to results after a brief pause
-          setTimeout(() => {
-            sessionStorage.setItem('reorder-test-phase', 'RESULTS');
-            setPhase(PHASES.RESULTS);
-          }, 800);
+          // Auto-advance to results after a brief pause (desktop only)
+          if (window.innerWidth > 768) {
+            setTimeout(() => {
+              sessionStorage.setItem('reorder-test-phase', 'RESULTS');
+              setPhase(PHASES.RESULTS);
+            }, 800);
+          }
         }
       }, [items, phase]);
 
@@ -1621,10 +1646,12 @@
         setTime2(0);
         setElapsed(0);
         startTimeRef.current = null;
+        setShowMobileResults(false);
         sessionStorage.removeItem('reorder-test-time1');
         sessionStorage.removeItem('reorder-test-time2');
         sessionStorage.removeItem('reorder-test-phase');
         setPhase(PHASES.IDLE_1);
+        forceScrollTop();
       };
 
       // Determine which variant to show
@@ -1662,7 +1689,10 @@
       const isComplete2 = phase === PHASES.COMPLETE_2;
       const isComplete = isComplete1 || isComplete2;
       const mobileCompletionRef = useRef(null);
+      const mobileResultsRef = useRef(null);
+      const [showMobileResults, setShowMobileResults] = useState(false);
       const patternNum = (phase === PHASES.IDLE_1 || phase === PHASES.RUNNING_1 || phase === PHASES.COMPLETE_1) ? 1 : 2;
+      const improvement = time1 > 0 ? Math.round(((time1 - time2) / time1) * 100) : 0;
 
       // Scroll to mobile completion area when test is done
       useEffect(() => {
@@ -1672,6 +1702,20 @@
           }, 100);
         }
       }, [isComplete]);
+
+      // Scroll to mobile results when revealed
+      useEffect(() => {
+        if (showMobileResults && mobileResultsRef.current) {
+          setTimeout(() => {
+            mobileResultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
+      }, [showMobileResults]);
+
+      const handleShowMobileResults = () => {
+        sessionStorage.setItem('reorder-test-phase', 'RESULTS');
+        setShowMobileResults(true);
+      };
 
       return (
         <>
@@ -1694,7 +1738,46 @@
                 {isComplete1 && (
                   <button className="button btn-primary" onClick={handleContinue}>Continue to Pattern Two</button>
                 )}
+                {isComplete2 && !showMobileResults && (
+                  <button className="button btn-primary" onClick={handleShowMobileResults}>See Results</button>
+                )}
               </div>
+
+              {/* Mobile: Inline results after pattern 2 */}
+              {isComplete2 && showMobileResults && (
+                <div className="mobile-only mobile-results-inline" ref={mobileResultsRef}>
+                  <div className="results-content">
+                    <h2 className="results-content__heading">The Proof</h2>
+                    <div className="results-times">
+                      <div className="results-time-block">
+                        <div className="results-time-block__label">Bad UX</div>
+                        <div className="results-time-block__value">{formatTime(time1)}</div>
+                      </div>
+                      <div className="results-time-block">
+                        <div className="results-time-block__label">Good UX</div>
+                        <div className="results-time-block__value">{formatTime(time2)}</div>
+                      </div>
+                    </div>
+                    <div className="results-improvement">
+                      <div className="results-improvement__value">{improvement}%</div>
+                      <div className="results-improvement__label">faster with intentional design</div>
+                    </div>
+                    <div className="results-ctas">
+                      <button className="button btn-primary" onClick={handleReset}>Try Again</button>
+                      <a href="../../../../../blog/back-from-the-dead.html" className="button btn-secondary">Back to Post</a>
+                    </div>
+                  </div>
+                  <LeaderboardSubmit
+                    time1={time1}
+                    time2={time2}
+                    onSubmitted={() => setLeaderboardKey(k => k + 1)}
+                  />
+                  <Leaderboard
+                    refreshKey={leaderboardKey}
+                    currentImprovement={currentImprovement}
+                  />
+                </div>
+              )}
             </div>
 
             {/* Right Column: Panel */}
