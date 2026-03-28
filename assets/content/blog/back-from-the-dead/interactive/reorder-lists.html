@@ -1522,6 +1522,7 @@
           setTimeout(() => {
             sessionStorage.setItem('reorder-test-phase', 'RESULTS');
             setPhase(PHASES.RESULTS);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }, 800);
         }
       }, [items, phase]);
@@ -1539,6 +1540,7 @@
       const handleContinue = () => {
         setItems([...initialItems]);
         setPhase(PHASES.IDLE_2);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
       const handleReset = () => {
