@@ -332,6 +332,14 @@ export function formatDate(dateString) {
             }
         }, null, 2);
 
+        // Build interactive CTA if interactiveUrl is set
+        let interactiveCta = '';
+        if (post.interactiveUrl) {
+            const href = `../assets/content/blog/${post.slug}/${post.interactiveUrl}`;
+            const label = post.interactiveLabel || 'Try it out';
+            interactiveCta = `<div class="blog-article__interactive-cta mb-12">\n                            <a href="${href}" class="button btn-primary" target="_blank">${label}</a>\n                        </div>`;
+        }
+
         const html = template
             .replace(/\{\{TITLE\}\}/g, post.title)
             .replace(/\{\{DESCRIPTION\}\}/g, post.excerpt)
@@ -339,6 +347,7 @@ export function formatDate(dateString) {
             .replace(/\{\{OG_IMAGE\}\}/g, ogImage)
             .replace(/\{\{JSON_LD\}\}/g, jsonLd)
             .replace(/\{\{CONTENT\}\}/g, content)
+            .replace(/\{\{INTERACTIVE_CTA\}\}/g, interactiveCta)
             .replace(/\{\{CACHE_VERSION\}\}/g, Date.now());
 
         const outputPath = path.join(BLOG_OUTPUT_DIR, `${post.slug}.html`);

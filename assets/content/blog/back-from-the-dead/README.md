@@ -15,8 +15,6 @@ Copy this folder to create a new blog post. Rename the folder to match your post
 | `order` | No | Sort tiebreaker for posts on the same date (higher = first) |
 | `coverPosition` | No | Image positioning for the card thumbnail (defaults to `center`) |
 | `relatedItem` | No | Slug of a related project or post |
-| `interactiveUrl` | No | Relative path (from the post folder) to an interactive demo |
-| `interactiveLabel` | No | Button text for the interactive CTA (defaults to "Try it out") |
 | `content` | Yes | Post body as an HTML string |
 
 ## Cover Image Positioning
