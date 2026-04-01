@@ -105,6 +105,9 @@
       padding-top: var(--space-6);
     }
 
+    .mobile-only-inline { display: none; }
+    .desktop-only-inline { display: inline; }
+
     .mobile-results-inline {
       padding-top: var(--space-12);
     }
@@ -124,6 +127,8 @@
       }
       .mobile-only { display: block; }
       .desktop-only { display: none; }
+      .mobile-only-inline { display: inline; }
+      .desktop-only-inline { display: none; }
     }
 
     /* ==========================================
@@ -642,6 +647,7 @@
     .leaderboard__table-wrap {
       border: 1px solid var(--color-neutral-200);
       border-radius: var(--radius-sm);
+      overflow: hidden;
     }
     [data-theme="dark"] .leaderboard__table-wrap {
       border-color: var(--color-neutral-700);
@@ -649,7 +655,8 @@
 
     .leaderboard__table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       font-size: var(--font-size-sm);
     }
 
@@ -680,6 +687,12 @@
       opacity: 1;
       color: var(--color-accent);
     }
+    @media (max-width: 768px) {
+      .leaderboard__table th .sort-arrow {
+        display: block;
+        margin-left: 0;
+      }
+    }
     [data-theme="dark"] .leaderboard__table th {
       background: var(--color-neutral-800);
       border-bottom-color: var(--color-neutral-700);
@@ -689,6 +702,7 @@
       padding: var(--space-3) var(--space-4);
       color: var(--text-primary);
       border-bottom: 1px solid var(--color-neutral-200);
+      text-align: left;
     }
     [data-theme="dark"] .leaderboard__table td {
       border-bottom-color: var(--color-neutral-700);
@@ -1521,7 +1535,7 @@
                   <th onClick={() => handleSort('name')}>Name <SortArrow field="name" /></th>
                   <th onClick={() => handleSort('time1')}>Bad UX <SortArrow field="time1" /></th>
                   <th onClick={() => handleSort('time2')}>Good UX <SortArrow field="time2" /></th>
-                  <th onClick={() => handleSort('improvement')}>Improvement <SortArrow field="improvement" /></th>
+                  <th onClick={() => handleSort('improvement')}><span className="mobile-only-inline">Gain</span><span className="desktop-only-inline">Improvement</span> <SortArrow field="improvement" /></th>
                 </tr>
               </thead>
               <tbody>
