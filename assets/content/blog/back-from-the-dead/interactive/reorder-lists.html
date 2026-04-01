@@ -640,8 +640,6 @@
 
     /* Table */
     .leaderboard__table-wrap {
-      max-height: 400px;
-      overflow-y: auto;
       border: 1px solid var(--color-neutral-200);
       border-radius: var(--radius-sm);
     }
@@ -656,8 +654,6 @@
     }
 
     .leaderboard__table th {
-      position: sticky;
-      top: 0;
       background: var(--color-neutral-100);
       font-size: var(--font-size-xs);
       font-weight: var(--font-weight-semibold);
@@ -667,6 +663,22 @@
       padding: var(--space-3) var(--space-4);
       text-align: left;
       border-bottom: 1px solid var(--color-neutral-200);
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+    .leaderboard__table th:hover {
+      color: var(--color-accent);
+    }
+    .leaderboard__table th .sort-arrow {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 10px;
+      opacity: 0.4;
+    }
+    .leaderboard__table th .sort-arrow.active {
+      opacity: 1;
+      color: var(--color-accent);
     }
     [data-theme="dark"] .leaderboard__table th {
       background: var(--color-neutral-800);
@@ -1401,6 +1413,23 @@
     const Leaderboard = ({ refreshKey, currentImprovement }) => {
       const [entries, setEntries] = useState([]);
       const [loading, setLoading] = useState(true);
+      const [sortField, setSortField] = useState('improvement');
+      const [sortDir, setSortDir] = useState('desc');
+
+      const handleSort = (field) => {
+        if (field === sortField) {
+          setSortDir(d => d === 'desc' ? 'asc' : 'desc');
+        } else {
+          setSortField(field);
+          setSortDir(field === 'name' ? 'asc' : 'desc');
+        }
+      };
+
+      const SortArrow = ({ field }) => {
+        const isActive = sortField === field;
+        const arrow = isActive ? (sortDir === 'asc' ? '▲' : '▼') : '▲';
+        return React.createElement('span', { className: `sort-arrow${isActive ? ' active' : ''}` }, arrow);
+      };
 
       const isSlowLoad = new URLSearchParams(window.location.search).has('slow-load');
 
@@ -1454,8 +1483,13 @@
       const avgTime2 = Math.round(entries.reduce((sum, e) => sum + e.time2, 0) / totalParticipants);
       const avgImprovement = Math.round(entries.reduce((sum, e) => sum + e.improvement, 0) / totalParticipants);
 
-      // Sort by improvement for display
-      const sorted = [...entries].sort((a, b) => b.improvement - a.improvement);
+      // Sort entries by selected column
+      const sorted = [...entries].sort((a, b) => {
+        const aVal = a[sortField];
+        const bVal = b[sortField];
+        const cmp = typeof aVal === 'string' ? aVal.localeCompare(bVal) : aVal - bVal;
+        return sortDir === 'asc' ? cmp : -cmp;
+      });
 
       return (
         <div className="leaderboard">
@@ -1484,10 +1518,10 @@
             <table className="leaderboard__table">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Bad UX</th>
-                  <th>Good UX</th>
-                  <th>Improvement</th>
+                  <th onClick={() => handleSort('name')}>Name <SortArrow field="name" /></th>
+                  <th onClick={() => handleSort('time1')}>Bad UX <SortArrow field="time1" /></th>
+                  <th onClick={() => handleSort('time2')}>Good UX <SortArrow field="time2" /></th>
+                  <th onClick={() => handleSort('improvement')}>Improvement <SortArrow field="improvement" /></th>
                 </tr>
               </thead>
               <tbody>
