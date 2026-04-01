@@ -527,12 +527,24 @@ The stylesheet is organized as a series of CSS modules imported into `main.css`:
 11. **Utilities** - Helper classes, dark mode, responsive overrides (must load last)
 
 ### Cache Busting Strategy
-CSS and JavaScript files use query parameter versioning for browser cache control:
-```html
-<link rel="stylesheet" href="assets/css/main.css?v=1760841100">
-<script src="assets/js/main.js?v=1760840700"></script>
+CSS and JavaScript files use query parameter versioning for browser cache control.
+
+**CRITICAL: Two-layer cache busting is required for CSS changes:**
+
+1. **HTML `<link>` tags** — Update `?v=` on `main.css` references in ALL HTML files:
+   - `index.html`, `lab.html`, `resume.html`
+   - `work/ai-strategy.html`, `work/design-system.html`, `work/product-suite.html`, `work/research-strategy.html`
+   - `blog/back-from-the-dead.html`, `blog/the-logic-of-beautiful-things.html`, `blog/why-ai-got-a-ui.html`
+
+2. **`@import` statements inside `assets/css/main.css`** — Each imported CSS file has its own `?v=` param. These MUST also be updated or browsers/CDNs will serve stale cached copies of imported files even when `main.css` itself is fresh.
+
+```bash
+# Update HTML files
+TIMESTAMP=$(date +%s) && for file in index.html lab.html resume.html work/*.html blog/*.html; do sed -i '' "s|main\.css?v=[0-9]*\"|main.css?v=$TIMESTAMP\"|g" "$file"; done
+
+# Update @import versions in main.css
+sed -i '' "s|\.css?v=[0-9]*|.css?v=$TIMESTAMP|g" assets/css/main.css
 ```
-Update version numbers after CSS/JS changes to force browser refresh.
 
 ### Container Strategy
 Max-width containers prevent content from becoming excessively wide on large displays:
