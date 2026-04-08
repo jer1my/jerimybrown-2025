@@ -1498,8 +1498,19 @@ body[data-theme="dark"] .blog-card__image {
 }
 
 .blog-article__body a {
-    color: var(--color-accent);
-    text-decoration: underline;
+    color: var(--link-color);
+    text-decoration: none;
+    background-image: linear-gradient(var(--link-color), var(--link-color));
+    background-size: 0% var(--link-underline-height);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    padding-bottom: 1px;
+    transition: color var(--link-transition), background-size var(--link-transition);
+}
+
+.blog-article__body a:hover {
+    color: color-mix(in srgb, var(--link-color) 50%, transparent);
+    background-size: 100% var(--link-underline-height);
 }
 
 .blog-article__body ul,
