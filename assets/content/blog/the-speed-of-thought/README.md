@@ -37,24 +37,24 @@ The `coverPosition` field controls how the cover image is cropped within the blo
 
 **How it works:** The percentage is the vertical position — `0%` is the top, `50%` is center, `100%` is the bottom. If omitted, the image defaults to `center`.
 
-## HTML Template & Build Script
+## HTML Template
 
-The HTML page template lives at `blog/_template.html`. You do **not** need to manually duplicate or edit it. The build script (`build/build-blog.js`) automatically generates each blog page from the template using the data in `post.json`.
+The HTML page template lives at `blog/_template.html`. When creating a new post, duplicate it and rename to match your slug (e.g., `blog/my-post.html`).
 
-**What the build script handles:**
-- Replaces all template placeholders (`{{TITLE}}`, `{{SLUG}}`, `{{DESCRIPTION}}`, etc.)
-- Inlines the `content` HTML from `post.json` into the article body
-- Generates JSON-LD structured data from post metadata
-- Renders the interactive CTA block if `interactiveUrl` is set in `post.json`
-- Sets cache-busting version timestamps on CSS and JS includes
+**Placeholders to replace:**
 
-## Creating a New Post
+| Placeholder | Description |
+|---|---|
+| `{{TITLE}}` | Post title |
+| `{{DESCRIPTION}}` | Meta description / excerpt |
+| `{{SLUG}}` | URL slug (must match folder and filename) |
+| `{{OG_IMAGE}}` | Full URL to the social share image |
+| `{{DATE_YYYY-MM-DD}}` | Publish date for structured data |
+| `{{CSS_CACHE_VERSION}}` | Cache bust version for CSS (copy from an existing post) |
+| `{{JS_CACHE_VERSION}}` | Cache bust version for JS (copy from an existing post) |
+| `{{CONTENT}}` | Article body HTML |
 
-1. Copy this `_template` folder and rename it to your post slug (e.g., `the-speed-of-thought`)
-2. Replace `cover.png` with your cover image
-3. Fill out `post.json` with your post data
-4. Run `node build/convert-to-webp.js` to generate `.webp` and thumbnail versions
-5. Run `node build/build-blog.js` to generate the blog data JS and all HTML pages
+**Interactive CTA:** If the post has an interactive element, uncomment the CTA block in the HTML template and replace `{{INTERACTIVE_FILE}}` and `{{CTA_LABEL}}` with the filename and button text.
 
 ## Images
 
