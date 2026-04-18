@@ -452,6 +452,13 @@ Transition: width 0.3s ease
 - This ensures proper theme switching and maintains consistency
 - Reference the complete variable list in `_variables.css`
 
+**Consistent Corner Rounding:**
+- All images across the site should have rounded corners using `var(--radius-sm)` (8px)
+- This applies to: blog body images, carousel containers, viz panels, timeline modal images, and any future image elements
+- Use `border-radius: var(--radius-sm)` on the image element, or `border-radius: var(--radius-sm)` + `overflow: hidden` on its container
+- Cards use `var(--radius-md)` (12px) with `overflow: hidden` to clip child images
+- Never use hardcoded `border-radius` pixel values — always reference the design system variables (`--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`)
+
 **Responsive Patterns:**
 - Use `min()` function for responsive sizing: `width: min(500px, 100%)`
 - Use `clamp()` for responsive typography (already defined in variables)
@@ -461,6 +468,52 @@ Transition: width 0.3s ease
 - If a pattern appears more than once, create a reusable class
 - Document new components in this file for future reference
 - Keep lab-specific components in a dedicated section of `_components.css`
+
+## Page Transitions
+
+Page transitions use a `body::after` pseudo-element overlay instead of fading the `body` opacity directly. This keeps the fixed nav visible throughout transitions.
+
+```css
+/* _charts.css — overlay sits below nav (z-index 1200), above content */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: var(--bg-primary);
+    pointer-events: none;
+    opacity: 1; /* opaque until JS fades it out */
+    transition: opacity var(--transition-page);
+}
+.page-transition-in::after { opacity: 0; }  /* reveal content */
+.page-transition-out::after { opacity: 1; } /* cover content */
+```
+
+**CRITICAL: Never use `body { opacity }` for transitions** — it hides the fixed nav.
+
+## Theme Toggle Icon Architecture
+
+The theme toggle icon is CSS-driven, not JS-driven, to prevent flash on page load:
+
+```html
+<!-- Both SVGs in HTML, CSS toggles visibility based on data-theme -->
+<button class="nav-theme-toggle" onclick="toggleTheme()">
+    <svg class="theme-icon--moon" ...><!-- moon path --></svg>
+    <svg class="theme-icon--sun" ...><!-- sun path --></svg>
+</button>
+```
+
+```css
+/* _navigation.css */
+.nav-theme-toggle .theme-icon--sun  { display: none; }
+.nav-theme-toggle .theme-icon--moon { display: block; }
+[data-theme="dark"] .nav-theme-toggle .theme-icon--sun  { display: block; }
+[data-theme="dark"] .nav-theme-toggle .theme-icon--moon { display: none; }
+```
+
+The inline `<script>` in `<head>` sets `data-theme` before first paint, so the correct icon shows immediately. **Never use JS (`updateThemeIcon`) to swap icon innerHTML** — the CSS handles it.
+
+When adding the theme toggle to new pages, include BOTH SVGs with the `theme-icon--moon` and `theme-icon--sun` classes.
 
 ## Implementation Notes
 
@@ -489,9 +542,24 @@ Transition: width 0.3s ease
     _charts.css              # Data visualizations
     _utilities.css           # Helper classes & dark mode
   /js/                       # Interactive features
-    main.js                  # Core functionality
+    /core/                   # Core systems
+      config.js              # Site configuration
+      data-loader.js         # JSON data loading
+      theme-system.js        # Theme switching (CSS-driven icons)
+    /utils/                  # Utilities
+      animations.js          # Page transitions
+      helpers.js             # Shared helpers
+    /blog/                   # Blog-specific JS
+      blog-detail.js         # Post header, carousel, related items
+      blog-listing.js        # Blog grid, filtering, sorting
+      ui-isnt-going-anywhere-viz.js  # Timeline modal + scroll-swapping viz
+    main.js                  # Core initialization
     particles.js             # Particle system
-    theme.js                 # Theme switching
+  /content/                  # Blog post content assets
+    /blog/
+      /ui-isnt-going-anywhere/  # Timeline images (tl-YEAR.webp), cover, post.json
+      /the-speed-of-thought/
+      /back-from-the-dead/
   /images/                   # Image assets
 /data/
   projects.json              # Project data
@@ -500,10 +568,18 @@ Transition: width 0.3s ease
   product-suite.html
   ai-strategy.html
   research-strategy.html
+/blog/                       # Blog post pages
+  ui-isnt-going-anywhere.html
+  the-speed-of-thought.html
+  back-from-the-dead.html
+  the-logic-of-beautiful-things.html
+  why-ai-got-a-ui.html
+  _template.html             # Blog post template
 /.claude/                    # Claude Code configuration
   /commands/                 # Slash commands
   settings.local.json
 index.html                   # Main portfolio page
+blog.html                    # Blog listing page
 lab.html                     # Interactive experiments
 resume.html                  # Resume page
 CLAUDE.md                    # This file - AI context
@@ -532,15 +608,15 @@ CSS and JavaScript files use query parameter versioning for browser cache contro
 **CRITICAL: Two-layer cache busting is required for CSS changes:**
 
 1. **HTML `<link>` tags** — Update `?v=` on `main.css` references in ALL HTML files:
-   - `index.html`, `lab.html`, `resume.html`
+   - `index.html`, `blog.html`, `lab.html`, `resume.html`
    - `work/ai-strategy.html`, `work/design-system.html`, `work/product-suite.html`, `work/research-strategy.html`
-   - `blog/back-from-the-dead.html`, `blog/the-logic-of-beautiful-things.html`, `blog/why-ai-got-a-ui.html`
+   - `blog/back-from-the-dead.html`, `blog/the-logic-of-beautiful-things.html`, `blog/the-speed-of-thought.html`, `blog/why-ai-got-a-ui.html`, `blog/ui-isnt-going-anywhere.html`
 
 2. **`@import` statements inside `assets/css/main.css`** — Each imported CSS file has its own `?v=` param. These MUST also be updated or browsers/CDNs will serve stale cached copies of imported files even when `main.css` itself is fresh.
 
 ```bash
 # Update HTML files
-TIMESTAMP=$(date +%s) && for file in index.html lab.html resume.html work/*.html blog/*.html; do sed -i '' "s|main\.css?v=[0-9]*\"|main.css?v=$TIMESTAMP\"|g" "$file"; done
+TIMESTAMP=$(date +%s) && for file in index.html blog.html lab.html resume.html work/*.html blog/*.html; do sed -i '' "s|main\.css?v=[0-9]*\"|main.css?v=$TIMESTAMP\"|g" "$file"; done
 
 # Update @import versions in main.css
 sed -i '' "s|\.css?v=[0-9]*|.css?v=$TIMESTAMP|g" assets/css/main.css

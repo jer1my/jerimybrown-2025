@@ -1,0 +1,31 @@
+<svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg">
+  <rect width="480" height="270" fill="#0e0e0e" rx="8"/>
+  <!-- Radial glow -->
+  <radialGradient id="glow-2024" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ea580c" stop-opacity="0.08"/>
+    <stop offset="100%" stop-color="#ea580c" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="480" height="270" fill="url(#glow-2024)" rx="8"/>
+  <!-- UI layer rectangles suggesting interface panels -->
+  <rect x="280" y="40" width="160" height="90" rx="6" fill="none" stroke="#ea580c" stroke-opacity="0.15" stroke-width="1"/>
+  <rect x="290" y="55" width="80" height="6" rx="3" fill="#ea580c" fill-opacity="0.15"/>
+  <rect x="290" y="68" width="120" height="4" rx="2" fill="#ea580c" fill-opacity="0.08"/>
+  <rect x="290" y="79" width="100" height="4" rx="2" fill="#ea580c" fill-opacity="0.08"/>
+  <rect x="280" y="145" width="160" height="70" rx="6" fill="none" stroke="#ea580c" stroke-opacity="0.1" stroke-width="1"/>
+  <!-- Era accent bar -->
+  <rect x="0" y="263" width="480" height="3" fill="#ea580c" rx="0" fill-opacity="0.6"/>
+  <!-- UI Moment accent -->
+  <rect x="0" y="0" width="3" height="270" fill="#c9a227" rx="0" fill-opacity="0.8"/>
+  <!-- Ghost year -->
+  <text x="20" y="230" font-family="'IBM Plex Sans', sans-serif" font-size="128" font-weight="700"
+        fill="#ea580c" fill-opacity="0.05" letter-spacing="-6">2024</text>
+  <!-- Label -->
+  <text x="32" y="30" font-family="'IBM Plex Sans', sans-serif" font-size="10" font-weight="600"
+        fill="#c9a227" fill-opacity="0.7" letter-spacing="2.5">✦ UI MOMENT · PLACEHOLDER</text>
+  <!-- Headline -->
+  <text x="32" y="130" font-family="'IBM Plex Sans', sans-serif" font-size="26" font-weight="300"
+        fill="#ffffff" fill-opacity="0.8">UI Layers Arrive</text>
+  <!-- Subline -->
+  <text x="32" y="156" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="400"
+        fill="#ffffff" fill-opacity="0.28">Memory, Projects, Voice, Canvas</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg viewBox="0 0 480 270" xmlns="http://www.w3.org/2000/svg">
+  <rect width="480" height="270" fill="#0e0e0e" rx="8"/>
+  <!-- Dot grid -->
+  <circle cx="60" cy="67" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="120" cy="67" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="180" cy="67" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="240" cy="67" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="300" cy="67" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="360" cy="67" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="420" cy="67" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="60" cy="135" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="120" cy="135" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="180" cy="135" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="240" cy="135" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="300" cy="135" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="360" cy="135" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="420" cy="135" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="60" cy="203" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="120" cy="203" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="180" cy="203" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="240" cy="203" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="300" cy="203" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="360" cy="203" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <circle cx="420" cy="203" r="1.5" fill="#22c55e" fill-opacity="0.12"/>
+  <!-- Era accent bar -->
+  <rect x="0" y="263" width="480" height="3" fill="#22c55e" rx="0" fill-opacity="0.6"/>
+  <!-- Ghost year -->
+  <text x="20" y="230" font-family="'IBM Plex Sans', sans-serif" font-size="128" font-weight="700"
+        fill="#22c55e" fill-opacity="0.05" letter-spacing="-6">2000</text>
+  <!-- Label -->
+  <text x="24" y="30" font-family="'IBM Plex Sans', sans-serif" font-size="10" font-weight="600"
+        fill="#22c55e" fill-opacity="0.45" letter-spacing="2.5">MOBILE ERA · PLACEHOLDER</text>
+  <!-- Headline -->
+  <text x="24" y="130" font-family="'IBM Plex Sans', sans-serif" font-size="26" font-weight="300"
+        fill="#ffffff" fill-opacity="0.8">The Web Matures</text>
+  <!-- Subline -->
+  <text x="24" y="156" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="400"
+        fill="#ffffff" fill-opacity="0.28">Browsers, Clicks, and the First Consumer Internet</text>
+</svg>
