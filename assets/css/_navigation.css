@@ -1,3 +1,9 @@
+/* Theme Toggle Icon — CSS-driven so the correct icon shows before JS loads */
+.nav-theme-toggle .theme-icon--sun  { display: none; }
+.nav-theme-toggle .theme-icon--moon { display: block; }
+[data-theme="dark"] .nav-theme-toggle .theme-icon--sun  { display: block; }
+[data-theme="dark"] .nav-theme-toggle .theme-icon--moon { display: none; }
+
 /* Theme Toggle */
 .theme-toggle {
     position: fixed;

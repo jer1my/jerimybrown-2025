@@ -20,31 +20,42 @@
    Page Transitions
    ========================================== */
 
-/* Page transition container - start hidden */
+/* Page transition — overlay covers content but sits below the fixed nav,
+   so the nav never flashes off during page changes. */
 body {
-    opacity: 0;
+    opacity: 1;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1100; /* below nav (1200), above everything else */
+    background: var(--bg-primary);
+    pointer-events: none;
+    opacity: 1; /* starts opaque, hiding content until JS fades it out */
     transition: opacity var(--transition-page);
 }
 
-/* Fade out state */
-.page-transition-out {
-    opacity: 0 !important;
+/* Fade in — reveal content */
+.page-transition-in::after {
+    opacity: 0;
 }
 
-/* Fade in state */
-.page-transition-in {
-    opacity: 1;
+/* Fade out — cover content */
+.page-transition-out::after {
+    opacity: 1 !important;
 }
 
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
-    body {
-        opacity: 1 !important;
+    body::after {
+        opacity: 0 !important;
         transition: none !important;
     }
 
-    .page-transition-out,
-    .page-transition-in {
+    .page-transition-out::after,
+    .page-transition-in::after {
         transition: none !important;
     }
 }
