@@ -158,7 +158,42 @@ function renderGrid() {
         const card = createBlogCard(post);
         blogGrid.appendChild(card);
     });
+
+    // Fill incomplete rows with ghost placeholders
+    fillGhostCards(posts.length);
 }
+
+function getColumnCount() {
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 3;
+}
+
+function fillGhostCards(postCount) {
+    // Remove any existing ghosts
+    blogGrid.querySelectorAll('.blog-card--ghost').forEach(g => g.remove());
+
+    const cols = getColumnCount();
+    if (cols <= 1) return; // no widows on single column
+    const remainder = postCount % cols;
+    if (remainder === 0) return; // row is full
+
+    const ghostsNeeded = cols - remainder;
+    for (let i = 0; i < ghostsNeeded; i++) {
+        const ghost = document.createElement('div');
+        ghost.className = 'blog-card blog-card--ghost';
+        ghost.setAttribute('aria-hidden', 'true');
+        ghost.innerHTML = '<span class="blog-card--ghost__label">More coming soon</span>';
+        blogGrid.appendChild(ghost);
+    }
+}
+
+// Recalculate ghosts on resize (column count may change)
+window.addEventListener('resize', () => {
+    if (!blogGrid) return;
+    const realCount = blogGrid.querySelectorAll('.blog-card:not(.blog-card--ghost)').length;
+    fillGhostCards(realCount);
+});
 
 // Expose clearFilters globally for the empty state button
 window.blogGrid = { clearFilters };

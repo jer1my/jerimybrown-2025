@@ -1290,8 +1290,32 @@ body[data-theme="dark"] .blog-card {
     background-color: var(--color-neutral-800);
 }
 
-.blog-card:hover {
+.blog-card:hover:not(.blog-card--ghost) {
     border-color: var(--color-accent);
+}
+
+/* Ghost placeholder card — fills incomplete grid rows */
+.blog-card--ghost {
+    background-color: color-mix(in srgb, var(--text-primary) 3%, transparent);
+    border: 1.5px dashed color-mix(in srgb, var(--text-primary) 6%, transparent);
+    min-height: 200px;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blog-card--ghost__label {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    color: color-mix(in srgb, var(--text-primary) 18%, transparent);
+    letter-spacing: 0.02em;
+}
+
+body[data-theme="dark"] .blog-card--ghost {
+    background-color: color-mix(in srgb, var(--color-white) 2%, transparent);
+    border-color: color-mix(in srgb, var(--color-white) 5%, transparent);
 }
 
 .blog-card__image {
@@ -2079,6 +2103,20 @@ body[data-theme="dark"] .viz-panel {
     cursor: pointer;
     z-index: 2;
     padding: 0;
+}
+
+/* Hover: scale up + stronger border for regular, brighter glow for UI moments */
+.tl-anchor:not(.tl-anchor--ui-moment):hover {
+    border-color: var(--text-primary);
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--text-primary) 20%, transparent);
+}
+
+.tl-anchor--ui-moment:hover {
+    background: #e0b82e;
+    box-shadow: 0 0 18px rgba(201, 162, 39, 0.9), 0 0 40px rgba(201, 162, 39, 0.4);
+    animation: none;
 }
 
 .tl-anchor--ui-moment {
