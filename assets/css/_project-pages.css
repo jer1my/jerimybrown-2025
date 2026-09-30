@@ -234,7 +234,7 @@
 
 .content-sidebar {
     position: sticky;
-    top: 120px; /* Account for fixed nav */
+    top: var(--content-scroll-offset); /* Account for fixed nav */
 }
 
 .content-main {
@@ -243,6 +243,7 @@
 
 .content-section {
     margin-bottom: var(--space-12);
+    scroll-margin-top: var(--content-scroll-offset); /* keeps section headings below the fixed nav on anchor scroll */
 }
 
 .content-section h2 {

@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://jerimybrown.com/work/ai-strategy.html">
-    <link rel="stylesheet" href="../assets/css/main.css?v=1776513288">
+    <link rel="stylesheet" href="../assets/css/main.css?v=1790741148">
     <style>
         /* Prevent navigation flash on first load */
         .nav {
@@ -262,15 +262,8 @@
     <!-- Project Navigation -->
     <section class="project-navigation">
         <div class="container">
-            <div class="projects-grid">
-                <a href="#" class="nav-prev-next align-left">
-                    <span class="nav-prev-next-title"><!-- Dynamic from PROJECTS config --></span>
-                    <span class="nav-prev-next-direction">← PREV</span>
-                </a>
-                <a href="#" class="nav-prev-next align-right">
-                    <span class="nav-prev-next-title"><!-- Dynamic from PROJECTS config --></span>
-                    <span class="nav-prev-next-direction">NEXT →</span>
-                </a>
+            <div class="projects-grid" data-project-navigation>
+                <!-- Prev/next links rendered by initProjectNavigation() from data/projects.json -->
             </div>
         </div>
     </section>
@@ -310,7 +303,7 @@
     <script src="../assets/js/core/data-loader.js?v=1760886500"></script>
     <script src="../assets/js/core/theme-system.js?v=1760886500"></script>
     <script src="../assets/js/utils/helpers.js?v=1760886500"></script>
-    <script src="../assets/js/utils/animations.js?v=1760886500"></script>
+    <script src="../assets/js/utils/animations.js?v=1790741148"></script>
     <script src="../assets/js/utils/image-preloader.js?v=1760886500"></script>
     <script src="../assets/js/components/navigation.js?v=1760886500"></script>
     <script src="../assets/js/components/mobile-menu.js?v=1760886500"></script>
@@ -319,192 +312,12 @@
     <script src="../assets/js/components/carousel-about.js?v=1760886500"></script>
     <script src="../assets/js/components/carousel-project.js?v=1760886500"></script>
     <script src="../assets/js/components/carousel-featured.js?v=1760886500"></script>
-    <script src="../assets/js/content/project-renderer.js?v=1760886500"></script>
+    <script src="../assets/js/content/project-renderer.js?v=1790741148"></script>
     <script src="../assets/js/content/carousel-renderer.js?v=1760886500"></script>
     <script src="../assets/js/content/brand-renderer.js?v=1760886500"></script>
     <script src="../assets/js/content/resume-renderer.js?v=1760886500"></script>
     <script src="../assets/js/content/case-study-renderer.js?v=1760886500"></script>
     <script src="../assets/js/marked.min.js"></script>
-    <script src="../assets/js/main.js?v=1760886500"></script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <section id="results" class="content-section">
-                        <h2>Results & Impact</h2>
-                        <p>Our AI design approach successfully increased user adoption of AI features while maintaining high satisfaction scores and building long-term trust in the platform's intelligent capabilities.</p>
-
-                        <div class="results-grid">
-                            <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="78">
-                                    <svg viewBox="0 0 60 60">
-                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
-                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
-                                    </svg>
-                                    <div class="chart-center">
-                                        <div class="chart-value">78%</div>
-                                    </div>
-                                </div>
-                                <div class="chart-label">Increase in AI feature adoption</div>
-                            </div>
-                            <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="92">
-                                    <svg viewBox="0 0 60 60">
-                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
-                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
-                                    </svg>
-                                    <div class="chart-center">
-                                        <div class="chart-value">92%</div>
-                                    </div>
-                                </div>
-                                <div class="chart-label">User trust score for AI recommendations</div>
-                            </div>
-                            <div class="result-metric-chart">
-                                <div class="donut-chart" data-progress="45">
-                                    <svg viewBox="0 0 60 60">
-                                        <circle class="donut-track" cx="30" cy="30" r="25"></circle>
-                                        <circle class="donut-fill" cx="30" cy="30" r="25"></circle>
-                                    </svg>
-                                    <div class="chart-center">
-                                        <div class="chart-value">45%</div>
-                                    </div>
-                                </div>
-                                <div class="chart-label">Reduction in task completion time</div>
-                            </div>
-                        </div>
-
-                        <div class="highlight-box">
-                            <h4>Design Impact</h4>
-                                <ul>
-                                    <li><strong>Standardized AI patterns</strong> across the product suite, ensuring consistency in AI experiences</li>
-                                    <li><strong>Built reusable explainability components</strong> that surface AI reasoning throughout the platform</li>
-                                    <li><strong>Defined AI-human collaboration models</strong> that preserve user agency while enabling automation</li>
-                                    <li><strong>Created AI design guidelines</strong> now used by product teams for new feature development</li>
-                                    <li><strong>Established ethical AI principles</strong> that guide organizational AI strategy</li>
-                                </ul>
-                        </div>
-                    </section>
-                </main>
-            </div>
-        </div>
-    </section>
-
-    <!-- Project Navigation -->
-    <section class="project-navigation">
-        <div class="container">
-            <div class="projects-grid">
-                <a href="#" class="nav-prev-next align-left">
-                    <span class="nav-prev-next-title"><!-- Dynamic from PROJECTS config --></span>
-                    <span class="nav-prev-next-direction">← PREV</span>
-                </a>
-                <a href="#" class="nav-prev-next align-right">
-                    <span class="nav-prev-next-title"><!-- Dynamic from PROJECTS config --></span>
-                    <span class="nav-prev-next-direction">NEXT →</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Let's Work Together</h2>
-            <p>Have a project in mind? I'd love to hear about it and explore how we can bring your ideas to life.</p>
-            <div class="contact-buttons">
-                <a href="mailto:jerimy@comcast.net" class="button btn-secondary">Email</a>
-                <a href="https://www.linkedin.com/in/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://dribbble.com/Jerimy" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Dribbble</a>
-                <a href="https://www.instagram.com/jerimybrown/" class="button btn-secondary" target="_blank" rel="noopener noreferrer">Instagram</a>
-                <a href="https://github.com/jer1my" class="button btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bottom Spacing -->
-    <div class="bottom-spacing"></div>
-
     <script src="../assets/js/main.js?v=1760886500"></script>
 </body>
 </html>

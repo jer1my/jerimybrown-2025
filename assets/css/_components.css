@@ -598,13 +598,9 @@ body[data-theme="dark"] .btn-arrow-filled:hover svg path {
 .nav-prev-next-title {
     font-size: 18px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--text-primary);
     line-height: 1.4;
     display: block;
-}
-
-body[data-theme="dark"] .nav-prev-next-title {
-    color: #e0e0e0;
 }
 
 /* Alignment variants */

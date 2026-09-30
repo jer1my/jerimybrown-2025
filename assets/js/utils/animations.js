@@ -44,7 +44,14 @@ function initSmoothScrolling() {
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
-                const targetPosition = target.offsetTop - 48;
+                // Respect the target's CSS scroll-margin-top (e.g. .content-section on
+                // case study pages); otherwise fall back to the global --scroll-offset.
+                const scrollMargin = parseFloat(getComputedStyle(target).scrollMarginTop);
+                const defaultOffset = parseFloat(
+                    getComputedStyle(document.documentElement).getPropertyValue('--scroll-offset')
+                ) || 48;
+                const offset = scrollMargin > 0 ? scrollMargin : defaultOffset;
+                const targetPosition = target.offsetTop - offset;
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'

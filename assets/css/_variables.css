@@ -163,6 +163,7 @@
   --logo-text-offset: 20px; /* Centered in desktop gutter */
   --nav-height: 80px;
   --scroll-offset: 48px; /* Sections appear closer to nav when scrolled to */
+  --content-scroll-offset: calc(var(--nav-height) + var(--space-10)); /* 120px — clears fixed nav; matches .content-sidebar sticky top */
 
   /* Border Radius */
   --radius-sm: 8px;

@@ -62,33 +62,39 @@ function initProjectPageContent() {
     }
 }
 
-// Update project navigation (prev/next links)
+// Render project navigation (prev/next links) from project data.
+// Case study pages provide an empty container:
+//   <div class="projects-grid" data-project-navigation></div>
+// Both links are generated here so the markup stays identical across pages
+// and the four case studies cycle in the order defined in data/projects.json.
 function initProjectNavigation() {
-    const navPrev = document.querySelector('.project-navigation .nav-prev-next.align-left');
-    const navNext = document.querySelector('.project-navigation .nav-prev-next.align-right');
-
-    console.log('Navigation elements found:', { navPrev: !!navPrev, navNext: !!navNext });
-
-    if (!navPrev && !navNext) return;
+    const container = document.querySelector('.project-navigation [data-project-navigation]');
+    if (!container) return;
 
     // Get current page filename
     const currentPage = window.location.pathname.split('/').pop();
     const { prev, next } = getAdjacentProjects(currentPage);
 
-    console.log('Setting navigation titles:', { prev: prev?.title, next: next?.title });
-
-    // Update previous link
-    if (navPrev && prev) {
-        navPrev.href = prev.url;
-        const prevTitle = navPrev.querySelector('.nav-prev-next-title');
-        if (prevTitle) prevTitle.textContent = prev.title;
+    if (!prev || !next) {
+        console.warn('Project navigation: no adjacent projects found for', currentPage);
+        return;
     }
 
-    // Update next link
-    if (navNext && next) {
-        navNext.href = next.url;
-        const nextTitle = navNext.querySelector('.nav-prev-next-title');
-        if (nextTitle) nextTitle.textContent = next.title;
-    }
+    container.innerHTML =
+        renderProjectNavLink(prev, 'prev') +
+        renderProjectNavLink(next, 'next');
+}
+
+function renderProjectNavLink(project, direction) {
+    const isPrev = direction === 'prev';
+    const alignClass = isPrev ? 'align-left' : 'align-right';
+    const label = isPrev ? '← PREV' : 'NEXT →';
+    const ariaLabel = `${isPrev ? 'Previous' : 'Next'} case study: ${project.title}`;
+
+    return `
+        <a href="${project.url}" class="nav-prev-next ${alignClass}" aria-label="${ariaLabel}">
+            <span class="nav-prev-next-title">${project.title}</span>
+            <span class="nav-prev-next-direction">${label}</span>
+        </a>`;
 }
 
