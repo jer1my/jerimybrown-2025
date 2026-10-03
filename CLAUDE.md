@@ -605,7 +605,7 @@ The stylesheet is organized as a series of CSS modules imported into `main.css`:
 ### Cache Busting Strategy
 CSS and JavaScript files use query parameter versioning for browser cache control.
 
-**CRITICAL: Two-layer cache busting is required for CSS changes:**
+**CRITICAL: Three-layer cache busting is required. Miss one layer and browsers can pair a fresh file with a stale dependency, which breaks harder than plain staleness.**
 
 1. **HTML `<link>` tags** — Update `?v=` on `main.css` references in ALL HTML files:
    - `index.html`, `blog.html`, `lab.html`, `resume.html`
@@ -614,12 +614,22 @@ CSS and JavaScript files use query parameter versioning for browser cache contro
 
 2. **`@import` statements inside `assets/css/main.css`** — Each imported CSS file has its own `?v=` param. These MUST also be updated or browsers/CDNs will serve stale cached copies of imported files even when `main.css` itself is fresh.
 
+3. **Relative `import` specifiers inside ES modules** (`assets/js/blog/*.js`, `assets/js/gallery/*.js`) — e.g. `from './blog-data.js?v=...'`. The `<script src>` stamp only covers the entry module; without stamps on its internal imports a browser can link a new entry module against a cached old dependency and the whole module graph fails (this emptied the blog grid after a deploy; see jer1my/jerimybrown-2025#7). Any new relative import must include `?v=0` so the sed below picks it up.
+
+4. **`<script src>` tags** for any JS file that changed, in every HTML file that loads it.
+
 ```bash
 # Update HTML files
 TIMESTAMP=$(date +%s) && for file in index.html blog.html lab.html resume.html work/*.html blog/*.html; do sed -i '' "s|main\.css?v=[0-9]*\"|main.css?v=$TIMESTAMP\"|g" "$file"; done
 
 # Update @import versions in main.css
 sed -i '' "s|\.css?v=[0-9]*|.css?v=$TIMESTAMP|g" assets/css/main.css
+
+# Update relative import specifiers inside ES modules
+for f in assets/js/blog/*.js assets/js/gallery/*.js; do sed -i '' -E "s#(from '\./[A-Za-z0-9_-]+\.js)\?v=[0-9]*'#\1?v=$TIMESTAMP'#g" "$f"; done
+
+# Update <script src> stamps for a changed JS file (replace <name>, e.g. blog-grid)
+for file in index.html blog.html lab.html resume.html work/*.html blog/*.html; do sed -i '' "s|<name>\.js?v=[0-9]*\"|<name>.js?v=$TIMESTAMP\"|g" "$file"; done
 ```
 
 ### Container Strategy

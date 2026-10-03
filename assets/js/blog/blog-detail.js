@@ -8,7 +8,7 @@ import {
     getPostBySlug,
     formatDate,
     getSlidePathsForTheme,
-    getThumbSlidePathsForTheme, getTagLabel } from './blog-data.js';
+    getThumbSlidePathsForTheme, getTagLabel } from './blog-data.js?v=1790999671';
 
 const IMAGE_BASE_PATH = '../assets/content/blog';
 

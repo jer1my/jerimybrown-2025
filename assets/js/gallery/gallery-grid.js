@@ -3,7 +3,7 @@
  * Renders a responsive grid of product cards
  */
 
-import { createProductCard, renderProductCards } from './product-card.js';
+import { createProductCard, renderProductCards } from './product-card.js?v=1790999671';
 
 /**
  * Initialize gallery grid

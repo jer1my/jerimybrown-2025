@@ -3,7 +3,7 @@
  * Renders product detail pages with purchase form
  */
 
-import { productTypes, sizeOptions, getPrice, formatPrice, getDisplayPrice } from './gallery-data.js';
+import { productTypes, sizeOptions, getPrice, formatPrice, getDisplayPrice } from './gallery-data.js?v=1790999671';
 import { addToCart, getCartItemCount } from '../cart/cart.js';
 
 /**

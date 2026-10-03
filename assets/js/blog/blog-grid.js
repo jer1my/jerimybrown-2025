@@ -3,8 +3,8 @@
  * Renders and manages the blog listing with filtering and sorting
  */
 
-import { blogPosts, blogTags, getTagLabel } from './blog-data.js';
-import { createBlogCard } from './blog-card.js';
+import { blogPosts, blogTags, getTagLabel } from './blog-data.js?v=1790999671';
+import { createBlogCard } from './blog-card.js?v=1790999671';
 
 // State
 let activeTags = [];          // selected tag slugs; a post must carry every one

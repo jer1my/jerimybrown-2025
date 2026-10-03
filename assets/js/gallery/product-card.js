@@ -3,7 +3,7 @@
  * Renders gallery product cards with hover overlay
  */
 
-import { getMinPrice } from './gallery-data.js';
+import { getMinPrice } from './gallery-data.js?v=1790999671';
 
 /**
  * Create a product card element
