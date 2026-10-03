@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How AI Helped Accessibility Escape the Backlog - Jerimy Brown</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="Everyone is arguing about what AI is taking. Not enough people are talking about what it is giving back. For me it gave back time, and the first thing I did with it was accessibility work.">
+    <meta name="author" content="Jerimy Brown">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://jerimybrown.com/blog/how-ai-helped-accessibility-escape-the-backlog.html">
+    <meta property="og:title" content="How AI Helped Accessibility Escape the Backlog - Jerimy Brown">
+    <meta property="og:description" content="Everyone is arguing about what AI is taking. Not enough people are talking about what it is giving back. For me it gave back time, and the first thing I did with it was accessibility work.">
+    <meta property="og:image" content="https://jerimybrown.com/assets/content/blog/how-ai-helped-accessibility-escape-the-backlog/cover.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://jerimybrown.com/blog/how-ai-helped-accessibility-escape-the-backlog.html">
+    <meta name="twitter:title" content="How AI Helped Accessibility Escape the Backlog - Jerimy Brown">
+    <meta name="twitter:description" content="Everyone is arguing about what AI is taking. Not enough people are talking about what it is giving back. For me it gave back time, and the first thing I did with it was accessibility work.">
+    <meta name="twitter:image" content="https://jerimybrown.com/assets/content/blog/how-ai-helped-accessibility-escape-the-backlog/cover.webp">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://jerimybrown.com/blog/how-ai-helped-accessibility-escape-the-backlog.html">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How AI Helped Accessibility Escape the Backlog",
+  "description": "Everyone is arguing about what AI is taking. Not enough people are talking about what it is giving back. For me it gave back time, and the first thing I did with it was accessibility work.",
+  "image": "https://jerimybrown.com/assets/content/blog/how-ai-helped-accessibility-escape-the-backlog/cover.webp",
+  "url": "https://jerimybrown.com/blog/how-ai-helped-accessibility-escape-the-backlog.html",
+  "datePublished": "2026-10-02",
+  "author": {
+    "@type": "Person",
+    "name": "Jerimy Brown"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jerimy Brown",
+    "url": "https://jerimybrown.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://jerimybrown.com/assets/images/preview/home-preview.png"
+    }
+  }
+}</script>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts: IBM Plex Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/css/main.css?v=1790998436">
+
+    <style>
+        /* Critical inline styles to prevent navigation flash */
+        .nav {
+            background: rgba(250, 250, 250, 0.1) !important;
+        }
+        body[data-theme="dark"] .nav {
+            background: rgba(23, 23, 23, 0.1) !important;
+        }
+    </style>
+
+    <noscript>
+        <style>
+            body { opacity: 1 !important; }
+        </style>
+    </noscript>
+</head>
+<body>
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-container">
+                    <div class="logo-svg"></div>
+                    <span class="logo-text">Jerimy Brown</span>
+                </div>
+            </a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="../index.html"><span class="link-text">Home</span></a></li>
+                    <li><a href="../index.html#projects"><span class="link-text">Work</span></a></li>
+                    <li><a href="../index.html#about"><span class="link-text">About</span></a></li>
+                    <li><a href="../index.html#contact"><span class="link-text">Contact</span></a></li>
+                    <li><a href="../blog.html" class="active"><span class="link-text">Blog</span></a></li>
+                    <li><a href="../lab.html"><span class="link-text">Lab</span></a></li>
+                    <li><a href="../resume.html"><span class="link-text">Resume</span></a></li>
+                </ul>
+                <button class="nav-theme-toggle" onclick="toggleTheme()">
+                    <svg class="theme-icon--moon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+                    </svg>
+                    <svg class="theme-icon--sun" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0.5C12.5523 0.5 13 0.947715 13 1.5V3.375C13 3.92728 12.5523 4.375 12 4.375C11.4477 4.375 11 3.92728 11 3.375V1.5C11 0.947715 11.4477 0.5 12 0.5Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5.375 12C5.375 8.34111 8.34111 5.375 12 5.375C15.6589 5.375 18.625 8.34111 18.625 12C18.625 15.6589 15.6589 18.625 12 18.625C8.34111 18.625 5.375 15.6589 5.375 12ZM12 7.375C9.44568 7.375 7.375 9.44568 7.375 12C7.375 14.5543 9.44568 16.625 12 16.625C14.5543 16.625 16.625 14.5543 16.625 12C16.625 9.44568 14.5543 7.375 12 7.375Z" fill="currentColor"/><path d="M5.28249 3.86827C4.89196 3.47775 4.2588 3.47775 3.86827 3.86827C3.47775 4.2588 3.47775 4.89196 3.86827 5.28249L5.1941 6.60831C5.58462 6.99884 6.21779 6.99884 6.60831 6.60831C6.99884 6.21779 6.99884 5.58462 6.60831 5.1941L5.28249 3.86827Z" fill="currentColor"/><path d="M0.5 12C0.5 11.4477 0.947715 11 1.5 11H3.375C3.92728 11 4.375 11.4477 4.375 12C4.375 12.5523 3.92728 13 3.375 13H1.5C0.947715 13 0.5 12.5523 0.5 12Z" fill="currentColor"/><path d="M6.60831 18.8059C6.99884 18.4154 6.99884 17.7822 6.60831 17.3917C6.21779 17.0012 5.58462 17.0012 5.1941 17.3917L3.86827 18.7175C3.47775 19.1081 3.47775 19.7412 3.86827 20.1318C4.2588 20.5223 4.89196 20.5223 5.28249 20.1317L6.60831 18.8059Z" fill="currentColor"/><path d="M12 19.625C12.5523 19.625 13 20.0727 13 20.625V22.5C13 23.0523 12.5523 23.5 12 23.5C11.4477 23.5 11 23.0523 11 22.5V20.625C11 20.0727 11.4477 19.625 12 19.625Z" fill="currentColor"/><path d="M18.8059 17.3917C18.4154 17.0012 17.7822 17.0012 17.3917 17.3917C17.0012 17.7822 17.0012 18.4154 17.3917 18.8059L18.7175 20.1318C19.108 20.5223 19.7412 20.5223 20.1317 20.1318C20.5223 19.7412 20.5223 19.1081 20.1317 18.7175L18.8059 17.3917Z" fill="currentColor"/><path d="M19.625 12C19.625 11.4477 20.0727 11 20.625 11H22.5C23.0523 11 23.5 11.4477 23.5 12C23.5 12.5523 23.0523 13 22.5 13H20.625C20.0727 13 19.625 12.5523 19.625 12Z" fill="currentColor"/><path d="M20.1317 5.28249C20.5223 4.89196 20.5223 4.2588 20.1317 3.86827C19.7412 3.47775 19.108 3.47775 18.7175 3.86827L17.3917 5.1941C17.0012 5.58462 17.0012 6.21779 17.3917 6.60831C17.7822 6.99884 18.4154 6.99884 18.8059 6.60831L20.1317 5.28249Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle Button -->
+    <button class="nav-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu-content">
+            <nav class="mobile-nav">
+                <a href="../index.html" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Home</span></a>
+                <a href="../index.html#projects" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Work</span></a>
+                <a href="../index.html#about" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">About</span></a>
+                <a href="../index.html#contact" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Contact</span></a>
+                <a href="../blog.html" onclick="toggleMobileMenu(event)" class="active"><span class="mobile-link-text">Blog</span></a>
+                <a href="../lab.html" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Lab</span></a>
+                <a href="../resume.html" onclick="toggleMobileMenu(event)"><span class="mobile-link-text">Resume</span></a>
+            </nav>
+            <button class="mobile-theme-toggle" onclick="toggleTheme()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98038 2.73135C9.79117 2.67374 9.59078 2.67397 9.40415 2.72944C7.79045 3.18158 6.32264 4.04719 5.14599 5.24078C3.96517 6.4386 3.11882 7.92491 2.69124 9.55165C2.26365 11.1784 2.26977 12.8888 2.70898 14.5124C3.14819 16.136 4.00515 17.6163 5.19451 18.8056C6.38386 19.995 7.86409 20.8519 9.48773 21.2911C11.1114 21.7303 12.8218 21.7364 14.4485 21.3088C16.0752 20.8812 17.5615 20.0348 18.7593 18.854C19.9525 17.6778 20.8179 16.2106 21.2702 14.5976C21.324 14.4177 21.3265 14.2247 21.275 14.041C21.1538 13.6089 20.7597 13.3102 20.311 13.3106C20.2099 13.3107 20.1116 13.326 20.0186 13.3546C18.7246 13.7093 17.3598 13.7164 16.0619 13.3751C14.7554 13.0314 13.5636 12.347 12.6083 11.3918C11.6531 10.4365 10.9686 9.24468 10.625 7.93818C10.2834 6.63949 10.2908 5.27379 10.6461 3.9791C10.6732 3.89024 10.6881 3.79655 10.6893 3.70018C10.6947 3.25564 10.4057 2.86084 9.98038 2.73135ZM6.57028 6.64485C7.11058 6.09677 7.72838 5.63598 8.40126 5.27566C8.32141 6.33717 8.41781 7.40898 8.69079 8.44689C9.12451 10.096 9.98839 11.6003 11.1941 12.806C12.3998 14.0117 13.9041 14.8756 15.5532 15.3093C16.5911 15.5822 17.6629 15.6786 18.7244 15.5988C18.3641 16.2717 17.9033 16.8894 17.3553 17.4297C16.4063 18.3652 15.2288 19.0357 13.9401 19.3745C12.6513 19.7133 11.2963 19.7084 10.01 19.3605C8.72365 19.0125 7.55096 18.3336 6.60871 17.3914C5.66647 16.4492 4.98755 15.2765 4.63959 13.9902C4.29163 12.7039 4.28679 11.3488 4.62553 10.0601C4.96428 8.77132 5.63479 7.59381 6.57028 6.64485Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Blog Post Content -->
+    <main class="blog-detail">
+        <article class="blog-article" data-post-slug="how-ai-helped-accessibility-escape-the-backlog">
+            <div class="container">
+                <!-- Back link -->
+                <a href="../blog.html" class="blog-back-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back to Blog
+                </a>
+
+                <!-- Article Header -->
+                <header class="blog-article__header" id="blog-header">
+                    <!-- Title, category, date rendered by JavaScript -->
+                </header>
+
+                <!-- Two-column layout: content left, carousel right -->
+                <div class="blog-article__layout">
+                    <div class="blog-article__content-column">
+                        <!-- Article Body (inlined at build time) -->
+                        <div class="blog-article__body">
+                            <p>I planned to write a different article than this one.</p>
+<p>The original idea was straightforward. Talk about accessibility, cite the numbers, make the case that AI gives us time to finally address it, and move on. Clean thesis. Easy to write. Probably fine.</p>
+<p>Then I spent the last few weeks doing more accessibility work than I have done in my entire career on a single product. And it changed what I wanted to say.</p>
+<h2>While Everyone Is Arguing About Jobs</h2>
+<p>The loudest conversation in AI right now is about what it is taking. Jobs. Careers. Industries. The concern is real and I am not here to dismiss it. I am as concerned as anyone about the environmental cost too. The energy consumption, the water draw, the questions we have not fully answered yet about what it costs the planet to run these systems at scale. These are not small things and they deserve serious attention.</p>
+<p>But while we are working through those conundrums something else is happening that is not getting nearly enough attention. AI is giving things back. Specifically it is giving back time. And that recovered time gets to go towards all the things you always wanted to do but could never justify in a sprint.</p>
+<p>Accessibility has always been at the top of that list.</p>
+<h2>The Thing That Always Got Pushed</h2>
+<p>If you have worked in product design for any length of time you know exactly how this goes. Accessibility work gets scoped. It gets estimated. Everyone agrees it matters. And then the sprint fills up with features and edge cases and the accessibility ticket moves to the next cycle. And the next one. And the one after that.</p>
+<p>It is not that teams do not care. Most of the people I have worked with over thirty years of this career genuinely do. It is that time and budget have always been the constraint that wins. When you are choosing between shipping a feature a hundred thousand users will see immediately and fixing a screen reader issue that affects a smaller subset of your audience, the math is brutal and the right answer rarely survives it.</p>
+<p>That is the thing AI is quietly changing. And it is more exciting to me than almost anything else happening right now.</p>
+<h2>The Art Director Is Back</h2>
+<p>Here is what my workflow looks like right now. My team and I built an agent harness that uses orchestration to fire off its own worker agents, code review agents, and QA agents in a fully automated process. It ends in a pull request that is pretty close to production ready. I do not do much actual coding anymore. I think of myself as a facilitator.</p>
+<p>It reminds me of my early career as an Art Director. I had the vision for where the work needed to land and I directed the people who could get it there. That is exactly what this feels like. I set the direction. The agents do the work. And while they are building I am not waiting. I am circling back to see where we landed, finding where we still have room to improve, and writing the next Linear issues to get us there. It is cyclical. It is fast. I am the conductor. And it gives me something I have never had in this job. Room to think.</p>
+<p>That recovered capacity does not feel like a small thing when you are inside it. It feels like someone gave you a second set of hands. And the first thing I did with those hands was accessibility work. Real accessibility work.</p>
+<p>Focus order. Keyboard navigation. ARIA labels. The unglamorous, detail heavy work that never makes a feature demo and never makes a sprint either. I did not plan it. Nobody scheduled it. I had the capacity, so I did it.</p>
+<p>Color contrast is still sitting in the backlog as I write this. That part has not changed. What has changed is that the backlog is actually getting reached. For the first time in my career the queue is moving instead of growing.</p>
+<h2>The 2.2 Billion People at the Back of the Line</h2>
+<p>The <a href="https://www.who.int/news-room/fact-sheets/detail/blindness-and-visual-impairment" target="_blank">World Health Organization</a> estimates that at least 2.2 billion people globally live with some form of vision impairment. By 2050 that number is projected to grow significantly. These are people who have always been underserved by traditional visual UI, not because designers did not care, but because the economics of inclusion have always been hard to justify in a roadmap conversation.</p>
+<p>Voice input that actually understands natural language. Screen readers that can navigate AI-generated content intelligently. Alternative interaction models built for people who have never been well served by a mouse and a monitor. These are not nice to haves. They are the difference between participating in the digital world and being excluded from it.</p>
+<p>And for the first time in my career I am actually getting to work on them. Not plan them. Not push them to the backlog. Work on them.</p>
+<h2>What AI Is Actually Giving Us</h2>
+<p>People are going to keep arguing about what AI is taking. That conversation is not going away and it should not. The concerns are legitimate and they deserve serious people working seriously on them.</p>
+<p>But I want to make the case for what it is giving back. Because I am living it right now.</p>
+<p>AI is giving us time. And that time gets to go towards the things that always mattered but never made it to the top of the list. The edge cases. The inclusive design decisions. The accessibility work that should have shipped three sprints ago. The details that separate a product that works from a product that works for everyone.</p>
+<p>The people who have always been at the back of the line might finally be getting to the front. Not because the industry suddenly grew a conscience. Because we finally have the capacity to act on the one we already had.</p>
+<p>That is what keeps me excited about this. That is what keeps me at the table.</p>
+                        </div>
+
+                        <!-- Interactive CTA (rendered by build if interactiveUrl exists) -->
+                        
+
+                        <!-- Related Item (populated by JavaScript if relatedItem exists) -->
+                        <div class="blog-article__related" id="blog-related"></div>
+                    </div>
+
+                    <!-- Carousel column (hidden if no images, shown by JS) -->
+                    <div class="blog-article__images">
+                        <div id="blog-carousel">
+                            <!-- Carousel rendered by JavaScript if images exist -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <!-- Back to Blog Button -->
+    <a href="../blog.html" class="btn-arrow btn-arrow-md back-to-projects">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 12L6 12M10 8L6 12L10 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+    <!-- Back to Top Button -->
+    <button class="btn-arrow btn-arrow-md btn-arrow-filled back-to-top" onclick="scrollToTop()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 18L12 6M8 10L12 6L16 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="../assets/js/core/config.js?v=1790991930702"></script>
+    <script src="../assets/js/core/data-loader.js?v=1790991930702"></script>
+    <script src="../assets/js/core/theme-system.js?v=1790991930702"></script>
+    <script src="../assets/js/utils/helpers.js?v=1790991930702"></script>
+    <script src="../assets/js/utils/animations.js?v=1790991930702"></script>
+    <script src="../assets/js/components/navigation.js?v=1790991930702"></script>
+    <script src="../assets/js/components/mobile-menu.js?v=1790991930702"></script>
+    <script src="../assets/js/components/logo-animation.js?v=1790991930702"></script>
+
+    <!-- Blog Detail Module -->
+    <script type="module" src="../assets/js/blog/blog-detail.js?v=1790991930702"></script>
+
+
+    <!-- Page initialization (blog-specific, no content renderers needed) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initTheme === 'function') initTheme();
+            if (typeof initLogoLetterAnimation === 'function') initLogoLetterAnimation();
+            if (typeof initBackToTop === 'function') initBackToTop();
+            if (typeof initPageTransitions === 'function') initPageTransitions();
+            if (typeof initNavigationActiveState === 'function') initNavigationActiveState();
+            if (typeof initMobileMenuClose === 'function') initMobileMenuClose();
+        });
+    </script>
+</body>
+</html>
