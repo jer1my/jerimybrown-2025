@@ -10,13 +10,14 @@ Copy this folder to create a new blog post. Rename the folder to match your post
 | `title` | Yes | Post title |
 | `slug` | Yes | URL slug — must match the folder name |
 | `datePublished` | Yes | Publish date (`YYYY-MM-DD`) |
-| `category` | Yes | Post category (e.g., `perspective`, `process`) |
+| `tags` | Yes | Ordered array of topic slugs, e.g. `["ai", "accessibility"]`. Array order is display order; the first tag is primary. Slugs are lowercase; display casing (`ai` → `AI`) comes from `TAG_LABEL_OVERRIDES` in `build/build-blog.js`. A legacy single `category` string is still accepted and wrapped. |
 | `excerpt` | Yes | Summary shown on the blog listing page |
 | `order` | No | Sort tiebreaker for posts on the same date (higher = first) |
 | `coverPosition` | No | Image positioning for the card thumbnail (defaults to `center`) |
 | `relatedItem` | No | Slug of a related project or post |
 | `interactiveUrl` | No | Relative path (from the post folder) to an interactive demo |
 | `interactiveLabel` | No | Button text for the interactive CTA (defaults to "Try it out") |
+| `scripts` | No | Array of post-specific module script filenames under `assets/js/blog/` (e.g. `["ui-isnt-going-anywhere-viz.js"]`). Injected after the blog detail module. Never hand-edit generated pages in `blog/`; the build overwrites them. |
 | `content` | Yes | Post body as an HTML string |
 
 ## Cover Image Positioning

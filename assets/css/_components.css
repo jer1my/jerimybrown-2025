@@ -1221,9 +1221,74 @@ body[data-theme="dark"] .product-thumbnail-strip__bg {
     border-color: var(--color-accent);
 }
 
+/* Tag filter (multi-select chips) */
+.blog-filter-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
+
+.blog-filter-group--tags {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.blog-filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.blog-tag-chip {
+    padding: calc(var(--space-1) + 2px) calc(var(--space-2) + 2px);
+    font-family: var(--font-family-primary);
+    font-size: calc(var(--font-size-xs) - 1px);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    border: 1px solid var(--color-neutral-300);
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.blog-tag-chip:hover {
+    color: var(--text-primary);
+    border-color: var(--color-accent);
+}
+
+.blog-tag-chip[aria-pressed="true"] {
+    color: var(--color-white);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.blog-tag-chip:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+body[data-theme="dark"] .blog-tag-chip {
+    background: var(--color-neutral-800);
+    border-color: var(--color-neutral-600);
+}
+
+body[data-theme="dark"] .blog-tag-chip[aria-pressed="true"] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* Clear button trails the last chip and matches chip sizing */
 #clear-filters {
     align-self: center;
     margin: 0;
+    padding: calc(var(--space-1) + 2px) calc(var(--space-2) + 2px);
+    font-size: calc(var(--font-size-xs) - 1px);
+    line-height: 1;
 }
 
 body[data-theme="dark"] .blog-filter-group select {
@@ -1245,6 +1310,10 @@ body[data-theme="dark"] .blog-filter-group select {
         width: 100%;
     }
 
+    .blog-filter-group--tags {
+        flex: initial;
+    }
+
     .blog-filter-group select {
         flex: 1;
     }
@@ -1252,9 +1321,43 @@ body[data-theme="dark"] .blog-filter-group select {
 
 /* Blog Grid */
 .blog-grid {
+    position: relative; /* anchors leaving cards during filter animation */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
+}
+
+/* Filter animation states (driven by blog-grid.js).
+   Double-class selectors outrank the base .blog-card transition. */
+.blog-card.blog-card--leaving {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.blog-card.blog-card--entering,
+.blog-empty.blog-card--entering {
+    opacity: 0;
+}
+
+.blog-card.blog-card--fading-in,
+.blog-empty.blog-card--fading-in {
+    opacity: 1;
+    transition: opacity 0.35s ease;
+}
+
+.blog-card.blog-card--moving {
+    transition: transform 0.45s var(--transition-cubic);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blog-card.blog-card--leaving,
+    .blog-card.blog-card--fading-in,
+    .blog-empty.blog-card--fading-in,
+    .blog-card.blog-card--moving {
+        transition: none;
+    }
 }
 
 @media (max-width: 1024px) {
@@ -1333,13 +1436,23 @@ body[data-theme="dark"] .blog-card__image {
     flex-direction: column;
 }
 
-.blog-card__category {
+.blog-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
     font-family: var(--font-family-primary);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-accent);
+}
+
+/* Tags render in post.json order; the first is the primary topic */
+.blog-tag + .blog-tag::before {
+    content: '·';
+    margin-right: var(--space-3);
+    color: var(--text-tertiary);
 }
 
 .blog-card__title {
@@ -1427,7 +1540,10 @@ body[data-theme="dark"] .blog-card__image {
     color: var(--text-secondary);
 }
 
-.blog-article__category {
+.blog-article__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.08em;

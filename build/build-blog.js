@@ -89,6 +89,46 @@ function detectImages(folderPath) {
     return { cover, coverLight, slides, slidesLight, hasLightVariants, thumb, thumbLight, thumbSlides, thumbSlidesLight };
 }
 
+/**
+ * Display labels for tag slugs that should not be plain title-cased.
+ * Any tag not listed here is rendered with its first letter capitalized.
+ */
+const TAG_LABEL_OVERRIDES = {
+    ai: 'AI',
+    ux: 'UX',
+    ui: 'UI'
+};
+
+function labelForTag(tag) {
+    if (TAG_LABEL_OVERRIDES[tag]) return TAG_LABEL_OVERRIDES[tag];
+    return tag.charAt(0).toUpperCase() + tag.slice(1);
+}
+
+/**
+ * Resolve a post's tags from `tags` (preferred) or legacy `category`.
+ * Returns a de-duplicated array of lowercase slugs, or null after pushing an error.
+ */
+function normalizeTags(post, folder, errors) {
+    let raw = post.tags;
+    if (raw === undefined && typeof post.category === 'string') {
+        raw = [post.category];
+    }
+    if (!Array.isArray(raw) || raw.length === 0) {
+        errors.push(`${folder}/post.json: "tags" must be a non-empty array of strings`);
+        return null;
+    }
+    const tags = [];
+    for (const t of raw) {
+        if (typeof t !== 'string' || !t.trim()) {
+            errors.push(`${folder}/post.json: "tags" contains an empty or non-string value`);
+            return null;
+        }
+        const slug = t.trim().toLowerCase();
+        if (!tags.includes(slug)) tags.push(slug);
+    }
+    return tags;
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -126,12 +166,17 @@ function build() {
         }
 
         // Validate required fields
-        const required = ['id', 'title', 'slug', 'datePublished', 'category', 'excerpt', 'content'];
+        const required = ['id', 'title', 'slug', 'datePublished', 'excerpt', 'content'];
         const missing = required.filter(f => !post[f]);
         if (missing.length > 0) {
             errors.push(`${folder}/post.json: Missing fields: ${missing.join(', ')}`);
             continue;
         }
+
+        // Normalize tags. Array order is display order; the first tag is primary.
+        // A legacy single `category` string is accepted and wrapped.
+        post.tags = normalizeTags(post, folder, errors);
+        if (!post.tags) continue;
 
         // Verify slug matches folder name
         if (post.slug !== folder) {
@@ -159,8 +204,9 @@ function build() {
         return (b.order || 0) - (a.order || 0);
     });
 
-    // Collect unique categories
-    const categories = [...new Set(posts.map(p => p.category))].sort();
+    // Collect unique tags across all posts, with display labels
+    const tags = [...new Set(posts.flatMap(p => p.tags))].sort();
+    const tagLabels = Object.fromEntries(tags.map(t => [t, labelForTag(t)]));
 
     // -----------------------------------------------------------------------
     // Generate blog-data.js
@@ -172,7 +218,7 @@ function build() {
         slug: post.slug,
         datePublished: post.datePublished,
         order: post.order || 999,
-        category: post.category,
+        tags: post.tags,
         excerpt: post.excerpt,
         relatedItem: post.relatedItem || null,
         coverPosition: post.coverPosition || 'center',
@@ -190,8 +236,18 @@ function build() {
 
 const BLOG_IMAGE_BASE = 'assets/content/blog';
 
-// Blog Categories
-export const blogCategories = ${JSON.stringify(categories, null, 2)};
+// Blog Tags (sorted). Each post's \`tags\` array is in display order; index 0 is primary.
+export const blogTags = ${JSON.stringify(tags, null, 2)};
+
+// Display labels for tag slugs
+export const tagLabels = ${JSON.stringify(tagLabels, null, 2)};
+
+/**
+ * Get the display label for a tag slug
+ */
+export function getTagLabel(tag) {
+    return tagLabels[tag] || (tag.charAt(0).toUpperCase() + tag.slice(1));
+}
 
 // Blog Posts (sorted newest first)
 export const blogPosts = ${JSON.stringify(postsForExport, null, 2)};
@@ -204,11 +260,12 @@ export function getPostBySlug(slug) {
 }
 
 /**
- * Get blog posts filtered by category
+ * Get blog posts that carry every tag in the given list.
+ * An empty list returns all posts.
  */
-export function getPostsByCategory(category) {
-    if (!category || category === 'all') return blogPosts;
-    return blogPosts.filter(p => p.category === category);
+export function getPostsByTags(tags) {
+    if (!tags || tags.length === 0) return blogPosts;
+    return blogPosts.filter(p => tags.every(t => p.tags.includes(t)));
 }
 
 /**
@@ -340,6 +397,14 @@ export function formatDate(dateString) {
             interactiveCta = `<div class="blog-article__interactive-cta mb-12">\n                            <a href="${href}" class="button btn-primary" target="_blank">${label}</a>\n                        </div>`;
         }
 
+        // Post-specific module scripts (post.json "scripts": files under assets/js/blog/)
+        let postScripts = '';
+        if (Array.isArray(post.scripts) && post.scripts.length > 0) {
+            postScripts = '\n    <!-- Post-specific scripts (from post.json) -->\n' + post.scripts
+                .map(file => `    <script type="module" src="../assets/js/blog/${file}?v=${Date.now()}"></script>`)
+                .join('\n');
+        }
+
         const html = template
             .replace(/\{\{TITLE\}\}/g, post.title)
             .replace(/\{\{DESCRIPTION\}\}/g, post.excerpt)
@@ -348,6 +413,7 @@ export function formatDate(dateString) {
             .replace(/\{\{JSON_LD\}\}/g, jsonLd)
             .replace(/\{\{CONTENT\}\}/g, content)
             .replace(/\{\{INTERACTIVE_CTA\}\}/g, interactiveCta)
+            .replace(/\{\{POST_SCRIPTS\}\}/g, postScripts)
             .replace(/\{\{CACHE_VERSION\}\}/g, Date.now());
 
         const outputPath = path.join(BLOG_OUTPUT_DIR, `${post.slug}.html`);
@@ -361,7 +427,7 @@ export function formatDate(dateString) {
     console.log('');
     console.log('Blog Build Complete');
     console.log(`  Posts: ${posts.length}`);
-    console.log(`  Categories: ${categories.join(', ') || '(none)'}`);
+    console.log(`  Tags: ${tags.map(t => tagLabels[t]).join(', ') || '(none)'}`);
 }
 
 build();

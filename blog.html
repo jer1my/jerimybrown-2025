@@ -34,7 +34,7 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="assets/css/main.css?v=1790741148">
+    <link rel="stylesheet" href="assets/css/main.css?v=1790998436">
 
     <style>
         /* Critical inline styles to prevent navigation flash */
@@ -135,11 +135,14 @@
         <!-- Filter Bar -->
         <div class="blog-filter-bar" role="toolbar" aria-label="Blog filters">
             <div class="blog-filter-controls">
-                <div class="blog-filter-group">
-                    <label for="category-filter">Category:</label>
-                    <select id="category-filter" aria-label="Filter by category">
-                        <option value="all">All Categories</option>
-                    </select>
+                <div class="blog-filter-group blog-filter-group--tags">
+                    <span class="blog-filter-label" id="tag-filter-label">Topics:</span>
+                    <div id="tag-filter" class="blog-filter-tags" role="group" aria-labelledby="tag-filter-label">
+                        <!-- Tag chips rendered by JavaScript, inserted before the clear button -->
+                        <button id="clear-filters" class="button btn-accent btn-sm">
+                            Clear Filters
+                        </button>
+                    </div>
                 </div>
 
                 <div class="blog-filter-group">
@@ -149,10 +152,6 @@
                         <option value="oldest">Oldest First</option>
                     </select>
                 </div>
-
-                <button id="clear-filters" class="button btn-accent btn-sm">
-                    Clear Filters
-                </button>
             </div>
         </div>
 
@@ -182,7 +181,7 @@
     <script src="assets/js/components/logo-animation.js?v=1760886500"></script>
 
     <!-- Blog Module -->
-    <script type="module" src="assets/js/blog/blog-grid.js?v=1760886500"></script>
+    <script type="module" src="assets/js/blog/blog-grid.js?v=1790998436"></script>
 
     <!-- Page initialization (blog-specific, no content renderers needed) -->
     <script>

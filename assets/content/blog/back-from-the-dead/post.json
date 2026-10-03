@@ -3,7 +3,11 @@
   "title": "Back From the Dead: A UX Story",
   "slug": "back-from-the-dead",
   "datePublished": "2026-03-27",
-  "category": "perspective",
+  "tags": [
+    "perspective",
+    "ai",
+    "ux"
+  ],
   "excerpt": "The death toll in our industry is unlike anything I have seen before. Figma is dead. Design is dead. UX is dead. At this point I am surprised anyone showed up to work this morning.",
   "order": 1,
   "coverPosition": "center 5%",

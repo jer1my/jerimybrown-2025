@@ -3,7 +3,11 @@
   "title": "Why AI Got a UI: A UX Story",
   "slug": "why-ai-got-a-ui",
   "datePublished": "2026-03-26",
-  "category": "perspective",
+  "tags": [
+    "perspective",
+    "ai",
+    "ux"
+  ],
   "excerpt": "AI launched with a blank text box and called it the future. Then it built UI around it. UX isn't surprised.",
   "order": 2,
   "coverPosition": "center 20%",

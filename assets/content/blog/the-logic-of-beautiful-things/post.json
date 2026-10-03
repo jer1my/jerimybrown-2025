@@ -3,7 +3,9 @@
   "title": "The Logic of Beautiful Things",
   "slug": "the-logic-of-beautiful-things",
   "datePublished": "2026-03-25",
-  "category": "retrospective",
+  "tags": [
+    "retrospective"
+  ],
   "excerpt": "I was an art student who loved math. That sentence still raises eyebrows — but that intersection is exactly where UX lives.",
   "order": 1,
   "coverPosition": "center",

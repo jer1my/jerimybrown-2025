@@ -8,8 +8,7 @@ import {
     getPostBySlug,
     formatDate,
     getSlidePathsForTheme,
-    getThumbSlidePathsForTheme
-} from './blog-data.js';
+    getThumbSlidePathsForTheme, getTagLabel } from './blog-data.js';
 
 const IMAGE_BASE_PATH = '../assets/content/blog';
 
@@ -27,15 +26,15 @@ function init() {
     const post = getPostBySlug(slug);
     if (!post) return;
 
-    const categoryLabel = post.category.charAt(0).toUpperCase() + post.category.slice(1);
-
     // Render article header
     const header = document.getElementById('blog-header');
     if (header) {
         header.innerHTML = `
             <h1 class="blog-article__title">${post.title}</h1>
             <div class="blog-article__meta">
-                <span class="blog-article__category">${categoryLabel}</span>
+                <span class="blog-article__tags" aria-label="Topics">${
+                    post.tags.map(t => `<span class="blog-tag" data-tag="${t}">${getTagLabel(t)}</span>`).join('')
+                }</span>
                 <time datetime="${post.datePublished}">${formatDate(post.datePublished)}</time>
             </div>
         `;

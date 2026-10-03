@@ -3,16 +3,19 @@
  * Renders and manages the blog listing with filtering and sorting
  */
 
-import { blogPosts, blogCategories } from './blog-data.js';
+import { blogPosts, blogTags, getTagLabel } from './blog-data.js';
 import { createBlogCard } from './blog-card.js';
 
 // State
-let currentCategory = 'all';
+let activeTags = [];          // selected tag slugs; a post must carry every one
 let currentSort = 'newest';
+
+const STORAGE_TAGS = 'blog-filter-tags';
+const STORAGE_SORT = 'blog-sort';
 
 // DOM Elements
 let blogGrid = null;
-let categoryFilter = null;
+let tagFilter = null;
 let sortSelect = null;
 let clearButton = null;
 
@@ -21,7 +24,7 @@ let clearButton = null;
  */
 export function init() {
     blogGrid = document.getElementById('blog-grid');
-    categoryFilter = document.getElementById('category-filter');
+    tagFilter = document.getElementById('tag-filter');
     sortSelect = document.getElementById('sort-select');
     clearButton = document.getElementById('clear-filters');
 
@@ -30,13 +33,21 @@ export function init() {
         return;
     }
 
-    // Populate category filter from data
-    if (categoryFilter) {
-        blogCategories.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat;
-            option.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-            categoryFilter.appendChild(option);
+    // Populate tag filter chips from data
+    if (tagFilter) {
+        blogTags.forEach(tag => {
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'blog-tag-chip';
+            chip.dataset.tag = tag;
+            chip.setAttribute('aria-pressed', 'false');
+            chip.textContent = getTagLabel(tag);
+            // Chips go before the clear button so it always trails the last chip
+            if (clearButton && clearButton.parentNode === tagFilter) {
+                tagFilter.insertBefore(chip, clearButton);
+            } else {
+                tagFilter.appendChild(chip);
+            }
         });
     }
 
@@ -44,8 +55,8 @@ export function init() {
     restoreState();
 
     // Set up event listeners
-    if (categoryFilter) {
-        categoryFilter.addEventListener('change', handleCategoryChange);
+    if (tagFilter) {
+        tagFilter.addEventListener('click', handleTagClick);
     }
     if (sortSelect) {
         sortSelect.addEventListener('change', handleSortChange);
@@ -60,13 +71,17 @@ export function init() {
 }
 
 function restoreState() {
-    const savedCategory = sessionStorage.getItem('blog-filter-category');
-    const savedSort = sessionStorage.getItem('blog-sort');
-
-    if (savedCategory) {
-        currentCategory = savedCategory;
-        if (categoryFilter) categoryFilter.value = savedCategory;
+    let savedTags = [];
+    try {
+        savedTags = JSON.parse(sessionStorage.getItem(STORAGE_TAGS) || '[]');
+    } catch (e) {
+        savedTags = [];
     }
+    // Drop any tag that no longer exists in the data
+    activeTags = Array.isArray(savedTags) ? savedTags.filter(t => blogTags.includes(t)) : [];
+    syncChips();
+
+    const savedSort = sessionStorage.getItem(STORAGE_SORT);
     if (savedSort) {
         currentSort = savedSort;
         if (sortSelect) sortSelect.value = savedSort;
@@ -74,12 +89,25 @@ function restoreState() {
 }
 
 function saveState() {
-    sessionStorage.setItem('blog-filter-category', currentCategory);
-    sessionStorage.setItem('blog-sort', currentSort);
+    sessionStorage.setItem(STORAGE_TAGS, JSON.stringify(activeTags));
+    sessionStorage.setItem(STORAGE_SORT, currentSort);
 }
 
-function handleCategoryChange(e) {
-    currentCategory = e.target.value;
+function syncChips() {
+    if (!tagFilter) return;
+    tagFilter.querySelectorAll('.blog-tag-chip').forEach(chip => {
+        chip.setAttribute('aria-pressed', activeTags.includes(chip.dataset.tag) ? 'true' : 'false');
+    });
+}
+
+function handleTagClick(e) {
+    const chip = e.target.closest('.blog-tag-chip');
+    if (!chip) return;
+    const tag = chip.dataset.tag;
+    activeTags = activeTags.includes(tag)
+        ? activeTags.filter(t => t !== tag)
+        : [...activeTags, tag];
+    syncChips();
     saveState();
     renderGrid();
     updateClearButtonVisibility();
@@ -93,10 +121,10 @@ function handleSortChange(e) {
 }
 
 function clearFilters() {
-    currentCategory = 'all';
+    activeTags = [];
     currentSort = 'newest';
 
-    if (categoryFilter) categoryFilter.value = 'all';
+    syncChips();
     if (sortSelect) sortSelect.value = 'newest';
 
     saveState();
@@ -106,13 +134,13 @@ function clearFilters() {
 
 function updateClearButtonVisibility() {
     if (!clearButton) return;
-    const hasActiveFilters = currentCategory !== 'all' || currentSort !== 'newest';
+    const hasActiveFilters = activeTags.length > 0 || currentSort !== 'newest';
     clearButton.style.display = hasActiveFilters ? 'inline-block' : 'none';
 }
 
 function filterPosts(posts) {
-    if (currentCategory === 'all') return posts;
-    return posts.filter(p => p.category === currentCategory);
+    if (activeTags.length === 0) return posts;
+    return posts.filter(p => activeTags.every(t => p.tags.includes(t)));
 }
 
 function sortPosts(posts) {
@@ -133,34 +161,160 @@ function sortPosts(posts) {
     return sorted;
 }
 
+// Persistent card elements keyed by slug so filtering can animate them
+const cardCache = new Map();
+const SLIDE_MS = 450;   // keep in sync with .blog-card--moving
+const FADE_MS = 350;    // keep in sync with --leaving / --fading-in
+
+function getCard(post) {
+    let card = cardCache.get(post.slug);
+    if (!card) {
+        card = createBlogCard(post);
+        cardCache.set(post.slug, card);
+    }
+    return card;
+}
+
+function prefersReducedMotion() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function clearMotionClasses(card) {
+    card.classList.remove('blog-card--entering', 'blog-card--fading-in', 'blog-card--moving');
+    card.style.transform = '';
+}
+
+/**
+ * Render the grid with a FLIP transition:
+ *   1. cards filtered out fade away in place (taken out of flow)
+ *   2. remaining cards slide to their new positions
+ *   3. newly matching cards fade in once the slide has made room
+ */
 function renderGrid() {
     if (!blogGrid) return;
 
     let posts = filterPosts(blogPosts);
     posts = sortPosts(posts);
 
-    blogGrid.innerHTML = '';
+    const animate = !prefersReducedMotion();
+    const gridRect = blogGrid.getBoundingClientRect();
 
-    if (posts.length === 0) {
-        blogGrid.innerHTML = `
-            <div class="blog-empty">
-                <h3>No posts found</h3>
-                <p>Try adjusting your filters to see more results.</p>
-                <button class="button btn-accent" onclick="window.blogGrid.clearFilters()">
-                    Clear Filters
-                </button>
-            </div>
-        `;
-        return;
-    }
+    // Current live cards (exclude ghosts, leaving cards and the empty state)
+    const current = [...blogGrid.querySelectorAll('.blog-card:not(.blog-card--ghost):not(.blog-card--leaving)')];
+    const currentBySlug = new Map(current.map(el => [el.dataset.slug, el]));
+    const targetSlugs = new Set(posts.map(p => p.slug));
 
+    // FIRST: snapshot positions (includes any in-flight transform)
+    const first = new Map(current.map(el => [el.dataset.slug, el.getBoundingClientRect()]));
+
+    // Ghosts and empty state are rebuilt each render
+    blogGrid.querySelectorAll('.blog-card--ghost, .blog-empty').forEach(el => el.remove());
+
+    // Cards leaving: pin them where they are, out of flow, and fade
+    let leavingCount = 0;
+    current.forEach(el => {
+        if (targetSlugs.has(el.dataset.slug)) return;
+        const r = first.get(el.dataset.slug);
+        clearMotionClasses(el);
+        if (animate) {
+            el.style.left = `${r.left - gridRect.left}px`;
+            el.style.top = `${r.top - gridRect.top}px`;
+            el.style.width = `${r.width}px`;
+            el.style.height = `${r.height}px`;
+            el.classList.add('blog-card--leaving');
+            setTimeout(() => {
+                if (el.classList.contains('blog-card--leaving')) {
+                    el.remove();
+                    el.classList.remove('blog-card--leaving');
+                    el.style.left = el.style.top = el.style.width = el.style.height = '';
+                }
+            }, FADE_MS + 50);
+            leavingCount++;
+        } else {
+            el.remove();
+        }
+    });
+
+    // Place cards in final order; entering cards start invisible
+    const entering = [];
     posts.forEach(post => {
-        const card = createBlogCard(post);
+        const card = getCard(post);
+        if (!currentBySlug.has(post.slug)) {
+            clearMotionClasses(card);
+            if (animate) card.classList.add('blog-card--entering');
+            entering.push(card);
+        } else {
+            // Clear transforms so LAST is measured at the true final position
+            card.classList.remove('blog-card--moving');
+            card.style.transform = '';
+        }
         blogGrid.appendChild(card);
     });
 
-    // Fill incomplete rows with ghost placeholders
-    fillGhostCards(posts.length);
+    if (posts.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'blog-empty';
+        empty.innerHTML = `
+            <h3>No posts found</h3>
+            <p>Try adjusting your filters to see more results.</p>
+            <button class="button btn-accent" onclick="window.blogGrid.clearFilters()">
+                Clear Filters
+            </button>
+        `;
+        if (animate) {
+            empty.classList.add('blog-card--entering');
+            entering.push(empty);
+        }
+        blogGrid.appendChild(empty);
+    }
+
+    // Ghost placeholders fade in alongside entering cards
+    const ghosts = fillGhostCards(posts.length);
+    if (animate) ghosts.forEach(g => { g.classList.add('blog-card--entering'); entering.push(g); });
+
+    if (!animate) return;
+
+    // LAST + INVERT: staying cards get a transform back to where they were
+    let anyMoved = false;
+    posts.forEach(post => {
+        const card = cardCache.get(post.slug);
+        const before = first.get(post.slug);
+        if (!before) return;
+        const after = card.getBoundingClientRect();
+        const dx = before.left - after.left;
+        const dy = before.top - after.top;
+        if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+        anyMoved = true;
+        card.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+
+    // Force a reflow so the inverted transforms are committed before we release them
+    void blogGrid.offsetWidth;
+
+    // Phase timing: leaving cards fade first, then survivors slide, then newcomers fade in
+    const slideStart = leavingCount > 0 ? FADE_MS : 20;
+    const fadeInStart = slideStart + (anyMoved ? SLIDE_MS : 0);
+
+    // PLAY: release the transforms so cards slide into place
+    setTimeout(() => {
+        posts.forEach(post => {
+            const card = cardCache.get(post.slug);
+            if (!card.style.transform) return;
+            card.classList.add('blog-card--moving');
+            card.style.transform = '';
+            setTimeout(() => card.classList.remove('blog-card--moving'), SLIDE_MS + 50);
+        });
+    }, slideStart);
+
+    // Entering cards fade in once the slide has made space
+    setTimeout(() => {
+        entering.forEach(el => {
+            if (!el.isConnected) return;
+            el.classList.remove('blog-card--entering');
+            el.classList.add('blog-card--fading-in');
+            setTimeout(() => el.classList.remove('blog-card--fading-in'), FADE_MS + 50);
+        });
+    }, fadeInStart);
 }
 
 function getColumnCount() {
@@ -174,10 +328,11 @@ function fillGhostCards(postCount) {
     blogGrid.querySelectorAll('.blog-card--ghost').forEach(g => g.remove());
 
     const cols = getColumnCount();
-    if (cols <= 1) return; // no widows on single column
+    if (cols <= 1 || postCount === 0) return []; // no widows on single column or empty grid
     const remainder = postCount % cols;
-    if (remainder === 0) return; // row is full
+    if (remainder === 0) return []; // row is full
 
+    const ghosts = [];
     const ghostsNeeded = cols - remainder;
     for (let i = 0; i < ghostsNeeded; i++) {
         const ghost = document.createElement('div');
@@ -185,13 +340,15 @@ function fillGhostCards(postCount) {
         ghost.setAttribute('aria-hidden', 'true');
         ghost.innerHTML = '<span class="blog-card--ghost__label">More coming soon</span>';
         blogGrid.appendChild(ghost);
+        ghosts.push(ghost);
     }
+    return ghosts;
 }
 
 // Recalculate ghosts on resize (column count may change)
 window.addEventListener('resize', () => {
     if (!blogGrid) return;
-    const realCount = blogGrid.querySelectorAll('.blog-card:not(.blog-card--ghost)').length;
+    const realCount = blogGrid.querySelectorAll('.blog-card:not(.blog-card--ghost):not(.blog-card--leaving)').length;
     fillGhostCards(realCount);
 });
 

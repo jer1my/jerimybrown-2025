@@ -3,7 +3,7 @@
  * Creates blog post cards for the listing page.
  */
 
-import { getThumbCoverPath, formatDate } from './blog-data.js';
+import { getThumbCoverPath, getTagLabel, formatDate } from './blog-data.js';
 
 function getCurrentTheme() {
     return document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
@@ -21,10 +21,12 @@ window.addEventListener('themechange', (e) => {
 });
 
 /**
- * Capitalize a category name for display
+ * Render a post's tags in display order (first tag is primary)
  */
-function formatCategory(category) {
-    return category.charAt(0).toUpperCase() + category.slice(1);
+export function renderTags(tags, className) {
+    return `<span class="${className}" aria-label="Topics">${
+        tags.map(t => `<span class="blog-tag" data-tag="${t}">${getTagLabel(t)}</span>`).join('')
+    }</span>`;
 }
 
 /**
@@ -51,7 +53,7 @@ export function createBlogCard(post) {
     card.innerHTML = `
         ${imageHTML}
         <div class="blog-card__content">
-            <span class="blog-card__category">${formatCategory(post.category)}</span>
+            ${renderTags(post.tags, 'blog-card__tags')}
             <h3 class="blog-card__title">${post.title}</h3>
             <p class="blog-card__excerpt">${post.excerpt}</p>
             <time class="blog-card__date" datetime="${post.datePublished}">${formatDate(post.datePublished)}</time>

@@ -3,7 +3,11 @@
   "title": "At the Speed of Thought: A UX Story",
   "slug": "the-speed-of-thought",
   "datePublished": "2026-04-08",
-  "category": "perspective",
+  "tags": [
+    "process",
+    "ai",
+    "ux"
+  ],
   "excerpt": "I have been dictating to my AI tools for a while now, because it just felt faster and more natural.",
   "order": 1,
   "coverPosition": "center",
